@@ -1,0 +1,32 @@
+{
+  "name": "@axonivy/dataclass-editor-standalone",
+  "private": true,
+  "version": "11.4.0-next",
+  "dependencies": {
+    "@axonivy/dataclass-editor": "*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.13",
+    "@types/react-dom": "^18.2.6",
+    "@vitejs/plugin-react": "4.2.1",
+    "vite": "^5.3.5",
+    "@playwright/test": "1.45.3"
+  },
+  "scripts": {
+    "clean": "rimraf build",
+    "build": "tsc --build",
+    "build:clean": "npm run clean && npm run build",
+    "package": "vite build",
+    "type": "tsc --noEmit",
+    "dev": "vite",
+    "preview": "vite preview",
+    "lint": "eslint --ext .ts,.tsx ./src",
+    "lint:fix": "eslint --fix --ext .ts,.tsx ./src",
+    "webtest:mock": "npx playwright test -c ./tests/mock",
+    "webtest:engine": "npx playwright test -c ./tests/integration",
+    "webtest:screenshot": "npx playwright test -c ./tests/screenshots"
+  },
+  "type": "module"
+}

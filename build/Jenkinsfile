@@ -1,0 +1,91 @@
+pipeline {
+  agent any
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '5'))
+  }
+
+  triggers {
+    cron '@midnight'
+  }
+
+  stages {
+    stage('Build') {
+      steps {
+        script {
+          catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+            docker.build('node', '-f build/Dockerfile .').inside {
+              sh 'npm run update:axonivy:next'
+              sh 'npm run ci'
+            }
+          }
+          archiveArtifacts artifacts: '**/integrations/standalone/build/**', allowEmptyArchive: true
+          currentBuild.description = "<a href=${BUILD_URL}artifact/integrations/standalone/build/index.html>&raquo; Data Class Editor</a>" 
+
+          withChecks('ESLint') {
+            recordIssues enabledForFailure: true, publishAllIssues: true, aggregatingResults: true, tools: [esLint(pattern: 'packages/**/eslint.xml,integrations/**/eslint.xml')], qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
+          }
+
+          withChecks('Test') {
+            junit testDataPublishers: [[$class: 'StabilityTestDataPublisher']], testResults: 'packages/**/report.xml'
+          }
+        }
+      }
+    }
+    stage('Mock Tests') {
+      steps {
+        script {
+           catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+            docker.image('mcr.microsoft.com/playwright:v1.45.3-jammy').inside {
+              sh 'npm run webtest:mock'
+            }
+          }
+          archiveArtifacts artifacts: '**/standalone/test-results/**', allowEmptyArchive: true
+          withChecks('Mock WebTest') {
+            junit testDataPublishers: [[$class: 'StabilityTestDataPublisher']], testResults: 'integrations/**/report.xml'
+          }
+        }
+      }
+    }
+    stage('Deploy (Maven)') {
+      when {
+        expression { isReleaseOrMasterBranch() }
+      }
+      steps {
+        script {
+          docker.build('maven-build', '-f build/screenshots/Dockerfile .').inside {
+            maven cmd: '-ntp -f integrations/standalone clean deploy -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
+          }
+          archiveArtifacts 'integrations/standalone/target/dataclass-editor-*.jar'
+        }
+      }
+    }
+    stage('Publish (NPM)') {
+      when {
+        expression { isReleaseOrMasterBranch() && currentBuild.changeSets.size() > 0 }
+      }
+      steps {
+        script {
+          docker.build('node', '-f build/Dockerfile .').inside {
+            sh 'npm run build'
+            sh 'git checkout .'
+            withCredentials([string(credentialsId: 'npmjs-registry.ivyteam.ch-auth-token', variable: 'NPM_AUTH_TOKEN')]) {
+              sh 'npm set "//npmjs-registry.ivyteam.ch/:_authToken = $NPM_AUTH_TOKEN"'
+              sh 'npm run publish:next'
+            }
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    success {
+      cleanWs()
+    }
+  }
+}
+
+def isReleaseOrMasterBranch() {
+  return env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release/') 
+}
