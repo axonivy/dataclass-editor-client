@@ -4,8 +4,8 @@ export type EditorProps = { context: DataContext; directSave?: boolean };
 export type SaveArgs = Data & { directSave?: boolean };
 
 export interface RequestTypes {
-  data: [any, any];
-  saveData: [any, any];
+  data: [DataContext, Data];
+  saveData: [Data, String];
 }
 
 export interface NotificationTypes {
