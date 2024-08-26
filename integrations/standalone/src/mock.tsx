@@ -1,10 +1,22 @@
+import { ClientContextProvider, DataClassEditor, initQueryClient, QueryProvider } from '@axonivy/dataclass-editor';
+import { ThemeProvider } from '@axonivy/ui-components';
+import React from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { DataClassEditor } from '../../../packages/dataclass-editor/src';
 import './index.css';
+import { DataClassClientMock } from './mock/dataclass-client-mock';
 
-export async function start(): Promise<void> {
-  const root = ReactDOM.createRoot(document.getElementById('root')!);
-  root.render(<DataClassEditor />);
-}
+const root = ReactDOM.createRoot(document.getElementById('root')!);
+const client = new DataClassClientMock();
+const queryClient = initQueryClient();
 
-start();
+root.render(
+  <React.StrictMode>
+    <ThemeProvider defaultTheme={'light'}>
+      <ClientContextProvider client={client}>
+        <QueryProvider client={queryClient}>
+          <DataClassEditor context={{ app: '', pmv: '', file: '' }} />
+        </QueryProvider>
+      </ClientContextProvider>
+    </ThemeProvider>
+  </React.StrictMode>
+);
