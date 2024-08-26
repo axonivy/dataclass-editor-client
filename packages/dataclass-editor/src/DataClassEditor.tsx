@@ -2,6 +2,7 @@ import { Flex, PanelMessage, Spinner } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
+import { DataClassMaster } from './components/dataclass/master/DataClassMaster';
 import './DataClassEditor.css';
 import { useClient } from './protocol/ClientContextProvider';
 import type { EditorProps } from './protocol/types';
@@ -40,7 +41,8 @@ function DataClassEditor(props: EditorProps) {
     return <PanelMessage icon={IvyIcons.ErrorXMark} message={`An error has occurred: ${error.message}`} />;
   }
 
-  return JSON.stringify(data.data);
+  const dataClassFields = data.data.fields;
+  return <DataClassMaster dataClassFields={dataClassFields ? dataClassFields : []} />;
 }
 
 export default DataClassEditor;
