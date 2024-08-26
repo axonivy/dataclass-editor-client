@@ -1,4 +1,4 @@
-import type { Client, Data } from '@axonivy/dataclass-editor/src/protocol/types';
+import type { Client, Data, Event } from '@axonivy/dataclass-editor/src/protocol/types';
 
 export class DataClassClientMock implements Client {
   private dataClassData: Data = {
@@ -19,4 +19,6 @@ export class DataClassClientMock implements Client {
     this.dataClassData.data = saveData.data;
     return Promise.resolve('');
   }
+
+  onDataChanged: Event<void>;
 }
