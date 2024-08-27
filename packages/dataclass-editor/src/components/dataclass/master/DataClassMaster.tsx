@@ -19,9 +19,10 @@ import './DataClassMaster.css';
 
 type DataClassMasterProps = {
   dataClassFields: Array<DataClassField>;
+  setSelectedDataClassFieldIndex: (index: number | undefined) => void;
 };
 
-export const DataClassMaster = ({ dataClassFields }: DataClassMasterProps) => {
+export const DataClassMaster = ({ dataClassFields, setSelectedDataClassFieldIndex }: DataClassMasterProps) => {
   const selection = useTableSelect<DataClassField>();
   const columns: Array<ColumnDef<DataClassField, string>> = [
     {
@@ -58,6 +59,7 @@ export const DataClassMaster = ({ dataClassFields }: DataClassMasterProps) => {
 
   const resetSelection = () => {
     selectRow(table);
+    setSelectedDataClassFieldIndex(undefined);
   };
 
   const readonly = useReadonly();
@@ -81,7 +83,7 @@ export const DataClassMaster = ({ dataClassFields }: DataClassMasterProps) => {
         <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={resetSelection} />
         <TableBody>
           {table.getRowModel().rows.map(row => (
-            <SelectRow key={row.id} row={row}>
+            <SelectRow key={row.id} row={row} onClick={() => setSelectedDataClassFieldIndex(row.index)}>
               {row.getVisibleCells().map(cell => (
                 <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
               ))}

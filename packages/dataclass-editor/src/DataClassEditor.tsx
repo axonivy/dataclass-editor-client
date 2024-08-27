@@ -2,7 +2,9 @@ import { Flex, PanelMessage, Spinner } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
+import { isEntityClass } from './components/dataclass/data/dataclass-utils';
 import { DataClassMaster } from './components/dataclass/master/DataClassMaster';
+import { Editor } from './components/editor/Editor';
 import './DataClassEditor.css';
 import { useClient } from './protocol/ClientContextProvider';
 import type { EditorProps } from './protocol/types';
@@ -13,6 +15,7 @@ function DataClassEditor(props: EditorProps) {
   useEffect(() => {
     setContext(props.context);
   }, [props]);
+  const [selectedDataClassFieldIndex, setSelectedDataClassFieldIndex] = useState<number>();
 
   const client = useClient();
 
@@ -41,7 +44,24 @@ function DataClassEditor(props: EditorProps) {
     return <PanelMessage icon={IvyIcons.ErrorXMark} message={`An error has occurred: ${error.message}`} />;
   }
 
-  return <DataClassMaster dataClassFields={data.data.fields} />;
+  const dataClass = data.data;
+  const dataClassFields = dataClass.fields;
+
+  const title = isEntityClass(dataClass) ? 'Entity Class Editor' : 'Data Class Editor';
+  let detailTitle = title;
+  if (selectedDataClassFieldIndex !== undefined && selectedDataClassFieldIndex < dataClassFields.length) {
+    const selectedDataClassField = dataClassFields[selectedDataClassFieldIndex];
+    detailTitle = 'Attribute - ' + selectedDataClassField.name;
+  }
+
+  return (
+    <Editor
+      masterTitle={title}
+      masterContent={<DataClassMaster dataClassFields={dataClassFields} setSelectedDataClassFieldIndex={setSelectedDataClassFieldIndex} />}
+      detailTitle={detailTitle}
+      detailContent={<PanelMessage message={'Detail Content'} />}
+    />
+  );
 }
 
 export default DataClassEditor;
