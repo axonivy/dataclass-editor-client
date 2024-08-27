@@ -5,7 +5,8 @@ let dataClassField: DataClassField;
 
 beforeEach(() => {
   dataClassField = {
-    name: 'DataClassField'
+    name: 'DataClassField',
+    type: 'String'
   };
 });
 
