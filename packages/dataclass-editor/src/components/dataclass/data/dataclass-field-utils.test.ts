@@ -6,7 +6,10 @@ let dataClassField: DataClassField;
 beforeEach(() => {
   dataClassField = {
     name: 'DataClassField',
-    type: 'String'
+    type: 'String',
+    comment: 'comment',
+    modifiers: [],
+    annotations: []
   };
 });
 
