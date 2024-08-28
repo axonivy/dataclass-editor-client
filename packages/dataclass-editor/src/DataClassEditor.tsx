@@ -41,8 +41,7 @@ function DataClassEditor(props: EditorProps) {
     return <PanelMessage icon={IvyIcons.ErrorXMark} message={`An error has occurred: ${error.message}`} />;
   }
 
-  const dataClassFields = data.data.fields;
-  return <DataClassMaster dataClassFields={dataClassFields ? dataClassFields : []} />;
+  return <DataClassMaster dataClassFields={data.data.fields} />;
 }
 
 export default DataClassEditor;

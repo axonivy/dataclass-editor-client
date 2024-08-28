@@ -6,33 +6,33 @@ export interface DataClass {
   $schema: string;
   simpleName: string;
   namespace: string;
-  comment?: string;
-  annotations?: Array<string>;
-  isBusinessCaseData?: boolean;
+  comment: string;
+  annotations: Array<string>;
+  isBusinessCaseData: boolean;
   entity?: DataClassEntity;
-  fields?: Array<DataClassField>;
+  fields: Array<DataClassField>;
 }
 
 export interface DataClassEntity {
-  tableName?: string;
+  tableName: string;
 }
 
 export interface DataClassField {
   name: string;
   type: string;
-  comment?: string;
-  modifiers?: Array<DataClassFieldModifier>;
-  annotations?: Array<string>;
+  comment: string;
+  modifiers: Array<DataClassFieldModifier>;
+  annotations: Array<string>;
   entity?: DataClassFieldEntity;
 }
 
 export interface DataClassFieldEntity {
-  databaseName?: string;
-  databaseFieldLength?: string;
+  databaseName: string;
+  databaseFieldLength: string;
   association?: DataClassFieldEntityAssociation;
-  cascadeTypes?: Array<DataClassFieldEntityCascadeType>;
-  mappedByFieldName?: string;
-  orphanRemoval?: boolean;
+  cascadeTypes: Array<DataClassFieldEntityCascadeType>;
+  mappedByFieldName: string;
+  orphanRemoval: boolean;
 }
 
 export enum DataClassFieldModifier {
