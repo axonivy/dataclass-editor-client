@@ -7,14 +7,20 @@ beforeEach(() => {
   dataClass = {
     $schema: 'schema',
     simpleName: 'DataClassField',
-    namespace: 'String'
+    namespace: 'String',
+    comment: 'comment',
+    annotations: [],
+    isBusinessCaseData: false,
+    fields: []
   };
 });
 
 describe('dataclass-utils', () => {
   describe('isEntityClass', () => {
     test('true', () => {
-      dataClass.entity = {};
+      dataClass.entity = {
+        tableName: 'tableName'
+      };
       expect(isEntityClass(dataClass)).toBeTruthy();
     });
 
