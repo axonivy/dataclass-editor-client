@@ -1,27 +1,19 @@
-import {
-  Flex,
-  PanelMessage,
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-  SidebarHeader,
-  Spinner,
-  Toolbar,
-  ToolbarTitle
-} from '@axonivy/ui-components';
+import { Flex, PanelMessage, ResizableHandle, ResizablePanel, ResizablePanelGroup, SidebarHeader, Spinner } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { isEntityClass } from './components/dataclass/data/dataclass-utils';
+import { DataClassDetailContent } from './components/dataclass/detail/DataClassDetailContent';
 import { DataClassMasterContent } from './components/dataclass/master/DataClassMasterContent';
-import { DataClassMasterToolbarControls } from './components/dataclass/master/DataClassMasterToolbarControls';
+import { DataClassMasterToolbar } from './components/dataclass/master/DataClassMasterToolbar';
+import { AppProvider } from './context/AppContext';
 import './DataClassEditor.css';
 import { useClient } from './protocol/ClientContextProvider';
 import type { EditorProps } from './protocol/types';
 import { genQueryKey } from './query/query-client';
 
 function DataClassEditor(props: EditorProps) {
-  const [sidebar, setSidebar] = useState(true);
+  const [detail, setDetail] = useState(true);
 
   const [context, setContext] = useState(props.context);
   useEffect(() => {
@@ -67,28 +59,35 @@ function DataClassEditor(props: EditorProps) {
   }
 
   return (
-    <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
-      <ResizablePanel defaultSize={75} minSize={50} className='master-panel' data-testid='master-panel'>
-        <Flex className='panel-content-container' direction='column'>
-          <Toolbar className='master-toolbar'>
-            <ToolbarTitle>{title}</ToolbarTitle>
-            <DataClassMasterToolbarControls sidebar={sidebar} setSidebar={setSidebar} />
-          </Toolbar>
-          <DataClassMasterContent dataClassFields={dataClassFields} setSelectedField={setSelectedField} />
-        </Flex>
-      </ResizablePanel>
-      {sidebar && (
-        <>
-          <ResizableHandle />
-          <ResizablePanel defaultSize={25} minSize={10}>
-            <Flex direction='column' className='panel-content-container' data-testid='details-container'>
-              <SidebarHeader icon={IvyIcons.PenEdit} title={detailTitle} data-testid='Detail title' />
-              <PanelMessage message={'Detail Content'} />
-            </Flex>
-          </ResizablePanel>
-        </>
-      )}
-    </ResizablePanelGroup>
+    <AppProvider
+      value={{
+        dataClass: dataClass,
+        selectedField: selectedField,
+        setSelectedField: setSelectedField,
+        detail: detail,
+        setDetail: setDetail
+      }}
+    >
+      <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
+        <ResizablePanel defaultSize={75} minSize={50} className='master-panel' data-testid='master-panel'>
+          <Flex className='panel-content-container' direction='column'>
+            <DataClassMasterToolbar title={title} />
+            <DataClassMasterContent />
+          </Flex>
+        </ResizablePanel>
+        {detail && (
+          <>
+            <ResizableHandle />
+            <ResizablePanel defaultSize={25} minSize={10}>
+              <Flex direction='column' className='panel-content-container' data-testid='details-container'>
+                <SidebarHeader icon={IvyIcons.PenEdit} title={detailTitle} data-testid='Detail title' />
+                {selectedField == undefined ? <DataClassDetailContent /> : <PanelMessage message={'Attribute detail Content'} />}
+              </Flex>
+            </ResizablePanel>
+          </>
+        )}
+      </ResizablePanelGroup>
+    </AppProvider>
   );
 }
 
