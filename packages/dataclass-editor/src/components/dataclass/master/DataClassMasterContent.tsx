@@ -15,14 +15,14 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
 import { type DataClassField } from '../data/dataclass';
-import './DataClassMaster.css';
+import './DataClassMasterContent.css';
 
 type DataClassMasterProps = {
   dataClassFields: Array<DataClassField>;
   setSelectedDataClassFieldIndex: (index: number | undefined) => void;
 };
 
-export const DataClassMaster = ({ dataClassFields, setSelectedDataClassFieldIndex }: DataClassMasterProps) => {
+export const DataClassMasterContent = ({ dataClassFields, setSelectedDataClassFieldIndex }: DataClassMasterProps) => {
   const selection = useTableSelect<DataClassField>();
   const columns: Array<ColumnDef<DataClassField, string>> = [
     {
@@ -78,7 +78,7 @@ export const DataClassMaster = ({ dataClassFields, setSelectedDataClassFieldInde
   );
 
   return (
-    <BasicField className='dataclass-wrapper' label='Attributes' control={control}>
+    <BasicField className='master-content' label='Attributes' control={control}>
       <Table>
         <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={resetSelection} />
         <TableBody>

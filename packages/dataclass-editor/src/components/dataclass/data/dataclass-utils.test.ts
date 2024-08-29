@@ -1,31 +1,14 @@
 import type { DataClass } from './dataclass';
 import { isEntityClass } from './dataclass-utils';
 
-let dataClass: DataClass;
+describe('isEntityClass', () => {
+  test('true', () => {
+    const dataClass = { entity: {} } as DataClass;
+    expect(isEntityClass(dataClass)).toBeTruthy();
+  });
 
-beforeEach(() => {
-  dataClass = {
-    $schema: 'schema',
-    simpleName: 'DataClassField',
-    namespace: 'String',
-    comment: 'comment',
-    annotations: [],
-    isBusinessCaseData: false,
-    fields: []
-  };
-});
-
-describe('dataclass-utils', () => {
-  describe('isEntityClass', () => {
-    test('true', () => {
-      dataClass.entity = {
-        tableName: 'tableName'
-      };
-      expect(isEntityClass(dataClass)).toBeTruthy();
-    });
-
-    test('false', () => {
-      expect(isEntityClass(dataClass)).toBeFalsy();
-    });
+  test('false', () => {
+    const dataClass = {} as DataClass;
+    expect(isEntityClass(dataClass)).toBeFalsy();
   });
 });
