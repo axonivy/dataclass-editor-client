@@ -1,4 +1,6 @@
-export type Data = { context: DataContext; data: string };
+import type { DataClass } from '../components/dataclass/data/dataclass';
+
+export type Data = { context: DataContext; data: DataClass };
 export type DataContext = { app: string; pmv: string; file: string };
 export type EditorProps = { context: DataContext; directSave?: boolean };
 export type SaveArgs = Data & { directSave?: boolean };
