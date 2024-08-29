@@ -1,4 +1,3 @@
-import { DataClassFieldModifier } from '@axonivy/dataclass-editor';
 import type { Client, Data, Event } from '@axonivy/dataclass-editor/src/protocol/types';
 
 export class DataClassClientMock implements Client {
@@ -15,28 +14,28 @@ export class DataClassClientMock implements Client {
         {
           name: 'firstName',
           type: 'String',
-          modifiers: [DataClassFieldModifier.PERSISTENT],
+          modifiers: ['PERSISTENT'],
           comment: 'The first name of the interviewee.',
           annotations: []
         },
         {
           name: 'lastName',
           type: 'String',
-          modifiers: [DataClassFieldModifier.PERSISTENT],
+          modifiers: ['PERSISTENT'],
           comment: 'The last name of the interviewee.',
           annotations: []
         },
         {
           name: 'date',
           type: 'Date',
-          modifiers: [DataClassFieldModifier.PERSISTENT],
+          modifiers: ['PERSISTENT'],
           comment: 'The date of the interview.',
           annotations: []
         },
         {
           name: 'conversation',
           type: 'String',
-          modifiers: [DataClassFieldModifier.PERSISTENT],
+          modifiers: ['PERSISTENT'],
           comment: 'Transcript of the conversation.',
           annotations: []
         }

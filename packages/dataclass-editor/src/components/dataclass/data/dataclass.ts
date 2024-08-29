@@ -1,7 +1,3 @@
-export const dataClassFieldNameAttribute = 'name';
-export const dataClassFieldTypeAttribute = 'type';
-export const dataClassFieldCommentAttribute = 'comment';
-
 export interface DataClass {
   $schema: string;
   simpleName: string;
@@ -35,27 +31,16 @@ export interface DataClassFieldEntity {
   orphanRemoval: boolean;
 }
 
-export enum DataClassFieldModifier {
-  PERSISTENT,
-  ID,
-  GENERATED,
-  NOT_NULLABLE,
-  UNIQUE,
-  NOT_UPDATEABLE,
-  NOT_INSERTABLE,
-  VERSION
-}
+export type DataClassFieldModifier =
+  | 'PERSISTENT'
+  | 'ID'
+  | 'GENERATED'
+  | 'NOT_NULLABLE'
+  | 'UNIQUE'
+  | 'NOT_UPDATEABLE'
+  | 'NOT_INSERTABLE'
+  | 'VERSION';
 
-export enum DataClassFieldEntityAssociation {
-  ONE_TO_ONE,
-  ONE_TO_MANY,
-  MANY_TO_ONE
-}
+export type DataClassFieldEntityAssociation = 'ONE_TO_ONE' | 'ONE_TO_MANY' | 'MANY_TO_ONE';
 
-export enum DataClassFieldEntityCascadeType {
-  ALL,
-  PERSIST,
-  MERGE,
-  REMOVE,
-  REFRESH
-}
+export type DataClassFieldEntityCascadeType = 'ALL' | 'PERSIST' | 'MERGE' | 'REMOVE' | 'REFRESH';

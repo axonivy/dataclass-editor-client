@@ -1,4 +1,6 @@
-export * from './components';
+export * from './components/dataclass/data/dataclass';
 export { default as DataClassEditor } from './DataClassEditor';
-export * from './protocol';
-export * from './query';
+export * from './protocol/client-json-rpc';
+export * from './protocol/ClientContextProvider';
+export * from './query/query-client';
+export * from './query/QueryProvider';
