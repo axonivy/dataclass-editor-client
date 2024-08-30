@@ -27,7 +27,7 @@ function DataClassEditor(props: EditorProps) {
   useEffect(() => {
     setContext(props.context);
   }, [props]);
-  const [selectedDataClassFieldIndex, setSelectedDataClassFieldIndex] = useState<number>();
+  const [selectedField, setSelectedField] = useState<number>();
 
   const client = useClient();
 
@@ -61,8 +61,8 @@ function DataClassEditor(props: EditorProps) {
 
   const title = isEntityClass(dataClass) ? 'Entity Class Editor' : 'Data Class Editor';
   let detailTitle = title;
-  if (selectedDataClassFieldIndex !== undefined && selectedDataClassFieldIndex < dataClassFields.length) {
-    const selectedDataClassField = dataClassFields[selectedDataClassFieldIndex];
+  if (selectedField !== undefined && selectedField < dataClassFields.length) {
+    const selectedDataClassField = dataClassFields[selectedField];
     detailTitle = 'Attribute - ' + selectedDataClassField.name;
   }
 
@@ -74,7 +74,7 @@ function DataClassEditor(props: EditorProps) {
             <ToolbarTitle>{title}</ToolbarTitle>
             <DataClassMasterToolbarControls sidebar={sidebar} setSidebar={setSidebar} />
           </Toolbar>
-          <DataClassMasterContent dataClassFields={dataClassFields} setSelectedDataClassFieldIndex={setSelectedDataClassFieldIndex} />
+          <DataClassMasterContent dataClassFields={dataClassFields} setSelectedField={setSelectedField} />
         </Flex>
       </ResizablePanel>
       {sidebar && (
