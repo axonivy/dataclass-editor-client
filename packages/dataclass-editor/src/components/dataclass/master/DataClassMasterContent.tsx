@@ -15,13 +15,14 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
 import { type DataClassField } from '../data/dataclass';
-import './DataClassMaster.css';
+import './DataClassMasterContent.css';
 
 type DataClassMasterProps = {
   dataClassFields: Array<DataClassField>;
+  setSelectedField: (index: number | undefined) => void;
 };
 
-export const DataClassMaster = ({ dataClassFields }: DataClassMasterProps) => {
+export const DataClassMasterContent = ({ dataClassFields, setSelectedField }: DataClassMasterProps) => {
   const selection = useTableSelect<DataClassField>();
   const columns: Array<ColumnDef<DataClassField, string>> = [
     {
@@ -58,6 +59,7 @@ export const DataClassMaster = ({ dataClassFields }: DataClassMasterProps) => {
 
   const resetSelection = () => {
     selectRow(table);
+    setSelectedField(undefined);
   };
 
   const readonly = useReadonly();
@@ -76,12 +78,12 @@ export const DataClassMaster = ({ dataClassFields }: DataClassMasterProps) => {
   );
 
   return (
-    <BasicField className='dataclass-wrapper' label='Attributes' control={control}>
+    <BasicField className='master-content' label='Attributes' control={control}>
       <Table>
         <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={resetSelection} />
         <TableBody>
           {table.getRowModel().rows.map(row => (
-            <SelectRow key={row.id} row={row}>
+            <SelectRow key={row.id} row={row} onClick={() => setSelectedField(row.index)}>
               {row.getVisibleCells().map(cell => (
                 <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
               ))}
