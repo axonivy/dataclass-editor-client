@@ -2,7 +2,7 @@ import { BasicCheckbox, BasicField, Button, Flex, Textarea, ToggleGroup, ToggleG
 import { useState } from 'react';
 import { useAppContext } from '../../../context/AppContext';
 import { isEntityClass } from '../data/dataclass-utils';
-import './DataClassDetailContent.css';
+import './DetailContent.css';
 
 export const DataClassDetailContent = () => {
   const { dataClass } = useAppContext();

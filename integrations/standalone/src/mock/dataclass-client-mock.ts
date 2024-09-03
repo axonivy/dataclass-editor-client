@@ -8,10 +8,7 @@ export class DataClassClientMock implements Client {
       simpleName: 'Interview',
       namespace: 'workflow.businesscasedata',
       comment: 'Information about an interview.',
-      annotations: [
-        '@javax.persistence.ManyToMany',
-        '@javax.persistence.JoinTable(name = "tableName", joinColumns = { @JoinColumn(name = "name1Id", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "tableNameId", referencedColumnName = "id") })'
-      ],
+      annotations: ['@full.qualified.name.one(argument = "value")', '@full.qualified.name.two'],
       isBusinessCaseData: true,
       fields: [
         {
@@ -26,7 +23,10 @@ export class DataClassClientMock implements Client {
           type: 'String',
           modifiers: ['PERSISTENT'],
           comment: 'The last name of the interviewee.',
-          annotations: []
+          annotations: [
+            '@javax.persistence.ManyToMany',
+            '@javax.persistence.JoinTable(name = "tableName", joinColumns = { @JoinColumn(name = "name1Id", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "tableNameId", referencedColumnName = "id") })'
+          ]
         },
         {
           name: 'date',
