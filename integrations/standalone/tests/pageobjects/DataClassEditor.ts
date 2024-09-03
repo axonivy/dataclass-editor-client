@@ -1,10 +1,18 @@
-import { expect, type Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
+import { Button } from './Button';
+import { Settings } from './Settings';
 
 export class DataClassEditor {
   readonly page: Page;
+  readonly detailPanel: Locator;
+  readonly detailsToggle: Button;
+  readonly settings: Settings;
 
   constructor(page: Page) {
     this.page = page;
+    this.detailPanel = this.page.getByTestId('detail-panel');
+    this.detailsToggle = new Button(this.page, { name: 'Details toggle' });
+    this.settings = new Settings(this.page);
   }
 
   static async openEngine(page: Page) {

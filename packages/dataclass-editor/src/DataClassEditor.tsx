@@ -70,7 +70,7 @@ function DataClassEditor(props: EditorProps) {
       }}
     >
       <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
-        <ResizablePanel defaultSize={75} minSize={50} className='master-panel' data-testid='master-panel'>
+        <ResizablePanel defaultSize={75} minSize={50} className='master-panel'>
           <Flex className='panel-content-container' direction='column'>
             <DataClassMasterToolbar title={title} />
             <DataClassMasterContent />
@@ -79,7 +79,7 @@ function DataClassEditor(props: EditorProps) {
         {detail && (
           <>
             <ResizableHandle />
-            <ResizablePanel defaultSize={25} minSize={10}>
+            <ResizablePanel defaultSize={25} minSize={10} data-testid='detail-panel'>
               <Flex direction='column' className='panel-content-container' data-testid='details-container'>
                 <SidebarHeader icon={IvyIcons.PenEdit} title={detailTitle} data-testid='Detail title' />
                 {selectedField == undefined ? <DataClassDetailContent /> : <FieldDetailContent />}
