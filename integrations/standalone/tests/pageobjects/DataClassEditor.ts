@@ -4,17 +4,15 @@ import { Settings } from './Settings';
 
 export class DataClassEditor {
   readonly page: Page;
-  readonly locator: Locator;
-  readonly masterPanel: Locator;
+  readonly detailPanel: Locator;
   readonly detailsToggle: Button;
   readonly settings: Settings;
 
   constructor(page: Page) {
     this.page = page;
-    this.locator = page.locator(':root');
-    this.masterPanel = this.locator.getByTestId('master-panel');
-    this.detailsToggle = new Button(this.locator, { name: 'Details toggle' });
-    this.settings = new Settings(this.locator);
+    this.detailPanel = this.page.getByTestId('detail-panel');
+    this.detailsToggle = new Button(this.page, { name: 'Details toggle' });
+    this.settings = new Settings(this.page);
   }
 
   static async openEngine(page: Page) {

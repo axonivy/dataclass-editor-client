@@ -1,13 +1,13 @@
-import { expect, type Locator } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 import { Switch } from './Switch';
 
 export class Theme {
+  readonly html: Locator;
   readonly switch: Switch;
-  readonly locator: Locator;
 
-  constructor(parent: Locator) {
-    this.switch = new Switch(parent, { name: 'Theme' });
-    this.locator = parent.getByText('Theme');
+  constructor(page: Page) {
+    this.html = page.locator('html');
+    this.switch = new Switch(page, { name: 'Theme' });
   }
 
   async toggle() {
@@ -15,10 +15,10 @@ export class Theme {
   }
 
   async expectLight() {
-    await expect(this.locator).toHaveCSS('color', 'rgb(27, 27, 27)');
+    await expect(this.html).toHaveClass('light');
   }
 
   async expectDark() {
-    await expect(this.locator).toHaveCSS('color', 'rgb(255, 255, 255)');
+    await expect(this.html).toHaveClass('dark');
   }
 }

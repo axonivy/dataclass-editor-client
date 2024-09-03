@@ -1,13 +1,13 @@
-import { type Locator } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 
 export class Button {
   private readonly locator: Locator;
 
-  constructor(parentLocator: Locator, options?: { name?: string; nth?: number }) {
+  constructor(page: Page, options?: { name?: string; nth?: number }) {
     if (options?.name) {
-      this.locator = parentLocator.getByRole('button', { name: options.name });
+      this.locator = page.getByRole('button', { name: options.name });
     } else {
-      this.locator = parentLocator.getByRole('button').nth(options?.nth ?? 0);
+      this.locator = page.getByRole('button').nth(options?.nth ?? 0);
     }
   }
 

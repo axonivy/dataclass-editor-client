@@ -20,9 +20,9 @@ test('theme', async () => {
 });
 
 test('toggle detail', async () => {
-  await expect(editor.masterPanel).toHaveAttribute('data-panel-size', '75.0');
+  await expect(editor.detailPanel).toBeVisible();
   await editor.detailsToggle.click();
-  await expect(editor.masterPanel).toHaveAttribute('data-panel-size', '1.0');
+  await expect(editor.detailPanel).not.toBeVisible();
   await editor.detailsToggle.click();
-  await expect(editor.masterPanel).toHaveAttribute('data-panel-size', '75.0');
+  await expect(editor.detailPanel).toBeVisible();
 });
