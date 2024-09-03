@@ -1,26 +1,32 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { Button } from './Button';
+import { Detail } from './Detail';
 import { Settings } from './Settings';
+import { Table } from './Table';
 
 export class DataClassEditor {
   readonly page: Page;
   readonly detailPanel: Locator;
-  readonly detailsToggle: Button;
+  readonly detailToggle: Button;
+  readonly detail: Detail;
   readonly settings: Settings;
+  readonly table: Table;
 
   constructor(page: Page) {
     this.page = page;
     this.detailPanel = this.page.getByTestId('detail-panel');
-    this.detailsToggle = new Button(this.page, { name: 'Details toggle' });
+    this.detailToggle = new Button(this.page, { name: 'Details toggle' });
+    this.detail = new Detail(this.page);
     this.settings = new Settings(this.page);
+    this.table = new Table(page, ['label', 'label']);
   }
 
-  static async openEngine(page: Page) {
+  static async openEngine(page: Page, file: string) {
     const server = process.env.BASE_URL ?? 'localhost:8081';
     const app = process.env.TEST_APP ?? 'designer';
     const serverUrl = server.replace(/^https?:\/\//, '');
     const pmv = 'dataclass-integration';
-    const url = `?server=${serverUrl}&app=${app}&pmv=${pmv}&file=dataclass-integration/Data.d.json`;
+    const url = `?server=${serverUrl}&app=${app}&pmv=${pmv}&file=${file}`;
     return this.openUrl(page, url);
   }
 

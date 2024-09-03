@@ -80,8 +80,8 @@ function DataClassEditor(props: EditorProps) {
           <>
             <ResizableHandle />
             <ResizablePanel defaultSize={25} minSize={10} data-testid='detail-panel'>
-              <Flex direction='column' className='panel-content-container' data-testid='details-container'>
-                <SidebarHeader icon={IvyIcons.PenEdit} title={detailTitle} data-testid='Detail title' />
+              <Flex direction='column' className='panel-content-container' data-testid='detail-container'>
+                <SidebarHeader icon={IvyIcons.PenEdit} title={detailTitle} data-testid='detail-header' />
                 {selectedField == undefined ? <DataClassDetailContent /> : <FieldDetailContent />}
               </Flex>
             </ResizablePanel>
