@@ -1,10 +1,20 @@
-import { expect, type Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
+import { Button } from './Button';
+import { Settings } from './Settings';
 
 export class DataClassEditor {
   readonly page: Page;
+  readonly locator: Locator;
+  readonly masterPanel: Locator;
+  readonly detailsToggle: Button;
+  readonly settings: Settings;
 
   constructor(page: Page) {
     this.page = page;
+    this.locator = page.locator(':root');
+    this.masterPanel = this.locator.getByTestId('master-panel');
+    this.detailsToggle = new Button(this.locator, { name: 'Details toggle' });
+    this.settings = new Settings(this.locator);
   }
 
   static async openEngine(page: Page) {
