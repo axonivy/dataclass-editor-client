@@ -1,4 +1,4 @@
-import { BasicCheckbox, BasicField, Button, Flex, Textarea, ToggleGroup, ToggleGroupItem } from '@axonivy/ui-components';
+import { BasicField, Button, Flex, Textarea, ToggleGroup, ToggleGroupItem } from '@axonivy/ui-components';
 import { useState } from 'react';
 import { useAppContext } from '../../../context/AppContext';
 import { isEntityClass } from '../data/dataclass-utils';
@@ -6,7 +6,10 @@ import './DetailContent.css';
 
 export const DataClassDetailContent = () => {
   const { dataClass } = useAppContext();
-  const [classType, setClassType] = useState(isEntityClass(dataClass) ? 'entity-class' : 'data-class');
+
+  const initialClassType = isEntityClass(dataClass) ? 'entity-class' : dataClass.isBusinessCaseData ? 'business-data-class' : 'data-class';
+
+  const [classType, setClassType] = useState(initialClassType);
 
   const variant = (value: string) => (value === classType ? 'primary' : undefined);
 
@@ -35,7 +38,6 @@ export const DataClassDetailContent = () => {
         <Textarea value={dataClass.comment} />
       </BasicField>
       <BasicField label='Annotations'>
-        <BasicCheckbox label='BusinessCaseData' checked={dataClass.isBusinessCaseData} />
         <Textarea value={dataClass.annotations.join('\n')} />
       </BasicField>
     </Flex>
