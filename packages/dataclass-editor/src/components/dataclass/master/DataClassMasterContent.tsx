@@ -1,6 +1,7 @@
 import {
   BasicField,
   Button,
+  Checkbox,
   Flex,
   selectRow,
   SelectRow,
@@ -14,15 +15,13 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
+import { useAppContext } from '../../../context/AppContext';
 import { type DataClassField } from '../data/dataclass';
 import './DataClassMasterContent.css';
 
-type DataClassMasterProps = {
-  dataClassFields: Array<DataClassField>;
-  setSelectedField: (index: number | undefined) => void;
-};
+export const DataClassMasterContent = () => {
+  const { dataClass, setSelectedField } = useAppContext();
 
-export const DataClassMasterContent = ({ dataClassFields, setSelectedField }: DataClassMasterProps) => {
   const selection = useTableSelect<DataClassField>();
   const columns: Array<ColumnDef<DataClassField, string>> = [
     {
@@ -37,9 +36,9 @@ export const DataClassMasterContent = ({ dataClassFields, setSelectedField }: Da
       cell: cell => <div>{cell.getValue()}</div>
     },
     {
-      accessorFn: (dataClassField: DataClassField) => String(dataClassField.modifiers.includes('PERSISTENT')),
+      accessorKey: 'modifiers',
       header: 'Persistent',
-      cell: cell => <div>{cell.getValue()}</div>
+      cell: cell => <Checkbox defaultChecked={cell.getValue().includes('PERSISTENT')} />
     },
     {
       accessorKey: 'comment',
@@ -49,7 +48,7 @@ export const DataClassMasterContent = ({ dataClassFields, setSelectedField }: Da
   ];
   const table = useReactTable({
     ...selection.options,
-    data: dataClassFields,
+    data: dataClass.fields,
     columns,
     getCoreRowModel: getCoreRowModel(),
     state: {
