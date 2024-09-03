@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { isEntityClass } from './components/dataclass/data/dataclass-utils';
 import { DataClassDetailContent } from './components/dataclass/detail/DataClassDetailContent';
+import { FieldDetailContent } from './components/dataclass/detail/FieldDetailContent';
 import { DataClassMasterContent } from './components/dataclass/master/DataClassMasterContent';
 import { DataClassMasterToolbar } from './components/dataclass/master/DataClassMasterToolbar';
 import { AppProvider } from './context/AppContext';
@@ -81,7 +82,7 @@ function DataClassEditor(props: EditorProps) {
             <ResizablePanel defaultSize={25} minSize={10}>
               <Flex direction='column' className='panel-content-container' data-testid='details-container'>
                 <SidebarHeader icon={IvyIcons.PenEdit} title={detailTitle} data-testid='Detail title' />
-                {selectedField == undefined ? <DataClassDetailContent /> : <PanelMessage message={'Attribute detail Content'} />}
+                {selectedField == undefined ? <DataClassDetailContent /> : <FieldDetailContent />}
               </Flex>
             </ResizablePanel>
           </>
