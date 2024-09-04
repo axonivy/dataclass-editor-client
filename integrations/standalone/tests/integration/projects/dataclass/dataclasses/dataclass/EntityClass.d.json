@@ -1,0 +1,20 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/data-class/11.4.0/data-class.json",
+  "simpleName" : "EntityClass",
+  "namespace" : "dataclass",
+  "comment" : "EntityClass comment",
+  "isBusinessCaseData" : false,
+  "entity" : {
+    "tableName" : "DBTableName"
+  },
+  "fields" : [ {
+    "name" : "id",
+    "type" : "Integer",
+    "comment" : "Identifier",
+    "modifiers" : [ "PERSISTENT", "ID", "GENERATED" ],
+    "entity" : {
+      "cascadeTypes" : [ "PERSIST", "MERGE" ],
+      "orphanRemoval" : false
+    }
+  } ]
+}
