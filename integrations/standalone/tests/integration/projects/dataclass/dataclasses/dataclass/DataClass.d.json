@@ -3,7 +3,7 @@
   "simpleName" : "DataClass",
   "namespace" : "dataclass",
   "comment" : "DataClass comment",
-  "annotations" : [ "@full.qualified.name.one(argument = \"value\")", "@full.qualified.name.two" ],
+  "annotations" : [ "@javax.persistence.Table(name=\"tableName\")" ],
   "isBusinessCaseData" : true,
   "fields" : [ {
     "name" : "dataClassField0",
@@ -14,7 +14,7 @@
     "name" : "dataClassField1",
     "type" : "Integer",
     "modifiers" : [ "PERSISTENT" ],
-    "annotations" : [ "@javax.persistence.ManyToMany", "@javax.persistence.JoinTable(name = \"tableName\", joinColumns = { @JoinColumn(name = \"name1Id\", referencedColumnName = \"id\") }, inverseJoinColumns = { @JoinColumn(name = \"tableNameId\", referencedColumnName = \"id\") })" ]
+    "annotations" : [ "@javax.persistence.ManyToMany", "@javax.persistence.JoinTable(name = \"tableName\", joinColumns = { @javax.persistence.JoinColumn(name = \"name1Id\", referencedColumnName = \"id\") }, inverseJoinColumns = { @javax.persistence.JoinColumn(name = \"tableNameId\", referencedColumnName = \"id\") })" ]
   }, {
     "name" : "dataClassField2",
     "type" : "Date",

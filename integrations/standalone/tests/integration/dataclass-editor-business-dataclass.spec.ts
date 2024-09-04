@@ -11,7 +11,7 @@ test('load data', async () => {
   const table = editor.table;
   const detail = editor.detail;
 
-  await detail.expectDataClassValues('business-data-class', 'DataClass comment', '@full.qualified.name.one(argument = "value")\n@full.qualified.name.two');
+  await detail.expectDataClassValues('business-data-class', 'DataClass comment', '@javax.persistence.Table(name="tableName")');
 
   await table.expectRowCount(3);
 
@@ -28,7 +28,7 @@ test('load data', async () => {
     'Integer',
     true,
     '',
-    '@javax.persistence.ManyToMany\n@javax.persistence.JoinTable(name = "tableName", joinColumns = { @JoinColumn(name = "name1Id", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "tableNameId", referencedColumnName = "id") })'
+    '@javax.persistence.ManyToMany\n@javax.persistence.JoinTable(name = "tableName", joinColumns = { @javax.persistence.JoinColumn(name = "name1Id", referencedColumnName = "id") }, inverseJoinColumns = { @javax.persistence.JoinColumn(name = "tableNameId", referencedColumnName = "id") })'
   );
 
   const row2 = table.row(2);
