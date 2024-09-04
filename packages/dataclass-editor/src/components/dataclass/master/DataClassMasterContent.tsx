@@ -1,7 +1,6 @@
 import {
   BasicField,
   Button,
-  Checkbox,
   Flex,
   selectRow,
   SelectRow,
@@ -34,11 +33,6 @@ export const DataClassMasterContent = () => {
       accessorKey: 'type',
       header: 'Type',
       cell: cell => <div>{cell.getValue()}</div>
-    },
-    {
-      accessorKey: 'modifiers',
-      header: 'Persistent',
-      cell: cell => <Checkbox defaultChecked={cell.getValue().includes('PERSISTENT')} />
     },
     {
       accessorKey: 'comment',
