@@ -18,7 +18,7 @@ export class DataClassEditor {
     this.detailToggle = new Button(this.page, { name: 'Details toggle' });
     this.detail = new Detail(this.page);
     this.settings = new Settings(this.page);
-    this.table = new Table(page, ['label', 'label']);
+    this.table = new Table(page);
   }
 
   static async openEngine(page: Page, file: string) {
