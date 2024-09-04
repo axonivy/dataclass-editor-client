@@ -11,7 +11,7 @@ test('load data', async () => {
   const table = editor.table;
   const detail = editor.detail;
 
-  await detail.expectDataClassValues('business-data-class', 'DataClass comment', '@javax.persistence.Table(name="tableName")');
+  await detail.expectDataClassValues('Business Data Class', 'DataClass comment', '@javax.persistence.Table(name="tableName")');
 
   await table.expectRowCount(3);
 

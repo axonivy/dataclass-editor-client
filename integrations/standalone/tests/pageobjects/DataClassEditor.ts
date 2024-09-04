@@ -14,7 +14,7 @@ export class DataClassEditor {
 
   constructor(page: Page) {
     this.page = page;
-    this.detailPanel = this.page.getByTestId('detail-panel');
+    this.detailPanel = this.page.locator('.detail-panel');
     this.detailToggle = new Button(this.page, { name: 'Details toggle' });
     this.detail = new Detail(this.page);
     this.settings = new Settings(this.page);

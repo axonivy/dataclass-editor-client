@@ -18,17 +18,17 @@ export const DataClassDetailContent = () => {
       <BasicField label='Class type'>
         <ToggleGroup type='single' className='class-type-group' value={classType} onValueChange={setClassType}>
           <ToggleGroupItem value='data-class' asChild>
-            <Button variant={variant('data-class')} size='large' data-testid='data-class'>
+            <Button variant={variant('data-class')} size='large'>
               Data Class
             </Button>
           </ToggleGroupItem>
           <ToggleGroupItem value='business-data-class' asChild>
-            <Button variant={variant('business-data-class')} size='large' data-testid='business-data-class'>
+            <Button variant={variant('business-data-class')} size='large'>
               Business Data Class
             </Button>
           </ToggleGroupItem>
           <ToggleGroupItem value='entity-class' asChild>
-            <Button variant={variant('entity-class')} size='large' data-testid='entity-class'>
+            <Button variant={variant('entity-class')} size='large'>
               Entity Class
             </Button>
           </ToggleGroupItem>

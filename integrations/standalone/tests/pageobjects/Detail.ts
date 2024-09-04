@@ -14,8 +14,8 @@ export class Detail {
   readonly comment: TextArea;
 
   constructor(page: Page) {
-    this.locator = page.getByTestId('detail-container');
-    this.title = this.locator.getByTestId('detail-header');
+    this.locator = page.locator('.detail-container');
+    this.title = this.locator.locator('.detail-header');
     this.classType = new ClassType(this.locator);
     this.description = new TextArea(this.locator, { label: 'Description' });
     this.annotations = new TextArea(this.locator, { label: 'Annotations' });

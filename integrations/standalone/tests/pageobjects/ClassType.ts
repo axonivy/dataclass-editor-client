@@ -8,7 +8,7 @@ export class ClassType {
   }
 
   async expectValue(classType: string) {
-    await expect(this.locator.getByTestId(classType)).toHaveAttribute('data-state', 'on');
+    await expect(this.locator.getByRole('radio', { name: classType, exact: true })).toHaveAttribute('data-state', 'on');
   }
 
   async expectToExist() {
