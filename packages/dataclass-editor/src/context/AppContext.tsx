@@ -3,6 +3,7 @@ import type { DataClass } from '../components/dataclass/data/dataclass';
 
 type AppContext = {
   dataClass: DataClass;
+  setDataClass: (dataClass: DataClass) => void;
   selectedField?: number;
   setSelectedField: (index?: number) => void;
   detail: boolean;
@@ -11,6 +12,7 @@ type AppContext = {
 
 const appContext = createContext<AppContext>({
   dataClass: {} as DataClass,
+  setDataClass: () => {},
   selectedField: undefined,
   setSelectedField: () => {},
   detail: true,

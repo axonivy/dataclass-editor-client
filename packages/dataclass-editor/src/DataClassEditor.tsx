@@ -1,7 +1,8 @@
 import { Flex, PanelMessage, ResizableHandle, ResizablePanel, ResizablePanelGroup, SidebarHeader, Spinner } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
+import type { DataClass } from './components/dataclass/data/dataclass';
 import { isEntityClass } from './components/dataclass/data/dataclass-utils';
 import { DataClassDetailContent } from './components/dataclass/detail/DataClassDetailContent';
 import { FieldDetailContent } from './components/dataclass/detail/FieldDetailContent';
@@ -10,19 +11,23 @@ import { DataClassMasterToolbar } from './components/dataclass/master/DataClassM
 import { AppProvider } from './context/AppContext';
 import './DataClassEditor.css';
 import { useClient } from './protocol/ClientContextProvider';
-import type { EditorProps } from './protocol/types';
+import type { Data, EditorProps } from './protocol/types';
 import { genQueryKey } from './query/query-client';
+import type { Unary } from './utils/lambda/lambda';
 
 function DataClassEditor(props: EditorProps) {
   const [detail, setDetail] = useState(true);
 
   const [context, setContext] = useState(props.context);
+  const [directSave, setDirectSave] = useState(props.directSave);
   useEffect(() => {
     setContext(props.context);
+    setDirectSave(props.directSave);
   }, [props]);
   const [selectedField, setSelectedField] = useState<number>();
 
   const client = useClient();
+  const queryClient = useQueryClient();
 
   const queryKeys = useMemo(() => {
     return {
@@ -35,6 +40,22 @@ function DataClassEditor(props: EditorProps) {
     queryKey: queryKeys.data(),
     queryFn: () => client.data(context),
     structuralSharing: false
+  });
+
+  const mutation = useMutation({
+    mutationKey: queryKeys.saveData(),
+    mutationFn: async (updateData: Unary<DataClass>) => {
+      const saveData = queryClient.setQueryData<Data>(queryKeys.data(), prevData => {
+        if (prevData) {
+          return { ...prevData, data: updateData(prevData.data) };
+        }
+        return undefined;
+      });
+      if (saveData) {
+        return await client.saveData({ context, data: saveData.data, directSave });
+      }
+      return Promise.resolve();
+    }
   });
 
   if (isPending) {
@@ -63,6 +84,7 @@ function DataClassEditor(props: EditorProps) {
     <AppProvider
       value={{
         dataClass: dataClass,
+        setDataClass: dataClass => mutation.mutate(() => dataClass),
         selectedField: selectedField,
         setSelectedField: setSelectedField,
         detail: detail,
