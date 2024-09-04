@@ -4,23 +4,31 @@ import { expect } from '@playwright/test';
 export class TextArea {
   readonly locator: Locator;
 
-  constructor(locator: Locator, options?: { label?: string; nth?: number }) {
+  constructor(parentLocator: Locator, options?: { label?: string; nth?: number }) {
     if (options?.label) {
-      this.locator = locator.getByLabel(options.label, { exact: true });
+      this.locator = parentLocator.getByRole('textbox', { name: options.label, exact: true });
     } else {
-      this.locator = locator.getByRole('textbox').nth(options?.nth ?? 0);
+      this.locator = parentLocator.getByRole('textbox').nth(options?.nth ?? 0);
     }
   }
 
-  async expectValue(value: string) {
+  async expectToHaveValue(value: string) {
     await expect(this.locator).toHaveValue(value);
   }
 
   async expectToExist() {
-    await expect(this.locator).toHaveCount(1);
+    await expect(this.locator).not.toBeHidden();
   }
 
-  async expectToNotExist() {
-    await expect(this.locator).toHaveCount(0);
+  async expectToBeHidden() {
+    await expect(this.locator).toBeHidden();
+  }
+
+  async fill(value: string) {
+    await this.locator.fill(value);
+  }
+
+  async clear() {
+    await this.locator.clear();
   }
 }

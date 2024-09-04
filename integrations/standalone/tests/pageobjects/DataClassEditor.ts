@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { AddFieldDialog } from './AddFieldDialog';
 import { Button } from './Button';
 import { Detail } from './Detail';
 import { Settings } from './Settings';
@@ -11,6 +12,7 @@ export class DataClassEditor {
   readonly detail: Detail;
   readonly settings: Settings;
   readonly table: Table;
+  readonly add: AddFieldDialog;
 
   constructor(page: Page) {
     this.page = page;
@@ -19,6 +21,7 @@ export class DataClassEditor {
     this.detail = new Detail(this.page);
     this.settings = new Settings(this.page);
     this.table = new Table(page);
+    this.add = new AddFieldDialog(page);
   }
 
   static async openEngine(page: Page, file: string) {
@@ -53,5 +56,12 @@ export class DataClassEditor {
 
   async hideQuery() {
     await this.page.addStyleTag({ content: `.tsqd-parent-container { display: none; }` });
+  }
+
+  async addField(name: string, type: string) {
+    await this.add.open();
+    await this.add.name.fill(name);
+    await this.add.type.fill(type);
+    await this.add.create.click();
   }
 }

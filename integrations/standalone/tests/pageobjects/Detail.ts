@@ -29,45 +29,45 @@ export class Detail {
     await expect(this.title).toHaveText(title);
   }
 
-  async isDataClass() {
+  async expectToBeDataClass() {
     await this.classType.expectToExist();
     await this.description.expectToExist();
     await this.annotations.expectToExist();
 
-    await this.name.expectToNotExist();
-    await this.type.expectToNotExist();
-    await expect(this.persistent).toHaveCount(0);
-    await this.comment.expectToNotExist();
+    await this.name.expectToBeHidden();
+    await this.type.expectToBeHidden();
+    await expect(this.persistent).toBeHidden();
+    await this.comment.expectToBeHidden();
   }
 
-  async isField() {
+  async expectToBeField() {
     await this.name.expectToExist();
     await this.type.expectToExist();
-    await expect(this.persistent).toHaveCount(1);
+    await expect(this.persistent).not.toBeHidden();
     await this.comment.expectToExist();
     await this.annotations.expectToExist();
 
-    await this.classType.expectToNotExist();
-    await this.description.expectToNotExist();
+    await this.classType.expectToBeHidden();
+    await this.description.expectToBeHidden();
   }
 
-  async expectDataClassValues(classType: string, description: string, annotations: string) {
-    await this.isDataClass();
-    await this.classType.expectValue(classType);
-    await this.description.expectValue(description);
-    await this.annotations.expectValue(annotations);
+  async expectToHaveDataClassValues(classType: string, description: string, annotations: string) {
+    await this.expectToBeDataClass();
+    await this.classType.expectToHaveValue(classType);
+    await this.description.expectToHaveValue(description);
+    await this.annotations.expectToHaveValue(annotations);
   }
 
-  async expectFieldValues(name: string, type: string, persistent: boolean, comment: string, annotations: string) {
-    await this.isField();
-    await this.name.expectValue(name);
-    await this.type.expectValue(type);
+  async expectToHaveFieldValues(name: string, type: string, persistent: boolean, comment: string, annotations: string) {
+    await this.expectToBeField();
+    await this.name.expectToHaveValue(name);
+    await this.type.expectToHaveValue(type);
     if (persistent) {
       await expect(this.persistent).toBeChecked();
     } else {
       await expect(this.persistent).not.toBeChecked();
     }
-    await this.comment.expectValue(comment);
-    await this.annotations.expectValue(annotations);
+    await this.comment.expectToHaveValue(comment);
+    await this.annotations.expectToHaveValue(annotations);
   }
 }

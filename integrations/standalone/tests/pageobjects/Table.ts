@@ -14,7 +14,7 @@ export class Table {
     return new Row(this.rows, index);
   }
 
-  async expectRowCount(rows: number) {
+  async expectToHaveRowCount(rows: number) {
     await expect(this.rows).toHaveCount(rows);
   }
 }
@@ -30,14 +30,18 @@ export class Row {
     return new Cell(this.locator, column);
   }
 
-  async expectValues(...values: Array<string>) {
+  async expectToHaveValues(...values: Array<string>) {
     for (let i = 0; i < values.length; i++) {
-      await this.column(i).expectValue(values[i]);
+      await this.column(i).expectToHaveValue(values[i]);
     }
   }
 
   async click() {
     await this.locator.click();
+  }
+
+  async expectToBeSelected() {
+    await expect(this.locator).toHaveAttribute('data-state', 'selected');
   }
 }
 
@@ -48,7 +52,7 @@ export class Cell {
     this.locator = rowLocator.getByRole('cell').nth(index);
   }
 
-  async expectValue(value: string) {
+  async expectToHaveValue(value: string) {
     await expect(this.locator).toHaveText(value);
   }
 }

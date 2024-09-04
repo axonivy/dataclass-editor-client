@@ -11,12 +11,12 @@ test('load data', async () => {
   const table = editor.table;
   const detail = editor.detail;
 
-  await detail.expectDataClassValues('Entity Class', 'EntityClass comment', '');
+  await detail.expectToHaveDataClassValues('Entity Class', 'EntityClass comment', '');
 
-  await table.expectRowCount(1);
+  await table.expectToHaveRowCount(1);
 
   const row0 = table.row(0);
-  await row0.expectValues('id', 'Integer', 'Identifier');
+  await row0.expectToHaveValues('id', 'Integer', 'Identifier');
   await row0.click();
-  await detail.expectFieldValues('id', 'Integer', true, 'Identifier', '');
+  await detail.expectToHaveFieldValues('id', 'Integer', true, 'Identifier', '');
 });

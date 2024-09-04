@@ -1,4 +1,4 @@
-import type { Locator, Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 
 export class Button {
   private readonly locator: Locator;
@@ -13,5 +13,13 @@ export class Button {
 
   async click() {
     await this.locator.click();
+  }
+
+  async expectToBeEnabled() {
+    await expect(this.locator).toBeEnabled();
+  }
+
+  async expectToBeDisabled() {
+    await expect(this.locator).toBeDisabled();
   }
 }

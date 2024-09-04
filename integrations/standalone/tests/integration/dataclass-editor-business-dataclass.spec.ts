@@ -1,29 +1,31 @@
 import { test } from '@playwright/test';
 import { DataClassEditor } from '../pageobjects/DataClassEditor';
 
+const file = 'dataclasses/dataclass/DataClass.d.json';
+
 let editor: DataClassEditor;
 
 test.beforeEach(async ({ page }) => {
-  editor = await DataClassEditor.openEngine(page, 'dataclasses/dataclass/DataClass.d.json');
+  editor = await DataClassEditor.openEngine(page, file);
 });
 
 test('load data', async () => {
   const table = editor.table;
   const detail = editor.detail;
 
-  await detail.expectDataClassValues('Business Data Class', 'DataClass comment', '@javax.persistence.Table(name="tableName")');
+  await detail.expectToHaveDataClassValues('Business Data Class', 'DataClass comment', '@javax.persistence.Table(name="tableName")');
 
-  await table.expectRowCount(3);
+  await table.expectToHaveRowCount(3);
 
   const row0 = table.row(0);
-  await row0.expectValues('dataClassField0', 'String', 'DataClassField0 comment');
+  await row0.expectToHaveValues('dataClassField0', 'String', 'DataClassField0 comment');
   await row0.click();
-  await detail.expectFieldValues('dataClassField0', 'String', true, 'DataClassField0 comment', '');
+  await detail.expectToHaveFieldValues('dataClassField0', 'String', true, 'DataClassField0 comment', '');
 
   const row1 = table.row(1);
-  await row1.expectValues('dataClassField1', 'Integer', '');
+  await row1.expectToHaveValues('dataClassField1', 'Integer', '');
   await row1.click();
-  await detail.expectFieldValues(
+  await detail.expectToHaveFieldValues(
     'dataClassField1',
     'Integer',
     true,
@@ -32,7 +34,18 @@ test('load data', async () => {
   );
 
   const row2 = table.row(2);
-  await row2.expectValues('dataClassField2', 'Date', 'DataClassField2 comment');
+  await row2.expectToHaveValues('dataClassField2', 'Date', 'DataClassField2 comment');
   await row2.click();
-  await detail.expectFieldValues('dataClassField2', 'Date', false, 'DataClassField2 comment', '');
+  await detail.expectToHaveFieldValues('dataClassField2', 'Date', false, 'DataClassField2 comment', '');
+});
+
+test('save data', async () => {
+  await editor.table.expectToHaveRowCount(3);
+
+  await editor.addField('newAttribute', 'String');
+
+  const editor2 = await DataClassEditor.openEngine(editor.page, file);
+
+  await editor2.table.expectToHaveRowCount(4);
+  await editor2.table.row(3).expectToHaveValues('newAttribute', 'String', '');
 });

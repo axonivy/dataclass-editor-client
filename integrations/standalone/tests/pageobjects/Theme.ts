@@ -14,11 +14,11 @@ export class Theme {
     await this.switch.click();
   }
 
-  async expectLight() {
+  async expectToBeLight() {
     await expect(this.html).toHaveClass('light');
   }
 
-  async expectDark() {
+  async expectToBeDark() {
     await expect(this.html).toHaveClass('dark');
   }
 }
