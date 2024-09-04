@@ -16,7 +16,7 @@ test('load data', async () => {
   await table.expectRowCount(1);
 
   const row0 = table.row(0);
-  await row0.expectValues('id', 'Integer', true, 'Identifier');
+  await row0.expectValues('id', 'Integer', 'Identifier');
   await row0.click();
   await detail.expectFieldValues('id', 'Integer', true, 'Identifier', '');
 });

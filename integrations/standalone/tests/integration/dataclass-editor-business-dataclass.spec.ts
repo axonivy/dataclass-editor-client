@@ -16,12 +16,12 @@ test('load data', async () => {
   await table.expectRowCount(3);
 
   const row0 = table.row(0);
-  await row0.expectValues('dataClassField0', 'String', true, 'DataClassField0 comment');
+  await row0.expectValues('dataClassField0', 'String', 'DataClassField0 comment');
   await row0.click();
   await detail.expectFieldValues('dataClassField0', 'String', true, 'DataClassField0 comment', '');
 
   const row1 = table.row(1);
-  await row1.expectValues('dataClassField1', 'Integer', true, '');
+  await row1.expectValues('dataClassField1', 'Integer', '');
   await row1.click();
   await detail.expectFieldValues(
     'dataClassField1',
@@ -32,7 +32,7 @@ test('load data', async () => {
   );
 
   const row2 = table.row(2);
-  await row2.expectValues('dataClassField2', 'Date', false, 'DataClassField2 comment');
+  await row2.expectValues('dataClassField2', 'Date', 'DataClassField2 comment');
   await row2.click();
   await detail.expectFieldValues('dataClassField2', 'Date', false, 'DataClassField2 comment', '');
 });
