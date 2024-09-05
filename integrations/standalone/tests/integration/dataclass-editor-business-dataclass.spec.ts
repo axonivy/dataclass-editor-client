@@ -44,8 +44,8 @@ test('save data', async () => {
 
   await editor.addField('newAttribute', 'String');
 
-  const editor2 = await DataClassEditor.openEngine(editor.page, file);
+  editor.page.reload();
 
-  await expect(editor2.table.rows).toHaveCount(4);
-  await editor2.table.row(3).expectToHaveValues('newAttribute', 'String', '');
+  await expect(editor.table.rows).toHaveCount(4);
+  await editor.table.row(3).expectToHaveValues('newAttribute', 'String', '');
 });
