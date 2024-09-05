@@ -2,8 +2,8 @@ import type { Locator, Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 
 export class Table {
-  private readonly page: Page;
-  private readonly rows: Locator;
+  readonly page: Page;
+  readonly rows: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -13,14 +13,10 @@ export class Table {
   row(index: number) {
     return new Row(this.rows, index);
   }
-
-  async expectToHaveRowCount(rows: number) {
-    await expect(this.rows).toHaveCount(rows);
-  }
 }
 
 export class Row {
-  private readonly locator: Locator;
+  readonly locator: Locator;
 
   constructor(rowsLocator: Locator, index: number) {
     this.locator = rowsLocator.nth(index);
@@ -32,12 +28,8 @@ export class Row {
 
   async expectToHaveValues(...values: Array<string>) {
     for (let i = 0; i < values.length; i++) {
-      await this.column(i).expectToHaveValue(values[i]);
+      await expect(this.column(i).locator).toHaveText(values[i]);
     }
-  }
-
-  async click() {
-    await this.locator.click();
   }
 
   async expectToBeSelected() {
@@ -46,13 +38,9 @@ export class Row {
 }
 
 export class Cell {
-  private readonly locator: Locator;
+  readonly locator: Locator;
 
   constructor(rowLocator: Locator, index: number) {
     this.locator = rowLocator.getByRole('cell').nth(index);
-  }
-
-  async expectToHaveValue(value: string) {
-    await expect(this.locator).toHaveText(value);
   }
 }

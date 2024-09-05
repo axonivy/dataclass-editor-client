@@ -10,10 +10,6 @@ export class Theme {
     this.switch = new Switch(page, { name: 'Theme' });
   }
 
-  async toggle() {
-    await this.switch.click();
-  }
-
   async expectToBeLight() {
     await expect(this.html).toHaveClass('light');
   }

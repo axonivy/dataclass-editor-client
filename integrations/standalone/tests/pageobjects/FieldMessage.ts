@@ -7,10 +7,6 @@ export class FieldMessage {
     this.locator = parentLocator.getByLabel(options.label, { exact: true }).locator('.ui-message');
   }
 
-  async expectToBeHidden() {
-    await expect(this.locator).toBeHidden();
-  }
-
   async expectToHaveErrorMessage(message: string) {
     await expect(this.locator).toHaveText(message);
     await expect(this.locator).toHaveAttribute('data-state', 'error');

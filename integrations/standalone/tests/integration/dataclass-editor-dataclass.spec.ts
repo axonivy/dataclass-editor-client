@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { DataClassEditor } from '../pageobjects/DataClassEditor';
 
 let editor: DataClassEditor;
@@ -13,5 +13,5 @@ test('load data', async () => {
 
   await detail.expectToHaveDataClassValues('Data Class', '', '');
 
-  await table.expectToHaveRowCount(0);
+  await expect(table.rows).toHaveCount(0);
 });

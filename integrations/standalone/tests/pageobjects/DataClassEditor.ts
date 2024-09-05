@@ -43,10 +43,6 @@ export class DataClassEditor {
     return editor;
   }
 
-  async expectTitle(title: string) {
-    await expect(this.page).toHaveTitle(title);
-  }
-
   async takeScreenshot(fileName: string) {
     await this.hideQuery();
     const dir = process.env.SCREENSHOT_DIR ?? 'tests/screenshots/target';
@@ -59,9 +55,9 @@ export class DataClassEditor {
   }
 
   async addField(name: string, type: string) {
-    await this.add.open();
-    await this.add.name.fill(name);
-    await this.add.type.fill(type);
-    await this.add.create.click();
+    await this.add.open.locator.click();
+    await this.add.name.locator.fill(name);
+    await this.add.type.locator.fill(type);
+    await this.add.create.locator.click();
   }
 }

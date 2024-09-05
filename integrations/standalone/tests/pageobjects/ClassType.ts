@@ -10,12 +10,4 @@ export class ClassType {
   async expectToHaveValue(classType: string) {
     await expect(this.locator.getByRole('radio', { name: classType, exact: true })).toHaveAttribute('data-state', 'on');
   }
-
-  async expectToExist() {
-    await expect(this.locator).toHaveCount(1);
-  }
-
-  async expectToBeHidden() {
-    await expect(this.locator).toBeHidden();
-  }
 }
