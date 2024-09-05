@@ -1,13 +1,8 @@
 import { expect, test } from '@playwright/test';
 import { DataClassEditor } from '../pageobjects/DataClassEditor';
 
-let editor: DataClassEditor;
-
-test.beforeEach(async ({ page }) => {
-  editor = await DataClassEditor.openEngine(page, 'dataclasses/dataclass/EntityClass.d.json');
-});
-
-test('load data', async () => {
+test('load data', async ({ page }) => {
+  const editor = await DataClassEditor.openDataClass(page, 'dataclasses/dataclass/EntityClass.d.json');
   const table = editor.table;
   const detail = editor.detail;
 

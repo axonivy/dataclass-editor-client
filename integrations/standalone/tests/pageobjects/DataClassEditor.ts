@@ -1,9 +1,15 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { randomUUID } from 'crypto';
 import { AddFieldDialog } from './AddFieldDialog';
 import { Button } from './Button';
 import { Detail } from './Detail';
 import { Settings } from './Settings';
 import { Table } from './Table';
+
+const server = process.env.BASE_URL ?? 'http://localhost:8081';
+const ws = process.env.TEST_WS ?? '';
+const app = process.env.TEST_APP ?? 'designer';
+const pmv = 'dataclass-test-project';
 
 export class DataClassEditor {
   readonly page: Page;
@@ -24,13 +30,29 @@ export class DataClassEditor {
     this.add = new AddFieldDialog(page);
   }
 
-  static async openEngine(page: Page, file: string) {
-    const server = process.env.BASE_URL ?? 'localhost:8081';
-    const app = process.env.TEST_APP ?? 'designer';
+  static async openDataClass(page: Page, file: string) {
     const serverUrl = server.replace(/^https?:\/\//, '');
-    const pmv = 'dataclass-integration';
-    const url = `?server=${serverUrl}&app=${app}&pmv=${pmv}&file=${file}`;
+    const url = `?server=${serverUrl}${ws}&app=${app}&pmv=${pmv}&file=${file}`;
     return this.openUrl(page, url);
+  }
+
+  static async openNewDataClass(page: Page) {
+    const name = 'DataClass' + randomUUID().replaceAll('-', '');
+    const namespace = 'temp';
+    const user = 'Developer';
+    const result = await fetch(`${server}${ws}/api/web-ide/dataclass`, {
+      method: 'POST',
+      headers: {
+        'X-Requested-By': 'dataclass-editor-tests',
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + Buffer.from(user + ':' + user).toString('base64')
+      },
+      body: JSON.stringify({ name: namespace + '.' + name, project: { app, pmv } })
+    });
+    if (!result.ok) {
+      throw Error(`Failed to create data class: ${result.status}`);
+    }
+    return await this.openDataClass(page, `dataclasses/${namespace}/${name}.d.json`);
   }
 
   static async openMock(page: Page) {

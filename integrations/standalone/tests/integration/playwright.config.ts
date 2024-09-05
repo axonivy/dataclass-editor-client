@@ -9,5 +9,6 @@ export default defineConfig(defaultConfig, {
     url: 'http://localhost:3002',
     reuseExistingServer: false,
     timeout: 5000
-  }
+  },
+  globalTeardown: './global.teardown'
 });

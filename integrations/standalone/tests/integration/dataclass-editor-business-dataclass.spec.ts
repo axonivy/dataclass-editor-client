@@ -1,15 +1,8 @@
 import { expect, test } from '@playwright/test';
 import { DataClassEditor } from '../pageobjects/DataClassEditor';
 
-const file = 'dataclasses/dataclass/DataClass.d.json';
-
-let editor: DataClassEditor;
-
-test.beforeEach(async ({ page }) => {
-  editor = await DataClassEditor.openEngine(page, file);
-});
-
-test('load data', async () => {
+test('load data', async ({ page }) => {
+  const editor = await DataClassEditor.openDataClass(page, 'dataclasses/dataclass/DataClass.d.json');
   const table = editor.table;
   const detail = editor.detail;
 
@@ -39,13 +32,14 @@ test('load data', async () => {
   await detail.expectToHaveFieldValues('dataClassField2', 'Date', false, 'DataClassField2 comment', '');
 });
 
-test('save data', async () => {
-  await expect(editor.table.rows).toHaveCount(3);
+test('save data', async ({ page }) => {
+  const editor = await DataClassEditor.openNewDataClass(page);
+  await expect(editor.table.rows).toHaveCount(0);
 
   await editor.addField('newAttribute', 'String');
 
   editor.page.reload();
 
-  await expect(editor.table.rows).toHaveCount(4);
-  await editor.table.row(3).expectToHaveValues('newAttribute', 'String', '');
+  await expect(editor.table.rows).toHaveCount(1);
+  await editor.table.row(0).expectToHaveValues('newAttribute', 'String', '');
 });
