@@ -17,7 +17,6 @@ import { type Table } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { useAppContext } from '../../../context/AppContext';
 import type { DataClassField } from '../data/dataclass';
-import { newFieldName } from '../data/dataclass-utils';
 import { validateFieldName, validateFieldType } from '../data/validation-utils';
 
 type AddFieldDialogProps = {
@@ -34,7 +33,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
   const typeValidationMessage = useMemo(() => validateFieldType(type), [type]);
 
   const initializeAddFieldDialog = () => {
-    setName(newFieldName(dataClass));
+    setName('newAttribute');
     setType('String');
   };
 
