@@ -1,6 +1,7 @@
 import {
   BasicField,
   Button,
+  deleteFirstSelectedRow,
   Flex,
   selectRow,
   SelectRow,
@@ -20,7 +21,7 @@ import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 
 export const DataClassMasterContent = () => {
-  const { dataClass, setSelectedField } = useAppContext();
+  const { dataClass, setDataClass, setSelectedField } = useAppContext();
 
   const selection = useTableSelect<DataClassField>();
   const columns: Array<ColumnDef<DataClassField, string>> = [
@@ -51,6 +52,14 @@ export const DataClassMasterContent = () => {
     }
   });
 
+  const deleteField = () => {
+    const { newData: newFields, selection } = deleteFirstSelectedRow(table, dataClass.fields);
+    const newDataClass = structuredClone(dataClass);
+    newDataClass.fields = newFields;
+    setDataClass(newDataClass);
+    setSelectedField(selection);
+  };
+
   const resetSelection = () => {
     selectRow(table);
     setSelectedField(undefined);
@@ -64,9 +73,9 @@ export const DataClassMasterContent = () => {
       <Button
         key='deleteButton'
         icon={IvyIcons.Trash}
-        onClick={() => {}}
+        onClick={deleteField}
         disabled={table.getSelectedRowModel().rows.length === 0}
-        aria-label='Delete data class field'
+        aria-label='Delete field'
       />
     </Flex>
   );

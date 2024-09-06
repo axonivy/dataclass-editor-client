@@ -38,8 +38,15 @@ test('save data', async ({ page }) => {
 
   await editor.addField('newAttribute', 'String');
 
-  editor.page.reload();
+  await editor.page.reload();
 
   await expect(editor.table.rows).toHaveCount(1);
   await editor.table.row(0).expectToHaveValues('newAttribute', 'String', '');
+
+  await editor.table.row(0).locator.click();
+  await editor.delete.locator.click();
+
+  await editor.page.reload();
+
+  await expect(editor.table.rows).toHaveCount(0);
 });
