@@ -79,3 +79,35 @@ test.describe('add field', async () => {
     });
   });
 });
+
+test.describe('delete field', async () => {
+  test('delete', async () => {
+    await editor.deleteField(1);
+    await expect(editor.table.rows).toHaveCount(3);
+
+    const row = editor.table.row(1);
+    await row.expectToHaveValues('date', 'Date', 'The date of the interview.');
+    await row.expectToBeSelected();
+    await editor.detail.expectToHaveFieldValues('date', 'Date', true, 'The date of the interview.', '');
+  });
+
+  test('delete last field', async () => {
+    await editor.deleteField(3);
+    await expect(editor.table.rows).toHaveCount(3);
+
+    await editor.table.row(2).expectToBeSelected();
+    await editor.detail.expectToHaveFieldValues('date', 'Date', true, 'The date of the interview.', '');
+  });
+
+  test('delete last remaining field', async () => {
+    const rowCount = await editor.table.rows.count();
+
+    await editor.table.row(0).locator.click();
+    for (let i = 0; i < rowCount; i++) {
+      await editor.delete.locator.click();
+    }
+
+    await expect(editor.table.rows).toHaveCount(0);
+    await editor.detail.expectToBeDataClass();
+  });
+});
