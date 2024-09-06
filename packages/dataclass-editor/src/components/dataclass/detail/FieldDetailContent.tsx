@@ -4,7 +4,7 @@ import './DetailContent.css';
 
 export const FieldDetailContent = () => {
   const { dataClass, selectedField } = useAppContext();
-  if (selectedField === undefined) {
+  if (selectedField === undefined || dataClass.fields.length - 1 < selectedField) {
     return;
   }
 

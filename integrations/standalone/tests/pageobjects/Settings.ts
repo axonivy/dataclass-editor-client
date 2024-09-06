@@ -10,8 +10,4 @@ export class Settings {
     this.button = new Button(page, { name: 'Settings' });
     this.theme = new Theme(page);
   }
-
-  async toggle() {
-    await this.button.click();
-  }
 }

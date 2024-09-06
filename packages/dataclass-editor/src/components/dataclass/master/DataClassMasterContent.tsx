@@ -16,6 +16,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
 import { useAppContext } from '../../../context/AppContext';
 import { type DataClassField } from '../data/dataclass';
+import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 
 export const DataClassMasterContent = () => {
@@ -58,7 +59,7 @@ export const DataClassMasterContent = () => {
   const readonly = useReadonly();
   const control = readonly ? null : (
     <Flex gap={2}>
-      <Button key='addButton' icon={IvyIcons.Plus} onClick={() => {}} aria-label='Add data class field' />
+      <AddFieldDialog table={table} />
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <Button
         key='deleteButton'

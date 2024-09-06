@@ -1,22 +1,17 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { DataClassEditor } from '../pageobjects/DataClassEditor';
 
-let editor: DataClassEditor;
-
-test.beforeEach(async ({ page }) => {
-  editor = await DataClassEditor.openEngine(page, 'dataclasses/dataclass/EntityClass.d.json');
-});
-
-test('load data', async () => {
+test('load data', async ({ page }) => {
+  const editor = await DataClassEditor.openDataClass(page, 'dataclasses/dataclass/EntityClass.d.json');
   const table = editor.table;
   const detail = editor.detail;
 
-  await detail.expectDataClassValues('Entity Class', 'EntityClass comment', '');
+  await detail.expectToHaveDataClassValues('Entity Class', 'EntityClass comment', '');
 
-  await table.expectRowCount(1);
+  await expect(table.rows).toHaveCount(1);
 
   const row0 = table.row(0);
-  await row0.expectValues('id', 'Integer', 'Identifier');
-  await row0.click();
-  await detail.expectFieldValues('id', 'Integer', true, 'Identifier', '');
+  await row0.expectToHaveValues('id', 'Integer', 'Identifier');
+  await row0.locator.click();
+  await detail.expectToHaveFieldValues('id', 'Integer', true, 'Identifier', '');
 });

@@ -8,3 +8,5 @@ test-results
 playwright-report
 **/standalone/build
 **/standalone/**/target
+
+.ivy-engine

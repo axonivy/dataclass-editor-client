@@ -29,45 +29,45 @@ export class Detail {
     await expect(this.title).toHaveText(title);
   }
 
-  async isDataClass() {
-    await this.classType.expectToExist();
-    await this.description.expectToExist();
-    await this.annotations.expectToExist();
+  async expectToBeDataClass() {
+    await expect(this.classType.locator).not.toBeHidden();
+    await expect(this.description.locator).not.toBeHidden();
+    await expect(this.annotations.locator).not.toBeHidden();
 
-    await this.name.expectToNotExist();
-    await this.type.expectToNotExist();
-    await expect(this.persistent).toHaveCount(0);
-    await this.comment.expectToNotExist();
+    await expect(this.name.locator).toBeHidden();
+    await expect(this.type.locator).toBeHidden();
+    await expect(this.persistent).toBeHidden();
+    await expect(this.comment.locator).toBeHidden();
   }
 
-  async isField() {
-    await this.name.expectToExist();
-    await this.type.expectToExist();
-    await expect(this.persistent).toHaveCount(1);
-    await this.comment.expectToExist();
-    await this.annotations.expectToExist();
+  async expectToBeField() {
+    await expect(this.name.locator).not.toBeHidden();
+    await expect(this.type.locator).not.toBeHidden();
+    await expect(this.persistent).not.toBeHidden();
+    await expect(this.comment.locator).not.toBeHidden();
+    await expect(this.annotations.locator).not.toBeHidden();
 
-    await this.classType.expectToNotExist();
-    await this.description.expectToNotExist();
+    await expect(this.classType.locator).toBeHidden();
+    await expect(this.description.locator).toBeHidden();
   }
 
-  async expectDataClassValues(classType: string, description: string, annotations: string) {
-    await this.isDataClass();
-    await this.classType.expectValue(classType);
-    await this.description.expectValue(description);
-    await this.annotations.expectValue(annotations);
+  async expectToHaveDataClassValues(classType: string, description: string, annotations: string) {
+    await this.expectToBeDataClass();
+    await this.classType.expectToHaveValue(classType);
+    await expect(this.description.locator).toHaveValue(description);
+    await expect(this.annotations.locator).toHaveValue(annotations);
   }
 
-  async expectFieldValues(name: string, type: string, persistent: boolean, comment: string, annotations: string) {
-    await this.isField();
-    await this.name.expectValue(name);
-    await this.type.expectValue(type);
+  async expectToHaveFieldValues(name: string, type: string, persistent: boolean, comment: string, annotations: string) {
+    await this.expectToBeField();
+    await expect(this.name.locator).toHaveValue(name);
+    await expect(this.type.locator).toHaveValue(type);
     if (persistent) {
       await expect(this.persistent).toBeChecked();
     } else {
       await expect(this.persistent).not.toBeChecked();
     }
-    await this.comment.expectValue(comment);
-    await this.annotations.expectValue(annotations);
+    await expect(this.comment.locator).toHaveValue(comment);
+    await expect(this.annotations.locator).toHaveValue(annotations);
   }
 }
