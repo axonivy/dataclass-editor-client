@@ -2,7 +2,6 @@ import {
   BaseRpcClient,
   Emitter,
   createMessageConnection,
-  createWebSocketConnection,
   urlBuilder,
   type Connection,
   type Disposable,
@@ -33,12 +32,6 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
 
   onNotification<K extends keyof NotificationTypes>(kind: K, listener: (args: NotificationTypes[K]) => any): Disposable {
     return this.connection.onNotification(kind, listener);
-  }
-
-  public static async startWebSocketClient(url: string): Promise<ClientJsonRpc> {
-    const webSocketUrl = urlBuilder(url, 'ivy-data-class-lsp');
-    const connection = await createWebSocketConnection(webSocketUrl);
-    return ClientJsonRpc.startClient(connection);
   }
 
   public static webSocketUrl(url: string) {
