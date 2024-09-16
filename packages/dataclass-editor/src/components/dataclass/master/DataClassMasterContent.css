@@ -2,11 +2,3 @@
   margin: var(--size-3);
   min-height: 0;
 }
-
-.cell-with-tooltip {
-  display: inline-block;
-}
-
-td .ui-tooltip-content {
-  color: var(--body);
-}

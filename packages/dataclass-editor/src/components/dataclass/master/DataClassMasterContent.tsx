@@ -43,7 +43,7 @@ export const DataClassMasterContent = () => {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className='cell-with-tooltip'>{className(cell.getValue())}</div>
+              <span className='cell-with-tooltip'>{className(cell.getValue())}</span>
             </TooltipTrigger>
             <TooltipContent>
               <span>{cell.getValue()}</span>
