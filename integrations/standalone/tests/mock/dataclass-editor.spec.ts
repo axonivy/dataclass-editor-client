@@ -111,3 +111,10 @@ test.describe('delete field', async () => {
     await editor.detail.expectToBeDataClass();
   });
 });
+
+test('type', async () => {
+  const row = editor.table.row(3);
+  await expect(row.column(1).locator).toHaveText('Conversation');
+  await row.locator.click();
+  await expect(editor.detail.type.locator).toHaveValue('mock.Conversation');
+});

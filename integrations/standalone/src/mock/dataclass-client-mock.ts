@@ -37,7 +37,7 @@ export class DataClassClientMock implements Client {
         },
         {
           name: 'conversation',
-          type: 'String',
+          type: 'mock.Conversation',
           modifiers: [],
           comment: 'Transcript of the conversation.',
           annotations: []

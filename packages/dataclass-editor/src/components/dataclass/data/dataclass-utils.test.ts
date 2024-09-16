@@ -1,5 +1,5 @@
 import type { DataClass } from './dataclass';
-import { isEntityClass } from './dataclass-utils';
+import { className, isEntityClass } from './dataclass-utils';
 
 describe('isEntityClass', () => {
   test('true', () => {
@@ -10,5 +10,15 @@ describe('isEntityClass', () => {
   test('false', () => {
     const dataClass = {} as DataClass;
     expect(isEntityClass(dataClass)).toBeFalsy();
+  });
+});
+
+describe('className', () => {
+  test('qualified', () => {
+    expect(className('ch.ivyteam.ivy.ClassName')).toEqual('ClassName');
+  });
+
+  test('notQualified', () => {
+    expect(className('ClassName')).toEqual('ClassName');
   });
 });
