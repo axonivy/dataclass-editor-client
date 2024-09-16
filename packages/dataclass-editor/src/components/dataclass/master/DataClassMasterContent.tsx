@@ -10,6 +10,10 @@ import {
   TableBody,
   TableCell,
   TableResizableHeader,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
   useReadonly,
   useTableSelect
 } from '@axonivy/ui-components';
@@ -17,6 +21,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
 import { useAppContext } from '../../../context/AppContext';
 import { type DataClassField } from '../data/dataclass';
+import { className } from '../data/dataclass-utils';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 
@@ -34,7 +39,18 @@ export const DataClassMasterContent = () => {
     {
       accessorKey: 'type',
       header: 'Type',
-      cell: cell => <div>{cell.getValue()}</div>
+      cell: cell => (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className='cell-with-tooltip'>{className(cell.getValue())}</span>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>{cell.getValue()}</span>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )
     },
     {
       accessorKey: 'comment',

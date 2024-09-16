@@ -22,7 +22,7 @@ export class Row {
     this.locator = rowsLocator.nth(index);
   }
 
-  private column(column: number) {
+  column(column: number) {
     return new Cell(this.locator, column);
   }
 
