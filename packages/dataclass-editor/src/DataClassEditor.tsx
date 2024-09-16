@@ -3,7 +3,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import type { DataClass } from './components/dataclass/data/dataclass';
-import { isEntityClass } from './components/dataclass/data/dataclass-utils';
+import { classType } from './components/dataclass/data/dataclass-utils';
 import { DataClassDetailContent } from './components/dataclass/detail/DataClassDetailContent';
 import { FieldDetailContent } from './components/dataclass/detail/FieldDetailContent';
 import { DataClassMasterContent } from './components/dataclass/master/DataClassMasterContent';
@@ -73,9 +73,23 @@ function DataClassEditor(props: EditorProps) {
   const dataClass = data.data;
   const dataClassFields = dataClass.fields;
 
-  const title = isEntityClass(dataClass) ? 'Entity Class Editor' : 'Data Class Editor';
-  let detailTitle = title;
-  if (selectedField !== undefined && selectedField < dataClassFields.length) {
+  let baseTitle = '';
+  switch (classType(dataClass)) {
+    case 'DATA':
+      baseTitle = 'Data';
+      break;
+    case 'BUSINESS_DATA':
+      baseTitle = 'Business Data';
+      break;
+    case 'ENTITY':
+      baseTitle = 'Entity';
+  }
+  const title = `${baseTitle} Editor`;
+
+  let detailTitle = '';
+  if (selectedField === undefined) {
+    detailTitle = `${baseTitle} - ${dataClass.simpleName}`;
+  } else if (selectedField < dataClassFields.length) {
     const selectedDataClassField = dataClassFields[selectedField];
     detailTitle = 'Attribute - ' + selectedDataClassField.name;
   }

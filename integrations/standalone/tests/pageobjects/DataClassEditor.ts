@@ -13,6 +13,7 @@ const pmv = 'dataclass-test-project';
 
 export class DataClassEditor {
   readonly page: Page;
+  readonly title: Locator;
   readonly detailPanel: Locator;
   readonly detailToggle: Button;
   readonly detail: Detail;
@@ -23,6 +24,7 @@ export class DataClassEditor {
 
   constructor(page: Page) {
     this.page = page;
+    this.title = this.page.locator('.master-header');
     this.detailPanel = this.page.locator('.detail-panel');
     this.detailToggle = new Button(this.page, { name: 'Details toggle' });
     this.detail = new Detail(this.page);

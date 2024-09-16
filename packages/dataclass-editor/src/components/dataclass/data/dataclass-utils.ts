@@ -1,7 +1,13 @@
 import type { DataClass } from './dataclass';
 
-export const isEntityClass = (dataClass: DataClass) => {
-  return !!dataClass.entity;
+export const classType = (dataClass: DataClass) => {
+  if (dataClass.entity) {
+    return 'ENTITY';
+  }
+  if (dataClass.isBusinessCaseData) {
+    return 'BUSINESS_DATA';
+  }
+  return 'DATA';
 };
 
 export const className = (qualifiedName: string) => {

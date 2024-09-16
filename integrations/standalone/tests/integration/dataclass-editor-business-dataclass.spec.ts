@@ -1,12 +1,25 @@
 import { expect, test } from '@playwright/test';
 import { DataClassEditor } from '../pageobjects/DataClassEditor';
 
-test('load data', async ({ page }) => {
-  const editor = await DataClassEditor.openDataClass(page, 'dataclasses/dataclass/DataClass.d.json');
+let editor: DataClassEditor;
+
+test.beforeEach(async ({ page }) => {
+  editor = await DataClassEditor.openDataClass(page, 'dataclasses/dataclass/DataClass.d.json');
+});
+
+test('master header', async () => {
+  await expect(editor.title).toHaveText('Business Data Editor');
+});
+
+test('detail header', async () => {
+  await expect(editor.detail.title).toHaveText('Business Data - DataClass');
+});
+
+test('load data', async () => {
   const table = editor.table;
   const detail = editor.detail;
 
-  await detail.expectToHaveDataClassValues('Business Data Class', 'DataClass comment', '@javax.persistence.Table(name="tableName")');
+  await detail.expectToHaveDataClassValues('Business Data', 'DataClass comment', '@javax.persistence.Table(name="tableName")');
 
   await expect(table.rows).toHaveCount(3);
 
