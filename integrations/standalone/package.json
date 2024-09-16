@@ -1,18 +1,18 @@
 {
   "name": "@axonivy/dataclass-editor-standalone",
   "private": true,
-  "version": "11.4.0-next",
+  "version": "12.0.0-next",
   "dependencies": {
     "@axonivy/dataclass-editor": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.45.3",
     "@types/react": "^18.2.13",
     "@types/react-dom": "^18.2.6",
     "@vitejs/plugin-react": "4.2.1",
-    "vite": "^5.3.5",
-    "@playwright/test": "1.45.3"
+    "vite": "^5.3.5"
   },
   "scripts": {
     "clean": "rimraf build",
