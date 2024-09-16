@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ch.ivyteam.dataclass</groupId>
   <artifactId>application</artifactId>
-  <version>11.4.0-SNAPSHOT</version>
+  <version>12.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <modules>
