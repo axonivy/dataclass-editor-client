@@ -13,14 +13,13 @@ export const DataClassDetailContent = () => {
 
   const handleClassTypeChange = (classType: string) => {
     const newDataClass = structuredClone(dataClass);
-newDataClass.isBusinessCaseData = false;
-newDataClass.entity = undefined;
-if (classType === 'BUSINESS_DATA') {
-  newDataClass.isBusinessCaseData = true;
-}        
-if (classType === 'ENTITY') {
-  newDataClass.entity = { tableName: '' };
-}
+    newDataClass.isBusinessCaseData = false;
+    newDataClass.entity = undefined;
+    if (classType === 'BUSINESS_DATA') {
+      newDataClass.isBusinessCaseData = true;
+    } else if (classType === 'ENTITY') {
+      newDataClass.entity = { tableName: '' };
+    }
     setDataClass(newDataClass);
   };
 
