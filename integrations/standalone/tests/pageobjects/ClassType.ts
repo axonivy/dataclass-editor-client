@@ -7,7 +7,11 @@ export class ClassType {
     this.locator = locator.getByRole('group');
   }
 
+  button(classType: string) {
+    return this.locator.getByRole('radio', { name: classType, exact: true });
+  }
+
   async expectToHaveValue(classType: string) {
-    await expect(this.locator.getByRole('radio', { name: classType, exact: true })).toHaveAttribute('data-state', 'on');
+    await expect(this.button(classType)).toHaveAttribute('data-state', 'on');
   }
 }

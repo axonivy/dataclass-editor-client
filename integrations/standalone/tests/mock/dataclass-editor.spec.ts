@@ -13,8 +13,17 @@ test('title', async () => {
 });
 
 test('headers', async () => {
+  await expect(editor.title).toHaveText('Data Editor');
+  await expect(editor.detail.title).toHaveText('Data - Interview');
+
+  await editor.detail.classType.button('Business Data').click();
   await expect(editor.title).toHaveText('Business Data Editor');
   await expect(editor.detail.title).toHaveText('Business Data - Interview');
+
+  await editor.detail.classType.button('Entity').click();
+  await expect(editor.title).toHaveText('Entity Editor');
+  await expect(editor.detail.title).toHaveText('Entity - Interview');
+
   await editor.table.row(0).locator.click();
   await expect(editor.detail.title).toHaveText('Attribute - firstName');
 });

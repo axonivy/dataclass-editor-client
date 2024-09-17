@@ -9,7 +9,7 @@ export class DataClassClientMock implements Client {
       namespace: 'workflow.businesscasedata',
       comment: 'Information about an interview.',
       annotations: ['@full.qualified.name.one(argument = "value")', '@full.qualified.name.two'],
-      isBusinessCaseData: true,
+      isBusinessCaseData: false,
       fields: [
         {
           name: 'firstName',

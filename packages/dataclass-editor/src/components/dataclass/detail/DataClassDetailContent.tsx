@@ -1,22 +1,45 @@
 import { BasicField, Button, Flex, Textarea, ToggleGroup, ToggleGroupItem } from '@axonivy/ui-components';
-import { useState } from 'react';
 import { useAppContext } from '../../../context/AppContext';
-import { classType as getClassType } from '../data/dataclass-utils';
+import type { DataClass } from '../data/dataclass';
+import { classType } from '../data/dataclass-utils';
 import './DetailContent.css';
 
 export const DataClassDetailContent = () => {
-  const { dataClass } = useAppContext();
+  const { dataClass, setDataClass } = useAppContext();
 
-  const initialClassType = getClassType(dataClass);
+  const initialClassType = classType(dataClass);
 
-  const [classType, setClassType] = useState(initialClassType);
+  const variant = (value: string) => (value === initialClassType ? 'primary' : undefined);
 
-  const variant = (value: string) => (value === classType ? 'primary' : undefined);
+  const handleClassTypeChange = (classType: string) => {
+    const newDataClass = structuredClone(dataClass);
+    switch (classType) {
+      case 'DATA':
+        newDataClass.isBusinessCaseData = false;
+        newDataClass.entity = undefined;
+        break;
+      case 'BUSINESS_DATA':
+        newDataClass.isBusinessCaseData = true;
+        newDataClass.entity = undefined;
+        break;
+      case 'ENTITY':
+        newDataClass.isBusinessCaseData = false;
+        newDataClass.entity = { tableName: '' };
+        break;
+    }
+    setDataClass(newDataClass);
+  };
+
+  const handleDataClassPropertyChange = <DKey extends keyof DataClass>(key: DKey, value: DataClass[DKey]) => {
+    const newDataClass = structuredClone(dataClass);
+    newDataClass[key] = value;
+    setDataClass(newDataClass);
+  };
 
   return (
     <Flex direction='column' gap={4} className='detail-content'>
       <BasicField label='Class type'>
-        <ToggleGroup type='single' className='class-type-group' value={classType} onValueChange={setClassType}>
+        <ToggleGroup type='single' className='class-type-group' value={initialClassType} onValueChange={handleClassTypeChange}>
           <ToggleGroupItem value='DATA' asChild>
             <Button variant={variant('DATA')} size='large'>
               Data
@@ -35,10 +58,13 @@ export const DataClassDetailContent = () => {
         </ToggleGroup>
       </BasicField>
       <BasicField label='Description'>
-        <Textarea value={dataClass.comment} />
+        <Textarea value={dataClass.comment} onChange={event => handleDataClassPropertyChange('comment', event.target.value)} />
       </BasicField>
       <BasicField label='Annotations'>
-        <Textarea value={dataClass.annotations.join('\n')} />
+        <Textarea
+          value={dataClass.annotations.join('\n')}
+          onChange={event => handleDataClassPropertyChange('annotations', event.target.value.split('\n'))}
+        />
       </BasicField>
     </Flex>
   );
