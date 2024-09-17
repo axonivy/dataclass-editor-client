@@ -73,4 +73,15 @@ export class Detail {
     await this.description.locator.fill(description);
     await this.annotations.locator.fill(annotations);
   }
+
+  async fillFieldValues(name: string, type: string, persistent: boolean, comment: string, annotations: string) {
+    await this.expectToBeField();
+    await this.name.locator.fill(name);
+    await this.type.locator.fill(type);
+    if (persistent !== (await this.persistent.isChecked())) {
+      await this.persistent.click();
+    }
+    await this.comment.locator.fill(comment);
+    await this.annotations.locator.fill(annotations);
+  }
 }
