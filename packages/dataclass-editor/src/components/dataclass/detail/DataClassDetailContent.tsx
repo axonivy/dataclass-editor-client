@@ -1,5 +1,6 @@
 import { BasicField, Button, Flex, Textarea, ToggleGroup, ToggleGroupItem } from '@axonivy/ui-components';
 import { useAppContext } from '../../../context/AppContext';
+import { removeEmptyStrings } from '../../../utils/array/array';
 import type { DataClass } from '../data/dataclass';
 import { classType } from '../data/dataclass-utils';
 import './DetailContent.css';
@@ -56,7 +57,7 @@ export const DataClassDetailContent = () => {
       <BasicField label='Annotations'>
         <Textarea
           value={dataClass.annotations.join('\n')}
-          onChange={event => handleDataClassPropertyChange('annotations', event.target.value.split('\n'))}
+          onChange={event => handleDataClassPropertyChange('annotations', removeEmptyStrings(event.target.value.split('\n')))}
         />
       </BasicField>
     </Flex>

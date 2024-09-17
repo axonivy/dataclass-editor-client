@@ -51,6 +51,13 @@ test('save data', async ({ page }) => {
   await editor.table.row(0).expectToHaveValues('newAttribute', 'String', '');
 
   await editor.table.row(0).locator.click();
+  await editor.detail.fillFieldValues('New Name', 'New Type', true, 'New Comment', 'New Annotations');
+
+  await editor.page.reload();
+
+  await editor.table.row(0).locator.click();
+  await editor.detail.expectToHaveFieldValues('New Name', 'New Type', true, 'New Comment', 'New Annotations');
+
   await editor.delete.locator.click();
 
   await editor.page.reload();
