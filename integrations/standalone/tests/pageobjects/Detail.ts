@@ -66,4 +66,11 @@ export class Detail {
     await expect(this.comment.locator).toHaveValue(comment);
     await expect(this.annotations.locator).toHaveValue(annotations);
   }
+
+  async fillDataClassValues(classType: string, description: string, annotations: string) {
+    await this.expectToBeDataClass();
+    await this.classType.button(classType).click();
+    await this.description.locator.fill(description);
+    await this.annotations.locator.fill(annotations);
+  }
 }

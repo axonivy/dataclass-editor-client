@@ -41,10 +41,12 @@ test('save data', async ({ page }) => {
   const editor = await DataClassEditor.openNewDataClass(page);
   await expect(editor.table.rows).toHaveCount(0);
 
+  await editor.detail.fillDataClassValues('Data', 'New Description', 'New Annotations');
   await editor.addField('newAttribute', 'String');
 
   await editor.page.reload();
 
+  await editor.detail.expectToHaveDataClassValues('Data', 'New Description', 'New Annotations');
   await expect(editor.table.rows).toHaveCount(1);
   await editor.table.row(0).expectToHaveValues('newAttribute', 'String', '');
 
