@@ -25,10 +25,6 @@ export class Detail {
     this.comment = new TextArea(this.locator, { label: 'Comment' });
   }
 
-  async expectTitle(title: string) {
-    await expect(this.title).toHaveText(title);
-  }
-
   async expectToBeDataClass() {
     await expect(this.classType.locator).not.toBeHidden();
     await expect(this.description.locator).not.toBeHidden();

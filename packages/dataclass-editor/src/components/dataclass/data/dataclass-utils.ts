@@ -1,7 +1,39 @@
 import type { DataClass } from './dataclass';
 
-export const isEntityClass = (dataClass: DataClass) => {
-  return !!dataClass.entity;
+export const classType = (dataClass: DataClass) => {
+  if (dataClass.entity) {
+    return 'ENTITY';
+  }
+  if (dataClass.isBusinessCaseData) {
+    return 'BUSINESS_DATA';
+  }
+  return 'DATA';
+};
+
+export const headerTitles = (dataClass: DataClass, selectedField?: number) => {
+  let baseTitle = '';
+  switch (classType(dataClass)) {
+    case 'DATA':
+      baseTitle = 'Data';
+      break;
+    case 'BUSINESS_DATA':
+      baseTitle = 'Business Data';
+      break;
+    case 'ENTITY':
+      baseTitle = 'Entity';
+  }
+  const masterTitle = `${baseTitle} Editor`;
+
+  const dataClassFields = dataClass.fields;
+
+  let detailTitle = '';
+  if (selectedField === undefined) {
+    detailTitle = `${baseTitle} - ${dataClass.simpleName}`;
+  } else if (selectedField < dataClassFields.length) {
+    const selectedDataClassField = dataClassFields[selectedField];
+    detailTitle = 'Attribute - ' + selectedDataClassField.name;
+  }
+  return { masterTitle, detailTitle };
 };
 
 export const className = (qualifiedName: string) => {

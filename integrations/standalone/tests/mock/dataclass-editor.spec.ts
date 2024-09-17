@@ -12,14 +12,16 @@ test('title', async () => {
   await expect(editor.page).toHaveTitle('Data Class Editor Mock');
 });
 
-test('detail data class', async () => {
-  await editor.detail.expectTitle('Data Class Editor');
-  await editor.detail.expectToBeDataClass();
+test('headers', async () => {
+  await expect(editor.title).toHaveText('Business Data Editor');
+  await expect(editor.detail.title).toHaveText('Business Data - Interview');
+  await editor.table.row(0).locator.click();
+  await expect(editor.detail.title).toHaveText('Attribute - firstName');
 });
 
-test('detail field', async () => {
+test('detail', async () => {
+  await editor.detail.expectToBeDataClass();
   await editor.table.row(0).locator.click();
-  await editor.detail.expectTitle('Attribute - firstName');
   await editor.detail.expectToBeField();
 });
 

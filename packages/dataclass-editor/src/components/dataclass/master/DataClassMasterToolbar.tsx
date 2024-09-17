@@ -27,7 +27,7 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
 
   return (
     <Toolbar className='master-toolbar'>
-      <ToolbarTitle>{title}</ToolbarTitle>
+      <ToolbarTitle className='master-header'>{title}</ToolbarTitle>
       <Flex gap={1}>
         {theme !== 'system' && (
           <Popover>
