@@ -3,7 +3,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import type { DataClass } from './components/dataclass/data/dataclass';
-import { classType } from './components/dataclass/data/dataclass-utils';
+import { headerTitles } from './components/dataclass/data/dataclass-utils';
 import { DataClassDetailContent } from './components/dataclass/detail/DataClassDetailContent';
 import { FieldDetailContent } from './components/dataclass/detail/FieldDetailContent';
 import { DataClassMasterContent } from './components/dataclass/master/DataClassMasterContent';
@@ -71,28 +71,7 @@ function DataClassEditor(props: EditorProps) {
   }
 
   const dataClass = data.data;
-  const dataClassFields = dataClass.fields;
-
-  let baseTitle = '';
-  switch (classType(dataClass)) {
-    case 'DATA':
-      baseTitle = 'Data';
-      break;
-    case 'BUSINESS_DATA':
-      baseTitle = 'Business Data';
-      break;
-    case 'ENTITY':
-      baseTitle = 'Entity';
-  }
-  const title = `${baseTitle} Editor`;
-
-  let detailTitle = '';
-  if (selectedField === undefined) {
-    detailTitle = `${baseTitle} - ${dataClass.simpleName}`;
-  } else if (selectedField < dataClassFields.length) {
-    const selectedDataClassField = dataClassFields[selectedField];
-    detailTitle = 'Attribute - ' + selectedDataClassField.name;
-  }
+  const { masterTitle, detailTitle } = headerTitles(dataClass, selectedField);
 
   return (
     <AppProvider
@@ -108,7 +87,7 @@ function DataClassEditor(props: EditorProps) {
       <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
         <ResizablePanel defaultSize={75} minSize={50} className='master-panel'>
           <Flex className='panel-content-container' direction='column'>
-            <DataClassMasterToolbar title={title} />
+            <DataClassMasterToolbar title={masterTitle} />
             <DataClassMasterContent />
           </Flex>
         </ResizablePanel>

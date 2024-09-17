@@ -7,14 +7,6 @@ test.beforeEach(async ({ page }) => {
   editor = await DataClassEditor.openDataClass(page, 'dataclasses/dataclass/DataClass.d.json');
 });
 
-test('master header', async () => {
-  await expect(editor.title).toHaveText('Business Data Editor');
-});
-
-test('detail header', async () => {
-  await expect(editor.detail.title).toHaveText('Business Data - DataClass');
-});
-
 test('load data', async () => {
   const table = editor.table;
   const detail = editor.detail;
