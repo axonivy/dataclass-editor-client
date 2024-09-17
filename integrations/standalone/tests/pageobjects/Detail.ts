@@ -79,7 +79,7 @@ export class Detail {
     await this.name.locator.fill(name);
     await this.type.locator.fill(type);
     if (persistent !== (await this.persistent.isChecked())) {
-      this.persistent.click();
+      await this.persistent.click();
     }
     await this.comment.locator.fill(comment);
     await this.annotations.locator.fill(annotations);
