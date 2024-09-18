@@ -4,10 +4,12 @@ import { expect } from '@playwright/test';
 export class Table {
   readonly page: Page;
   readonly rows: Locator;
+  readonly header: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.rows = this.page.locator('tbody tr');
+    this.header = this.page.locator('.ui-table-header');
   }
 
   row(index: number) {

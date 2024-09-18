@@ -16,11 +16,12 @@ test('headers', async () => {
   await expect(editor.title).toHaveText('Data Editor');
   await expect(editor.detail.title).toHaveText('Data - Interview');
 
-  await editor.detail.classType.button('Business Data').click();
+  await editor.detail.classTypeCollapsible.open();
+  await editor.detail.classTypeGroup.button('Business Data').click();
   await expect(editor.title).toHaveText('Business Data Editor');
   await expect(editor.detail.title).toHaveText('Business Data - Interview');
 
-  await editor.detail.classType.button('Entity').click();
+  await editor.detail.classTypeGroup.button('Entity').click();
   await expect(editor.title).toHaveText('Entity Editor');
   await expect(editor.detail.title).toHaveText('Entity - Interview');
 
@@ -32,6 +33,8 @@ test('detail', async () => {
   await editor.detail.expectToBeDataClass();
   await editor.table.row(0).locator.click();
   await editor.detail.expectToBeField();
+  await editor.table.header.click();
+  await editor.detail.expectToBeDataClass();
 });
 
 test('theme', async () => {
@@ -128,4 +131,22 @@ test('type', async () => {
   await expect(row.column(1).locator).toHaveText('Conversation');
   await row.locator.click();
   await expect(editor.detail.type.locator).toHaveValue('mock.Conversation');
+});
+
+test('collapsible state', async () => {
+  expect(await editor.detail.annotationsCollapsible.isOpen()).toBeTruthy();
+  expect(await editor.detail.classTypeCollapsible.isOpen()).toBeFalsy();
+
+  await editor.detail.annotationsText.locator.clear();
+
+  await editor.table.row(0).locator.click();
+  expect(await editor.detail.properties.isOpen()).toBeFalsy();
+  expect(await editor.detail.annotationsCollapsible.isOpen()).toBeFalsy();
+
+  await editor.table.row(1).locator.click();
+  expect(await editor.detail.properties.isOpen()).toBeFalsy();
+  expect(await editor.detail.annotationsCollapsible.isOpen()).toBeTruthy();
+
+  await editor.table.header.click();
+  expect(await editor.detail.annotationsCollapsible.isOpen()).toBeFalsy();
 });
