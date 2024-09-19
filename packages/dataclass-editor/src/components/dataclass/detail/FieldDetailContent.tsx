@@ -1,4 +1,13 @@
-import { BasicCheckbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input, Textarea } from '@axonivy/ui-components';
+import {
+  BasicCheckbox,
+  BasicField,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  Flex,
+  Input,
+  Textarea
+} from '@axonivy/ui-components';
 import { useAppContext } from '../../../context/AppContext';
 import { removeEmptyStrings } from '../../../utils/array/array';
 import type { DataClassField } from '../data/dataclass';
@@ -20,22 +29,20 @@ export const FieldDetailContent = () => {
 
   return (
     <Flex direction='column' gap={4} className='detail-content'>
-      <Collapsible key={`name-${field.name}`} defaultOpen={true}>
-        <CollapsibleTrigger>Name</CollapsibleTrigger>
+      <Collapsible key={`name-type-comment-${field.name}`} defaultOpen={true}>
+        <CollapsibleTrigger>Name / Type / Comment</CollapsibleTrigger>
         <CollapsibleContent>
-          <Input value={field.name} onChange={event => handleFieldPropertyChange('name', event.target.value)} />
-        </CollapsibleContent>
-      </Collapsible>
-      <Collapsible key={`type-${field.name}`} defaultOpen={true}>
-        <CollapsibleTrigger>Type</CollapsibleTrigger>
-        <CollapsibleContent>
-          <Input value={field.type} onChange={event => handleFieldPropertyChange('type', event.target.value)} />
-        </CollapsibleContent>
-      </Collapsible>
-      <Collapsible key={`comment-${field.name}`} defaultOpen={field.comment !== ''}>
-        <CollapsibleTrigger>Comment</CollapsibleTrigger>
-        <CollapsibleContent>
-          <Textarea value={field.comment} onChange={event => handleFieldPropertyChange('comment', event.target.value)} />
+          <Flex direction='column' gap={4}>
+            <BasicField label='Name'>
+              <Input value={field.name} onChange={event => handleFieldPropertyChange('name', event.target.value)} />
+            </BasicField>
+            <BasicField label='Type'>
+              <Input value={field.type} onChange={event => handleFieldPropertyChange('type', event.target.value)} />
+            </BasicField>
+            <BasicField label='Comment'>
+              <Textarea value={field.comment} onChange={event => handleFieldPropertyChange('comment', event.target.value)} />
+            </BasicField>
+          </Flex>
         </CollapsibleContent>
       </Collapsible>
       <Collapsible key={`modifiers-${field.name}`} defaultOpen={false}>

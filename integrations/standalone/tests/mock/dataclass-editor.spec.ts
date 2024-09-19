@@ -134,31 +134,24 @@ test('type', async () => {
 });
 
 test('collapsible state', async () => {
-  expect(await editor.detail.nameCollapsible.isOpen()).toBeTruthy();
-  expect(await editor.detail.descriptionCollapsible.isOpen()).toBeTruthy();
+  expect(await editor.detail.nameDescriptionCollapsible.isOpen()).toBeTruthy();
   expect(await editor.detail.annotationsCollapsible.isOpen()).toBeTruthy();
   expect(await editor.detail.classTypeCollapsible.isOpen()).toBeFalsy();
 
   await editor.detail.fillDataClassValues('Business Data', '', '');
 
   await editor.table.row(0).locator.click();
-  expect(await editor.detail.nameCollapsible.isOpen()).toBeTruthy();
-  expect(await editor.detail.typeCollapsible.isOpen()).toBeTruthy();
-  expect(await editor.detail.commentCollapsible.isOpen()).toBeTruthy();
+  expect(await editor.detail.nameTypeCommentCollapsible.isOpen()).toBeTruthy();
   expect(await editor.detail.properties.isOpen()).toBeFalsy();
   expect(await editor.detail.annotationsCollapsible.isOpen()).toBeFalsy();
 
   await editor.table.row(1).locator.click();
   expect(await editor.detail.annotationsCollapsible.isOpen()).toBeTruthy();
 
-  await editor.table.row(2).locator.click();
-  expect(await editor.detail.commentCollapsible.isOpen()).toBeFalsy();
-
   await editor.table.row(3).locator.click();
   expect(await editor.detail.properties.isOpen()).toBeFalsy();
 
   await editor.table.header.click();
-  expect(await editor.detail.descriptionCollapsible.isOpen()).toBeFalsy();
   expect(await editor.detail.annotationsCollapsible.isOpen()).toBeFalsy();
   expect(await editor.detail.classTypeCollapsible.isOpen()).toBeFalsy();
 });

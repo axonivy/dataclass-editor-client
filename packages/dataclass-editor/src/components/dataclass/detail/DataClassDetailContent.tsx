@@ -1,4 +1,5 @@
 import {
+  BasicField,
   Button,
   Collapsible,
   CollapsibleContent,
@@ -43,15 +44,16 @@ export const DataClassDetailContent = () => {
   return (
     <Flex direction='column' gap={4} className='detail-content'>
       <Collapsible defaultOpen={true}>
-        <CollapsibleTrigger>Name</CollapsibleTrigger>
+        <CollapsibleTrigger>Name / Description</CollapsibleTrigger>
         <CollapsibleContent>
-          <Input value={dataClass.simpleName} disabled={true} />
-        </CollapsibleContent>
-      </Collapsible>
-      <Collapsible defaultOpen={dataClass.comment !== ''}>
-        <CollapsibleTrigger>Description</CollapsibleTrigger>
-        <CollapsibleContent>
-          <Textarea value={dataClass.comment} onChange={event => handleDataClassPropertyChange('comment', event.target.value)} />
+          <Flex direction='column' gap={4}>
+            <BasicField label='Name'>
+              <Input value={dataClass.simpleName} disabled={true} />
+            </BasicField>
+            <BasicField label='Description'>
+              <Textarea value={dataClass.comment} onChange={event => handleDataClassPropertyChange('comment', event.target.value)} />
+            </BasicField>
+          </Flex>
         </CollapsibleContent>
       </Collapsible>
       <Collapsible defaultOpen={dataClass.annotations.length !== 0}>
