@@ -102,7 +102,7 @@ test.describe('delete field', async () => {
     const row = editor.table.row(1);
     await row.expectToHaveValues('date', 'Date', '');
     await row.expectToBeSelected();
-    await editor.detail.expectToHaveFieldValues('date', 'Date', true, '', '');
+    await editor.detail.expectToHaveFieldValues('date', 'Date', '', true, '');
   });
 
   test('delete last field', async () => {
@@ -110,7 +110,7 @@ test.describe('delete field', async () => {
     await expect(editor.table.rows).toHaveCount(3);
 
     await editor.table.row(2).expectToBeSelected();
-    await editor.detail.expectToHaveFieldValues('date', 'Date', true, '', '');
+    await editor.detail.expectToHaveFieldValues('date', 'Date', '', true, '');
   });
 
   test('delete last remaining field', async () => {
@@ -138,7 +138,7 @@ test('collapsible state', async () => {
   expect(await editor.detail.annotationsCollapsible.isOpen()).toBeTruthy();
   expect(await editor.detail.classTypeCollapsible.isOpen()).toBeFalsy();
 
-  await editor.detail.fillDataClassValues('Business Data', '', '');
+  await editor.detail.fillDataClassValues('', '', 'Business Data');
 
   await editor.table.row(0).locator.click();
   expect(await editor.detail.nameTypeCommentCollapsible.isOpen()).toBeTruthy();
