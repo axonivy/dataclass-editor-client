@@ -16,11 +16,12 @@ test('headers', async () => {
   await expect(editor.title).toHaveText('Data Editor');
   await expect(editor.detail.title).toHaveText('Data - Interview');
 
-  await editor.detail.classType.button('Business Data').click();
+  await editor.detail.classTypeCollapsible.open();
+  await editor.detail.classTypeGroup.button('Business Data').click();
   await expect(editor.title).toHaveText('Business Data Editor');
   await expect(editor.detail.title).toHaveText('Business Data - Interview');
 
-  await editor.detail.classType.button('Entity').click();
+  await editor.detail.classTypeGroup.button('Entity').click();
   await expect(editor.title).toHaveText('Entity Editor');
   await expect(editor.detail.title).toHaveText('Entity - Interview');
 
@@ -32,6 +33,8 @@ test('detail', async () => {
   await editor.detail.expectToBeDataClass();
   await editor.table.row(0).locator.click();
   await editor.detail.expectToBeField();
+  await editor.table.header.click();
+  await editor.detail.expectToBeDataClass();
 });
 
 test('theme', async () => {
@@ -97,9 +100,9 @@ test.describe('delete field', async () => {
     await expect(editor.table.rows).toHaveCount(3);
 
     const row = editor.table.row(1);
-    await row.expectToHaveValues('date', 'Date', 'The date of the interview.');
+    await row.expectToHaveValues('date', 'Date', '');
     await row.expectToBeSelected();
-    await editor.detail.expectToHaveFieldValues('date', 'Date', true, 'The date of the interview.', '');
+    await editor.detail.expectToHaveFieldValues('date', 'Date', true, '', '');
   });
 
   test('delete last field', async () => {
@@ -107,7 +110,7 @@ test.describe('delete field', async () => {
     await expect(editor.table.rows).toHaveCount(3);
 
     await editor.table.row(2).expectToBeSelected();
-    await editor.detail.expectToHaveFieldValues('date', 'Date', true, 'The date of the interview.', '');
+    await editor.detail.expectToHaveFieldValues('date', 'Date', true, '', '');
   });
 
   test('delete last remaining field', async () => {
@@ -127,5 +130,35 @@ test('type', async () => {
   const row = editor.table.row(3);
   await expect(row.column(1).locator).toHaveText('Conversation');
   await row.locator.click();
-  await expect(editor.detail.type.locator).toHaveValue('mock.Conversation');
+  await expect(editor.detail.typeText.locator).toHaveValue('mock.Conversation');
+});
+
+test('collapsible state', async () => {
+  expect(await editor.detail.nameCollapsible.isOpen()).toBeTruthy();
+  expect(await editor.detail.descriptionCollapsible.isOpen()).toBeTruthy();
+  expect(await editor.detail.annotationsCollapsible.isOpen()).toBeTruthy();
+  expect(await editor.detail.classTypeCollapsible.isOpen()).toBeFalsy();
+
+  await editor.detail.fillDataClassValues('Business Data', '', '');
+
+  await editor.table.row(0).locator.click();
+  expect(await editor.detail.nameCollapsible.isOpen()).toBeTruthy();
+  expect(await editor.detail.typeCollapsible.isOpen()).toBeTruthy();
+  expect(await editor.detail.commentCollapsible.isOpen()).toBeTruthy();
+  expect(await editor.detail.properties.isOpen()).toBeFalsy();
+  expect(await editor.detail.annotationsCollapsible.isOpen()).toBeFalsy();
+
+  await editor.table.row(1).locator.click();
+  expect(await editor.detail.annotationsCollapsible.isOpen()).toBeTruthy();
+
+  await editor.table.row(2).locator.click();
+  expect(await editor.detail.commentCollapsible.isOpen()).toBeFalsy();
+
+  await editor.table.row(3).locator.click();
+  expect(await editor.detail.properties.isOpen()).toBeFalsy();
+
+  await editor.table.header.click();
+  expect(await editor.detail.descriptionCollapsible.isOpen()).toBeFalsy();
+  expect(await editor.detail.annotationsCollapsible.isOpen()).toBeFalsy();
+  expect(await editor.detail.classTypeCollapsible.isOpen()).toBeFalsy();
 });

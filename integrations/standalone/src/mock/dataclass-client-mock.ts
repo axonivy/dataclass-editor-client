@@ -32,7 +32,7 @@ export class DataClassClientMock implements Client {
           name: 'date',
           type: 'Date',
           modifiers: ['PERSISTENT'],
-          comment: 'The date of the interview.',
+          comment: '',
           annotations: []
         },
         {

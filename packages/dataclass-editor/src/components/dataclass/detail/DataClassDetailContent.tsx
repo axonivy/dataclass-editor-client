@@ -1,4 +1,14 @@
-import { BasicField, Button, Flex, Textarea, ToggleGroup, ToggleGroupItem } from '@axonivy/ui-components';
+import {
+  Button,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  Flex,
+  Input,
+  Textarea,
+  ToggleGroup,
+  ToggleGroupItem
+} from '@axonivy/ui-components';
 import { useAppContext } from '../../../context/AppContext';
 import { removeEmptyStrings } from '../../../utils/array/array';
 import type { DataClass } from '../data/dataclass';
@@ -32,34 +42,55 @@ export const DataClassDetailContent = () => {
 
   return (
     <Flex direction='column' gap={4} className='detail-content'>
-      <BasicField label='Class type'>
-        <ToggleGroup type='single' className='class-type-group' value={initialClassType} onValueChange={handleClassTypeChange}>
-          <ToggleGroupItem value='DATA' asChild>
-            <Button variant={variant('DATA')} size='large'>
-              Data
-            </Button>
-          </ToggleGroupItem>
-          <ToggleGroupItem value='BUSINESS_DATA' asChild>
-            <Button variant={variant('BUSINESS_DATA')} size='large'>
-              Business Data
-            </Button>
-          </ToggleGroupItem>
-          <ToggleGroupItem value='ENTITY' asChild>
-            <Button variant={variant('ENTITY')} size='large'>
-              Entity
-            </Button>
-          </ToggleGroupItem>
-        </ToggleGroup>
-      </BasicField>
-      <BasicField label='Description'>
-        <Textarea value={dataClass.comment} onChange={event => handleDataClassPropertyChange('comment', event.target.value)} />
-      </BasicField>
-      <BasicField label='Annotations'>
-        <Textarea
-          value={dataClass.annotations.join('\n')}
-          onChange={event => handleDataClassPropertyChange('annotations', removeEmptyStrings(event.target.value.split('\n')))}
-        />
-      </BasicField>
+      <Collapsible defaultOpen={true}>
+        <CollapsibleTrigger>Name</CollapsibleTrigger>
+        <CollapsibleContent>
+          <Input value={dataClass.simpleName} disabled={true} />
+        </CollapsibleContent>
+      </Collapsible>
+      <Collapsible defaultOpen={dataClass.comment !== ''}>
+        <CollapsibleTrigger>Description</CollapsibleTrigger>
+        <CollapsibleContent>
+          <Textarea value={dataClass.comment} onChange={event => handleDataClassPropertyChange('comment', event.target.value)} />
+        </CollapsibleContent>
+      </Collapsible>
+      <Collapsible defaultOpen={dataClass.annotations.length !== 0}>
+        <CollapsibleTrigger>Annotations</CollapsibleTrigger>
+        <CollapsibleContent>
+          <Textarea
+            value={dataClass.annotations.join('\n')}
+            onChange={event => handleDataClassPropertyChange('annotations', removeEmptyStrings(event.target.value.split('\n')))}
+          />
+        </CollapsibleContent>
+      </Collapsible>
+      <Collapsible>
+        <CollapsibleTrigger>Class type</CollapsibleTrigger>
+        <CollapsibleContent>
+          <ToggleGroup
+            type='single'
+            className='class-type-group'
+            value={initialClassType}
+            onValueChange={handleClassTypeChange}
+            style={{ display: 'flex' }}
+          >
+            <ToggleGroupItem value='DATA' asChild>
+              <Button variant={variant('DATA')} size='large'>
+                Data
+              </Button>
+            </ToggleGroupItem>
+            <ToggleGroupItem value='BUSINESS_DATA' asChild>
+              <Button variant={variant('BUSINESS_DATA')} size='large'>
+                Business Data
+              </Button>
+            </ToggleGroupItem>
+            <ToggleGroupItem value='ENTITY' asChild>
+              <Button variant={variant('ENTITY')} size='large'>
+                Entity
+              </Button>
+            </ToggleGroupItem>
+          </ToggleGroup>
+        </CollapsibleContent>
+      </Collapsible>
     </Flex>
   );
 };

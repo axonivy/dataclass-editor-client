@@ -11,7 +11,7 @@ test('load data', async () => {
   const table = editor.table;
   const detail = editor.detail;
 
-  await detail.expectToHaveDataClassValues('Business Data', 'DataClass comment', '@javax.persistence.Table(name="tableName")');
+  await detail.expectToHaveDataClassValues('DataClass', 'Business Data', 'DataClass comment', '@javax.persistence.Table(name="tableName")');
 
   await expect(table.rows).toHaveCount(3);
 
@@ -38,7 +38,7 @@ test('load data', async () => {
 });
 
 test('save data', async ({ page }) => {
-  const editor = await DataClassEditor.openNewDataClass(page);
+  const { editor, name } = await DataClassEditor.openNewDataClass(page);
   await expect(editor.table.rows).toHaveCount(0);
 
   await editor.detail.fillDataClassValues('Data', 'New Description', 'New Annotations');
@@ -46,7 +46,7 @@ test('save data', async ({ page }) => {
 
   await editor.page.reload();
 
-  await editor.detail.expectToHaveDataClassValues('Data', 'New Description', 'New Annotations');
+  await editor.detail.expectToHaveDataClassValues(name, 'Data', 'New Description', 'New Annotations');
   await expect(editor.table.rows).toHaveCount(1);
   await editor.table.row(0).expectToHaveValues('newAttribute', 'String', '');
 
