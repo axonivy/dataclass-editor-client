@@ -11,9 +11,9 @@ import {
   ToggleGroupItem
 } from '@axonivy/ui-components';
 import { useAppContext } from '../../../context/AppContext';
-import { removeEmptyStrings } from '../../../utils/array/array';
 import type { DataClass } from '../data/dataclass';
 import { classType } from '../data/dataclass-utils';
+import { AnnotationsTable } from './AnnotationsTable';
 import './DetailContent.css';
 
 export const DataClassDetailContent = () => {
@@ -56,15 +56,10 @@ export const DataClassDetailContent = () => {
           </Flex>
         </CollapsibleContent>
       </Collapsible>
-      <Collapsible defaultOpen={dataClass.annotations.length !== 0}>
-        <CollapsibleTrigger>Annotations</CollapsibleTrigger>
-        <CollapsibleContent>
-          <Textarea
-            value={dataClass.annotations.join('\n')}
-            onChange={event => handleDataClassPropertyChange('annotations', removeEmptyStrings(event.target.value.split('\n')))}
-          />
-        </CollapsibleContent>
-      </Collapsible>
+      <AnnotationsTable
+        annotations={dataClass.annotations}
+        setAnnotations={(annotations: Array<string>) => handleDataClassPropertyChange('annotations', annotations)}
+      />
       <Collapsible>
         <CollapsibleTrigger>Class type</CollapsibleTrigger>
         <CollapsibleContent>

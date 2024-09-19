@@ -9,8 +9,8 @@ import {
   Textarea
 } from '@axonivy/ui-components';
 import { useAppContext } from '../../../context/AppContext';
-import { removeEmptyStrings } from '../../../utils/array/array';
 import type { DataClassField } from '../data/dataclass';
+import { AnnotationsTable } from './AnnotationsTable';
 import './DetailContent.css';
 
 export const FieldDetailContent = () => {
@@ -63,15 +63,10 @@ export const FieldDetailContent = () => {
           />
         </CollapsibleContent>
       </Collapsible>
-      <Collapsible defaultOpen={field.annotations.length !== 0}>
-        <CollapsibleTrigger>Annotations</CollapsibleTrigger>
-        <CollapsibleContent>
-          <Textarea
-            value={field.annotations.join('\n')}
-            onChange={event => handleFieldPropertyChange('annotations', removeEmptyStrings(event.target.value.split('\n')))}
-          />
-        </CollapsibleContent>
-      </Collapsible>
+      <AnnotationsTable
+        annotations={field.annotations}
+        setAnnotations={(annotations: Array<string>) => handleFieldPropertyChange('annotations', annotations)}
+      />
     </Flex>
   );
 };

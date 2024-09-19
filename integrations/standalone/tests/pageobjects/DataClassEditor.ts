@@ -26,12 +26,12 @@ export class DataClassEditor {
     this.page = page;
     this.title = this.page.locator('.master-header');
     this.detailPanel = this.page.locator('.detail-panel');
-    this.detailToggle = new Button(this.page, { name: 'Details toggle' });
+    this.detailToggle = new Button(this.page.locator('.master-toolbar'), { name: 'Details toggle' });
     this.detail = new Detail(this.page);
     this.settings = new Settings(this.page);
-    this.table = new Table(page);
-    this.add = new AddFieldDialog(page);
-    this.delete = new Button(page, { name: 'Delete field' });
+    this.table = new Table(this.page.locator('.master-content'));
+    this.add = new AddFieldDialog(this.page);
+    this.delete = new Button(this.page.locator('.master-content'), { name: 'Delete field' });
   }
 
   static async openDataClass(page: Page, file: string) {
