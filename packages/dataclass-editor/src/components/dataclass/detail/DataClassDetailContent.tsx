@@ -1,10 +1,10 @@
 import {
-  BasicField,
   Button,
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
   Flex,
+  Input,
   Textarea,
   ToggleGroup,
   ToggleGroupItem
@@ -42,9 +42,18 @@ export const DataClassDetailContent = () => {
 
   return (
     <Flex direction='column' gap={4} className='detail-content'>
-      <BasicField label='Description'>
-        <Textarea value={dataClass.comment} onChange={event => handleDataClassPropertyChange('comment', event.target.value)} />
-      </BasicField>
+      <Collapsible defaultOpen={true}>
+        <CollapsibleTrigger>Name</CollapsibleTrigger>
+        <CollapsibleContent>
+          <Input value={dataClass.simpleName} disabled={true} />
+        </CollapsibleContent>
+      </Collapsible>
+      <Collapsible defaultOpen={dataClass.comment !== ''}>
+        <CollapsibleTrigger>Description</CollapsibleTrigger>
+        <CollapsibleContent>
+          <Textarea value={dataClass.comment} onChange={event => handleDataClassPropertyChange('comment', event.target.value)} />
+        </CollapsibleContent>
+      </Collapsible>
       <Collapsible defaultOpen={dataClass.annotations.length !== 0}>
         <CollapsibleTrigger>Annotations</CollapsibleTrigger>
         <CollapsibleContent>

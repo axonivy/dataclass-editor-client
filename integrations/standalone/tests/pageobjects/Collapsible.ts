@@ -6,7 +6,7 @@ export class Collapsible {
   constructor(page: Page, parentLocator: Locator, options?: { label?: string; nth?: number }) {
     if (options?.label) {
       this.locator = parentLocator.locator('.ui-collapsible').filter({
-        has: page.locator(`button:has-text("${options.label}")`)
+        has: page.locator('button').getByText(options.label, { exact: true })
       });
     } else {
       this.locator = parentLocator.locator('.ui-collapsible').nth(options?.nth ?? 0);

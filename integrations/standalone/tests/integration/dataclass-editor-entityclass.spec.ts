@@ -11,7 +11,7 @@ test('load data', async () => {
   const table = editor.table;
   const detail = editor.detail;
 
-  await detail.expectToHaveDataClassValues('Entity', 'EntityClass comment', '');
+  await detail.expectToHaveDataClassValues('EntityClass', 'Entity', 'EntityClass comment', '');
 
   await expect(table.rows).toHaveCount(1);
 

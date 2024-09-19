@@ -11,7 +11,7 @@ test('load data', async () => {
   const table = editor.table;
   const detail = editor.detail;
 
-  await detail.expectToHaveDataClassValues('Data', '', '');
+  await detail.expectToHaveDataClassValues('Data', 'Data', '', '');
 
   await expect(table.rows).toHaveCount(0);
 });
