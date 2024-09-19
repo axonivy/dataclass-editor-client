@@ -69,6 +69,9 @@ function DataClassEditor(props: EditorProps) {
   if (isError) {
     return <PanelMessage icon={IvyIcons.ErrorXMark} message={`An error has occurred: ${error.message}`} />;
   }
+  if (data.data.simpleName === undefined) {
+    return <PanelMessage icon={IvyIcons.ErrorXMark} message={'Dataclass not found'} />;
+  }
 
   const dataClass = data.data;
   const { masterTitle, detailTitle } = headerTitles(dataClass, selectedField);
