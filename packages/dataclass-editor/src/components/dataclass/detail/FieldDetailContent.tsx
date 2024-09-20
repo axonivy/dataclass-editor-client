@@ -1,11 +1,11 @@
 import {
   BasicCheckbox,
   BasicField,
+  BasicInput,
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
   Flex,
-  Input,
   Textarea
 } from '@axonivy/ui-components';
 import { useAppContext } from '../../../context/AppContext';
@@ -29,15 +29,15 @@ export const FieldDetailContent = () => {
 
   return (
     <Flex direction='column' gap={4} className='detail-content'>
-      <Collapsible key={`name-type-comment-${field.name}`} defaultOpen={true}>
+      <Collapsible defaultOpen={true}>
         <CollapsibleTrigger>Name / Type / Comment</CollapsibleTrigger>
         <CollapsibleContent>
           <Flex direction='column' gap={4}>
             <BasicField label='Name'>
-              <Input value={field.name} onChange={event => handleFieldPropertyChange('name', event.target.value)} />
+              <BasicInput value={field.name} onChange={event => handleFieldPropertyChange('name', event.target.value)} />
             </BasicField>
             <BasicField label='Type'>
-              <Input value={field.type} onChange={event => handleFieldPropertyChange('type', event.target.value)} />
+              <BasicInput value={field.type} onChange={event => handleFieldPropertyChange('type', event.target.value)} />
             </BasicField>
             <BasicField label='Comment'>
               <Textarea value={field.comment} onChange={event => handleFieldPropertyChange('comment', event.target.value)} />
@@ -45,7 +45,7 @@ export const FieldDetailContent = () => {
           </Flex>
         </CollapsibleContent>
       </Collapsible>
-      <Collapsible key={`modifiers-${field.name}`} defaultOpen={false}>
+      <Collapsible defaultOpen={false}>
         <CollapsibleTrigger>Properties</CollapsibleTrigger>
         <CollapsibleContent>
           <BasicCheckbox
@@ -63,7 +63,7 @@ export const FieldDetailContent = () => {
           />
         </CollapsibleContent>
       </Collapsible>
-      <Collapsible key={`annotations-${field.name}`} defaultOpen={field.annotations.length !== 0}>
+      <Collapsible defaultOpen={field.annotations.length !== 0}>
         <CollapsibleTrigger>Annotations</CollapsibleTrigger>
         <CollapsibleContent>
           <Textarea
