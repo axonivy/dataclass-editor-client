@@ -1,6 +1,6 @@
 import type { DataClass } from './dataclass';
 
-export const classType = (dataClass: DataClass) => {
+export const classTypeOf = (dataClass: DataClass) => {
   if (dataClass.entity) {
     return 'ENTITY';
   }
@@ -12,7 +12,7 @@ export const classType = (dataClass: DataClass) => {
 
 export const headerTitles = (dataClass: DataClass, selectedField?: number) => {
   let baseTitle = '';
-  switch (classType(dataClass)) {
+  switch (classTypeOf(dataClass)) {
     case 'DATA':
       baseTitle = 'Data';
       break;
