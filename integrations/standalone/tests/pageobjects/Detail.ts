@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { Annotations } from './Annotations';
 import { ClassType } from './ClassType';
 import { Collapsible } from './Collapsible';
 import { TextArea } from './TextArea';
@@ -9,8 +10,7 @@ export class Detail {
   readonly nameDescriptionCollapsible: Collapsible;
   readonly nameText: TextArea;
   readonly descriptionText: TextArea;
-  readonly annotationsCollapsible: Collapsible;
-  readonly annotationsText: TextArea;
+  readonly annotations: Annotations;
   readonly classTypeCollapsible: Collapsible;
   readonly classTypeGroup: ClassType;
   readonly nameTypeCommentCollapsible: Collapsible;
@@ -26,8 +26,7 @@ export class Detail {
     this.classTypeGroup = new ClassType(this.classTypeCollapsible.locator);
     this.nameDescriptionCollapsible = new Collapsible(page, this.locator, { label: 'Name / Description' });
     this.descriptionText = new TextArea(this.locator, { label: 'Description' });
-    this.annotationsCollapsible = new Collapsible(page, this.locator, { label: 'Annotations' });
-    this.annotationsText = new TextArea(this.annotationsCollapsible.locator);
+    this.annotations = new Annotations(page, this.locator);
     this.nameText = new TextArea(this.locator, { label: 'Name' });
     this.nameTypeCommentCollapsible = new Collapsible(page, this.locator, { label: 'Name / Type / Comment' });
     this.typeText = new TextArea(this.locator, { label: 'Type' });
@@ -40,7 +39,7 @@ export class Detail {
     await expect(this.nameDescriptionCollapsible.locator).toBeVisible();
     await this.nameDescriptionCollapsible.open();
     await expect(this.nameText.locator).toBeDisabled();
-    await expect(this.annotationsCollapsible.locator).toBeVisible();
+    await expect(this.annotations.collapsible.locator).toBeVisible();
     await expect(this.classTypeCollapsible.locator).toBeVisible();
 
     await expect(this.nameTypeCommentCollapsible.locator).toBeHidden();
@@ -50,24 +49,23 @@ export class Detail {
   async expectToBeField() {
     await expect(this.nameTypeCommentCollapsible.locator).toBeVisible();
     await expect(this.properties.locator).toBeVisible();
-    await expect(this.annotationsCollapsible.locator).toBeVisible();
+    await expect(this.annotations.collapsible.locator).toBeVisible();
 
     await expect(this.nameDescriptionCollapsible.locator).toBeHidden();
     await expect(this.classTypeCollapsible.locator).toBeHidden();
   }
 
-  async expectToHaveDataClassValues(name: string, description: string, annotations: string, classType: string) {
+  async expectToHaveDataClassValues(name: string, description: string, annotations: Array<string>, classType: string) {
     await this.expectToBeDataClass();
     await this.nameDescriptionCollapsible.open();
     await expect(this.nameText.locator).toHaveValue(name);
     await expect(this.descriptionText.locator).toHaveValue(description);
-    await this.annotationsCollapsible.open();
-    await expect(this.annotationsText.locator).toHaveValue(annotations);
+    await this.annotations.expectToHaveValues(...annotations);
     await this.classTypeCollapsible.open();
     await this.classTypeGroup.expectToHaveValue(classType);
   }
 
-  async expectToHaveFieldValues(name: string, type: string, comment: string, persistent: boolean, annotations: string) {
+  async expectToHaveFieldValues(name: string, type: string, comment: string, persistent: boolean, annotations: Array<string>) {
     await this.expectToBeField();
     await this.nameTypeCommentCollapsible.open();
     await expect(this.nameText.locator).toHaveValue(name);
@@ -79,21 +77,19 @@ export class Detail {
     } else {
       await expect(this.persistent).not.toBeChecked();
     }
-    await this.annotationsCollapsible.open();
-    await expect(this.annotationsText.locator).toHaveValue(annotations);
+    await this.annotations.expectToHaveValues(...annotations);
   }
 
-  async fillDataClassValues(description: string, annotations: string, classType: string) {
+  async fillDataClassValues(description: string, annotations: Array<string>, classType: string) {
     await this.expectToBeDataClass();
     await this.nameDescriptionCollapsible.open();
     await this.descriptionText.locator.fill(description);
-    await this.annotationsCollapsible.open();
-    await this.annotationsText.locator.fill(annotations);
+    await this.annotations.fillValues(annotations);
     await this.classTypeCollapsible.open();
     await this.classTypeGroup.button(classType).click();
   }
 
-  async fillFieldValues(name: string, type: string, comment: string, persistent: boolean, annotations: string) {
+  async fillFieldValues(name: string, type: string, comment: string, persistent: boolean, annotations: Array<string>) {
     await this.expectToBeField();
     await this.nameTypeCommentCollapsible.open();
     await this.nameText.locator.fill(name);
@@ -103,7 +99,6 @@ export class Detail {
     if (persistent !== (await this.persistent.isChecked())) {
       await this.persistent.click();
     }
-    await this.annotationsCollapsible.open();
-    await this.annotationsText.locator.fill(annotations);
+    await this.annotations.fillValues(annotations);
   }
 }

@@ -7,7 +7,7 @@ export class Settings {
   readonly theme: Theme;
 
   constructor(page: Page) {
-    this.button = new Button(page, { name: 'Settings' });
+    this.button = new Button(page.locator('.master-toolbar'), { name: 'Settings' });
     this.theme = new Theme(page);
   }
 }

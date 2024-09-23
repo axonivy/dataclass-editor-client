@@ -89,7 +89,7 @@ function DataClassEditor(props: EditorProps) {
     >
       <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
         <ResizablePanel defaultSize={75} minSize={50} className='master-panel'>
-          <Flex className='panel-content-container' direction='column'>
+          <Flex className='panel-content-container master-container' direction='column'>
             <DataClassMasterToolbar title={masterTitle} />
             <DataClassMasterContent />
           </Flex>

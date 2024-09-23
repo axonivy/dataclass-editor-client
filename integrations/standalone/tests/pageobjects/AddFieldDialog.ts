@@ -14,12 +14,12 @@ export class AddFieldDialog {
 
   constructor(page: Page) {
     this.locator = page.getByRole('dialog', { name: 'New Attribute' });
-    this.open = new Button(page, { name: 'Add field' });
+    this.open = new Button(page.locator('.master-content'), { name: 'Add field' });
     this.name = new TextArea(this.locator, { label: 'Name' });
     this.nameMessage = new FieldMessage(this.locator, { label: 'Name' });
     this.type = new TextArea(this.locator, { label: 'Type' });
     this.typeMessage = new FieldMessage(this.locator, { label: 'Type' });
-    this.create = new Button(page, { name: 'Create field' });
+    this.create = new Button(this.locator, { name: 'Create field' });
   }
 
   async expectToHaveValues(name: string, type: string) {
