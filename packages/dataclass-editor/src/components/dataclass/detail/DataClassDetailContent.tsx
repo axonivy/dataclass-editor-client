@@ -1,14 +1,12 @@
 import {
   BasicField,
-  Button,
+  BasicSelect,
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
   Flex,
   Input,
-  Textarea,
-  ToggleGroup,
-  ToggleGroupItem
+  Textarea
 } from '@axonivy/ui-components';
 import { useAppContext } from '../../../context/AppContext';
 import type { DataClass } from '../data/dataclass';
@@ -20,8 +18,6 @@ export const DataClassDetailContent = () => {
   const { dataClass, setDataClass } = useAppContext();
 
   const initialClassType = classType(dataClass);
-
-  const variant = (value: string) => (value === initialClassType ? 'primary' : undefined);
 
   const handleClassTypeChange = (classType: string) => {
     const newDataClass = structuredClone(dataClass);
@@ -63,29 +59,15 @@ export const DataClassDetailContent = () => {
       <Collapsible>
         <CollapsibleTrigger>Class type</CollapsibleTrigger>
         <CollapsibleContent>
-          <ToggleGroup
-            type='single'
-            className='class-type-group'
+          <BasicSelect
             value={initialClassType}
+            items={[
+              { value: 'DATA', label: 'Data' },
+              { value: 'BUSINESS_DATA', label: 'Business Data' },
+              { value: 'ENTITY', label: 'Entity' }
+            ]}
             onValueChange={handleClassTypeChange}
-            style={{ display: 'flex' }}
-          >
-            <ToggleGroupItem value='DATA' asChild>
-              <Button variant={variant('DATA')} size='large'>
-                Data
-              </Button>
-            </ToggleGroupItem>
-            <ToggleGroupItem value='BUSINESS_DATA' asChild>
-              <Button variant={variant('BUSINESS_DATA')} size='large'>
-                Business Data
-              </Button>
-            </ToggleGroupItem>
-            <ToggleGroupItem value='ENTITY' asChild>
-              <Button variant={variant('ENTITY')} size='large'>
-                Entity
-              </Button>
-            </ToggleGroupItem>
-          </ToggleGroup>
+          />
         </CollapsibleContent>
       </Collapsible>
     </Flex>
