@@ -1,4 +1,4 @@
-import type { Locator } from '@playwright/test';
+import { expect, type Locator } from '@playwright/test';
 
 export class TextArea {
   readonly locator: Locator;
@@ -9,5 +9,9 @@ export class TextArea {
     } else {
       this.locator = parentLocator.getByRole('textbox').nth(options?.nth ?? 0);
     }
+  }
+
+  async expectToHavePlaceholder(palceholder: string) {
+    await expect(this.locator).toHaveAttribute('placeholder', palceholder);
   }
 }

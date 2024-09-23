@@ -43,4 +43,8 @@ export type DataClassFieldModifier =
 
 export type DataClassFieldEntityAssociation = 'ONE_TO_ONE' | 'ONE_TO_MANY' | 'MANY_TO_ONE';
 
-export type DataClassFieldEntityCascadeType = 'ALL' | 'PERSIST' | 'MERGE' | 'REMOVE' | 'REFRESH';
+export const dataClassFieldEntityCascadeTypes = ['PERSIST', 'MERGE', 'REMOVE', 'REFRESH'] as const;
+export type DataClassFieldEntityCascadeType = (typeof dataClassFieldEntityCascadeTypes)[number] | 'ALL';
+
+export const dataClassIDTypes = ['String', 'Integer', 'Long'];
+export const dataClassVersionTypes = ['Short', 'Integer', 'Long', 'java.sql.Timestamp'];

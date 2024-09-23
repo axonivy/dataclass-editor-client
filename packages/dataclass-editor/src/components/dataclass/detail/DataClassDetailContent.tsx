@@ -14,7 +14,13 @@ import {
 } from '@axonivy/ui-components';
 import { useAppContext } from '../../../context/AppContext';
 import type { DataClass } from '../data/dataclass';
-import { classTypeOf } from '../data/dataclass-utils';
+import {
+  classTypeOf,
+  handleClassTypeChange,
+  handleDataClassEntityPropertyChange,
+  handleDataClassPropertyChange,
+  isEntity
+} from '../data/dataclass-utils';
 import { AnnotationsTable } from './AnnotationsTable';
 
 export const DataClassDetailContent = () => {
@@ -22,23 +28,8 @@ export const DataClassDetailContent = () => {
 
   const classType = classTypeOf(dataClass);
 
-  const handleClassTypeChange = (classType: string) => {
-    const newDataClass = structuredClone(dataClass);
-    newDataClass.isBusinessCaseData = false;
-    newDataClass.entity = undefined;
-    if (classType === 'BUSINESS_DATA') {
-      newDataClass.isBusinessCaseData = true;
-    } else if (classType === 'ENTITY') {
-      newDataClass.entity = { tableName: '' };
-    }
-    setDataClass(newDataClass);
-  };
-
-  const handleDataClassPropertyChange = <DKey extends keyof DataClass>(key: DKey, value: DataClass[DKey]) => {
-    const newDataClass = structuredClone(dataClass);
-    newDataClass[key] = value;
-    setDataClass(newDataClass);
-  };
+  const onPropertyChange = <DKey extends keyof DataClass>(key: DKey, value: DataClass[DKey]) =>
+    handleDataClassPropertyChange(key, value, dataClass, setDataClass);
 
   return (
     <Accordion type='single' collapsible defaultValue='general'>
@@ -54,14 +45,14 @@ export const DataClassDetailContent = () => {
                     <Input value={dataClass.simpleName} disabled={true} />
                   </BasicField>
                   <BasicField label='Description'>
-                    <Textarea value={dataClass.comment} onChange={event => handleDataClassPropertyChange('comment', event.target.value)} />
+                    <Textarea value={dataClass.comment} onChange={event => onPropertyChange('comment', event.target.value)} />
                   </BasicField>
                 </Flex>
               </CollapsibleContent>
             </Collapsible>
             <AnnotationsTable
               annotations={dataClass.annotations}
-              setAnnotations={(annotations: Array<string>) => handleDataClassPropertyChange('annotations', annotations)}
+              setAnnotations={(newAnnotations: Array<string>) => onPropertyChange('annotations', newAnnotations)}
             />
             <Collapsible>
               <CollapsibleTrigger>Class type</CollapsibleTrigger>
@@ -73,17 +64,33 @@ export const DataClassDetailContent = () => {
                     { value: 'BUSINESS_DATA', label: 'Business Data' },
                     { value: 'ENTITY', label: 'Entity' }
                   ]}
-                  onValueChange={handleClassTypeChange}
+                  onValueChange={classType => handleClassTypeChange(classType, dataClass, setDataClass)}
                 />
               </CollapsibleContent>
             </Collapsible>
           </Flex>
         </AccordionContent>
       </AccordionItem>
-      {classType === 'ENTITY' && (
+      {isEntity(dataClass) && (
         <AccordionItem value='entity'>
           <AccordionTrigger>Entity</AccordionTrigger>
-          <AccordionContent>Coming soon...</AccordionContent>
+          <AccordionContent>
+            <Flex direction='column' gap={4}>
+              <Collapsible defaultOpen={dataClass.entity.tableName !== ''}>
+                <CollapsibleTrigger>Database Table</CollapsibleTrigger>
+                <CollapsibleContent>
+                  <Flex direction='column' gap={4}>
+                    <BasicField label='Name'>
+                      <Input
+                        value={dataClass.entity.tableName}
+                        onChange={event => handleDataClassEntityPropertyChange('tableName', event.target.value, dataClass, setDataClass)}
+                      />
+                    </BasicField>
+                  </Flex>
+                </CollapsibleContent>
+              </Collapsible>
+            </Flex>
+          </AccordionContent>
         </AccordionItem>
       )}
     </Accordion>

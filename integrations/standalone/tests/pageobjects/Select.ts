@@ -1,5 +1,4 @@
 import type { Locator, Page } from '@playwright/test';
-import { expect } from '@playwright/test';
 
 export class Select {
   readonly page: Page;
@@ -17,9 +16,5 @@ export class Select {
   async choose(value: string) {
     await this.locator.click();
     await this.page.getByRole('option', { name: value, exact: true }).first().click();
-  }
-
-  async expectToHaveValue(value: string) {
-    await expect(this.locator).toHaveText(value);
   }
 }
