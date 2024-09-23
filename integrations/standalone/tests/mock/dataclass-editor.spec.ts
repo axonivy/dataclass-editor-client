@@ -17,11 +17,11 @@ test('headers', async () => {
   await expect(editor.detail.title).toHaveText('Data - Interview');
 
   await editor.detail.classTypeCollapsible.open();
-  await editor.detail.classTypeGroup.button('Business Data').click();
+  await editor.detail.classTypeSelect.choose('Business Data');
   await expect(editor.title).toHaveText('Business Data Editor');
   await expect(editor.detail.title).toHaveText('Business Data - Interview');
 
-  await editor.detail.classTypeGroup.button('Entity').click();
+  await editor.detail.classTypeSelect.choose('Entity');
   await expect(editor.title).toHaveText('Entity Editor');
   await expect(editor.detail.title).toHaveText('Entity - Interview');
 
