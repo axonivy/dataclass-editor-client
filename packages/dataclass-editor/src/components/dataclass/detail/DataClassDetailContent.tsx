@@ -1,4 +1,8 @@
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
   BasicField,
   BasicSelect,
   Collapsible,
@@ -10,14 +14,13 @@ import {
 } from '@axonivy/ui-components';
 import { useAppContext } from '../../../context/AppContext';
 import type { DataClass } from '../data/dataclass';
-import { classType } from '../data/dataclass-utils';
+import { classTypeOf } from '../data/dataclass-utils';
 import { AnnotationsTable } from './AnnotationsTable';
-import './DetailContent.css';
 
 export const DataClassDetailContent = () => {
   const { dataClass, setDataClass } = useAppContext();
 
-  const initialClassType = classType(dataClass);
+  const classType = classTypeOf(dataClass);
 
   const handleClassTypeChange = (classType: string) => {
     const newDataClass = structuredClone(dataClass);
@@ -38,38 +41,51 @@ export const DataClassDetailContent = () => {
   };
 
   return (
-    <Flex direction='column' gap={4} className='detail-content'>
-      <Collapsible defaultOpen={true}>
-        <CollapsibleTrigger>Name / Description</CollapsibleTrigger>
-        <CollapsibleContent>
+    <Accordion type='single' collapsible defaultValue='general'>
+      <AccordionItem value='general'>
+        <AccordionTrigger>General</AccordionTrigger>
+        <AccordionContent>
           <Flex direction='column' gap={4}>
-            <BasicField label='Name'>
-              <Input value={dataClass.simpleName} disabled={true} />
-            </BasicField>
-            <BasicField label='Description'>
-              <Textarea value={dataClass.comment} onChange={event => handleDataClassPropertyChange('comment', event.target.value)} />
-            </BasicField>
+            <Collapsible defaultOpen={true}>
+              <CollapsibleTrigger>Name / Description</CollapsibleTrigger>
+              <CollapsibleContent>
+                <Flex direction='column' gap={4}>
+                  <BasicField label='Name'>
+                    <Input value={dataClass.simpleName} disabled={true} />
+                  </BasicField>
+                  <BasicField label='Description'>
+                    <Textarea value={dataClass.comment} onChange={event => handleDataClassPropertyChange('comment', event.target.value)} />
+                  </BasicField>
+                </Flex>
+              </CollapsibleContent>
+            </Collapsible>
+            <AnnotationsTable
+              annotations={dataClass.annotations}
+              setAnnotations={(annotations: Array<string>) => handleDataClassPropertyChange('annotations', annotations)}
+            />
+            <Collapsible>
+              <CollapsibleTrigger>Class type</CollapsibleTrigger>
+              <CollapsibleContent>
+                <BasicSelect
+                  value={classType}
+                  items={[
+                    { value: 'DATA', label: 'Data' },
+                    { value: 'BUSINESS_DATA', label: 'Business Data' },
+                    { value: 'ENTITY', label: 'Entity' }
+                  ]}
+                  onValueChange={handleClassTypeChange}
+                />
+              </CollapsibleContent>
+            </Collapsible>
           </Flex>
-        </CollapsibleContent>
-      </Collapsible>
-      <AnnotationsTable
-        annotations={dataClass.annotations}
-        setAnnotations={(annotations: Array<string>) => handleDataClassPropertyChange('annotations', annotations)}
-      />
-      <Collapsible>
-        <CollapsibleTrigger>Class type</CollapsibleTrigger>
-        <CollapsibleContent>
-          <BasicSelect
-            value={initialClassType}
-            items={[
-              { value: 'DATA', label: 'Data' },
-              { value: 'BUSINESS_DATA', label: 'Business Data' },
-              { value: 'ENTITY', label: 'Entity' }
-            ]}
-            onValueChange={handleClassTypeChange}
-          />
-        </CollapsibleContent>
-      </Collapsible>
-    </Flex>
+        </AccordionContent>
+      </AccordionItem>
+      {classType === 'ENTITY' && (
+        <AccordionItem value='entity'>
+          <AccordionTrigger>Entity</AccordionTrigger>
+          <AccordionContent>Coming soon...</AccordionContent>
+        </AccordionItem>
+      )}
+    </Accordion>
   );
 };

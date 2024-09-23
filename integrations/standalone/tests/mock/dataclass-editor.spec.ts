@@ -179,3 +179,34 @@ test('collapsible state', async () => {
   expect(await editor.detail.annotations.collapsible.isOpen()).toBeFalsy();
   expect(await editor.detail.classTypeCollapsible.isOpen()).toBeFalsy();
 });
+
+test('accordion state', async () => {
+  expect(await editor.detail.general.isOpen()).toBeTruthy();
+  await expect(editor.detail.entity.locator).toBeHidden();
+
+  await editor.table.row(0).locator.click();
+  expect(await editor.detail.general.isOpen()).toBeTruthy();
+  await expect(editor.detail.entity.locator).toBeHidden();
+
+  await editor.table.header.click();
+  await editor.detail.classTypeCollapsible.open();
+  await editor.detail.classTypeSelect.choose('Business Data');
+  await expect(editor.detail.entity.locator).toBeHidden();
+
+  await editor.table.row(0).locator.click();
+  await expect(editor.detail.entity.locator).toBeHidden();
+
+  await editor.table.header.click();
+  await editor.detail.classTypeCollapsible.open();
+  await editor.detail.classTypeSelect.choose('Entity');
+  expect(await editor.detail.general.isOpen()).toBeTruthy();
+  expect(await editor.detail.entity.isOpen()).toBeFalsy();
+
+  await editor.table.row(0).locator.click();
+  expect(await editor.detail.general.isOpen()).toBeTruthy();
+  expect(await editor.detail.entity.isOpen()).toBeFalsy();
+
+  await editor.detail.properties.open();
+  await editor.detail.persistent.click();
+  await expect(editor.detail.entity.locator).toBeHidden();
+});

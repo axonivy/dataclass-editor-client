@@ -1,20 +1,20 @@
 import type { DataClass } from './dataclass';
-import { className, classType, headerTitles } from './dataclass-utils';
+import { className, classTypeOf, headerTitles } from './dataclass-utils';
 
-describe('classType', () => {
+describe('classTypeOf', () => {
   test('data', () => {
     const dataClass = {} as DataClass;
-    expect(classType(dataClass)).toEqual('DATA');
+    expect(classTypeOf(dataClass)).toEqual('DATA');
   });
 
   test('businessData', () => {
     const dataClass = { isBusinessCaseData: true } as DataClass;
-    expect(classType(dataClass)).toEqual('BUSINESS_DATA');
+    expect(classTypeOf(dataClass)).toEqual('BUSINESS_DATA');
   });
 
   test('entity', () => {
     const dataClass = { entity: {} } as DataClass;
-    expect(classType(dataClass)).toEqual('ENTITY');
+    expect(classTypeOf(dataClass)).toEqual('ENTITY');
   });
 });
 
