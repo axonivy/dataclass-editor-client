@@ -1,7 +1,7 @@
 import { BasicCheckbox } from '@axonivy/ui-components';
-import { useAppContext } from '../../../../context/AppContext';
+import { useFieldContext } from '../../../../context/FieldContext';
 import type { DataClassFieldModifier } from '../../data/dataclass';
-import { handleFieldModifierChange } from '../../data/dataclass-utils';
+import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
 
 type FieldModifierCheckboxProps = {
   label: string;
@@ -10,16 +10,14 @@ type FieldModifierCheckboxProps = {
 };
 
 export const FieldModifierCheckbox = ({ label, modifier, disabled }: FieldModifierCheckboxProps) => {
-  const { dataClass, setDataClass, selectedField } = useAppContext();
-  if (selectedField === undefined) {
-    return;
-  }
+  const { field } = useFieldContext();
+  const { handleFieldModifierChange } = useDataClassChangeHandlers();
 
   return (
     <BasicCheckbox
       label={label}
-      checked={dataClass.fields[selectedField].modifiers.includes(modifier)}
-      onCheckedChange={event => handleFieldModifierChange(event.valueOf(), modifier, dataClass, setDataClass, selectedField)}
+      checked={field.modifiers.includes(modifier)}
+      onCheckedChange={event => handleFieldModifierChange(event.valueOf(), modifier)}
       disabled={disabled}
     />
   );

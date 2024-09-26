@@ -1,17 +1,15 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Flex } from '@axonivy/ui-components';
 import { useAppContext } from '../../../../context/AppContext';
-import type { DataClass } from '../../data/dataclass';
-import { handleDataClassPropertyChange, isEntity } from '../../data/dataclass-utils';
+import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
+import { isEntity } from '../../data/dataclass-utils';
 import { AnnotationsTable } from '../AnnotationsTable';
 import { DataClassClassType } from './DataClassClassType';
 import { DataClassNameDescription } from './DataClassNameDescription';
 import { EntityClassDatabaseTable } from './entity/EntityClassDatabaseTable';
 
 export const DataClassDetailContent = () => {
-  const { dataClass, setDataClass } = useAppContext();
-
-  const onPropertyChange = <DKey extends keyof DataClass>(key: DKey, value: DataClass[DKey]) =>
-    handleDataClassPropertyChange(key, value, dataClass, setDataClass);
+  const { dataClass } = useAppContext();
+  const { handleDataClassPropertyChange } = useDataClassChangeHandlers();
 
   return (
     <Accordion type='single' collapsible defaultValue='general'>
@@ -22,7 +20,7 @@ export const DataClassDetailContent = () => {
             <DataClassNameDescription />
             <AnnotationsTable
               annotations={dataClass.annotations}
-              setAnnotations={(newAnnotations: Array<string>) => onPropertyChange('annotations', newAnnotations)}
+              setAnnotations={(newAnnotations: Array<string>) => handleDataClassPropertyChange('annotations', newAnnotations)}
             />
             <DataClassClassType />
           </Flex>

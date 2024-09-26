@@ -1,14 +1,14 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input } from '@axonivy/ui-components';
-import { useAppContext } from '../../../../../context/AppContext';
 import { useFieldContext } from '../../../../../context/FieldContext';
 import { dataClassIDTypes, dataClassVersionTypes } from '../../../data/dataclass';
-import { handleFieldEntityPropertyChange, isEntity, isEntityField } from '../../../data/dataclass-utils';
+import { useDataClassChangeHandlers } from '../../../data/dataclass-change-handlers';
+import { isEntityField } from '../../../data/dataclass-utils';
 import { FieldModifierCheckbox } from '../FieldModifierCheckbox';
 
 export const FieldEntityDatabaseField = () => {
-  const { dataClass, setDataClass } = useAppContext();
-  const { field, selectedField } = useFieldContext();
-  if (!isEntity(dataClass) || !isEntityField(field)) {
+  const { field } = useFieldContext();
+  const { handleFieldEntityPropertyChange } = useDataClassChangeHandlers();
+  if (!isEntityField(field)) {
     return;
   }
 
@@ -33,9 +33,7 @@ export const FieldEntityDatabaseField = () => {
           <BasicField label='Name'>
             <Input
               value={mappedByFieldNameIsSet ? '' : field.entity.databaseName}
-              onChange={event =>
-                handleFieldEntityPropertyChange('databaseName', event.target.value, dataClass, setDataClass, selectedField)
-              }
+              onChange={event => handleFieldEntityPropertyChange('databaseName', event.target.value)}
               placeholder={mappedByFieldNameIsSet ? '' : field.name}
               disabled={mappedByFieldNameIsSet}
             />
@@ -43,9 +41,7 @@ export const FieldEntityDatabaseField = () => {
           <BasicField label='Length'>
             <Input
               value={typeCanHaveDatabaseFieldLength ? '' : field.entity.databaseFieldLength}
-              onChange={event =>
-                handleFieldEntityPropertyChange('databaseFieldLength', event.target.value, dataClass, setDataClass, selectedField)
-              }
+              onChange={event => handleFieldEntityPropertyChange('databaseFieldLength', event.target.value)}
               placeholder={field.type === 'String' ? '255' : field.type === 'BigInteger' || field.type === 'BigDecimal' ? '19,2' : ''}
               disabled={typeCanHaveDatabaseFieldLength}
             />

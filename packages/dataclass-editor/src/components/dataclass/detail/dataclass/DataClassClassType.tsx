@@ -1,9 +1,11 @@
 import { BasicSelect, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@axonivy/ui-components';
 import { useAppContext } from '../../../../context/AppContext';
-import { classTypeOf, handleClassTypeChange } from '../../data/dataclass-utils';
+import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
+import { classTypeOf } from '../../data/dataclass-utils';
 
 export const DataClassClassType = () => {
-  const { dataClass, setDataClass } = useAppContext();
+  const { dataClass } = useAppContext();
+  const { handleClassTypeChange } = useDataClassChangeHandlers();
 
   const classType = classTypeOf(dataClass);
 
@@ -18,7 +20,7 @@ export const DataClassClassType = () => {
             { value: 'BUSINESS_DATA', label: 'Business Data' },
             { value: 'ENTITY', label: 'Entity' }
           ]}
-          onValueChange={classType => handleClassTypeChange(classType, dataClass, setDataClass)}
+          onValueChange={classType => handleClassTypeChange(classType)}
         />
       </CollapsibleContent>
     </Collapsible>

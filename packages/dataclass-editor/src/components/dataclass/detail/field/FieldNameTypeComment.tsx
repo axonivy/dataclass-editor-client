@@ -1,11 +1,10 @@
 import { BasicField, BasicInput, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Textarea } from '@axonivy/ui-components';
-import { useAppContext } from '../../../../context/AppContext';
 import { useFieldContext } from '../../../../context/FieldContext';
-import { handleFieldPropertyChange, handleFieldTypeChange } from '../../data/dataclass-utils';
+import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
 
 export const FieldNameTypeComment = () => {
-  const { dataClass, setDataClass } = useAppContext();
-  const { field, selectedField } = useFieldContext();
+  const { field } = useFieldContext();
+  const { handleFieldPropertyChange, handleFieldTypeChange } = useDataClassChangeHandlers();
 
   return (
     <Collapsible defaultOpen={true}>
@@ -13,22 +12,13 @@ export const FieldNameTypeComment = () => {
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
           <BasicField label='Name'>
-            <BasicInput
-              value={field.name}
-              onChange={event => handleFieldPropertyChange('name', event.target.value, dataClass, setDataClass, selectedField)}
-            />
+            <BasicInput value={field.name} onChange={event => handleFieldPropertyChange('name', event.target.value)} />
           </BasicField>
           <BasicField label='Type'>
-            <BasicInput
-              value={field.type}
-              onChange={event => handleFieldTypeChange(event.target.value, dataClass, setDataClass, selectedField)}
-            />
+            <BasicInput value={field.type} onChange={event => handleFieldTypeChange(event.target.value)} />
           </BasicField>
           <BasicField label='Comment'>
-            <Textarea
-              value={field.comment}
-              onChange={event => handleFieldPropertyChange('comment', event.target.value, dataClass, setDataClass, selectedField)}
-            />
+            <Textarea value={field.comment} onChange={event => handleFieldPropertyChange('comment', event.target.value)} />
           </BasicField>
         </Flex>
       </CollapsibleContent>

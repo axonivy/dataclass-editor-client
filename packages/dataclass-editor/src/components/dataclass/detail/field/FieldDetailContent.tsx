@@ -1,27 +1,25 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Flex } from '@axonivy/ui-components';
 import { useAppContext } from '../../../../context/AppContext';
 import { FieldProvider } from '../../../../context/FieldContext';
-import { handleFieldPropertyChange, isEntityField } from '../../data/dataclass-utils';
+import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
+import { isEntityField } from '../../data/dataclass-utils';
 import { AnnotationsTable } from '../AnnotationsTable';
 import { FieldEntityAssociation } from './entity/FieldEntityAssociation';
 import { FieldEntityDatabaseField } from './entity/FieldEntityDatabaseField';
-import './FieldDetailContent.css';
 import { FieldNameTypeComment } from './FieldNameTypeComment';
 import { FieldProperties } from './FieldProperties';
 
 export const FieldDetailContent = () => {
-  const { dataClass, setDataClass, selectedField } = useAppContext();
-  if (selectedField === undefined) {
-    return;
-  }
+  const { dataClass, selectedField } = useAppContext();
+  const { handleFieldPropertyChange } = useDataClassChangeHandlers();
 
-  const field = selectedField < dataClass.fields.length ? dataClass.fields[selectedField] : undefined;
+  const field = selectedField !== undefined && selectedField < dataClass.fields.length ? dataClass.fields[selectedField] : undefined;
   if (!field) {
     return;
   }
 
   return (
-    <FieldProvider value={{ field: field, selectedField: selectedField }}>
+    <FieldProvider value={{ field: field }}>
       <Accordion type='single' collapsible defaultValue='general'>
         <AccordionItem value='general'>
           <AccordionTrigger>General</AccordionTrigger>
@@ -31,9 +29,7 @@ export const FieldDetailContent = () => {
               <FieldProperties />
               <AnnotationsTable
                 annotations={field.annotations}
-                setAnnotations={(annotations: Array<string>) =>
-                  handleFieldPropertyChange('annotations', annotations, dataClass, setDataClass, selectedField)
-                }
+                setAnnotations={(annotations: Array<string>) => handleFieldPropertyChange('annotations', annotations)}
               />
             </Flex>
           </AccordionContent>

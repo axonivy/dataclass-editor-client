@@ -3,12 +3,10 @@ import type { DataClassField } from '../components/dataclass/data/dataclass';
 
 type FieldContext = {
   field: DataClassField;
-  selectedField: number;
 };
 
 const fieldContext = createContext<FieldContext>({
-  field: {} as DataClassField,
-  selectedField: 0
+  field: {} as DataClassField
 });
 
 export const FieldProvider = fieldContext.Provider;

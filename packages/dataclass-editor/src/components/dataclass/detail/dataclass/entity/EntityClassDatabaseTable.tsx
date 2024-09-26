@@ -1,9 +1,11 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input } from '@axonivy/ui-components';
 import { useAppContext } from '../../../../../context/AppContext';
-import { handleDataClassEntityPropertyChange, isEntity } from '../../../data/dataclass-utils';
+import { useDataClassChangeHandlers } from '../../../data/dataclass-change-handlers';
+import { isEntity } from '../../../data/dataclass-utils';
 
 export const EntityClassDatabaseTable = () => {
-  const { dataClass, setDataClass } = useAppContext();
+  const { dataClass } = useAppContext();
+  const { handleDataClassEntityPropertyChange } = useDataClassChangeHandlers();
   if (!isEntity(dataClass)) {
     return;
   }
@@ -16,7 +18,7 @@ export const EntityClassDatabaseTable = () => {
           <BasicField label='Name'>
             <Input
               value={dataClass.entity.tableName}
-              onChange={event => handleDataClassEntityPropertyChange('tableName', event.target.value, dataClass, setDataClass)}
+              onChange={event => handleDataClassEntityPropertyChange('tableName', event.target.value)}
             />
           </BasicField>
         </Flex>

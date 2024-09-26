@@ -1,7 +1,8 @@
 import { BasicCheckbox } from '@axonivy/ui-components';
-import { useAppContext } from '../../../../../context/AppContext';
+import { useFieldContext } from '../../../../../context/FieldContext';
 import type { DataClassFieldEntityCascadeType } from '../../../data/dataclass';
-import { handleFieldEntityCascadeTypeChange, isEntity } from '../../../data/dataclass-utils';
+import { useDataClassChangeHandlers } from '../../../data/dataclass-change-handlers';
+import { isEntityField } from '../../../data/dataclass-utils';
 
 type FieldEntityCascadeTypeCheckboxProps = {
   label: string;
@@ -9,18 +10,17 @@ type FieldEntityCascadeTypeCheckboxProps = {
 };
 
 export const FieldEntityCascadeTypeCheckbox = ({ label, cascadeType }: FieldEntityCascadeTypeCheckboxProps) => {
-  const { dataClass, setDataClass, selectedField } = useAppContext();
-  if (!isEntity(dataClass) || selectedField === undefined) {
+  const { field } = useFieldContext();
+  const { handleFieldEntityCascadeTypeChange } = useDataClassChangeHandlers();
+  if (!isEntityField(field)) {
     return;
   }
-
-  const field = dataClass.fields[selectedField];
 
   return (
     <BasicCheckbox
       label={label}
       checked={field.entity.cascadeTypes.includes('ALL') || field.entity.cascadeTypes.includes(cascadeType)}
-      onCheckedChange={event => handleFieldEntityCascadeTypeChange(event.valueOf(), cascadeType, dataClass, setDataClass, selectedField)}
+      onCheckedChange={event => handleFieldEntityCascadeTypeChange(event.valueOf(), cascadeType)}
       disabled={!field.entity.association}
     />
   );

@@ -8,22 +8,18 @@ import {
   Flex,
   Input
 } from '@axonivy/ui-components';
-import { useAppContext } from '../../../../../context/AppContext';
 import { useFieldContext } from '../../../../../context/FieldContext';
 import type { DataClassFieldEntityAssociation } from '../../../data/dataclass';
-import {
-  handleFieldEntityAssociationChange,
-  handleFieldEntityMappedByFieldNameChange,
-  handleFieldEntityPropertyChange,
-  isEntity,
-  isEntityField
-} from '../../../data/dataclass-utils';
+import { useDataClassChangeHandlers } from '../../../data/dataclass-change-handlers';
+import { isEntityField } from '../../../data/dataclass-utils';
+import './FieldEntityAssociation';
 import { FieldEntityCascadeTypeCheckbox } from './FieldEntityCascadeTypeCheckbox';
 
 export const FieldEntityAssociation = () => {
-  const { dataClass, setDataClass } = useAppContext();
-  const { field, selectedField } = useFieldContext();
-  if (!isEntity(dataClass) || !isEntityField(field)) {
+  const { field } = useFieldContext();
+  const { handleFieldEntityAssociationChange, handleFieldEntityMappedByFieldNameChange, handleFieldEntityPropertyChange } =
+    useDataClassChangeHandlers();
+  if (!isEntityField(field)) {
     return;
   }
 
@@ -43,9 +39,7 @@ export const FieldEntityAssociation = () => {
                 { value: 'ONE_TO_MANY', label: 'One-to-Many' },
                 { value: 'MANY_TO_ONE', label: 'Many-to-One' }
               ]}
-              onValueChange={value =>
-                handleFieldEntityAssociationChange(value as DataClassFieldEntityAssociation, dataClass, setDataClass, selectedField)
-              }
+              onValueChange={value => handleFieldEntityAssociationChange(value as DataClassFieldEntityAssociation)}
             />
           </BasicField>
           <BasicField label='Cascade' className='cascade-types-container'>
@@ -58,16 +52,14 @@ export const FieldEntityAssociation = () => {
           <BasicField label='Mapped by'>
             <Input
               value={field.entity.mappedByFieldName}
-              onChange={event => handleFieldEntityMappedByFieldNameChange(event.target.value, dataClass, setDataClass, selectedField)}
+              onChange={event => handleFieldEntityMappedByFieldNameChange(event.target.value)}
               disabled={associationCanBeMappedByFieldName}
             />
           </BasicField>
           <BasicCheckbox
             label='Remove orphans'
             checked={field.entity.orphanRemoval}
-            onCheckedChange={event =>
-              handleFieldEntityPropertyChange('orphanRemoval', event.valueOf() as boolean, dataClass, setDataClass, selectedField)
-            }
+            onCheckedChange={event => handleFieldEntityPropertyChange('orphanRemoval', event.valueOf() as boolean)}
             disabled={associationCanBeMappedByFieldName}
           />
         </Flex>
