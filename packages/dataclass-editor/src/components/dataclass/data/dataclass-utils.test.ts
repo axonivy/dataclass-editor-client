@@ -281,6 +281,17 @@ describe('handleFieldModifierChange', () => {
       expect(newEntityClasses[0].fields[1].modifiers).toEqual(['PERSISTENT']);
     });
   });
+
+  test('version', () => {
+    const { newEntityClasses, entityClass, setEntityClass } = setupEntityClass();
+    entityClass.fields[1].modifiers.push('UNIQUE');
+    entityClass.fields[1].modifiers.push('NOT_UPDATEABLE');
+    const originalEntityClass = structuredClone(entityClass);
+    handleFieldModifierChange(true, 'VERSION', entityClass, setEntityClass, 1);
+    expect(entityClass).toEqual(originalEntityClass);
+    expect(newEntityClasses).toHaveLength(1);
+    expect(newEntityClasses[0].fields[1].modifiers).toEqual(['PERSISTENT', 'VERSION']);
+  });
 });
 
 test('handleFieldEntityPropertyChange', () => {

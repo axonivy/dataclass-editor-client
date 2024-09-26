@@ -161,7 +161,7 @@ export const handleFieldModifierChange = (
 
 const updateModifiers = (add: boolean | string, newModifiers: Array<DataClassFieldModifier>, modifier: DataClassFieldModifier) => {
   if (add) {
-    if (modifier === 'ID') {
+    if (modifier === 'ID' || modifier === 'VERSION') {
       newModifiers = newModifiers.filter(mod => mod === 'GENERATED' || mod === 'PERSISTENT');
     }
     newModifiers.push(modifier);
