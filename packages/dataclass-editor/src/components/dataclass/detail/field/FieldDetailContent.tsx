@@ -14,14 +14,14 @@ import {
   Input,
   Textarea
 } from '@axonivy/ui-components';
-import { useAppContext } from '../../../context/AppContext';
+import { useAppContext } from '../../../../context/AppContext';
 import {
   dataClassIDTypes,
   dataClassVersionTypes,
   type DataClassField,
   type DataClassFieldEntity,
   type DataClassFieldEntityAssociation
-} from '../data/dataclass';
+} from '../../data/dataclass';
 import {
   handleFieldEntityAssociationChange,
   handleFieldEntityMappedByFieldNameChange,
@@ -30,10 +30,10 @@ import {
   handleFieldTypeChange,
   isEntity,
   isEntityField
-} from '../data/dataclass-utils';
-import { AnnotationsTable } from './AnnotationsTable';
+} from '../../data/dataclass-utils';
+import { AnnotationsTable } from '../AnnotationsTable';
+import { FieldEntityCascadeTypeCheckbox } from './entity/FieldEntityCascadeTypeCheckbox';
 import './FieldDetailContent.css';
-import { FieldEntityCascadeTypeCheckbox } from './FieldEntityCascadeTypeCheckbox';
 import { FieldModifierCheckbox } from './FieldModifierCheckbox';
 
 export const FieldDetailContent = () => {

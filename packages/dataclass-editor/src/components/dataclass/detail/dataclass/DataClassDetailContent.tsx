@@ -12,16 +12,16 @@ import {
   Input,
   Textarea
 } from '@axonivy/ui-components';
-import { useAppContext } from '../../../context/AppContext';
-import type { DataClass } from '../data/dataclass';
+import { useAppContext } from '../../../../context/AppContext';
+import type { DataClass } from '../../data/dataclass';
 import {
   classTypeOf,
   handleClassTypeChange,
   handleDataClassEntityPropertyChange,
   handleDataClassPropertyChange,
   isEntity
-} from '../data/dataclass-utils';
-import { AnnotationsTable } from './AnnotationsTable';
+} from '../../data/dataclass-utils';
+import { AnnotationsTable } from '../AnnotationsTable';
 
 export const DataClassDetailContent = () => {
   const { dataClass, setDataClass } = useAppContext();

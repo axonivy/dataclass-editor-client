@@ -1,7 +1,7 @@
 import { BasicCheckbox } from '@axonivy/ui-components';
-import { useAppContext } from '../../../context/AppContext';
-import type { DataClassFieldEntityCascadeType } from '../data/dataclass';
-import { handleFieldEntityCascadeTypeChange, isEntity } from '../data/dataclass-utils';
+import { useAppContext } from '../../../../../context/AppContext';
+import type { DataClassFieldEntityCascadeType } from '../../../data/dataclass';
+import { handleFieldEntityCascadeTypeChange, isEntity } from '../../../data/dataclass-utils';
 
 type FieldEntityCascadeTypeCheckboxProps = {
   label: string;
