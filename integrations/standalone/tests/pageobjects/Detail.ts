@@ -1,9 +1,9 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { AccordionItem } from './AccordionItem';
+import { AccordionItem } from './abstract/AccordionItem';
 import { Annotations } from './Annotations';
-import { Collapsible } from './Collapsible';
-import { Select } from './Select';
-import { TextArea } from './TextArea';
+import { Collapsible } from './abstract/Collapsible';
+import { Select } from './abstract/Select';
+import { TextArea } from './abstract/TextArea';
 
 export class Detail {
   readonly locator: Locator;

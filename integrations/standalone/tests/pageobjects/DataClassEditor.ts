@@ -1,10 +1,10 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { randomUUID } from 'crypto';
 import { AddFieldDialog } from './AddFieldDialog';
-import { Button } from './Button';
+import { Button } from './abstract/Button';
 import { Detail } from './Detail';
 import { Settings } from './Settings';
-import { Table } from './Table';
+import { Table } from './abstract/Table';
 
 const server = process.env.BASE_URL ?? 'http://localhost:8081';
 const ws = process.env.TEST_WS ?? '';

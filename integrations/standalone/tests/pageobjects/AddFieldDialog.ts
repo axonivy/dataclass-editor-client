@@ -1,7 +1,7 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { Button } from './Button';
-import { FieldMessage } from './FieldMessage';
-import { TextArea } from './TextArea';
+import { Button } from './abstract/Button';
+import { FieldMessage } from './abstract/FieldMessage';
+import { TextArea } from './abstract/TextArea';
 
 export class AddFieldDialog {
   readonly locator: Locator;
