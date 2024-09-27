@@ -1,5 +1,15 @@
-import type { DataClass, DataClassField } from './dataclass';
-import { className, classTypeOf, headerTitles, isEntity, isEntityField } from './dataclass-utils';
+import type { DataClass, DataClassField, DataClassFieldModifier } from './dataclass';
+import {
+  className,
+  classTypeOf,
+  defaultDatabaseFieldLengthOf,
+  fieldTypeCanHaveDatabaseFieldLength,
+  headerTitles,
+  isDataClassIDType,
+  isDataClassVersionType,
+  isEntity,
+  isEntityField
+} from './dataclass-utils';
 
 describe('classTypeOf', () => {
   test('data', () => {
@@ -24,7 +34,7 @@ describe('isEntity', () => {
     expect(isEntity(dataClass)).toBeTruthy();
   });
 
-  test('entity', () => {
+  test('false', () => {
     const dataClass = {} as DataClass;
     expect(isEntity(dataClass)).toBeFalsy();
   });
@@ -32,13 +42,24 @@ describe('isEntity', () => {
 
 describe('isEntityField', () => {
   test('true', () => {
-    const field = { entity: {} } as DataClassField;
+    const field = { modifiers: ['PERSISTENT'], entity: {} } as DataClassField;
     expect(isEntityField(field)).toBeTruthy();
   });
 
-  test('entity', () => {
-    const field = {} as DataClassField;
-    expect(isEntityField(field)).toBeFalsy();
+  describe('false', () => {
+    test('argument is undefine', () => {
+      expect(isEntityField()).toBeFalsy();
+    });
+
+    test('missing modifier persistent', () => {
+      const field = { modifiers: [] as Array<DataClassFieldModifier>, entity: {} } as DataClassField;
+      expect(isEntityField(field)).toBeFalsy();
+    });
+
+    test('missing entity', () => {
+      const field = { modifiers: ['PERSISTENT'] } as DataClassField;
+      expect(isEntityField(field)).toBeFalsy();
+    });
   });
 });
 
@@ -97,5 +118,54 @@ describe('className', () => {
 
   test('notQualified', () => {
     expect(className('ClassName')).toEqual('ClassName');
+  });
+});
+
+describe('fieldTypeCanHaveDatabaseFieldLength', () => {
+  test('true', () => {
+    expect(fieldTypeCanHaveDatabaseFieldLength('String')).toBeTruthy();
+    expect(fieldTypeCanHaveDatabaseFieldLength('BigInteger')).toBeTruthy();
+    expect(fieldTypeCanHaveDatabaseFieldLength('BigDecimal')).toBeTruthy();
+  });
+
+  test('false', () => {
+    expect(fieldTypeCanHaveDatabaseFieldLength('AnythingElse')).toBeFalsy();
+  });
+});
+
+describe('defaultDatabaseFieldLengthOf', () => {
+  test('present', () => {
+    expect(defaultDatabaseFieldLengthOf('String')).toEqual('255');
+    expect(defaultDatabaseFieldLengthOf('BigInteger')).toEqual('19,2');
+    expect(defaultDatabaseFieldLengthOf('BigDecimal')).toEqual('19,2');
+  });
+
+  test('not present', () => {
+    expect(defaultDatabaseFieldLengthOf('AnythingElse')).toEqual('');
+  });
+});
+
+describe('isDataClassIDType', () => {
+  test('true', () => {
+    expect(isDataClassIDType('String')).toBeTruthy();
+    expect(isDataClassIDType('Integer')).toBeTruthy();
+    expect(isDataClassIDType('Long')).toBeTruthy();
+  });
+
+  test('false', () => {
+    expect(isDataClassIDType('AnythingElse')).toBeFalsy();
+  });
+});
+
+describe('isDataClassVersionType', () => {
+  test('true', () => {
+    expect(isDataClassVersionType('Short')).toBeTruthy();
+    expect(isDataClassVersionType('Integer')).toBeTruthy();
+    expect(isDataClassVersionType('Long')).toBeTruthy();
+    expect(isDataClassVersionType('java.sql.Timestamp')).toBeTruthy();
+  });
+
+  test('false', () => {
+    expect(isDataClassVersionType('AnythingElse')).toBeFalsy();
   });
 });

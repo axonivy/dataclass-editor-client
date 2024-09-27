@@ -323,7 +323,7 @@ test('handleFieldEntityPropertyChange', () => {
   expect(setDataClass.mock.calls[0][0].fields[0].entity.databaseName).toEqual('NewDatabaseName');
 });
 
-describe('handleFieldEntityAssociationChange', () => {
+describe('handleFieldEntityCardinalityChange', () => {
   const expectAssociation = (
     entity: DataClassFieldEntity,
     association: DataClassFieldEntityAssociation | undefined,
@@ -343,7 +343,7 @@ describe('handleFieldEntityAssociationChange', () => {
       } as DataClass;
       const setDataClass = setupAppContext(dataClass, 0);
 
-      const { handleFieldEntityAssociationChange } = useDataClassChangeHandlers();
+      const { handleFieldEntityCardinalityChange: handleFieldEntityAssociationChange } = useDataClassChangeHandlers();
 
       const originalDataClass = structuredClone(dataClass);
       handleFieldEntityAssociationChange(undefined);
@@ -360,7 +360,7 @@ describe('handleFieldEntityAssociationChange', () => {
       } as DataClass;
       const setDataClass = setupAppContext(dataClass, 0);
 
-      const { handleFieldEntityAssociationChange } = useDataClassChangeHandlers();
+      const { handleFieldEntityCardinalityChange: handleFieldEntityAssociationChange } = useDataClassChangeHandlers();
 
       const originalDataClass = structuredClone(dataClass);
       handleFieldEntityAssociationChange('MANY_TO_ONE');
@@ -379,7 +379,7 @@ describe('handleFieldEntityAssociationChange', () => {
       } as DataClass;
       const setDataClass = setupAppContext(dataClass, 0);
 
-      const { handleFieldEntityAssociationChange } = useDataClassChangeHandlers();
+      const { handleFieldEntityCardinalityChange: handleFieldEntityAssociationChange } = useDataClassChangeHandlers();
 
       const originalDataClass = structuredClone(dataClass);
       handleFieldEntityAssociationChange('ONE_TO_ONE');
@@ -396,7 +396,7 @@ describe('handleFieldEntityAssociationChange', () => {
       } as DataClass;
       const setDataClass = setupAppContext(dataClass, 0);
 
-      const { handleFieldEntityAssociationChange } = useDataClassChangeHandlers();
+      const { handleFieldEntityCardinalityChange: handleFieldEntityAssociationChange } = useDataClassChangeHandlers();
 
       const originalDataClass = structuredClone(dataClass);
       handleFieldEntityAssociationChange('ONE_TO_MANY');

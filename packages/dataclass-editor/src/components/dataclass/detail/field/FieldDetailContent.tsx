@@ -1,4 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Flex } from '@axonivy/ui-components';
+import { useEffect, useState } from 'react';
 import { useAppContext } from '../../../../context/AppContext';
 import { FieldProvider } from '../../../../context/FieldContext';
 import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
@@ -14,13 +15,17 @@ export const FieldDetailContent = () => {
   const { handleFieldPropertyChange } = useDataClassChangeHandlers();
 
   const field = selectedField !== undefined && selectedField < dataClass.fields.length ? dataClass.fields[selectedField] : undefined;
+
+  const [renderEntity, setRenderEntity] = useState(false);
+  useEffect(() => setRenderEntity(isEntityField(field)), [field]);
+
   if (!field) {
     return;
   }
 
   return (
     <FieldProvider value={{ field: field }}>
-      <Accordion type='single' collapsible defaultValue='general'>
+      <Accordion type='single' collapsible defaultValue='general' className='field-detail-content'>
         <AccordionItem value='general'>
           <AccordionTrigger>General</AccordionTrigger>
           <AccordionContent>
@@ -34,7 +39,7 @@ export const FieldDetailContent = () => {
             </Flex>
           </AccordionContent>
         </AccordionItem>
-        {isEntityField(field) && field.modifiers.includes('PERSISTENT') && (
+        {renderEntity && (
           <AccordionItem value='entity'>
             <AccordionTrigger>Entity</AccordionTrigger>
             <AccordionContent>

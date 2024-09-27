@@ -17,8 +17,11 @@ import { FieldEntityCascadeTypeCheckbox } from './FieldEntityCascadeTypeCheckbox
 
 export const FieldEntityAssociation = () => {
   const { field } = useFieldContext();
-  const { handleFieldEntityAssociationChange, handleFieldEntityMappedByFieldNameChange, handleFieldEntityPropertyChange } =
-    useDataClassChangeHandlers();
+  const {
+    handleFieldEntityCardinalityChange: handleFieldEntityAssociationChange,
+    handleFieldEntityMappedByFieldNameChange,
+    handleFieldEntityPropertyChange
+  } = useDataClassChangeHandlers();
   if (!isEntityField(field)) {
     return;
   }

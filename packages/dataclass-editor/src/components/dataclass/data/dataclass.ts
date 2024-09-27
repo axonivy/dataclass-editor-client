@@ -43,8 +43,18 @@ export type DataClassFieldModifier =
 
 export type DataClassFieldEntityAssociation = 'ONE_TO_ONE' | 'ONE_TO_MANY' | 'MANY_TO_ONE';
 
-export const dataClassFieldEntityCascadeTypes = ['PERSIST', 'MERGE', 'REMOVE', 'REFRESH'] as const;
-export type DataClassFieldEntityCascadeType = (typeof dataClassFieldEntityCascadeTypes)[number] | 'ALL';
+export const DATA_CLASS_FIELD_TYPE_DATABASE_LENGTHS = {
+  String: '255',
+  BigInteger: '19,2',
+  BigDecimal: '19,2'
+} as const;
+export type DataClassFieldLengthType = keyof typeof DATA_CLASS_FIELD_TYPE_DATABASE_LENGTHS;
 
-export const dataClassIDTypes = ['String', 'Integer', 'Long'] as const;
-export const dataClassVersionTypes = ['Short', 'Integer', 'Long', 'java.sql.Timestamp'] as const;
+export const DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES = ['PERSIST', 'MERGE', 'REMOVE', 'REFRESH'] as const;
+export type DataClassFieldEntityCascadeType = (typeof DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES)[number] | 'ALL';
+
+export const DATA_CLASS_FIELD_ID_TYPES = ['String', 'Integer', 'Long'] as const;
+export type DataClassFieldIDType = (typeof DATA_CLASS_FIELD_ID_TYPES)[number];
+
+export const DATA_CLASS_FIELD_VERSION_TYPES = ['Short', 'Integer', 'Long', 'java.sql.Timestamp'] as const;
+export type DataClassFieldVersionType = (typeof DATA_CLASS_FIELD_VERSION_TYPES)[number];

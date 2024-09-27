@@ -1,9 +1,7 @@
 import { useAppContext } from '../../../context/AppContext';
 import { areArraysIdentical } from '../../../utils/array/array';
 import {
-  dataClassFieldEntityCascadeTypes,
-  dataClassIDTypes,
-  dataClassVersionTypes,
+  DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES,
   type DataClass,
   type DataClassEntity,
   type DataClassField,
@@ -12,7 +10,7 @@ import {
   type DataClassFieldEntityCascadeType,
   type DataClassFieldModifier
 } from './dataclass';
-import { isEntity } from './dataclass-utils';
+import { isDataClassIDType, isDataClassVersionType, isEntity } from './dataclass-utils';
 
 export const useDataClassChangeHandlers = () => {
   const { dataClass, setDataClass, selectedField } = useAppContext();
@@ -76,10 +74,10 @@ export const useDataClassChangeHandlers = () => {
     }
     const newDataClass = structuredClone(dataClass);
     const newField = newDataClass.fields[selectedField];
-    if (!dataClassIDTypes.includes(type)) {
+    if (!isDataClassIDType(type)) {
       newField.modifiers = updateModifiers(false, newField.modifiers, 'ID');
     }
-    if (!dataClassVersionTypes.includes(type)) {
+    if (!isDataClassVersionType(type)) {
       newField.modifiers = updateModifiers(false, newField.modifiers, 'VERSION');
     }
     newField.type = type;
@@ -119,7 +117,7 @@ export const useDataClassChangeHandlers = () => {
     handleFieldPropertyChange('entity', newEntity);
   };
 
-  const handleFieldEntityAssociationChange = (association: DataClassFieldEntityAssociation | undefined) => {
+  const handleFieldEntityCardinalityChange = (association: DataClassFieldEntityAssociation | undefined) => {
     if (selectedField == undefined || !isEntity(dataClass)) {
       return;
     }
@@ -147,7 +145,7 @@ export const useDataClassChangeHandlers = () => {
       return;
     }
 
-    const allCascadeTypes = [...dataClassFieldEntityCascadeTypes];
+    const allCascadeTypes = [...DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES];
 
     const newDataClass = structuredClone(dataClass);
     const newFieldEntity = newDataClass.fields[selectedField].entity;
@@ -186,7 +184,7 @@ export const useDataClassChangeHandlers = () => {
     handleFieldTypeChange,
     handleFieldModifierChange,
     handleFieldEntityPropertyChange,
-    handleFieldEntityAssociationChange,
+    handleFieldEntityCardinalityChange,
     handleFieldEntityCascadeTypeChange,
     handleFieldEntityMappedByFieldNameChange
   };

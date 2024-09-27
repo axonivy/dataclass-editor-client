@@ -1,8 +1,13 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input } from '@axonivy/ui-components';
 import { useFieldContext } from '../../../../../context/FieldContext';
-import { dataClassIDTypes, dataClassVersionTypes } from '../../../data/dataclass';
 import { useDataClassChangeHandlers } from '../../../data/dataclass-change-handlers';
-import { isEntityField } from '../../../data/dataclass-utils';
+import {
+  defaultDatabaseFieldLengthOf,
+  fieldTypeCanHaveDatabaseFieldLength,
+  isDataClassIDType,
+  isDataClassVersionType,
+  isEntityField
+} from '../../../data/dataclass-utils';
 import { FieldModifierCheckbox } from '../FieldModifierCheckbox';
 
 export const FieldEntityDatabaseField = () => {
@@ -13,7 +18,7 @@ export const FieldEntityDatabaseField = () => {
   }
 
   const mappedByFieldNameIsSet = field.entity.mappedByFieldName !== '';
-  const typeCanHaveDatabaseFieldLength = field.type !== 'String' && field.type !== 'BigInteger' && field.type !== 'BigDecimal';
+  const canHaveDatabaseFieldLength = fieldTypeCanHaveDatabaseFieldLength(field.type);
 
   const modifersContainID = field.modifiers.includes('ID');
   const modifiersContainVersion = field.modifiers.includes('VERSION');
@@ -22,8 +27,8 @@ export const FieldEntityDatabaseField = () => {
   return (
     <Collapsible
       defaultOpen={
-        !(mappedByFieldNameIsSet || field.entity.databaseName === '') ||
-        !(typeCanHaveDatabaseFieldLength || field.entity.databaseFieldLength === '') ||
+        (!mappedByFieldNameIsSet && field.entity.databaseName !== '') ||
+        (canHaveDatabaseFieldLength && field.entity.databaseFieldLength !== '') ||
         field.modifiers.some(modifier => modifier !== 'PERSISTENT')
       }
     >
@@ -40,17 +45,17 @@ export const FieldEntityDatabaseField = () => {
           </BasicField>
           <BasicField label='Length'>
             <Input
-              value={typeCanHaveDatabaseFieldLength ? '' : field.entity.databaseFieldLength}
+              value={canHaveDatabaseFieldLength ? field.entity.databaseFieldLength : ''}
               onChange={event => handleFieldEntityPropertyChange('databaseFieldLength', event.target.value)}
-              placeholder={field.type === 'String' ? '255' : field.type === 'BigInteger' || field.type === 'BigDecimal' ? '19,2' : ''}
-              disabled={typeCanHaveDatabaseFieldLength}
+              placeholder={defaultDatabaseFieldLengthOf(field.type)}
+              disabled={!canHaveDatabaseFieldLength}
             />
           </BasicField>
           <BasicField label='Properties'>
             <FieldModifierCheckbox
               label='ID'
               modifier='ID'
-              disabled={modifiersContainVersion || !dataClassIDTypes.includes(field.type) || mappedByFieldNameIsSet}
+              disabled={modifiersContainVersion || !isDataClassIDType(field.type) || mappedByFieldNameIsSet}
             />
             <FieldModifierCheckbox label='Generated' modifier='GENERATED' disabled={!modifersContainID || mappedByFieldNameIsSet} />
             <FieldModifierCheckbox
@@ -72,7 +77,7 @@ export const FieldEntityDatabaseField = () => {
             <FieldModifierCheckbox
               label='Version'
               modifier='VERSION'
-              disabled={modifersContainID || !dataClassVersionTypes.includes(field.type) || mappedByFieldNameIsSet}
+              disabled={modifersContainID || !isDataClassVersionType(field.type) || mappedByFieldNameIsSet}
             />
           </BasicField>
         </Flex>

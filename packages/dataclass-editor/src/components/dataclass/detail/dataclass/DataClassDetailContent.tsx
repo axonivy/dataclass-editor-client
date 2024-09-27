@@ -12,7 +12,7 @@ export const DataClassDetailContent = () => {
   const { handleDataClassPropertyChange } = useDataClassChangeHandlers();
 
   return (
-    <Accordion type='single' collapsible defaultValue='general'>
+    <Accordion type='single' collapsible defaultValue='general' className='dataclass-detail-content'>
       <AccordionItem value='general'>
         <AccordionTrigger>General</AccordionTrigger>
         <AccordionContent>

@@ -16,7 +16,7 @@ export class Annotations {
     this.delete = new Button(this.collapsible.locator, { name: 'Delete annotation' });
   }
 
-  async expectToHaveValues(...annotations: Array<string>) {
+  async expectToHaveValues(annotations: Array<string>) {
     await this.collapsible.open();
     await this.table.expectToHaveValues(...annotations.map(anno => [anno]));
   }
