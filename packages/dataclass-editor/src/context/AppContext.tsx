@@ -1,7 +1,9 @@
 import { createContext, useContext } from 'react';
 import type { DataClass } from '../components/dataclass/data/dataclass';
+import type { DataContext } from '../protocol/types';
 
 type AppContext = {
+  context: DataContext;
   dataClass: DataClass;
   setDataClass: (dataClass: DataClass) => void;
   selectedField?: number;
@@ -11,6 +13,7 @@ type AppContext = {
 };
 
 const appContext = createContext<AppContext>({
+  context: { app: '', pmv: '', file: '' },
   dataClass: {} as DataClass,
   setDataClass: () => {},
   selectedField: undefined,

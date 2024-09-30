@@ -4,6 +4,11 @@ export type Data = { context: DataContext; data: DataClass };
 export type DataContext = { app: string; pmv: string; file: string };
 export type EditorProps = { context: DataContext; directSave?: boolean };
 export type SaveArgs = Data & { directSave?: boolean };
+export interface DataClassActionArgs {
+  actionId: 'openForm' | 'openProcess';
+  payload: string;
+  context: DataContext;
+}
 
 export interface RequestTypes {
   data: [DataContext, Data];
@@ -11,6 +16,10 @@ export interface RequestTypes {
 }
 
 export interface NotificationTypes {
+  action: DataClassActionArgs;
+}
+
+export interface OnNotificationTypes {
   dataChanged: void;
 }
 
@@ -25,6 +34,9 @@ export interface Disposable {
 export interface Client {
   data(context: DataContext): Promise<Data>;
   saveData(saveArgs: SaveArgs): Promise<String>;
+
+  action(action: DataClassActionArgs): void;
+
   onDataChanged: Event<void>;
 }
 

@@ -15,6 +15,7 @@ export class DataClassEditor {
   readonly page: Page;
   readonly title: Locator;
   readonly detailPanel: Locator;
+  readonly toolbar: Locator;
   readonly detailToggle: Button;
   readonly detail: Detail;
   readonly settings: Settings;
@@ -26,7 +27,8 @@ export class DataClassEditor {
     this.page = page;
     this.title = this.page.locator('.master-header');
     this.detailPanel = this.page.locator('.detail-panel');
-    this.detailToggle = new Button(this.page.locator('.master-toolbar'), { name: 'Details toggle' });
+    this.toolbar = this.page.locator('.master-toolbar');
+    this.detailToggle = new Button(this.toolbar, { name: 'Details toggle' });
     this.detail = new Detail(this.page);
     this.settings = new Settings(this.page);
     this.table = new Table(this.page.locator('.master-content'));

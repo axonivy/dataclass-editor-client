@@ -79,12 +79,13 @@ function DataClassEditor(props: EditorProps) {
   return (
     <AppProvider
       value={{
-        dataClass: dataClass,
+        context,
+        dataClass,
         setDataClass: dataClass => mutation.mutate(() => dataClass),
-        selectedField: selectedField,
-        setSelectedField: setSelectedField,
-        detail: detail,
-        setDetail: setDetail
+        selectedField,
+        setSelectedField,
+        detail,
+        setDetail
       }}
     >
       <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
