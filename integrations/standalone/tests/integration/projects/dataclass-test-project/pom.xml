@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>dataclass.test.project</groupId>
   <artifactId>dataclass-test-project</artifactId>
@@ -12,7 +14,7 @@
     <engine.page.url>https://product.ivyteam.io/</engine.page.url>
     <engine.test.app>ivy-dev-dataclass-test</engine.test.app>
     <engine.test.ws>dataclass-test</engine.test.ws>
-    <engine.dir>../.ivy-engine</engine.dir>
+    <engine.dir>${project.build.directory}/ivyEngine</engine.dir>
   </properties>
 
   <pluginRepositories>
