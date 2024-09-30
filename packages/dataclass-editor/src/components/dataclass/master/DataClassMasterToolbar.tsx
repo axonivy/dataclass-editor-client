@@ -16,19 +16,29 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useAppContext } from '../../../context/AppContext';
+import { useAction } from '../../../context/useAction';
 
 type DataClassMasterToolbarProps = {
   title: string;
 };
 
 export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) => {
-  const { detail, setDetail } = useAppContext();
+  const { context, detail, setDetail } = useAppContext();
   const { theme, setTheme } = useTheme();
+  const isFormData = context.file.includes('src_hd');
+  const openForm = useAction('openForm');
+  const openProcess = useAction('openProcess');
 
   return (
     <Toolbar className='master-toolbar'>
       <ToolbarTitle className='master-header'>{title}</ToolbarTitle>
       <Flex gap={1}>
+        {isFormData && (
+          <>
+            <Button icon={IvyIcons.File} size='large' aria-label='Open Form' onClick={() => openForm()} />
+            <Button icon={IvyIcons.Process} size='large' aria-label='Open Process' onClick={() => openProcess()} />
+          </>
+        )}
         {theme !== 'system' && (
           <Popover>
             <PopoverTrigger asChild>

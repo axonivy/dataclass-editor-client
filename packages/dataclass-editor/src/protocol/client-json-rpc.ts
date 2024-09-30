@@ -7,7 +7,7 @@ import {
   type Disposable,
   type MessageConnection
 } from '@axonivy/jsonrpc';
-import type { Client, Data, DataContext, NotificationTypes, RequestTypes } from './types';
+import type { Client, Data, DataClassActionArgs, DataContext, NotificationTypes, OnNotificationTypes, RequestTypes } from './types';
 
 export class ClientJsonRpc extends BaseRpcClient implements Client {
   protected onDataChangedEmitter = new Emitter<void>();
@@ -26,11 +26,19 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
     return this.sendRequest('saveData', saveData);
   }
 
+  action(action: DataClassActionArgs): void {
+    this.sendNotification('action', action);
+  }
+
   sendRequest<K extends keyof RequestTypes>(command: K, args: RequestTypes[K][0]): Promise<RequestTypes[K][1]> {
     return args === undefined ? this.connection.sendRequest(command) : this.connection.sendRequest(command, args);
   }
 
-  onNotification<K extends keyof NotificationTypes>(kind: K, listener: (args: NotificationTypes[K]) => any): Disposable {
+  sendNotification<K extends keyof NotificationTypes>(command: K, args: NotificationTypes[K]): Promise<void> {
+    return this.connection.sendNotification(command, args);
+  }
+
+  onNotification<K extends keyof OnNotificationTypes>(kind: K, listener: (args: OnNotificationTypes[K]) => any): Disposable {
     return this.connection.onNotification(kind, listener);
   }
 
