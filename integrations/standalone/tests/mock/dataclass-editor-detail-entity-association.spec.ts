@@ -21,22 +21,22 @@ test('cascade', async () => {
 
   await association.expectCascadeTypesToBeEnabled();
 
-  await association.cascadeTypes.All.click();
+  await association.cascadeTypes.all.click();
   await association.expectCascadeTypesToHaveCheckedState({
-    All: true,
-    Persist: true,
-    Merge: true,
-    Remove: true,
-    Refresh: true
+    all: true,
+    persist: true,
+    merge: true,
+    remove: true,
+    refresh: true
   });
 
-  await association.cascadeTypes.Merge.click();
+  await association.cascadeTypes.merge.click();
   await association.expectCascadeTypesToHaveCheckedState({
-    All: false,
-    Persist: true,
-    Merge: false,
-    Remove: true,
-    Refresh: true
+    all: false,
+    persist: true,
+    merge: false,
+    remove: true,
+    refresh: true
   });
 });
 

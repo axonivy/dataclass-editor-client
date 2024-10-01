@@ -13,12 +13,12 @@ test('load data', async () => {
   await editor.table.row(1).locator.click();
   await editor.detail.field.entity.accordion.open();
   await editor.detail.field.entity.databaseField.expectToHaveValues('dbFieldName0', '128', {
-    ID: false,
-    Generated: false,
-    'Not nullable': true,
-    Unique: true,
-    'Not updateable': true,
-    'Not insertable': true,
+    id: false,
+    generated: false,
+    notNullable: true,
+    unique: true,
+    notUpdateable: true,
+    notInsertable: true,
     Version: false
   });
 
@@ -27,11 +27,11 @@ test('load data', async () => {
   await editor.detail.field.entity.association.expectToHaveValues(
     'One-to-One',
     {
-      All: false,
-      Persist: false,
-      Merge: false,
-      Remove: true,
-      Refresh: true
+      all: false,
+      persist: false,
+      merge: false,
+      remove: true,
+      refresh: true
     },
     'invers',
     true
@@ -48,12 +48,12 @@ test('save data', async ({ page }) => {
   await editor.detail.field.general.properties.fillValues(true);
   await editor.detail.field.entity.accordion.open();
   await editor.detail.field.entity.databaseField.fillValues('NewDatabaseFieldName', 'NewDatabaseFieldLength', {
-    ID: true,
-    Generated: true,
-    'Not nullable': false,
-    Unique: false,
-    'Not updateable': false,
-    'Not insertable': false,
+    id: true,
+    generated: true,
+    notNullable: false,
+    unique: false,
+    notUpdateable: false,
+    notInsertable: false,
     Version: false
   });
 
@@ -63,11 +63,11 @@ test('save data', async ({ page }) => {
   await editor.detail.field.entity.association.fillValues(
     'One-to-One',
     {
-      All: true,
-      Persist: true,
-      Merge: true,
-      Remove: true,
-      Refresh: true
+      all: true,
+      persist: true,
+      merge: true,
+      remove: true,
+      refresh: true
     },
     'NewMappedByFieldName',
     true
@@ -82,12 +82,12 @@ test('save data', async ({ page }) => {
   await editor.table.row(0).locator.click();
   await editor.detail.field.entity.accordion.open();
   await editor.detail.field.entity.databaseField.expectToHaveValues('NewDatabaseFieldName', 'NewDatabaseFieldLength', {
-    ID: true,
-    Generated: true,
-    'Not nullable': false,
-    Unique: false,
-    'Not updateable': false,
-    'Not insertable': false,
+    id: true,
+    generated: true,
+    notNullable: false,
+    unique: false,
+    notUpdateable: false,
+    notInsertable: false,
     Version: false
   });
 
@@ -96,11 +96,11 @@ test('save data', async ({ page }) => {
   await editor.detail.field.entity.association.expectToHaveValues(
     'One-to-One',
     {
-      All: true,
-      Persist: true,
-      Merge: true,
-      Remove: true,
-      Refresh: true
+      all: true,
+      persist: true,
+      merge: true,
+      remove: true,
+      refresh: true
     },
     'NewMappedByFieldName',
     true

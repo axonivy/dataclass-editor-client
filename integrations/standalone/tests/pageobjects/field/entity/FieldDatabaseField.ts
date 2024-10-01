@@ -9,12 +9,12 @@ export class FieldDatabaseField {
   readonly name: TextArea;
   readonly length: TextArea;
   readonly properties: {
-    ID: Locator;
-    Generated: Locator;
-    'Not nullable': Locator;
-    Unique: Locator;
-    'Not updateable': Locator;
-    'Not insertable': Locator;
+    id: Locator;
+    generated: Locator;
+    notNullable: Locator;
+    unique: Locator;
+    notUpdateable: Locator;
+    notInsertable: Locator;
     Version: Locator;
   };
 
@@ -23,12 +23,12 @@ export class FieldDatabaseField {
     this.name = new TextArea(this.collapsible.locator, { label: 'Name' });
     this.length = new TextArea(this.collapsible.locator, { label: 'Length' });
     this.properties = {
-      ID: this.collapsible.locator.getByLabel('ID'),
-      Generated: this.collapsible.locator.getByLabel('Generated'),
-      'Not nullable': this.collapsible.locator.getByLabel('Not nullable'),
-      Unique: this.collapsible.locator.getByLabel('Unique'),
-      'Not updateable': this.collapsible.locator.getByLabel('Not updateable'),
-      'Not insertable': this.collapsible.locator.getByLabel('Not insertable'),
+      id: this.collapsible.locator.getByLabel('ID'),
+      generated: this.collapsible.locator.getByLabel('Generated'),
+      notNullable: this.collapsible.locator.getByLabel('Not nullable'),
+      unique: this.collapsible.locator.getByLabel('Unique'),
+      notUpdateable: this.collapsible.locator.getByLabel('Not updateable'),
+      notInsertable: this.collapsible.locator.getByLabel('Not insertable'),
       Version: this.collapsible.locator.getByLabel('Version')
     };
   }

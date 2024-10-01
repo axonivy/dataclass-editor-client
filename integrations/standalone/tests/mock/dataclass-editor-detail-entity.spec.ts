@@ -97,7 +97,7 @@ describe('collapsible state', async () => {
         expect(await entity.databaseField.collapsible.isOpen()).toBeFalsy();
 
         await entity.databaseField.collapsible.open();
-        await entity.databaseField.properties.ID.click();
+        await entity.databaseField.properties.id.click();
         await entity.accordion.reopen();
 
         expect(await entity.databaseField.collapsible.isOpen()).toBeTruthy();
@@ -116,11 +116,11 @@ describe('collapsible state', async () => {
       await entity.association.fillValues(
         'One-to-One',
         {
-          All: true,
-          Persist: false,
-          Merge: false,
-          Remove: false,
-          Refresh: false
+          all: true,
+          persist: false,
+          merge: false,
+          remove: false,
+          refresh: false
         },
         'MappedByFieldName',
         true

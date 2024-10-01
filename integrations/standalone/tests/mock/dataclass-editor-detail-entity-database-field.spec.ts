@@ -75,12 +75,12 @@ test('properties', async () => {
 
   // not a type that can be an ID or Version
   await databaseField.expectPropertiesToHaveEnabledState({
-    ID: false,
-    Generated: false,
-    'Not nullable': true,
-    Unique: true,
-    'Not updateable': true,
-    'Not insertable': true,
+    id: false,
+    generated: false,
+    notNullable: true,
+    unique: true,
+    notUpdateable: true,
+    notInsertable: true,
     Version: false
   });
 
@@ -92,39 +92,39 @@ test('properties', async () => {
 
   // a type that can be an ID or Version
   await databaseField.expectPropertiesToHaveEnabledState({
-    ID: true,
-    Generated: false,
-    'Not nullable': true,
-    Unique: true,
-    'Not updateable': true,
-    'Not insertable': true,
+    id: true,
+    generated: false,
+    notNullable: true,
+    unique: true,
+    notUpdateable: true,
+    notInsertable: true,
     Version: true
   });
 
-  await databaseField.properties.ID.click();
+  await databaseField.properties.id.click();
 
   // ID is selected
   await databaseField.expectPropertiesToHaveEnabledState({
-    ID: true,
-    Generated: true,
-    'Not nullable': false,
-    Unique: false,
-    'Not updateable': false,
-    'Not insertable': false,
+    id: true,
+    generated: true,
+    notNullable: false,
+    unique: false,
+    notUpdateable: false,
+    notInsertable: false,
     Version: false
   });
 
-  await databaseField.properties.ID.click();
+  await databaseField.properties.id.click();
   await databaseField.properties.Version.click();
 
   // Version is selected
   await databaseField.expectPropertiesToHaveEnabledState({
-    ID: false,
-    Generated: false,
-    'Not nullable': false,
-    Unique: false,
-    'Not updateable': false,
-    'Not insertable': false,
+    id: false,
+    generated: false,
+    notNullable: false,
+    unique: false,
+    notUpdateable: false,
+    notInsertable: false,
     Version: true
   });
 
@@ -135,12 +135,12 @@ test('properties', async () => {
 
   // mappedByFieldName is set
   await databaseField.expectPropertiesToHaveEnabledState({
-    ID: false,
-    Generated: false,
-    'Not nullable': false,
-    Unique: false,
-    'Not updateable': false,
-    'Not insertable': false,
+    id: false,
+    generated: false,
+    notNullable: false,
+    unique: false,
+    notUpdateable: false,
+    notInsertable: false,
     Version: false
   });
 });

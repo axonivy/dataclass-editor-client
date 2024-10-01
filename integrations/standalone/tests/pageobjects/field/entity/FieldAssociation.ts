@@ -9,11 +9,11 @@ export class FieldAssociation {
   readonly collapsible: Collapsible;
   readonly cardinality: Select;
   readonly cascadeTypes: {
-    All: Locator;
-    Persist: Locator;
-    Merge: Locator;
-    Remove: Locator;
-    Refresh: Locator;
+    all: Locator;
+    persist: Locator;
+    merge: Locator;
+    remove: Locator;
+    refresh: Locator;
   };
   readonly mappedBy: TextArea;
   readonly removeOrphans: Locator;
@@ -22,11 +22,11 @@ export class FieldAssociation {
     this.collapsible = new Collapsible(page, parentLocator, { label: 'Association' });
     this.cardinality = new Select(page, this.collapsible.locator, { label: 'Cardinality' });
     this.cascadeTypes = {
-      All: this.collapsible.locator.getByLabel('All'),
-      Persist: this.collapsible.locator.getByLabel('Persist'),
-      Merge: this.collapsible.locator.getByLabel('Merge'),
-      Remove: this.collapsible.locator.getByLabel('Remove', { exact: true }),
-      Refresh: this.collapsible.locator.getByLabel('Refresh')
+      all: this.collapsible.locator.getByLabel('All'),
+      persist: this.collapsible.locator.getByLabel('Persist'),
+      merge: this.collapsible.locator.getByLabel('Merge'),
+      remove: this.collapsible.locator.getByLabel('Remove', { exact: true }),
+      refresh: this.collapsible.locator.getByLabel('Refresh')
     };
     this.mappedBy = new TextArea(this.collapsible.locator, { label: 'Mapped by' });
     this.removeOrphans = this.collapsible.locator.getByLabel('Remove orphans');
