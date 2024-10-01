@@ -42,13 +42,21 @@ export class FieldDatabaseField {
 
   async expectPropertiesToHaveCheckedState(properties: FieldDatabaseFieldProperties) {
     for (const [property, locator] of Object.entries(this.properties) as Array<[keyof FieldDatabaseFieldProperties, Locator]>) {
-      expect(await locator.isChecked()).toEqual(properties[property]);
+      if (properties[property]) {
+        await expect(locator).toBeChecked();
+      } else {
+        await expect(locator).not.toBeChecked();
+      }
     }
   }
 
   async expectPropertiesToHaveEnabledState(properties: FieldDatabaseFieldProperties) {
     for (const [property, locator] of Object.entries(this.properties) as Array<[keyof FieldDatabaseFieldProperties, Locator]>) {
-      expect(await locator.isEnabled()).toEqual(properties[property]);
+      if (properties[property]) {
+        await expect(locator).toBeEnabled();
+      } else {
+        await expect(locator).toBeDisabled();
+      }
     }
   }
 

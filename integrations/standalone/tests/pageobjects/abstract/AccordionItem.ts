@@ -1,4 +1,4 @@
-import { type Locator, type Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 import { Button } from './Button';
 
 export class AccordionItem {
@@ -18,18 +18,14 @@ export class AccordionItem {
     this.trigger = new Button(this.locator);
   }
 
-  async isOpen() {
-    return (await this.locator.getAttribute('data-state')) === 'open';
-  }
-
   async open() {
-    if (!(await this.isOpen())) {
+    if ((await this.locator.getAttribute('data-state')) === 'closed') {
       await this.trigger.locator.click();
     }
   }
 
   async close() {
-    if (await this.isOpen()) {
+    if ((await this.locator.getAttribute('data-state')) === 'open') {
       await this.trigger.locator.click();
     }
   }
@@ -37,5 +33,13 @@ export class AccordionItem {
   async reopen() {
     await this.close();
     await this.open();
+  }
+
+  async expectToBeOpen() {
+    expect(this.locator).toHaveAttribute('data-state', 'open');
+  }
+
+  async expectToBeClosed() {
+    expect(this.locator).toHaveAttribute('data-state', 'closed');
   }
 }

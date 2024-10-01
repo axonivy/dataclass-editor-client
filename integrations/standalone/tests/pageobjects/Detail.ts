@@ -17,13 +17,21 @@ export class Detail {
 
   async expectToBeDataClass(isEntity = false) {
     await expect(this.dataClass.locator).toBeVisible();
-    expect(await this.dataClass.entity.accordion.locator.isVisible()).toEqual(isEntity);
+    if (isEntity) {
+      await expect(this.dataClass.entity.accordion.locator).toBeVisible();
+    } else {
+      await expect(this.dataClass.entity.accordion.locator).toBeHidden();
+    }
     await expect(this.field.locator).toBeHidden();
   }
 
   async expectToBeField(isEntity = false) {
     await expect(this.field.locator).toBeVisible();
-    expect(await this.field.entity.accordion.locator.isVisible()).toEqual(isEntity);
+    if (isEntity) {
+      await expect(this.field.entity.accordion.locator).toBeVisible();
+    } else {
+      await expect(this.field.entity.accordion.locator).toBeHidden();
+    }
     await expect(this.dataClass.locator).toBeHidden();
   }
 }

@@ -42,7 +42,11 @@ export class FieldAssociation {
 
   async expectCascadeTypesToHaveCheckedState(cascadeTypes: FieldAssociationCascadeTypes) {
     for (const [cascadeType, locator] of Object.entries(this.cascadeTypes) as Array<[keyof FieldAssociationCascadeTypes, Locator]>) {
-      expect(await locator.isChecked()).toEqual(cascadeTypes[cascadeType]);
+      if (cascadeTypes[cascadeType]) {
+        await expect(locator).toBeChecked();
+      } else {
+        await expect(locator).not.toBeChecked();
+      }
     }
   }
 

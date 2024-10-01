@@ -1,4 +1,4 @@
-import { type Locator, type Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 
 export class Collapsible {
   readonly locator: Locator;
@@ -13,13 +13,17 @@ export class Collapsible {
     }
   }
 
-  async isOpen() {
-    return (await this.locator.getAttribute('data-state')) === 'open';
-  }
-
   async open() {
-    if (!(await this.isOpen())) {
+    if ((await this.locator.getAttribute('data-state')) === 'closed') {
       await this.locator.click();
     }
+  }
+
+  async expectToBeOpen() {
+    expect(this.locator).toHaveAttribute('data-state', 'open');
+  }
+
+  async expectToBeClosed() {
+    expect(this.locator).toHaveAttribute('data-state', 'closed');
   }
 }

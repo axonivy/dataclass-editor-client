@@ -9,26 +9,26 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('accordion state', async () => {
-  expect(await editor.detail.dataClass.general.accordion.isOpen()).toBeTruthy();
+  await editor.detail.dataClass.general.accordion.expectToBeOpen();
 
   await editor.table.row(0).locator.click();
-  expect(await editor.detail.field.general.accordion.isOpen()).toBeTruthy();
+  await editor.detail.field.general.accordion.expectToBeOpen();
 });
 
 describe('collapsible state', async () => {
   test('dataclass', async () => {
     const general = editor.detail.dataClass.general;
 
-    expect(await general.nameDescription.collapsible.isOpen()).toBeTruthy();
-    expect(await general.annotations.collapsible.isOpen()).toBeTruthy();
-    expect(await general.classType.collapsible.isOpen()).toBeFalsy();
+    await general.nameDescription.collapsible.expectToBeOpen();
+    await general.annotations.collapsible.expectToBeOpen();
+    await general.classType.collapsible.expectToBeClosed();
 
     await general.fillValues('', [], 'Entity');
     await general.accordion.reopen();
 
-    expect(await general.nameDescription.collapsible.isOpen()).toBeTruthy();
-    expect(await general.annotations.collapsible.isOpen()).toBeFalsy();
-    expect(await general.classType.collapsible.isOpen()).toBeFalsy();
+    await general.nameDescription.collapsible.expectToBeOpen();
+    await general.annotations.collapsible.expectToBeClosed();
+    await general.classType.collapsible.expectToBeClosed();
   });
 
   test('field', async () => {
@@ -36,16 +36,16 @@ describe('collapsible state', async () => {
 
     await editor.table.row(0).locator.click();
 
-    expect(await general.nameTypeComment.collapsible.isOpen()).toBeTruthy();
-    expect(await general.properties.collapsible.isOpen()).toBeTruthy();
-    expect(await general.annotations.collapsible.isOpen()).toBeFalsy();
+    await general.nameTypeComment.collapsible.expectToBeOpen();
+    await general.properties.collapsible.expectToBeOpen();
+    await general.annotations.collapsible.expectToBeClosed();
 
     await general.fillValues('NewName', 'Integer', '', false, ['annotation']);
     await general.accordion.reopen();
 
-    expect(await general.nameTypeComment.collapsible.isOpen()).toBeTruthy();
-    expect(await general.properties.collapsible.isOpen()).toBeFalsy();
-    expect(await general.annotations.collapsible.isOpen()).toBeTruthy();
+    await general.nameTypeComment.collapsible.expectToBeOpen();
+    await general.properties.collapsible.expectToBeClosed();
+    await general.annotations.collapsible.expectToBeOpen();
   });
 });
 
