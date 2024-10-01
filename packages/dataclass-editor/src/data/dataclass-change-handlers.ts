@@ -1,5 +1,5 @@
+import { deepEqual } from '@axonivy/ui-components';
 import { useAppContext } from '../context/AppContext';
-import { areArraysIdentical } from '../utils/array/array';
 import {
   DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES,
   type DataClass,
@@ -152,7 +152,7 @@ export const useDataClassChangeHandlers = () => {
     let newCascadeTypes = newFieldEntity.cascadeTypes;
     if (add) {
       newCascadeTypes.push(cascadeType);
-      if (areArraysIdentical(newCascadeTypes, allCascadeTypes)) {
+      if (deepEqual([...newCascadeTypes].sort(), [...allCascadeTypes].sort())) {
         newCascadeTypes = ['ALL'];
       }
     } else {
