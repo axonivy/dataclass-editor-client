@@ -1,34 +1,28 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input } from '@axonivy/ui-components';
-import { useFieldContext } from '../../../context/FieldContext';
-import { useDataClassChangeHandlers } from '../../../data/dataclass-change-handlers';
-import {
-  defaultDatabaseFieldLengthOf,
-  fieldTypeCanHaveDatabaseFieldLength,
-  isDataClassIDType,
-  isDataClassVersionType,
-  isEntityField
-} from '../../../data/dataclass-utils';
+import { useEntityField } from '../../../context/FieldContext';
+import { useFieldEntityProperty } from '../../../data/dataclass-hooks';
 import { FieldModifierCheckbox } from '../FieldModifierCheckbox';
 
+const DATABASE_TYPE_LENGHTS = {
+  String: '255',
+  BigInteger: '19,2',
+  BigDecimal: '19,2'
+} as const;
+export const typeCanHaveDatabaseLength = (type: string) => Object.hasOwn(DATABASE_TYPE_LENGHTS, type);
+export const defaultLengthOfType = (type: string) => DATABASE_TYPE_LENGHTS[type as keyof typeof DATABASE_TYPE_LENGHTS] || '';
+
 export const FieldEntityDatabaseField = () => {
-  const { field } = useFieldContext();
-  const { handleFieldEntityPropertyChange } = useDataClassChangeHandlers();
-  if (!isEntityField(field)) {
-    return;
-  }
+  const { field } = useEntityField();
+  const setProperty = useFieldEntityProperty();
 
   const mappedByFieldNameIsSet = field.entity.mappedByFieldName !== '';
-  const canHaveDatabaseFieldLength = fieldTypeCanHaveDatabaseFieldLength(field.type);
-
-  const modifersContainID = field.modifiers.includes('ID');
-  const modifiersContainVersion = field.modifiers.includes('VERSION');
-  const modifiersContainIDOrVersion = modifersContainID || modifiersContainVersion;
+  const canHaveDatabaseLength = typeCanHaveDatabaseLength(field.type);
 
   return (
     <Collapsible
       defaultOpen={
         (!mappedByFieldNameIsSet && field.entity.databaseName !== '') ||
-        (canHaveDatabaseFieldLength && field.entity.databaseFieldLength !== '') ||
+        (canHaveDatabaseLength && field.entity.databaseFieldLength !== '') ||
         field.modifiers.some(modifier => modifier !== 'PERSISTENT')
       }
     >
@@ -38,47 +32,27 @@ export const FieldEntityDatabaseField = () => {
           <BasicField label='Name'>
             <Input
               value={mappedByFieldNameIsSet ? '' : field.entity.databaseName}
-              onChange={event => handleFieldEntityPropertyChange('databaseName', event.target.value)}
+              onChange={event => setProperty('databaseName', event.target.value)}
               placeholder={mappedByFieldNameIsSet ? '' : field.name}
               disabled={mappedByFieldNameIsSet}
             />
           </BasicField>
           <BasicField label='Length'>
             <Input
-              value={canHaveDatabaseFieldLength ? field.entity.databaseFieldLength : ''}
-              onChange={event => handleFieldEntityPropertyChange('databaseFieldLength', event.target.value)}
-              placeholder={defaultDatabaseFieldLengthOf(field.type)}
-              disabled={!canHaveDatabaseFieldLength}
+              value={canHaveDatabaseLength ? field.entity.databaseFieldLength : ''}
+              onChange={event => setProperty('databaseFieldLength', event.target.value)}
+              placeholder={defaultLengthOfType(field.type)}
+              disabled={!canHaveDatabaseLength}
             />
           </BasicField>
           <BasicField label='Properties'>
-            <FieldModifierCheckbox
-              label='ID'
-              modifier='ID'
-              disabled={modifiersContainVersion || !isDataClassIDType(field.type) || mappedByFieldNameIsSet}
-            />
-            <FieldModifierCheckbox label='Generated' modifier='GENERATED' disabled={!modifersContainID || mappedByFieldNameIsSet} />
-            <FieldModifierCheckbox
-              label='Not nullable'
-              modifier='NOT_NULLABLE'
-              disabled={modifiersContainIDOrVersion || mappedByFieldNameIsSet}
-            />
-            <FieldModifierCheckbox label='Unique' modifier='UNIQUE' disabled={modifiersContainIDOrVersion || mappedByFieldNameIsSet} />
-            <FieldModifierCheckbox
-              label='Not updateable'
-              modifier='NOT_UPDATEABLE'
-              disabled={modifiersContainIDOrVersion || mappedByFieldNameIsSet}
-            />
-            <FieldModifierCheckbox
-              label='Not insertable'
-              modifier='NOT_INSERTABLE'
-              disabled={modifiersContainIDOrVersion || mappedByFieldNameIsSet}
-            />
-            <FieldModifierCheckbox
-              label='Version'
-              modifier='VERSION'
-              disabled={modifersContainID || !isDataClassVersionType(field.type) || mappedByFieldNameIsSet}
-            />
+            <FieldModifierCheckbox label='ID' modifier='ID' />
+            <FieldModifierCheckbox label='Generated' modifier='GENERATED' />
+            <FieldModifierCheckbox label='Not nullable' modifier='NOT_NULLABLE' />
+            <FieldModifierCheckbox label='Unique' modifier='UNIQUE' />
+            <FieldModifierCheckbox label='Not updateable' modifier='NOT_UPDATEABLE' />
+            <FieldModifierCheckbox label='Not insertable' modifier='NOT_INSERTABLE' />
+            <FieldModifierCheckbox label='Version' modifier='VERSION' />
           </BasicField>
         </Flex>
       </CollapsibleContent>

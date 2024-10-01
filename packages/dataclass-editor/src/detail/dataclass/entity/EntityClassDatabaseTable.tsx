@@ -1,25 +1,28 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input } from '@axonivy/ui-components';
-import { useAppContext } from '../../../context/AppContext';
-import { useDataClassChangeHandlers } from '../../../data/dataclass-change-handlers';
-import { isEntity } from '../../../data/dataclass-utils';
+import { useEntityClass } from '../../../context/AppContext';
+import type { DataClassEntity } from '../../../data/dataclass';
+
+export const useEntityProperty = () => {
+  const { entityClass, setEntityClass } = useEntityClass();
+  const setProperty = <EKey extends keyof DataClassEntity>(key: EKey, value: DataClassEntity[EKey]) => {
+    const newEntityClass = structuredClone(entityClass);
+    newEntityClass.entity[key] = value;
+    setEntityClass(newEntityClass);
+  };
+  return setProperty;
+};
 
 export const EntityClassDatabaseTable = () => {
-  const { dataClass } = useAppContext();
-  const { handleDataClassEntityPropertyChange } = useDataClassChangeHandlers();
-  if (!isEntity(dataClass)) {
-    return;
-  }
+  const { entityClass } = useEntityClass();
+  const setProperty = useEntityProperty();
 
   return (
-    <Collapsible defaultOpen={dataClass.entity.tableName !== ''}>
+    <Collapsible defaultOpen={entityClass.entity.tableName !== ''}>
       <CollapsibleTrigger>Database Table</CollapsibleTrigger>
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
           <BasicField label='Name'>
-            <Input
-              value={dataClass.entity.tableName}
-              onChange={event => handleDataClassEntityPropertyChange('tableName', event.target.value)}
-            />
+            <Input value={entityClass.entity.tableName} onChange={event => setProperty('tableName', event.target.value)} />
           </BasicField>
         </Flex>
       </CollapsibleContent>

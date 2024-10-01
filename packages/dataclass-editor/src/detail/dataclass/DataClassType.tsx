@@ -1,27 +1,55 @@
 import { BasicSelect, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@axonivy/ui-components';
 import { useAppContext } from '../../context/AppContext';
-import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
+import type { DataClassType as ClassType } from '../../data/dataclass';
 import { classTypeOf } from '../../data/dataclass-utils';
 
-export const DataClassType = () => {
-  const { dataClass } = useAppContext();
-  const { handleClassTypeChange } = useDataClassChangeHandlers();
+export const useClassType = () => {
+  const { dataClass, setDataClass } = useAppContext();
+  const setClassType = (classType: ClassType) => {
+    const newDataClass = structuredClone(dataClass);
 
-  const classType = classTypeOf(dataClass);
+    newDataClass.isBusinessCaseData = false;
+    newDataClass.entity = undefined;
+    newDataClass.fields.forEach(field => {
+      field.modifiers = field.modifiers.filter(modifier => modifier === 'PERSISTENT');
+      field.entity = undefined;
+    });
+
+    if (classType === 'BUSINESS_DATA') {
+      newDataClass.isBusinessCaseData = true;
+    } else if (classType === 'ENTITY') {
+      newDataClass.entity = { tableName: '' };
+      newDataClass.fields.forEach(
+        field =>
+          (field.entity = {
+            databaseName: '',
+            databaseFieldLength: '',
+            cascadeTypes: [],
+            mappedByFieldName: '',
+            orphanRemoval: false
+          })
+      );
+    }
+
+    setDataClass(newDataClass);
+  };
+  return { classType: classTypeOf(dataClass), setClassType };
+};
+
+export const DataClassType = () => {
+  const { classType, setClassType } = useClassType();
+
+  const dataClassTypeItems: Array<{ value: ClassType; label: string }> = [
+    { value: 'DATA', label: 'Data' },
+    { value: 'BUSINESS_DATA', label: 'Business Data' },
+    { value: 'ENTITY', label: 'Entity' }
+  ];
 
   return (
     <Collapsible>
       <CollapsibleTrigger>Class type</CollapsibleTrigger>
       <CollapsibleContent>
-        <BasicSelect
-          value={classType}
-          items={[
-            { value: 'DATA', label: 'Data' },
-            { value: 'BUSINESS_DATA', label: 'Business Data' },
-            { value: 'ENTITY', label: 'Entity' }
-          ]}
-          onValueChange={classType => handleClassTypeChange(classType)}
-        />
+        <BasicSelect value={classType} items={dataClassTypeItems} onValueChange={setClassType} />
       </CollapsibleContent>
     </Collapsible>
   );

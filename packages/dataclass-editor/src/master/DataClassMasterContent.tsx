@@ -21,9 +21,16 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
 import { useAppContext } from '../context/AppContext';
 import { type DataClassField } from '../data/dataclass';
-import { className } from '../data/dataclass-utils';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
+
+export const className = (qualifiedName: string) => {
+  const lastDotIndex = qualifiedName.lastIndexOf('.');
+  if (lastDotIndex === -1) {
+    return qualifiedName;
+  }
+  return qualifiedName.substring(lastDotIndex + 1);
+};
 
 export const DataClassMasterContent = () => {
   const { dataClass, setDataClass, setSelectedField } = useAppContext();

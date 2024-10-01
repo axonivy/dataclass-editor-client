@@ -36,10 +36,10 @@ export class AccordionItem {
   }
 
   async expectToBeOpen() {
-    expect(this.locator).toHaveAttribute('data-state', 'open');
+    await expect(this.locator).toHaveAttribute('data-state', 'open');
   }
 
   async expectToBeClosed() {
-    expect(this.locator).toHaveAttribute('data-state', 'closed');
+    await expect(this.locator).toHaveAttribute('data-state', 'closed');
   }
 }

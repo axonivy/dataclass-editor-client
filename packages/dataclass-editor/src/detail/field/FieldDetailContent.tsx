@@ -1,45 +1,38 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Flex } from '@axonivy/ui-components';
-import { useEffect, useState } from 'react';
-import { useAppContext } from '../../context/AppContext';
-import { FieldProvider } from '../../context/FieldContext';
-import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
-import { isEntityField } from '../../data/dataclass-utils';
+import { EntityFieldProvider, useField } from '../../context/FieldContext';
+import type { DataClassField, EntityClassField } from '../../data/dataclass';
+import { useFieldProperty } from '../../data/dataclass-hooks';
 import { AnnotationsTable } from '../AnnotationsTable';
 import { FieldEntityAssociation } from './entity/FieldEntityAssociation';
 import { FieldEntityDatabaseField } from './entity/FieldEntityDatabaseField';
 import { FieldNameTypeComment } from './FieldNameTypeComment';
 import { FieldProperties } from './FieldProperties';
 
+export const isEntityField = (field: DataClassField): field is EntityClassField => {
+  return !!field.entity && field.modifiers.includes('PERSISTENT');
+};
+
 export const FieldDetailContent = () => {
-  const { dataClass, selectedField } = useAppContext();
-  const { handleFieldPropertyChange } = useDataClassChangeHandlers();
-
-  const field = selectedField !== undefined && selectedField < dataClass.fields.length ? dataClass.fields[selectedField] : undefined;
-
-  const [renderEntity, setRenderEntity] = useState(false);
-  useEffect(() => setRenderEntity(isEntityField(field)), [field]);
-
-  if (!field) {
-    return;
-  }
+  const { field, setField } = useField();
+  const setProperty = useFieldProperty();
 
   return (
-    <FieldProvider value={{ field: field }}>
-      <Accordion type='single' collapsible defaultValue='general' className='field-detail-content'>
-        <AccordionItem value='general'>
-          <AccordionTrigger>General</AccordionTrigger>
-          <AccordionContent>
-            <Flex direction='column' gap={4}>
-              <FieldNameTypeComment />
-              <FieldProperties />
-              <AnnotationsTable
-                annotations={field.annotations}
-                setAnnotations={(annotations: Array<string>) => handleFieldPropertyChange('annotations', annotations)}
-              />
-            </Flex>
-          </AccordionContent>
-        </AccordionItem>
-        {renderEntity && (
+    <Accordion type='single' collapsible defaultValue='general' className='field-detail-content'>
+      <AccordionItem value='general'>
+        <AccordionTrigger>General</AccordionTrigger>
+        <AccordionContent>
+          <Flex direction='column' gap={4}>
+            <FieldNameTypeComment />
+            <FieldProperties />
+            <AnnotationsTable
+              annotations={field.annotations}
+              setAnnotations={(annotations: Array<string>) => setProperty('annotations', annotations)}
+            />
+          </Flex>
+        </AccordionContent>
+      </AccordionItem>
+      {isEntityField(field) && (
+        <EntityFieldProvider value={{ field: field, setField }}>
           <AccordionItem value='entity'>
             <AccordionTrigger>Entity</AccordionTrigger>
             <AccordionContent>
@@ -49,8 +42,8 @@ export const FieldDetailContent = () => {
               </Flex>
             </AccordionContent>
           </AccordionItem>
-        )}
-      </Accordion>
-    </FieldProvider>
+        </EntityFieldProvider>
+      )}
+    </Accordion>
   );
 };

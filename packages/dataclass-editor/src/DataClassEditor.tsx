@@ -2,18 +2,45 @@ import { Flex, PanelMessage, ResizableHandle, ResizablePanel, ResizablePanelGrou
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
-import type { DataClass } from './data/dataclass';
-import { headerTitles } from './data/dataclass-utils';
+import { AppProvider } from './context/AppContext';
+import { FieldProvider } from './context/FieldContext';
+import type { DataClass, DataClassField } from './data/dataclass';
+import { classTypeOf } from './data/dataclass-utils';
+import './DataClassEditor.css';
 import { DataClassDetailContent } from './detail/dataclass/DataClassDetailContent';
 import { FieldDetailContent } from './detail/field/FieldDetailContent';
 import { DataClassMasterContent } from './master/DataClassMasterContent';
 import { DataClassMasterToolbar } from './master/DataClassMasterToolbar';
-import { AppProvider } from './context/AppContext';
-import './DataClassEditor.css';
 import { useClient } from './protocol/ClientContextProvider';
 import type { Data, EditorProps } from './protocol/types';
 import { genQueryKey } from './query/query-client';
 import type { Unary } from './utils/lambda/lambda';
+
+export const headerTitles = (dataClass: DataClass, selectedField?: number) => {
+  let baseTitle = '';
+  switch (classTypeOf(dataClass)) {
+    case 'DATA':
+      baseTitle = 'Data';
+      break;
+    case 'BUSINESS_DATA':
+      baseTitle = 'Business Data';
+      break;
+    case 'ENTITY':
+      baseTitle = 'Entity';
+  }
+  const masterTitle = `${baseTitle} Editor`;
+
+  const dataClassFields = dataClass.fields;
+
+  let detailTitle = '';
+  if (selectedField === undefined) {
+    detailTitle = `${baseTitle} - ${dataClass.simpleName}`;
+  } else if (selectedField < dataClassFields.length) {
+    const selectedDataClassField = dataClassFields[selectedField];
+    detailTitle = 'Attribute - ' + selectedDataClassField.name;
+  }
+  return { masterTitle, detailTitle };
+};
 
 function DataClassEditor(props: EditorProps) {
   const [detail, setDetail] = useState(true);
@@ -76,12 +103,14 @@ function DataClassEditor(props: EditorProps) {
   const dataClass = data.data;
   const { masterTitle, detailTitle } = headerTitles(dataClass, selectedField);
 
+  const setDataClass = (dataClass: DataClass) => mutation.mutate(() => dataClass);
+
   return (
     <AppProvider
       value={{
         context,
         dataClass,
-        setDataClass: dataClass => mutation.mutate(() => dataClass),
+        setDataClass,
         selectedField,
         setSelectedField,
         detail,
@@ -101,7 +130,22 @@ function DataClassEditor(props: EditorProps) {
             <ResizablePanel defaultSize={25} minSize={10} className='detail-panel'>
               <Flex direction='column' className='panel-content-container detail-container'>
                 <SidebarHeader icon={IvyIcons.PenEdit} title={detailTitle} className='detail-header' />
-                {selectedField == undefined ? <DataClassDetailContent /> : <FieldDetailContent key={selectedField} />}
+                {selectedField === undefined || dataClass.fields.length <= selectedField ? (
+                  <DataClassDetailContent />
+                ) : (
+                  <FieldProvider
+                    value={{
+                      field: dataClass.fields[selectedField],
+                      setField: (field: DataClassField) => {
+                        const newDataClass = structuredClone(dataClass);
+                        newDataClass.fields[selectedField] = field;
+                        setDataClass(newDataClass);
+                      }
+                    }}
+                  >
+                    <FieldDetailContent key={selectedField} />
+                  </FieldProvider>
+                )}
               </Flex>
             </ResizablePanel>
           </>

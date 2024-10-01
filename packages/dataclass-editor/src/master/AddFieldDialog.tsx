@@ -10,15 +10,34 @@ import {
   DialogTitle,
   DialogTrigger,
   Flex,
-  Input
+  Input,
+  type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { type Table } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
-import type { DataClassField } from '../data/dataclass';
+import type { DataClass, DataClassField } from '../data/dataclass';
 import { isEntity } from '../data/dataclass-utils';
-import { validateFieldName, validateFieldType } from '../data/validation-utils';
+
+export const validateFieldName = (name: string, dataClass: DataClass): MessageData => {
+  if (name.trim() === '') {
+    return toErrorMessage('Name cannot be empty.');
+  }
+  if (dataClass.fields.map(field => field.name).includes(name)) {
+    return toErrorMessage('Name is already taken.');
+  }
+};
+
+export const validateFieldType = (type: string): MessageData => {
+  if (type.trim() === '') {
+    return toErrorMessage('Type cannot be empty.');
+  }
+};
+
+const toErrorMessage = (message: string) => {
+  return { message: message, variant: 'error' };
+};
 
 type AddFieldDialogProps = {
   table: Table<DataClassField>;

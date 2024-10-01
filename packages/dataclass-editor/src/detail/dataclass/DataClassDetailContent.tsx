@@ -1,15 +1,15 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Flex } from '@axonivy/ui-components';
-import { useAppContext } from '../../context/AppContext';
-import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
+import { EntityClassProvider, useAppContext } from '../../context/AppContext';
+import { useDataClassProperty } from '../../data/dataclass-hooks';
 import { isEntity } from '../../data/dataclass-utils';
 import { AnnotationsTable } from '../AnnotationsTable';
-import { DataClassType } from './DataClassType';
 import { DataClassNameDescription } from './DataClassNameDescription';
+import { DataClassType } from './DataClassType';
 import { EntityClassDatabaseTable } from './entity/EntityClassDatabaseTable';
 
 export const DataClassDetailContent = () => {
-  const { dataClass } = useAppContext();
-  const { handleDataClassPropertyChange } = useDataClassChangeHandlers();
+  const { dataClass, setDataClass } = useAppContext();
+  const setProperty = useDataClassProperty();
 
   return (
     <Accordion type='single' collapsible defaultValue='general' className='dataclass-detail-content'>
@@ -20,21 +20,23 @@ export const DataClassDetailContent = () => {
             <DataClassNameDescription />
             <AnnotationsTable
               annotations={dataClass.annotations}
-              setAnnotations={(newAnnotations: Array<string>) => handleDataClassPropertyChange('annotations', newAnnotations)}
+              setAnnotations={(newAnnotations: Array<string>) => setProperty('annotations', newAnnotations)}
             />
             <DataClassType />
           </Flex>
         </AccordionContent>
       </AccordionItem>
       {isEntity(dataClass) && (
-        <AccordionItem value='entity'>
-          <AccordionTrigger>Entity</AccordionTrigger>
-          <AccordionContent>
-            <Flex direction='column' gap={4}>
-              <EntityClassDatabaseTable />
-            </Flex>
-          </AccordionContent>
-        </AccordionItem>
+        <EntityClassProvider value={{ entityClass: dataClass, setEntityClass: setDataClass }}>
+          <AccordionItem value='entity'>
+            <AccordionTrigger>Entity</AccordionTrigger>
+            <AccordionContent>
+              <Flex direction='column' gap={4}>
+                <EntityClassDatabaseTable />
+              </Flex>
+            </AccordionContent>
+          </AccordionItem>
+        </EntityClassProvider>
       )}
     </Accordion>
   );

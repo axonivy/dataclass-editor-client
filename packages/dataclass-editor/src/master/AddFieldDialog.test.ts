@@ -1,5 +1,5 @@
-import type { DataClass } from './dataclass';
-import { validateFieldName, validateFieldType } from './validation-utils';
+import type { DataClass } from '../data/dataclass';
+import { validateFieldName, validateFieldType } from './AddFieldDialog';
 
 const dataClass = {
   fields: [{ name: 'takenName' }]

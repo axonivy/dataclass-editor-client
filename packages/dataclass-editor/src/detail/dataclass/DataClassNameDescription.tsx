@@ -1,10 +1,10 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input, Textarea } from '@axonivy/ui-components';
 import { useAppContext } from '../../context/AppContext';
-import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
+import { useDataClassProperty } from '../../data/dataclass-hooks';
 
 export const DataClassNameDescription = () => {
   const { dataClass } = useAppContext();
-  const { handleDataClassPropertyChange } = useDataClassChangeHandlers();
+  const setProperty = useDataClassProperty();
 
   return (
     <Collapsible defaultOpen={true}>
@@ -15,7 +15,7 @@ export const DataClassNameDescription = () => {
             <Input value={dataClass.simpleName} disabled={true} />
           </BasicField>
           <BasicField label='Description'>
-            <Textarea value={dataClass.comment} onChange={event => handleDataClassPropertyChange('comment', event.target.value)} />
+            <Textarea value={dataClass.comment} onChange={event => setProperty('comment', event.target.value)} />
           </BasicField>
         </Flex>
       </CollapsibleContent>
