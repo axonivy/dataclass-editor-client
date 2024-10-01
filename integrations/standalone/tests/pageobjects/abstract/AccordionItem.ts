@@ -36,7 +36,6 @@ export class AccordionItem {
 
   async reopen() {
     await this.close();
-    await this.page.waitForTimeout(200);
     await this.open();
   }
 }

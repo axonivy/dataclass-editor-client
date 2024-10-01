@@ -67,6 +67,7 @@ export class DataClassEditor {
   private static async openUrl(page: Page, url: string) {
     const editor = new DataClassEditor(page);
     await page.goto(url);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     return editor;
   }
 
