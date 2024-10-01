@@ -3,9 +3,7 @@ import {
   DATA_CLASS_FIELD_TYPE_DATABASE_LENGTHS,
   DATA_CLASS_FIELD_VERSION_TYPES,
   type DataClass,
-  type DataClassEntity,
   type DataClassField,
-  type DataClassFieldEntity,
   type DataClassFieldIDType,
   type DataClassFieldLengthType,
   type DataClassFieldVersionType
@@ -21,13 +19,11 @@ export const classTypeOf = (dataClass: DataClass) => {
   return 'DATA';
 };
 
-export const isEntity = (
-  dataClass: DataClass
-): dataClass is DataClass & { entity: DataClassEntity; fields: Array<DataClassField & { entity: DataClassFieldEntity }> } => {
+export const isEntity = (dataClass: DataClass): dataClass is Required<DataClass> & { fields: Array<Required<DataClassField>> } => {
   return !!dataClass.entity;
 };
 
-export const isEntityField = (field?: DataClassField): field is DataClassField & { entity: DataClassFieldEntity } => {
+export const isEntityField = (field?: DataClassField): field is Required<DataClassField> => {
   if (!field) {
     return false;
   }
