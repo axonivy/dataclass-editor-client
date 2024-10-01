@@ -1,3 +1,3 @@
-.cascade-types-container > *:nth-child(n + 3) {
+.cascade-types-container {
   margin-left: var(--size-4);
 }

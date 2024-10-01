@@ -12,7 +12,7 @@ import { useFieldContext } from '../../../context/FieldContext';
 import type { DataClassFieldEntityAssociation } from '../../../data/dataclass';
 import { useDataClassChangeHandlers } from '../../../data/dataclass-change-handlers';
 import { isEntityField } from '../../../data/dataclass-utils';
-import './FieldEntityAssociation';
+import './FieldEntityAssociation.css';
 import { FieldEntityCascadeTypeCheckbox } from './FieldEntityCascadeTypeCheckbox';
 
 export const FieldEntityAssociation = () => {
@@ -45,12 +45,14 @@ export const FieldEntityAssociation = () => {
               onValueChange={value => handleFieldEntityAssociationChange(value as DataClassFieldEntityAssociation)}
             />
           </BasicField>
-          <BasicField label='Cascade' className='cascade-types-container'>
+          <BasicField label='Cascade'>
             <FieldEntityCascadeTypeCheckbox label='All' cascadeType='ALL' />
-            <FieldEntityCascadeTypeCheckbox label='Persist' cascadeType='PERSIST' />
-            <FieldEntityCascadeTypeCheckbox label='Merge' cascadeType='MERGE' />
-            <FieldEntityCascadeTypeCheckbox label='Remove' cascadeType='REMOVE' />
-            <FieldEntityCascadeTypeCheckbox label='Refresh' cascadeType='REFRESH' />
+            <Flex direction='column' gap={1} className='cascade-types-container'>
+              <FieldEntityCascadeTypeCheckbox label='Persist' cascadeType='PERSIST' />
+              <FieldEntityCascadeTypeCheckbox label='Merge' cascadeType='MERGE' />
+              <FieldEntityCascadeTypeCheckbox label='Remove' cascadeType='REMOVE' />
+              <FieldEntityCascadeTypeCheckbox label='Refresh' cascadeType='REFRESH' />
+            </Flex>
           </BasicField>
           <BasicField label='Mapped by'>
             <Input
