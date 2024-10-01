@@ -1,50 +1,33 @@
-import type { Mock } from 'vitest';
-import { useAppContext } from '../../../context/AppContext';
 import type { DataClass, DataClassField, DataClassFieldEntity, DataClassFieldEntityAssociation, DataClassFieldModifier } from './dataclass';
 import { useDataClassChangeHandlers } from './dataclass-change-handlers';
-
-vi.mock('../../../context/AppContext', () => {
-  return {
-    useAppContext: vi.fn()
-  };
-});
-
-const setupAppContext = (dataClass: DataClass, selectedField?: number) => {
-  const setDataClass = vi.fn();
-  (useAppContext as Mock).mockReturnValue({
-    dataClass: dataClass,
-    setDataClass: setDataClass,
-    selectedField: selectedField
-  });
-  return setDataClass;
-};
+import { customRenderHook } from './test-utils/test-utils';
 
 test('handleDataClassPropertyChange', () => {
   const dataClass = { simpleName: 'simpleName' } as DataClass;
-  const setDataClass = setupAppContext(dataClass);
-
-  const { handleDataClassPropertyChange } = useDataClassChangeHandlers();
+  let newDataClass = {} as DataClass;
+  const view = customRenderHook(() => useDataClassChangeHandlers(), {
+    wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass) }
+  });
 
   const originalDataClass = structuredClone(dataClass);
-  handleDataClassPropertyChange('simpleName', 'NewSimpleName');
+  view.result.current.handleDataClassPropertyChange('simpleName', 'NewSimpleName');
   expect(dataClass).toEqual(originalDataClass);
 
-  expect(setDataClass).toHaveBeenCalledOnce();
-  expect(setDataClass.mock.calls[0][0].simpleName).toEqual('NewSimpleName');
+  expect(newDataClass.simpleName).toEqual('NewSimpleName');
 });
 
 test('handleDataClassEntityPropertyChange', () => {
   const dataClass = { entity: { tableName: 'tableName' } } as DataClass;
-  const setDataClass = setupAppContext(dataClass);
-
-  const { handleDataClassEntityPropertyChange } = useDataClassChangeHandlers();
+  let newDataClass = {} as DataClass;
+  const view = customRenderHook(() => useDataClassChangeHandlers(), {
+    wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass) }
+  });
 
   const originalDataClass = structuredClone(dataClass);
-  handleDataClassEntityPropertyChange('tableName', 'NewTableName');
+  view.result.current.handleDataClassEntityPropertyChange('tableName', 'NewTableName');
   expect(dataClass).toEqual(originalDataClass);
 
-  expect(setDataClass).toHaveBeenCalledOnce();
-  expect(setDataClass.mock.calls[0][0].entity.tableName).toEqual('NewTableName');
+  expect(newDataClass.entity?.tableName).toEqual('NewTableName');
 });
 
 describe('handleClassTypeChange', () => {
@@ -71,16 +54,16 @@ describe('handleClassTypeChange', () => {
         { modifiers: [], entity: undefined }
       ]
     } as DataClass;
-    const setDataClass = setupAppContext(dataClass);
-
-    const { handleClassTypeChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass) }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleClassTypeChange('BUSINESS_DATA');
+    view.result.current.handleClassTypeChange('BUSINESS_DATA');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expectClassType(setDataClass.mock.calls[0][0], true, false, [['PERSISTENT'], []]);
+    expectClassType(newDataClass, true, false, [['PERSISTENT'], []]);
   });
 
   test('data to entity', () => {
@@ -92,16 +75,16 @@ describe('handleClassTypeChange', () => {
         { modifiers: [], entity: undefined }
       ]
     } as DataClass;
-    const setDataClass = setupAppContext(dataClass);
-
-    const { handleClassTypeChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass) }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleClassTypeChange('ENTITY');
+    view.result.current.handleClassTypeChange('ENTITY');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expectClassType(setDataClass.mock.calls[0][0], false, true, [['PERSISTENT'], []]);
+    expectClassType(newDataClass, false, true, [['PERSISTENT'], []]);
   });
 
   test('business to data', () => {
@@ -113,16 +96,16 @@ describe('handleClassTypeChange', () => {
         { modifiers: [], entity: undefined }
       ]
     } as DataClass;
-    const setDataClass = setupAppContext(dataClass);
-
-    const { handleClassTypeChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass) }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleClassTypeChange('DATA');
+    view.result.current.handleClassTypeChange('DATA');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expectClassType(setDataClass.mock.calls[0][0], false, false, [['PERSISTENT'], []]);
+    expectClassType(newDataClass, false, false, [['PERSISTENT'], []]);
   });
 
   test('business to entity', () => {
@@ -134,16 +117,16 @@ describe('handleClassTypeChange', () => {
         { modifiers: [], entity: undefined }
       ]
     } as DataClass;
-    const setDataClass = setupAppContext(dataClass);
-
-    const { handleClassTypeChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass) }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleClassTypeChange('ENTITY');
+    view.result.current.handleClassTypeChange('ENTITY');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expectClassType(setDataClass.mock.calls[0][0], false, true, [['PERSISTENT'], []]);
+    expectClassType(newDataClass, false, true, [['PERSISTENT'], []]);
   });
 
   test('entity to data', () => {
@@ -155,16 +138,16 @@ describe('handleClassTypeChange', () => {
         { modifiers: ['NOT_INSERTABLE', 'NOT_NULLABLE', 'NOT_UPDATEABLE', 'UNIQUE'], entity: undefined }
       ]
     } as DataClass;
-    const setDataClass = setupAppContext(dataClass);
-
-    const { handleClassTypeChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass) }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleClassTypeChange('DATA');
+    view.result.current.handleClassTypeChange('DATA');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expectClassType(setDataClass.mock.calls[0][0], false, false, [['PERSISTENT'], []]);
+    expectClassType(newDataClass, false, false, [['PERSISTENT'], []]);
   });
 
   test('entity to business', () => {
@@ -176,151 +159,151 @@ describe('handleClassTypeChange', () => {
         { modifiers: ['NOT_INSERTABLE', 'NOT_NULLABLE', 'NOT_UPDATEABLE', 'UNIQUE'], entity: undefined }
       ]
     } as DataClass;
-    const setDataClass = setupAppContext(dataClass);
-
-    const { handleClassTypeChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass) }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleClassTypeChange('BUSINESS_DATA');
+    view.result.current.handleClassTypeChange('BUSINESS_DATA');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expectClassType(setDataClass.mock.calls[0][0], true, false, [['PERSISTENT'], []]);
+    expectClassType(newDataClass, true, false, [['PERSISTENT'], []]);
   });
 });
 
 test('handleFieldPropertyChange', () => {
   const dataClass = { fields: [{ name: 'name' }] } as DataClass;
-  const setDataClass = setupAppContext(dataClass, 0);
-
-  const { handleFieldPropertyChange } = useDataClassChangeHandlers();
+  let newDataClass = {} as DataClass;
+  const view = customRenderHook(() => useDataClassChangeHandlers(), {
+    wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+  });
 
   const originalDataClass = structuredClone(dataClass);
-  handleFieldPropertyChange('name', 'NewName');
+  view.result.current.handleFieldPropertyChange('name', 'NewName');
   expect(dataClass).toEqual(originalDataClass);
 
-  expect(setDataClass).toHaveBeenCalledOnce();
-  expect(setDataClass.mock.calls[0][0].fields[0].name).toEqual('NewName');
+  expect(newDataClass.fields[0].name).toEqual('NewName');
 });
 
 describe('handleFieldTypeChange', () => {
   test('not id type', () => {
     const dataClass = { fields: [{ type: 'String', modifiers: ['PERSISTENT', 'ID', 'GENERATED'] }] } as DataClass;
-    const setDataClass = setupAppContext(dataClass, 0);
-
-    const { handleFieldTypeChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleFieldTypeChange('Date');
+    view.result.current.handleFieldTypeChange('Date');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expect(setDataClass.mock.calls[0][0].fields[0].type).toEqual('Date');
-    expect(setDataClass.mock.calls[0][0].fields[0].modifiers).toEqual(['PERSISTENT']);
+    expect(newDataClass.fields[0].type).toEqual('Date');
+    expect(newDataClass.fields[0].modifiers).toEqual(['PERSISTENT']);
   });
 
   test('not version type', () => {
     const dataClass = { fields: [{ type: 'Short', modifiers: ['PERSISTENT', 'VERSION'] }] } as DataClass;
-    const setDataClass = setupAppContext(dataClass, 0);
-
-    const { handleFieldTypeChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleFieldTypeChange('String');
+    view.result.current.handleFieldTypeChange('String');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expect(setDataClass.mock.calls[0][0].fields[0].type).toEqual('String');
-    expect(setDataClass.mock.calls[0][0].fields[0].modifiers).toEqual(['PERSISTENT']);
+    expect(newDataClass.fields[0].type).toEqual('String');
+    expect(newDataClass.fields[0].modifiers).toEqual(['PERSISTENT']);
   });
 });
 
 describe('handleFieldModifierChange', () => {
   test('add', () => {
     const dataClass = { fields: [{ modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] }] } as DataClass;
-    const setDataClass = setupAppContext(dataClass, 0);
-
-    const { handleFieldModifierChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleFieldModifierChange(true, 'UNIQUE');
+    view.result.current.handleFieldModifierChange(true, 'UNIQUE');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expect(setDataClass.mock.calls[0][0].fields[0].modifiers).toEqual(['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE', 'UNIQUE']);
+    expect(newDataClass.fields[0].modifiers).toEqual(['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE', 'UNIQUE']);
   });
 
   test('remove', () => {
     const dataClass = { fields: [{ modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] }] } as DataClass;
-    const setDataClass = setupAppContext(dataClass, 0);
-
-    const { handleFieldModifierChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleFieldModifierChange(false, 'NOT_INSERTABLE');
+    view.result.current.handleFieldModifierChange(false, 'NOT_INSERTABLE');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expect(setDataClass.mock.calls[0][0].fields[0].modifiers).toEqual(['PERSISTENT', 'NOT_NULLABLE']);
+    expect(newDataClass.fields[0].modifiers).toEqual(['PERSISTENT', 'NOT_NULLABLE']);
   });
 
   describe('id', () => {
     test('add', () => {
       const dataClass = { fields: [{ modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] }] } as DataClass;
-      const setDataClass = setupAppContext(dataClass, 0);
-
-      const { handleFieldModifierChange } = useDataClassChangeHandlers();
+      let newDataClass = {} as DataClass;
+      const view = customRenderHook(() => useDataClassChangeHandlers(), {
+        wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+      });
 
       const originalDataClass = structuredClone(dataClass);
-      handleFieldModifierChange(true, 'ID');
+      view.result.current.handleFieldModifierChange(true, 'ID');
       expect(dataClass).toEqual(originalDataClass);
 
-      expect(setDataClass).toHaveBeenCalledOnce();
-      expect(setDataClass.mock.calls[0][0].fields[0].modifiers).toEqual(['PERSISTENT', 'ID']);
+      expect(newDataClass.fields[0].modifiers).toEqual(['PERSISTENT', 'ID']);
     });
 
     test('remove', () => {
       const dataClass = { fields: [{ modifiers: ['PERSISTENT', 'ID', 'GENERATED'] }] } as DataClass;
-      const setDataClass = setupAppContext(dataClass, 0);
-
-      const { handleFieldModifierChange } = useDataClassChangeHandlers();
+      let newDataClass = {} as DataClass;
+      const view = customRenderHook(() => useDataClassChangeHandlers(), {
+        wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+      });
 
       const originalDataClass = structuredClone(dataClass);
-      handleFieldModifierChange(false, 'ID');
+      view.result.current.handleFieldModifierChange(false, 'ID');
       expect(dataClass).toEqual(originalDataClass);
 
-      expect(setDataClass).toHaveBeenCalledOnce();
-      expect(setDataClass.mock.calls[0][0].fields[0].modifiers).toEqual(['PERSISTENT']);
+      expect(newDataClass.fields[0].modifiers).toEqual(['PERSISTENT']);
     });
   });
 
   test('version', () => {
     const dataClass = { fields: [{ modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] }] } as DataClass;
-    const setDataClass = setupAppContext(dataClass, 0);
-
-    const { handleFieldModifierChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleFieldModifierChange(true, 'VERSION');
+    view.result.current.handleFieldModifierChange(true, 'VERSION');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expect(setDataClass.mock.calls[0][0].fields[0].modifiers).toEqual(['PERSISTENT', 'VERSION']);
+    expect(newDataClass.fields[0].modifiers).toEqual(['PERSISTENT', 'VERSION']);
   });
 });
 
 test('handleFieldEntityPropertyChange', () => {
   const dataClass = { entity: {}, fields: [{ entity: { databaseName: 'databaseName' } }] } as DataClass;
-  const setDataClass = setupAppContext(dataClass, 0);
-
-  const { handleFieldEntityPropertyChange } = useDataClassChangeHandlers();
+  let newDataClass = {} as DataClass;
+  const view = customRenderHook(() => useDataClassChangeHandlers(), {
+    wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+  });
 
   const originalDataClass = structuredClone(dataClass);
-  handleFieldEntityPropertyChange('databaseName', 'NewDatabaseName');
+  view.result.current.handleFieldEntityPropertyChange('databaseName', 'NewDatabaseName');
   expect(dataClass).toEqual(originalDataClass);
 
-  expect(setDataClass).toHaveBeenCalledOnce();
-  expect(setDataClass.mock.calls[0][0].fields[0].entity.databaseName).toEqual('NewDatabaseName');
+  expect(newDataClass.fields[0].entity?.databaseName).toEqual('NewDatabaseName');
 });
 
 describe('handleFieldEntityCardinalityChange', () => {
@@ -341,16 +324,16 @@ describe('handleFieldEntityCardinalityChange', () => {
         entity: {},
         fields: [{ entity: { association: 'ONE_TO_ONE', mappedByFieldName: 'mappedByFieldName', orphanRemoval: true } }]
       } as DataClass;
-      const setDataClass = setupAppContext(dataClass, 0);
-
-      const { handleFieldEntityCardinalityChange: handleFieldEntityAssociationChange } = useDataClassChangeHandlers();
+      let newDataClass = {} as DataClass;
+      const view = customRenderHook(() => useDataClassChangeHandlers(), {
+        wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+      });
 
       const originalDataClass = structuredClone(dataClass);
-      handleFieldEntityAssociationChange(undefined);
+      view.result.current.handleFieldEntityCardinalityChange(undefined);
       expect(dataClass).toEqual(originalDataClass);
 
-      expect(setDataClass).toHaveBeenCalledOnce();
-      expectAssociation(setDataClass.mock.calls[0][0].fields[0].entity, undefined, '', false);
+      expectAssociation(newDataClass.fields[0].entity!, undefined, '', false);
     });
 
     test('to many-to-one', () => {
@@ -358,16 +341,16 @@ describe('handleFieldEntityCardinalityChange', () => {
         entity: {},
         fields: [{ entity: { association: 'ONE_TO_ONE', mappedByFieldName: 'mappedByFieldName', orphanRemoval: true } }]
       } as DataClass;
-      const setDataClass = setupAppContext(dataClass, 0);
-
-      const { handleFieldEntityCardinalityChange: handleFieldEntityAssociationChange } = useDataClassChangeHandlers();
+      let newDataClass = {} as DataClass;
+      const view = customRenderHook(() => useDataClassChangeHandlers(), {
+        wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+      });
 
       const originalDataClass = structuredClone(dataClass);
-      handleFieldEntityAssociationChange('MANY_TO_ONE');
+      view.result.current.handleFieldEntityCardinalityChange('MANY_TO_ONE');
       expect(dataClass).toEqual(originalDataClass);
 
-      expect(setDataClass).toHaveBeenCalledOnce();
-      expectAssociation(setDataClass.mock.calls[0][0].fields[0].entity, 'MANY_TO_ONE', '', false);
+      expectAssociation(newDataClass.fields[0].entity!, 'MANY_TO_ONE', '', false);
     });
   });
 
@@ -377,16 +360,16 @@ describe('handleFieldEntityCardinalityChange', () => {
         entity: {},
         fields: [{ entity: { association: 'ONE_TO_MANY', mappedByFieldName: 'mappedByFieldName', orphanRemoval: true } }]
       } as DataClass;
-      const setDataClass = setupAppContext(dataClass, 0);
-
-      const { handleFieldEntityCardinalityChange: handleFieldEntityAssociationChange } = useDataClassChangeHandlers();
+      let newDataClass = {} as DataClass;
+      const view = customRenderHook(() => useDataClassChangeHandlers(), {
+        wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+      });
 
       const originalDataClass = structuredClone(dataClass);
-      handleFieldEntityAssociationChange('ONE_TO_ONE');
+      view.result.current.handleFieldEntityCardinalityChange('ONE_TO_ONE');
       expect(dataClass).toEqual(originalDataClass);
 
-      expect(setDataClass).toHaveBeenCalledOnce();
-      expectAssociation(setDataClass.mock.calls[0][0].fields[0].entity, 'ONE_TO_ONE', 'mappedByFieldName', true);
+      expectAssociation(newDataClass.fields[0].entity!, 'ONE_TO_ONE', 'mappedByFieldName', true);
     });
 
     test('to many-to-one', () => {
@@ -394,16 +377,16 @@ describe('handleFieldEntityCardinalityChange', () => {
         entity: {},
         fields: [{ entity: { association: 'ONE_TO_ONE', mappedByFieldName: 'mappedByFieldName', orphanRemoval: true } }]
       } as DataClass;
-      const setDataClass = setupAppContext(dataClass, 0);
-
-      const { handleFieldEntityCardinalityChange: handleFieldEntityAssociationChange } = useDataClassChangeHandlers();
+      let newDataClass = {} as DataClass;
+      const view = customRenderHook(() => useDataClassChangeHandlers(), {
+        wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+      });
 
       const originalDataClass = structuredClone(dataClass);
-      handleFieldEntityAssociationChange('ONE_TO_MANY');
+      view.result.current.handleFieldEntityCardinalityChange('ONE_TO_MANY');
       expect(dataClass).toEqual(originalDataClass);
 
-      expect(setDataClass).toHaveBeenCalledOnce();
-      expectAssociation(setDataClass.mock.calls[0][0].fields[0].entity, 'ONE_TO_MANY', 'mappedByFieldName', true);
+      expectAssociation(newDataClass.fields[0].entity!, 'ONE_TO_MANY', 'mappedByFieldName', true);
     });
   });
 });
@@ -414,16 +397,16 @@ describe('handleFieldEntityCascadeTypeChange', () => {
       entity: {},
       fields: [{ entity: { cascadeTypes: ['MERGE', 'PERSIST'] } }]
     } as DataClass;
-    const setDataClass = setupAppContext(dataClass, 0);
-
-    const { handleFieldEntityCascadeTypeChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleFieldEntityCascadeTypeChange(true, 'REFRESH');
+    view.result.current.handleFieldEntityCascadeTypeChange(true, 'REFRESH');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expect(setDataClass.mock.calls[0][0].fields[0].entity.cascadeTypes).toEqual(['MERGE', 'PERSIST', 'REFRESH']);
+    expect(newDataClass.fields[0].entity?.cascadeTypes).toEqual(['MERGE', 'PERSIST', 'REFRESH']);
   });
 
   test('remove', () => {
@@ -431,16 +414,16 @@ describe('handleFieldEntityCascadeTypeChange', () => {
       entity: {},
       fields: [{ entity: { cascadeTypes: ['MERGE', 'PERSIST'] } }]
     } as DataClass;
-    const setDataClass = setupAppContext(dataClass, 0);
-
-    const { handleFieldEntityCascadeTypeChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleFieldEntityCascadeTypeChange(false, 'MERGE');
+    view.result.current.handleFieldEntityCascadeTypeChange(false, 'MERGE');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expect(setDataClass.mock.calls[0][0].fields[0].entity.cascadeTypes).toEqual(['PERSIST']);
+    expect(newDataClass.fields[0].entity?.cascadeTypes).toEqual(['PERSIST']);
   });
 
   test('add ALL', () => {
@@ -448,16 +431,16 @@ describe('handleFieldEntityCascadeTypeChange', () => {
       entity: {},
       fields: [{ entity: { cascadeTypes: ['MERGE', 'PERSIST'] } }]
     } as DataClass;
-    const setDataClass = setupAppContext(dataClass, 0);
-
-    const { handleFieldEntityCascadeTypeChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleFieldEntityCascadeTypeChange(true, 'ALL');
+    view.result.current.handleFieldEntityCascadeTypeChange(true, 'ALL');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expect(setDataClass.mock.calls[0][0].fields[0].entity.cascadeTypes).toEqual(['ALL']);
+    expect(newDataClass.fields[0].entity?.cascadeTypes).toEqual(['ALL']);
   });
 
   test('remove ALL', () => {
@@ -465,16 +448,16 @@ describe('handleFieldEntityCascadeTypeChange', () => {
       entity: {},
       fields: [{ entity: { cascadeTypes: ['ALL'] } }]
     } as DataClass;
-    const setDataClass = setupAppContext(dataClass, 0);
-
-    const { handleFieldEntityCascadeTypeChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleFieldEntityCascadeTypeChange(false, 'ALL');
+    view.result.current.handleFieldEntityCascadeTypeChange(false, 'ALL');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expect(setDataClass.mock.calls[0][0].fields[0].entity.cascadeTypes).toEqual([]);
+    expect(newDataClass.fields[0].entity?.cascadeTypes).toEqual([]);
   });
 
   test('add last', () => {
@@ -482,16 +465,16 @@ describe('handleFieldEntityCascadeTypeChange', () => {
       entity: {},
       fields: [{ entity: { cascadeTypes: ['MERGE', 'PERSIST', 'REMOVE'] } }]
     } as DataClass;
-    const setDataClass = setupAppContext(dataClass, 0);
-
-    const { handleFieldEntityCascadeTypeChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleFieldEntityCascadeTypeChange(true, 'REFRESH');
+    view.result.current.handleFieldEntityCascadeTypeChange(true, 'REFRESH');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expect(setDataClass.mock.calls[0][0].fields[0].entity.cascadeTypes).toEqual(['ALL']);
+    expect(newDataClass.fields[0].entity?.cascadeTypes).toEqual(['ALL']);
   });
 
   test('remove first', () => {
@@ -499,16 +482,16 @@ describe('handleFieldEntityCascadeTypeChange', () => {
       entity: {},
       fields: [{ entity: { cascadeTypes: ['ALL'] } }]
     } as DataClass;
-    const setDataClass = setupAppContext(dataClass, 0);
-
-    const { handleFieldEntityCascadeTypeChange } = useDataClassChangeHandlers();
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useDataClassChangeHandlers(), {
+      wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+    });
 
     const originalDataClass = structuredClone(dataClass);
-    handleFieldEntityCascadeTypeChange(false, 'MERGE');
+    view.result.current.handleFieldEntityCascadeTypeChange(false, 'MERGE');
     expect(dataClass).toEqual(originalDataClass);
 
-    expect(setDataClass).toHaveBeenCalledOnce();
-    expect(setDataClass.mock.calls[0][0].fields[0].entity.cascadeTypes).toEqual(['PERSIST', 'REMOVE', 'REFRESH']);
+    expect(newDataClass.fields[0].entity?.cascadeTypes).toEqual(['PERSIST', 'REMOVE', 'REFRESH']);
   });
 });
 
@@ -522,15 +505,15 @@ test('handleFieldEntityMappedByFieldNameChange', () => {
       }
     ]
   } as DataClass;
-  const setDataClass = setupAppContext(dataClass, 0);
-
-  const { handleFieldEntityMappedByFieldNameChange } = useDataClassChangeHandlers();
+  let newDataClass = {} as DataClass;
+  const view = customRenderHook(() => useDataClassChangeHandlers(), {
+    wrapperProps: { dataClass, setDataClass: dataClass => (newDataClass = dataClass), selectedField: 0 }
+  });
 
   const originalDataClass = structuredClone(dataClass);
-  handleFieldEntityMappedByFieldNameChange('NewMappedByFieldName');
+  view.result.current.handleFieldEntityMappedByFieldNameChange('NewMappedByFieldName');
   expect(dataClass).toEqual(originalDataClass);
 
-  expect(setDataClass).toHaveBeenCalledOnce();
-  expect(setDataClass.mock.calls[0][0].fields[0].entity.mappedByFieldName).toEqual('NewMappedByFieldName');
-  expect(setDataClass.mock.calls[0][0].fields[0].modifiers).toEqual(['PERSISTENT']);
+  expect(newDataClass.fields[0].entity?.mappedByFieldName).toEqual('NewMappedByFieldName');
+  expect(newDataClass.fields[0].modifiers).toEqual(['PERSISTENT']);
 });
