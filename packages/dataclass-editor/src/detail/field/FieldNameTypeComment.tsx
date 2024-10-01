@@ -1,5 +1,5 @@
 import { BasicField, BasicInput, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Textarea } from '@axonivy/ui-components';
-import { useFieldContext } from '../../../../context/FieldContext';
+import { useFieldContext } from '../../context/FieldContext';
 import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
 
 export const FieldNameTypeComment = () => {

@@ -2,12 +2,12 @@ import { Flex, PanelMessage, ResizableHandle, ResizablePanel, ResizablePanelGrou
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
-import type { DataClass } from './components/dataclass/data/dataclass';
-import { headerTitles } from './components/dataclass/data/dataclass-utils';
-import { DataClassDetailContent } from './components/dataclass/detail/dataclass/DataClassDetailContent';
-import { FieldDetailContent } from './components/dataclass/detail/field/FieldDetailContent';
-import { DataClassMasterContent } from './components/dataclass/master/DataClassMasterContent';
-import { DataClassMasterToolbar } from './components/dataclass/master/DataClassMasterToolbar';
+import type { DataClass } from './data/dataclass';
+import { headerTitles } from './data/dataclass-utils';
+import { DataClassDetailContent } from './detail/dataclass/DataClassDetailContent';
+import { FieldDetailContent } from './detail/field/FieldDetailContent';
+import { DataClassMasterContent } from './master/DataClassMasterContent';
+import { DataClassMasterToolbar } from './master/DataClassMasterToolbar';
 import { AppProvider } from './context/AppContext';
 import './DataClassEditor.css';
 import { useClient } from './protocol/ClientContextProvider';

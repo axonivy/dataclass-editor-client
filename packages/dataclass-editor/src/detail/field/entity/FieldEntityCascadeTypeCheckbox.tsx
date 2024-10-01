@@ -1,5 +1,5 @@
 import { BasicCheckbox } from '@axonivy/ui-components';
-import { useFieldContext } from '../../../../../context/FieldContext';
+import { useFieldContext } from '../../../context/FieldContext';
 import type { DataClassFieldEntityCascadeType } from '../../../data/dataclass';
 import { useDataClassChangeHandlers } from '../../../data/dataclass-change-handlers';
 import { isEntityField } from '../../../data/dataclass-utils';

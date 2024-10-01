@@ -1,5 +1,5 @@
 import { BasicSelect, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@axonivy/ui-components';
-import { useAppContext } from '../../../../context/AppContext';
+import { useAppContext } from '../../context/AppContext';
 import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
 import { classTypeOf } from '../../data/dataclass-utils';
 

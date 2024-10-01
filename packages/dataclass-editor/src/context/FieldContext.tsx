@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { DataClassField } from '../components/dataclass/data/dataclass';
+import type { DataClassField } from '../data/dataclass';
 
 type FieldContext = {
   field: DataClassField;

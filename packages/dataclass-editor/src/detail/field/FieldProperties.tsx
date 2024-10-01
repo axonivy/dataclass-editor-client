@@ -1,5 +1,5 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@axonivy/ui-components';
-import { useFieldContext } from '../../../../context/FieldContext';
+import { useFieldContext } from '../../context/FieldContext';
 import { FieldModifierCheckbox } from './FieldModifierCheckbox';
 
 export const FieldProperties = () => {

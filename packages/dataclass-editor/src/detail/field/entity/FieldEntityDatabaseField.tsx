@@ -1,5 +1,5 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input } from '@axonivy/ui-components';
-import { useFieldContext } from '../../../../../context/FieldContext';
+import { useFieldContext } from '../../../context/FieldContext';
 import { useDataClassChangeHandlers } from '../../../data/dataclass-change-handlers';
 import {
   defaultDatabaseFieldLengthOf,

@@ -15,7 +15,7 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { type Table } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
-import { useAppContext } from '../../../context/AppContext';
+import { useAppContext } from '../context/AppContext';
 import type { DataClassField } from '../data/dataclass';
 import { isEntity } from '../data/dataclass-utils';
 import { validateFieldName, validateFieldType } from '../data/validation-utils';

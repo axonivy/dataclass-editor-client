@@ -1,5 +1,5 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input, Textarea } from '@axonivy/ui-components';
-import { useAppContext } from '../../../../context/AppContext';
+import { useAppContext } from '../../context/AppContext';
 import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
 
 export const DataClassNameDescription = () => {

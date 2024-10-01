@@ -1,5 +1,5 @@
-import { useAppContext } from '../../../context/AppContext';
-import { areArraysIdentical } from '../../../utils/array/array';
+import { useAppContext } from '../context/AppContext';
+import { areArraysIdentical } from '../utils/array/array';
 import {
   DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES,
   type DataClass,

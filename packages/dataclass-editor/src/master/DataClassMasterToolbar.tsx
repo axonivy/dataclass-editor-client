@@ -15,8 +15,8 @@ import {
   useTheme
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useAppContext } from '../../../context/AppContext';
-import { useAction } from '../../../context/useAction';
+import { useAppContext } from '../context/AppContext';
+import { useAction } from '../context/useAction';
 
 type DataClassMasterToolbarProps = {
   title: string;

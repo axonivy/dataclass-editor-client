@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { DataClass } from '../components/dataclass/data/dataclass';
+import type { DataClass } from '../data/dataclass';
 import type { DataContext } from '../protocol/types';
 
 type AppContext = {

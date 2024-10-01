@@ -1,7 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Flex } from '@axonivy/ui-components';
 import { useEffect, useState } from 'react';
-import { useAppContext } from '../../../../context/AppContext';
-import { FieldProvider } from '../../../../context/FieldContext';
+import { useAppContext } from '../../context/AppContext';
+import { FieldProvider } from '../../context/FieldContext';
 import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
 import { isEntityField } from '../../data/dataclass-utils';
 import { AnnotationsTable } from '../AnnotationsTable';

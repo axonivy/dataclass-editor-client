@@ -8,7 +8,7 @@ import {
   Flex,
   Input
 } from '@axonivy/ui-components';
-import { useFieldContext } from '../../../../../context/FieldContext';
+import { useFieldContext } from '../../../context/FieldContext';
 import type { DataClassFieldEntityAssociation } from '../../../data/dataclass';
 import { useDataClassChangeHandlers } from '../../../data/dataclass-change-handlers';
 import { isEntityField } from '../../../data/dataclass-utils';

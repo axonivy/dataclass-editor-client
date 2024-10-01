@@ -1,7 +1,7 @@
 import type { RenderHookOptions } from '@testing-library/react';
 import { renderHook } from '@testing-library/react';
 import { type ReactNode } from 'react';
-import { AppProvider } from '../../../../context/AppContext';
+import { AppProvider } from '../../context/AppContext';
 import type { DataClass } from '../dataclass';
 
 type ContextHelperProps = {

@@ -19,7 +19,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
-import { useAppContext } from '../../../context/AppContext';
+import { useAppContext } from '../context/AppContext';
 import { type DataClassField } from '../data/dataclass';
 import { className } from '../data/dataclass-utils';
 import { AddFieldDialog } from './AddFieldDialog';
