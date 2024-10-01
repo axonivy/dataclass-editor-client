@@ -3,7 +3,7 @@ import { useAppContext } from '../../context/AppContext';
 import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
 import { isEntity } from '../../data/dataclass-utils';
 import { AnnotationsTable } from '../AnnotationsTable';
-import { DataClassClassType } from './DataClassClassType';
+import { DataClassType } from './DataClassType';
 import { DataClassNameDescription } from './DataClassNameDescription';
 import { EntityClassDatabaseTable } from './entity/EntityClassDatabaseTable';
 
@@ -22,7 +22,7 @@ export const DataClassDetailContent = () => {
               annotations={dataClass.annotations}
               setAnnotations={(newAnnotations: Array<string>) => handleDataClassPropertyChange('annotations', newAnnotations)}
             />
-            <DataClassClassType />
+            <DataClassType />
           </Flex>
         </AccordionContent>
       </AccordionItem>

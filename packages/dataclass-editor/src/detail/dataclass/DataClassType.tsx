@@ -3,7 +3,7 @@ import { useAppContext } from '../../context/AppContext';
 import { useDataClassChangeHandlers } from '../../data/dataclass-change-handlers';
 import { classTypeOf } from '../../data/dataclass-utils';
 
-export const DataClassClassType = () => {
+export const DataClassType = () => {
   const { dataClass } = useAppContext();
   const { handleClassTypeChange } = useDataClassChangeHandlers();
 
