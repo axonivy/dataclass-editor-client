@@ -40,16 +40,16 @@ export const useCardinality = () => {
   return { cardinality: field.entity.association, setCardinality };
 };
 
+const cardinalityItems: Array<{ value: DataClassFieldEntityAssociation; label: string }> = [
+  { value: 'ONE_TO_ONE', label: 'One-to-One' },
+  { value: 'ONE_TO_MANY', label: 'One-to-Many' },
+  { value: 'MANY_TO_ONE', label: 'Many-to-One' }
+] as const;
+
 export const FieldEntityAssociation = () => {
   const { field, setProperty } = useFieldEntityProperty();
   const { mappedByFieldName, setMappedByFieldName, isDisabled: mappedByFieldNameIsDisabled } = useMappedByFieldName();
   const { cardinality, setCardinality } = useCardinality();
-
-  const cardinalityItems: Array<{ value: DataClassFieldEntityAssociation; label: string }> = [
-    { value: 'ONE_TO_ONE', label: 'One-to-One' },
-    { value: 'ONE_TO_MANY', label: 'One-to-Many' },
-    { value: 'MANY_TO_ONE', label: 'Many-to-One' }
-  ];
 
   return (
     <Collapsible>

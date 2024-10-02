@@ -36,14 +36,14 @@ export const useClassType = () => {
   return { classType: classTypeOf(dataClass), setClassType };
 };
 
+const dataClassTypeItems: Array<{ value: ClassType; label: string }> = [
+  { value: 'DATA', label: 'Data' },
+  { value: 'BUSINESS_DATA', label: 'Business Data' },
+  { value: 'ENTITY', label: 'Entity' }
+] as const;
+
 export const DataClassType = () => {
   const { classType, setClassType } = useClassType();
-
-  const dataClassTypeItems: Array<{ value: ClassType; label: string }> = [
-    { value: 'DATA', label: 'Data' },
-    { value: 'BUSINESS_DATA', label: 'Business Data' },
-    { value: 'ENTITY', label: 'Entity' }
-  ];
 
   return (
     <Collapsible>
