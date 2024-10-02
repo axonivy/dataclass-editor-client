@@ -4,7 +4,7 @@
   "namespace" : "dataclass",
   "comment" : "DataClass comment",
   "annotations" : [ "@javax.persistence.Table(name=\"tableName\")" ],
-  "isBusinessCaseData" : true,
+  "isBusinessCaseData" : false,
   "fields" : [ {
     "name" : "dataClassField0",
     "type" : "String",

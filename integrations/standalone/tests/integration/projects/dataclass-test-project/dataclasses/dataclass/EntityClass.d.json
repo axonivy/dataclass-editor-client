@@ -16,5 +16,25 @@
       "cascadeTypes" : [ "PERSIST", "MERGE" ],
       "orphanRemoval" : false
     }
+  }, {
+    "name" : "entityClassField0",
+    "type" : "String",
+    "modifiers" : [ "PERSISTENT", "NOT_NULLABLE", "UNIQUE", "NOT_UPDATEABLE", "NOT_INSERTABLE" ],
+    "entity" : {
+      "databaseName" : "dbFieldName0",
+      "databaseFieldLength" : "128",
+      "cascadeTypes" : [ "PERSIST", "MERGE" ],
+      "orphanRemoval" : false
+    }
+  }, {
+    "name" : "entityClassField1",
+    "type" : "dataclass.AnotherEntityClass",
+    "modifiers" : [ "PERSISTENT" ],
+    "entity" : {
+      "association" : "ONE_TO_ONE",
+      "cascadeTypes" : [ "REMOVE", "REFRESH" ],
+      "mappedByFieldName" : "invers",
+      "orphanRemoval" : true
+    }
   } ]
 }

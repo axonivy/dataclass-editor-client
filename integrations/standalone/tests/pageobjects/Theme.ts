@@ -1,5 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { Switch } from './Switch';
+import { Switch } from './abstract/Switch';
 
 export class Theme {
   readonly html: Locator;

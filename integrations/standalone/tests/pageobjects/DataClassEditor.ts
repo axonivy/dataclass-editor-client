@@ -1,10 +1,10 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { randomUUID } from 'crypto';
 import { AddFieldDialog } from './AddFieldDialog';
-import { Button } from './Button';
 import { Detail } from './Detail';
 import { Settings } from './Settings';
-import { Table } from './Table';
+import { Button } from './abstract/Button';
+import { Table } from './abstract/Table';
 
 const server = process.env.BASE_URL ?? 'http://localhost:8081';
 const ws = process.env.TEST_WS ?? '';
@@ -14,7 +14,6 @@ const pmv = 'dataclass-test-project';
 export class DataClassEditor {
   readonly page: Page;
   readonly title: Locator;
-  readonly detailPanel: Locator;
   readonly toolbar: Locator;
   readonly detailToggle: Button;
   readonly detail: Detail;
@@ -26,7 +25,6 @@ export class DataClassEditor {
   constructor(page: Page) {
     this.page = page;
     this.title = this.page.locator('.master-header');
-    this.detailPanel = this.page.locator('.detail-panel');
     this.toolbar = this.page.locator('.master-toolbar');
     this.detailToggle = new Button(this.toolbar, { name: 'Details toggle' });
     this.detail = new Detail(this.page);
@@ -59,7 +57,7 @@ export class DataClassEditor {
       throw Error(`Failed to create data class: ${result.status}`);
     }
     const editor = await this.openDataClass(page, `dataclasses/${namespace}/${name}.d.json`);
-    return { editor, name };
+    return editor;
   }
 
   static async openMock(page: Page) {
@@ -69,6 +67,7 @@ export class DataClassEditor {
   private static async openUrl(page: Page, url: string) {
     const editor = new DataClassEditor(page);
     await page.goto(url);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     return editor;
   }
 

@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test';
-import { Button } from './Button';
+import { Button } from './abstract/Button';
 import { Theme } from './Theme';
 
 export class Settings {

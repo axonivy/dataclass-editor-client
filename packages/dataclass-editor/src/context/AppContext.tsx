@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { DataClass } from '../components/dataclass/data/dataclass';
+import type { DataClass, EntityClass } from '../data/dataclass';
 import type { DataContext } from '../protocol/types';
 
 type AppContext = {
@@ -26,4 +26,20 @@ export const AppProvider = appContext.Provider;
 
 export const useAppContext = () => {
   return useContext(appContext);
+};
+
+type EntityClassContext = {
+  entityClass: EntityClass;
+  setEntityClass: (entityClass: EntityClass) => void;
+};
+
+const entityClassContext = createContext<EntityClassContext>({
+  entityClass: {} as EntityClass,
+  setEntityClass: () => {}
+});
+
+export const EntityClassProvider = entityClassContext.Provider;
+
+export const useEntityClass = () => {
+  return useContext(entityClassContext);
 };
