@@ -1,5 +1,5 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input, Textarea } from '@axonivy/ui-components';
-import { useDataClassProperty } from '../../data/dataclass-hooks';
+import { useDataClassProperty } from './useDataClassProperty';
 
 export const DataClassNameDescription = () => {
   const { dataClass, setProperty } = useDataClassProperty();

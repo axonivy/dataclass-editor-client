@@ -10,9 +10,9 @@ import {
 } from '@axonivy/ui-components';
 import { useEntityField } from '../../../context/FieldContext';
 import type { DataClassFieldEntityAssociation } from '../../../data/dataclass';
-import { useFieldEntityProperty } from '../../../data/dataclass-hooks';
 import './FieldEntityAssociation.css';
 import { FieldEntityCascadeTypeCheckbox } from './FieldEntityCascadeTypeCheckbox';
+import { useFieldEntityProperty } from './useFieldEntityProperty';
 
 export const useMappedByFieldName = () => {
   const { field, setField } = useEntityField();

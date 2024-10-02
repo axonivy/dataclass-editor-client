@@ -1,6 +1,6 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input } from '@axonivy/ui-components';
-import { useFieldEntityProperty } from '../../../data/dataclass-hooks';
 import { FieldModifierCheckbox } from '../FieldModifierCheckbox';
+import { useFieldEntityProperty } from './useFieldEntityProperty';
 
 const DATABASE_TYPE_LENGHTS = {
   String: '255',
