@@ -90,7 +90,7 @@ export const DataClassMasterContent = () => {
 
   const readonly = useReadonly();
   const control = readonly ? null : (
-    <Flex gap={2} onClick={event => event.stopPropagation()}>
+    <Flex gap={2}>
       <AddFieldDialog table={table} />
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <Button
@@ -104,26 +104,21 @@ export const DataClassMasterContent = () => {
   );
 
   return (
-    <BasicField className='master-content' label='Attributes' control={control} onClick={resetSelection}>
-      <Table>
-        <TableResizableHeader headerGroups={table.getHeaderGroups()} />
-        <TableBody>
-          {table.getRowModel().rows.map(row => (
-            <SelectRow
-              key={row.id}
-              row={row}
-              onClick={event => {
-                event.stopPropagation();
-                setSelectedField(row.index);
-              }}
-            >
-              {row.getVisibleCells().map(cell => (
-                <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-              ))}
-            </SelectRow>
-          ))}
-        </TableBody>
-      </Table>
-    </BasicField>
+    <Flex direction='column' className='master-content-container' onClick={resetSelection}>
+      <BasicField className='master-content' label='Attributes' control={control} onClick={event => event.stopPropagation()}>
+        <Table>
+          <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={resetSelection} />
+          <TableBody>
+            {table.getRowModel().rows.map(row => (
+              <SelectRow key={row.id} row={row} onClick={() => setSelectedField(row.index)}>
+                {row.getVisibleCells().map(cell => (
+                  <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                ))}
+              </SelectRow>
+            ))}
+          </TableBody>
+        </Table>
+      </BasicField>
+    </Flex>
   );
 };
