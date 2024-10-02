@@ -2,11 +2,13 @@ import type { RenderHookOptions } from '@testing-library/react';
 import { renderHook } from '@testing-library/react';
 import { type ReactNode } from 'react';
 import type { DataClass, DataClassField, EntityClass, EntityClassField } from '../../data/dataclass';
+import type { DataContext } from '../../protocol/types';
 import { AppProvider, EntityClassProvider } from '../AppContext';
 import { EntityFieldProvider, FieldProvider } from '../FieldContext';
 
 type ContextHelperProps = {
   appContext?: {
+    context?: DataContext;
     dataClass?: DataClass;
     setDataClass?: (dataclass: DataClass) => void;
     selectedField?: number;
@@ -21,6 +23,7 @@ type ContextHelperProps = {
 
 const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
   const appContext = {
+    context: props.appContext?.context ?? ({} as DataContext),
     dataClass: props.appContext?.dataClass ?? ({} as DataClass),
     setDataClass: props.appContext?.setDataClass ?? (() => {}),
     selectedField: props.appContext?.selectedField,
