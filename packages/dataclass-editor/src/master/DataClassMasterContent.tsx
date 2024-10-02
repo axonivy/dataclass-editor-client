@@ -90,7 +90,7 @@ export const DataClassMasterContent = () => {
 
   const readonly = useReadonly();
   const control = readonly ? null : (
-    <Flex gap={2}>
+    <Flex gap={2} onClick={event => event.stopPropagation()}>
       <AddFieldDialog table={table} />
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <Button
