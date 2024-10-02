@@ -104,12 +104,19 @@ export const DataClassMasterContent = () => {
   );
 
   return (
-    <BasicField className='master-content' label='Attributes' control={control}>
+    <BasicField className='master-content' label='Attributes' control={control} onClick={resetSelection}>
       <Table>
-        <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={resetSelection} />
+        <TableResizableHeader headerGroups={table.getHeaderGroups()} />
         <TableBody>
           {table.getRowModel().rows.map(row => (
-            <SelectRow key={row.id} row={row} onClick={() => setSelectedField(row.index)}>
+            <SelectRow
+              key={row.id}
+              row={row}
+              onClick={event => {
+                event.stopPropagation();
+                setSelectedField(row.index);
+              }}
+            >
               {row.getVisibleCells().map(cell => (
                 <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
               ))}
