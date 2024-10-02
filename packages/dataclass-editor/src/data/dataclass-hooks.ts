@@ -9,7 +9,7 @@ export const useDataClassProperty = () => {
     newDataClass[key] = value;
     setDataClass(newDataClass);
   };
-  return setProperty;
+  return { dataClass, setProperty };
 };
 
 export const useFieldProperty = () => {
@@ -19,7 +19,7 @@ export const useFieldProperty = () => {
     newField[key] = value;
     setField(newField);
   };
-  return setProperty;
+  return { field, setProperty };
 };
 
 export const useFieldEntityProperty = () => {
@@ -29,7 +29,7 @@ export const useFieldEntityProperty = () => {
     newField.entity[key] = value;
     setField(newField);
   };
-  return setProperty;
+  return { field, setProperty };
 };
 
 export const updateModifiers = (add: boolean | string, newModifiers: Array<DataClassFieldModifier>, modifier: DataClassFieldModifier) => {

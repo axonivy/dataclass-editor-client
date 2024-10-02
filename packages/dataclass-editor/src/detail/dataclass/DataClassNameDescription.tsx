@@ -1,10 +1,8 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input, Textarea } from '@axonivy/ui-components';
-import { useAppContext } from '../../context/AppContext';
 import { useDataClassProperty } from '../../data/dataclass-hooks';
 
 export const DataClassNameDescription = () => {
-  const { dataClass } = useAppContext();
-  const setProperty = useDataClassProperty();
+  const { dataClass, setProperty } = useDataClassProperty();
 
   return (
     <Collapsible defaultOpen={true}>

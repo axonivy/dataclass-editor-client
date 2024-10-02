@@ -20,8 +20,7 @@ export const useType = () => {
 };
 
 export const FieldNameTypeComment = () => {
-  const { field } = useField();
-  const setProperty = useFieldProperty();
+  const { field, setProperty } = useFieldProperty();
   const { type, setType } = useType();
 
   return (

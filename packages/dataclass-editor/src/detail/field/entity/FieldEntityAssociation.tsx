@@ -41,8 +41,7 @@ export const useCardinality = () => {
 };
 
 export const FieldEntityAssociation = () => {
-  const { field } = useEntityField();
-  const setProperty = useFieldEntityProperty();
+  const { field, setProperty } = useFieldEntityProperty();
   const { mappedByFieldName, setMappedByFieldName, isDisabled: mappedByFieldNameIsDisabled } = useMappedByFieldName();
   const { cardinality, setCardinality } = useCardinality();
 

@@ -1,5 +1,4 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input } from '@axonivy/ui-components';
-import { useEntityField } from '../../../context/FieldContext';
 import { useFieldEntityProperty } from '../../../data/dataclass-hooks';
 import { FieldModifierCheckbox } from '../FieldModifierCheckbox';
 
@@ -12,8 +11,7 @@ export const typeCanHaveDatabaseLength = (type: string) => Object.hasOwn(DATABAS
 export const defaultLengthOfType = (type: string) => DATABASE_TYPE_LENGHTS[type as keyof typeof DATABASE_TYPE_LENGHTS] || '';
 
 export const FieldEntityDatabaseField = () => {
-  const { field } = useEntityField();
-  const setProperty = useFieldEntityProperty();
+  const { field, setProperty } = useFieldEntityProperty();
 
   const mappedByFieldNameIsSet = field.entity.mappedByFieldName !== '';
   const canHaveDatabaseLength = typeCanHaveDatabaseLength(field.type);

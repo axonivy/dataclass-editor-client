@@ -8,9 +8,10 @@ test('useDataClassProperty', () => {
   const view = customRenderHook(() => useDataClassProperty(), {
     wrapperProps: { appContext: { dataClass, setDataClass: dataClass => (newDataClass = dataClass) } }
   });
+  expect(view.result.current.dataClass).toEqual(dataClass);
 
   const originalDataClass = structuredClone(dataClass);
-  view.result.current('simpleName', 'NewSimpleName');
+  view.result.current.setProperty('simpleName', 'NewSimpleName');
   expect(dataClass).toEqual(originalDataClass);
 
   expect(newDataClass.simpleName).toEqual('NewSimpleName');
@@ -22,9 +23,10 @@ test('useFieldProperty', () => {
   const view = customRenderHook(() => useFieldProperty(), {
     wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
   });
+  expect(view.result.current.field).toEqual(field);
 
   const originalField = structuredClone(field);
-  view.result.current('name', 'NewName');
+  view.result.current.setProperty('name', 'NewName');
   expect(field).toEqual(originalField);
 
   expect(newField.name).toEqual('NewName');
@@ -36,9 +38,10 @@ test('useFieldEntityProperty', () => {
   const view = customRenderHook(() => useFieldEntityProperty(), {
     wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
   });
+  expect(view.result.current.field).toEqual(field);
 
   const originalField = structuredClone(field);
-  view.result.current('databaseName', 'NewDatabaseName');
+  view.result.current.setProperty('databaseName', 'NewDatabaseName');
   expect(field).toEqual(originalField);
 
   expect(newField.entity.databaseName).toEqual('NewDatabaseName');

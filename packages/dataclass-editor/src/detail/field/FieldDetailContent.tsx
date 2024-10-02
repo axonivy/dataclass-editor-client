@@ -14,7 +14,7 @@ export const isEntityField = (field: DataClassField): field is EntityClassField 
 
 export const FieldDetailContent = () => {
   const { field, setField } = useField();
-  const setProperty = useFieldProperty();
+  const { setProperty } = useFieldProperty();
 
   return (
     <Accordion type='single' collapsible defaultValue='general' className='field-detail-content'>

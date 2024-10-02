@@ -9,7 +9,7 @@ import { EntityClassDatabaseTable } from './entity/EntityClassDatabaseTable';
 
 export const DataClassDetailContent = () => {
   const { dataClass, setDataClass } = useAppContext();
-  const setProperty = useDataClassProperty();
+  const { setProperty } = useDataClassProperty();
 
   return (
     <Accordion type='single' collapsible defaultValue='general' className='dataclass-detail-content'>
