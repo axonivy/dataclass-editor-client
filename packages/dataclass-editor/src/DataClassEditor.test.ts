@@ -4,21 +4,21 @@ import { headerTitles } from './DataClassEditor';
 describe('headerTitles', () => {
   describe('title', () => {
     test('data', () => {
-      const dataClass = {} as DataClass;
+      const dataClass = { simpleName: 'DataClassName' } as DataClass;
       const { masterTitle } = headerTitles(dataClass);
-      expect(masterTitle).toEqual('Data Editor');
+      expect(masterTitle).toEqual('Data Class - DataClassName');
     });
 
     test('businessData', () => {
-      const dataClass = { isBusinessCaseData: true } as DataClass;
+      const dataClass = { simpleName: 'BusinessDataClassName', isBusinessCaseData: true } as DataClass;
       const { masterTitle } = headerTitles(dataClass);
-      expect(masterTitle).toEqual('Business Data Editor');
+      expect(masterTitle).toEqual('Business Data Class - BusinessDataClassName');
     });
 
     test('entity', () => {
-      const dataClass = { entity: {} } as DataClass;
+      const dataClass = { simpleName: 'EntityClassName', entity: {} } as DataClass;
       const { masterTitle } = headerTitles(dataClass);
-      expect(masterTitle).toEqual('Entity Editor');
+      expect(masterTitle).toEqual('Entity Class - EntityClassName');
     });
   });
 
@@ -26,19 +26,19 @@ describe('headerTitles', () => {
     test('data', () => {
       const dataClass = { simpleName: 'DataClassName' } as DataClass;
       const { detailTitle } = headerTitles(dataClass);
-      expect(detailTitle).toEqual('Data - DataClassName');
+      expect(detailTitle).toEqual('Data Class - DataClassName');
     });
 
     test('businessData', () => {
       const dataClass = { simpleName: 'BusinessDataClassName', isBusinessCaseData: true } as DataClass;
       const { detailTitle } = headerTitles(dataClass);
-      expect(detailTitle).toEqual('Business Data - BusinessDataClassName');
+      expect(detailTitle).toEqual('Business Data Class - BusinessDataClassName');
     });
 
     test('entity', () => {
       const dataClass = { simpleName: 'EntityClassName', entity: {} } as DataClass;
       const { detailTitle } = headerTitles(dataClass);
-      expect(detailTitle).toEqual('Entity - EntityClassName');
+      expect(detailTitle).toEqual('Entity Class - EntityClassName');
     });
 
     test('attribute', () => {
