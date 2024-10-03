@@ -28,13 +28,13 @@ export const headerTitles = (dataClass: DataClass, selectedField?: number) => {
     case 'ENTITY':
       baseTitle = 'Entity';
   }
-  const masterTitle = `${baseTitle} Editor`;
+  const masterTitle = `${baseTitle} Class - ${dataClass.simpleName}`;
 
   const dataClassFields = dataClass.fields;
 
   let detailTitle = '';
   if (selectedField === undefined) {
-    detailTitle = `${baseTitle} - ${dataClass.simpleName}`;
+    detailTitle = masterTitle;
   } else if (selectedField < dataClassFields.length) {
     const selectedDataClassField = dataClassFields[selectedField];
     detailTitle = 'Attribute - ' + selectedDataClassField.name;

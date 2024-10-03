@@ -12,16 +12,16 @@ test('title', async () => {
 });
 
 test('headers', async () => {
-  await expect(editor.title).toHaveText('Data Editor');
-  await expect(editor.detail.title).toHaveText('Data - Interview');
+  await expect(editor.title).toHaveText('Data Class - Interview');
+  await expect(editor.detail.title).toHaveText('Data Class - Interview');
 
   await editor.detail.dataClass.general.classType.fillValues('Business Data');
-  await expect(editor.title).toHaveText('Business Data Editor');
-  await expect(editor.detail.title).toHaveText('Business Data - Interview');
+  await expect(editor.title).toHaveText('Business Data Class - Interview');
+  await expect(editor.detail.title).toHaveText('Business Data Class - Interview');
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
-  await expect(editor.title).toHaveText('Entity Editor');
-  await expect(editor.detail.title).toHaveText('Entity - Interview');
+  await expect(editor.title).toHaveText('Entity Class - Interview');
+  await expect(editor.detail.title).toHaveText('Entity Class - Interview');
 
   await editor.table.row(0).locator.click();
   await expect(editor.detail.title).toHaveText('Attribute - firstName');
