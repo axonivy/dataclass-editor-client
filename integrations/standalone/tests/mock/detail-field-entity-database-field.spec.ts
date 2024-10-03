@@ -11,7 +11,7 @@ test('name', async () => {
   const databaseFieldName = editor.detail.field.entity.databaseField.name;
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
-  await editor.table.row(0).locator.click();
+  await editor.table.row(1).locator.click();
   await editor.detail.field.entity.accordion.open();
   await editor.detail.field.entity.databaseField.collapsible.open();
 
@@ -45,7 +45,7 @@ test('length', async () => {
   const databaseFieldLength = editor.detail.field.entity.databaseField.length;
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
-  await editor.table.row(0).locator.click();
+  await editor.table.row(1).locator.click();
   await editor.detail.field.entity.accordion.open();
   await editor.detail.field.entity.databaseField.collapsible.open();
 
@@ -69,7 +69,7 @@ test('properties', async () => {
   const databaseField = editor.detail.field.entity.databaseField;
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
-  await editor.table.row(2).locator.click();
+  await editor.table.row(3).locator.click();
   await editor.detail.field.entity.accordion.open();
   await databaseField.collapsible.open();
 

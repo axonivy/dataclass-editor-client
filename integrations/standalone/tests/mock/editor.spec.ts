@@ -23,7 +23,7 @@ test('headers', async () => {
   await expect(editor.title).toHaveText('Entity Class - Interview');
   await expect(editor.detail.title).toHaveText('Entity Class - Interview');
 
-  await editor.table.row(0).locator.click();
+  await editor.table.row(1).locator.click();
   await expect(editor.detail.title).toHaveText('Attribute - firstName');
 });
 

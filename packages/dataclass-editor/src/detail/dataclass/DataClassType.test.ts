@@ -12,6 +12,7 @@ describe('useClassType', () => {
     expect(dataClass.isBusinessCaseData).toEqual(isBusinessCaseData);
     expect(!!dataClass.entity).toEqual(hasEntity);
     expect(dataClass.fields.every((field: DataClassField) => !!field.entity === hasEntity)).toBeTruthy();
+    expect(dataClass.fields).toHaveLength(modifiers.length);
     for (let i = 0; i < modifiers.length; i++) {
       expect(dataClass.fields[i].modifiers).toEqual(modifiers[i]);
     }
@@ -58,7 +59,11 @@ describe('useClassType', () => {
     view.result.current.setClassType('ENTITY');
     expect(dataClass).toEqual(originalDataClass);
 
-    expectClassType(newDataClass, false, true, [['PERSISTENT'], []]);
+    expect(newDataClass.fields[0].name).toEqual('id');
+    expect(newDataClass.fields[0].type).toEqual('Integer');
+    expect(newDataClass.fields[0].comment).toEqual('Identifier');
+    newDataClass.fields.forEach(field => expect(field.entity!.cascadeTypes).toEqual(['PERSIST', 'MERGE']));
+    expectClassType(newDataClass, false, true, [['PERSISTENT', 'ID', 'GENERATED'], ['PERSISTENT'], []]);
   });
 
   test('business to data', () => {
@@ -102,7 +107,11 @@ describe('useClassType', () => {
     view.result.current.setClassType('ENTITY');
     expect(dataClass).toEqual(originalDataClass);
 
-    expectClassType(newDataClass, false, true, [['PERSISTENT'], []]);
+    expect(newDataClass.fields[0].name).toEqual('id');
+    expect(newDataClass.fields[0].type).toEqual('Integer');
+    expect(newDataClass.fields[0].comment).toEqual('Identifier');
+    newDataClass.fields.forEach(field => expect(field.entity!.cascadeTypes).toEqual(['PERSIST', 'MERGE']));
+    expectClassType(newDataClass, false, true, [['PERSISTENT', 'ID', 'GENERATED'], ['PERSISTENT'], []]);
   });
 
   test('entity to data', () => {
@@ -147,5 +156,32 @@ describe('useClassType', () => {
     expect(dataClass).toEqual(originalDataClass);
 
     expectClassType(newDataClass, true, false, [['PERSISTENT'], []]);
+  });
+
+  test('to entity but id is already present', () => {
+    const dataClass = {
+      isBusinessCaseData: false,
+      entity: undefined,
+      fields: [
+        { modifiers: ['PERSISTENT'], entity: undefined },
+        { name: 'id', modifiers: [] as Array<DataClassFieldModifier>, entity: undefined },
+        { modifiers: [], entity: undefined }
+      ]
+    } as DataClass;
+    let newDataClass = {} as DataClass;
+    const view = customRenderHook(() => useClassType(), {
+      wrapperProps: { appContext: { dataClass, setDataClass: dataClass => (newDataClass = dataClass) } }
+    });
+    expect(view.result.current.classType).toEqual('DATA');
+
+    const originalDataClass = structuredClone(dataClass);
+    view.result.current.setClassType('ENTITY');
+    expect(dataClass).toEqual(originalDataClass);
+
+    expect(newDataClass.fields[0].name).not.toEqual('id');
+    expect(newDataClass.fields[0].type).not.toEqual('Integer');
+    expect(newDataClass.fields[0].comment).not.toEqual('Identifier');
+    newDataClass.fields.forEach(field => expect(field.entity!.cascadeTypes).toEqual(['PERSIST', 'MERGE']));
+    expectClassType(newDataClass, false, true, [['PERSISTENT'], [], []]);
   });
 });
