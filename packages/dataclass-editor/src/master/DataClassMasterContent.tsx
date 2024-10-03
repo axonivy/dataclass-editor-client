@@ -24,12 +24,10 @@ import { type DataClassField } from '../data/dataclass';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 
-export const className = (qualifiedName: string) => {
-  const lastDotIndex = qualifiedName.lastIndexOf('.');
-  if (lastDotIndex === -1) {
-    return qualifiedName;
-  }
-  return qualifiedName.substring(lastDotIndex + 1);
+const fullQualifiedClassNameRegex = /(?:[\w]+\.)+([\w]+)(?=[<,> ]|$)/g;
+
+export const simpleTypeName = (fullQualifiedType: string) => {
+  return fullQualifiedType.replace(fullQualifiedClassNameRegex, (_fullQualifiedClassName, className) => className);
 };
 
 export const DataClassMasterContent = () => {
@@ -50,7 +48,7 @@ export const DataClassMasterContent = () => {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <span className='cell-with-tooltip'>{className(cell.getValue())}</span>
+              <span className='cell-with-tooltip'>{simpleTypeName(cell.getValue())}</span>
             </TooltipTrigger>
             <TooltipContent>
               <span>{cell.getValue()}</span>
