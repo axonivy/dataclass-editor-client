@@ -77,9 +77,9 @@ test('save data', async ({ page }) => {
 
   await editor.detail.dataClass.entity.expectToHaveValues('NewDatabaseTableName');
 
-  await expect(editor.table.rows).toHaveCount(2);
+  await expect(editor.table.rows).toHaveCount(3);
 
-  await editor.table.row(0).locator.click();
+  await editor.table.row(1).locator.click();
   await editor.detail.field.entity.accordion.open();
   await editor.detail.field.entity.databaseField.expectToHaveValues('NewDatabaseFieldName', 'NewDatabaseFieldLength', {
     id: true,
@@ -91,7 +91,7 @@ test('save data', async ({ page }) => {
     Version: false
   });
 
-  await editor.table.row(1).locator.click();
+  await editor.table.row(2).locator.click();
   await editor.detail.field.entity.accordion.open();
   await editor.detail.field.entity.association.expectToHaveValues(
     'One-to-One',

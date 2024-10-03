@@ -8,11 +8,28 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('add field', async () => {
-  test('add', async () => {
-    await editor.addField('newAttribute', 'String');
-    await expect(editor.table.rows).toHaveCount(5);
-    await editor.table.row(4).expectToBeSelected();
-    await editor.table.row(4).expectToHaveValues('newAttribute', 'String', '');
+  test.describe('add', async () => {
+    test('data class', async () => {
+      await editor.addField('newAttribute', 'String');
+      await expect(editor.table.rows).toHaveCount(5);
+      await editor.table.row(4).expectToBeSelected();
+      await editor.table.row(4).expectToHaveValues('newAttribute', 'String', '');
+    });
+
+    test('entity class', async () => {
+      await editor.detail.dataClass.general.classType.fillValues('Entity');
+      await editor.addField('newAttribute', 'String');
+      await editor.detail.field.general.properties.fillValues(true);
+      await editor.detail.field.entity.accordion.open();
+      await editor.detail.field.entity.association.collapsible.open();
+      await editor.detail.field.entity.association.expectCascadeTypesToHaveCheckedState({
+        all: false,
+        persist: true,
+        merge: true,
+        remove: false,
+        refresh: false
+      });
+    });
   });
 
   test('default values', async () => {

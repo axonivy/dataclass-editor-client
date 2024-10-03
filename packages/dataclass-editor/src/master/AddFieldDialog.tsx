@@ -24,7 +24,7 @@ export const validateFieldName = (name: string, dataClass: DataClass): MessageDa
   if (name.trim() === '') {
     return toErrorMessage('Name cannot be empty.');
   }
-  if (dataClass.fields.map(field => field.name).includes(name)) {
+  if (dataClass.fields.some(field => field.name === name)) {
     return toErrorMessage('Name is already taken.');
   }
 };
@@ -58,7 +58,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
   };
 
   const addField = () => {
-    const newField = {
+    const newField: DataClassField = {
       name: name,
       type: type,
       comment: '',
@@ -68,7 +68,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
         ? {
             databaseName: '',
             databaseFieldLength: '',
-            cascadeTypes: [],
+            cascadeTypes: ['PERSIST', 'MERGE'],
             mappedByFieldName: '',
             orphanRemoval: false
           }

@@ -46,7 +46,7 @@ describe('collapsible state', async () => {
         const entity = editor.detail.field.entity;
 
         await editor.detail.dataClass.general.classType.fillValues('Entity');
-        await editor.table.row(0).locator.click();
+        await editor.table.row(1).locator.click();
         await entity.accordion.open();
 
         await entity.databaseField.collapsible.expectToBeClosed();
@@ -69,7 +69,7 @@ describe('collapsible state', async () => {
         const entity = editor.detail.field.entity;
 
         await editor.detail.dataClass.general.classType.fillValues('Entity');
-        await editor.table.row(0).locator.click();
+        await editor.table.row(1).locator.click();
         await entity.accordion.open();
 
         await entity.databaseField.collapsible.expectToBeClosed();
@@ -91,7 +91,7 @@ describe('collapsible state', async () => {
         const entity = editor.detail.field.entity;
 
         await editor.detail.dataClass.general.classType.fillValues('Entity');
-        await editor.table.row(0).locator.click();
+        await editor.table.row(1).locator.click();
         await entity.accordion.open();
 
         await entity.databaseField.collapsible.expectToBeClosed();
