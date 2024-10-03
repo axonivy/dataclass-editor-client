@@ -1,15 +1,15 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Flex } from '@axonivy/ui-components';
 import { EntityClassProvider, useAppContext } from '../../context/AppContext';
-import { useDataClassProperty } from '../../data/dataclass-hooks';
 import { isEntity } from '../../data/dataclass-utils';
 import { AnnotationsTable } from '../AnnotationsTable';
 import { DataClassNameDescription } from './DataClassNameDescription';
 import { DataClassType } from './DataClassType';
 import { EntityClassDatabaseTable } from './entity/EntityClassDatabaseTable';
+import { useDataClassProperty } from './useDataClassProperty';
 
 export const DataClassDetailContent = () => {
   const { dataClass, setDataClass } = useAppContext();
-  const setProperty = useDataClassProperty();
+  const { setProperty } = useDataClassProperty();
 
   return (
     <Accordion type='single' collapsible defaultValue='general' className='dataclass-detail-content'>

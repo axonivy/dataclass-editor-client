@@ -1,12 +1,12 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Flex } from '@axonivy/ui-components';
 import { EntityFieldProvider, useField } from '../../context/FieldContext';
 import type { DataClassField, EntityClassField } from '../../data/dataclass';
-import { useFieldProperty } from '../../data/dataclass-hooks';
 import { AnnotationsTable } from '../AnnotationsTable';
 import { FieldEntityAssociation } from './entity/FieldEntityAssociation';
 import { FieldEntityDatabaseField } from './entity/FieldEntityDatabaseField';
 import { FieldNameTypeComment } from './FieldNameTypeComment';
 import { FieldProperties } from './FieldProperties';
+import { useFieldProperty } from './useFieldProperty';
 
 export const isEntityField = (field: DataClassField): field is EntityClassField => {
   return !!field.entity && field.modifiers.includes('PERSISTENT');
@@ -14,7 +14,7 @@ export const isEntityField = (field: DataClassField): field is EntityClassField 
 
 export const FieldDetailContent = () => {
   const { field, setField } = useField();
-  const setProperty = useFieldProperty();
+  const { setProperty } = useFieldProperty();
 
   return (
     <Accordion type='single' collapsible defaultValue='general' className='field-detail-content'>

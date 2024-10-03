@@ -106,17 +106,7 @@ function DataClassEditor(props: EditorProps) {
   const setDataClass = (dataClass: DataClass) => mutation.mutate(() => dataClass);
 
   return (
-    <AppProvider
-      value={{
-        context,
-        dataClass,
-        setDataClass,
-        selectedField,
-        setSelectedField,
-        detail,
-        setDetail
-      }}
-    >
+    <AppProvider value={{ context, dataClass, setDataClass, selectedField, setSelectedField, detail, setDetail }}>
       <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
         <ResizablePanel defaultSize={75} minSize={50} className='master-panel'>
           <Flex className='panel-content-container master-container' direction='column'>

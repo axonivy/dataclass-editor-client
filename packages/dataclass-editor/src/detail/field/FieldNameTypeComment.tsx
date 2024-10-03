@@ -1,7 +1,8 @@
 import { BasicField, BasicInput, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Textarea } from '@axonivy/ui-components';
 import { useField } from '../../context/FieldContext';
 import { isIDType, isVersionType } from '../../data/dataclass';
-import { updateModifiers, useFieldProperty } from '../../data/dataclass-hooks';
+import { updateModifiers } from '../../data/dataclass-utils';
+import { useFieldProperty } from './useFieldProperty';
 
 export const useType = () => {
   const { field, setField } = useField();
@@ -20,8 +21,7 @@ export const useType = () => {
 };
 
 export const FieldNameTypeComment = () => {
-  const { field } = useField();
-  const setProperty = useFieldProperty();
+  const { field, setProperty } = useFieldProperty();
   const { type, setType } = useType();
 
   return (

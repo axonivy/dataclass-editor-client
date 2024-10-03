@@ -1,7 +1,7 @@
 import { BasicCheckbox } from '@axonivy/ui-components';
 import { useField } from '../../context/FieldContext';
 import { isIDType, isVersionType, type DataClassFieldModifier } from '../../data/dataclass';
-import { updateModifiers } from '../../data/dataclass-hooks';
+import { updateModifiers } from '../../data/dataclass-utils';
 
 type FieldModifierCheckboxProps = {
   label: string;
