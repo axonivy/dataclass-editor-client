@@ -7,7 +7,16 @@ import {
   type Disposable,
   type MessageConnection
 } from '@axonivy/jsonrpc';
-import type { Client, Data, DataClassActionArgs, DataContext, NotificationTypes, OnNotificationTypes, RequestTypes } from './types';
+import type {
+  Client,
+  Data,
+  DataClassActionArgs,
+  DataContext,
+  NotificationTypes,
+  OnNotificationTypes,
+  RequestTypes,
+  ValidationMessage
+} from './types';
 
 export class ClientJsonRpc extends BaseRpcClient implements Client {
   protected onDataChangedEmitter = new Emitter<void>();
@@ -22,8 +31,12 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
     return this.sendRequest('data', context);
   }
 
-  saveData(saveData: Data): Promise<String> {
+  saveData(saveData: Data): Promise<Array<ValidationMessage>> {
     return this.sendRequest('saveData', saveData);
+  }
+
+  validate(context: DataContext): Promise<Array<ValidationMessage>> {
+    return this.sendRequest('validate', context);
   }
 
   action(action: DataClassActionArgs): void {

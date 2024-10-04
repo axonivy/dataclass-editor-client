@@ -2,7 +2,7 @@ import type { RenderHookOptions } from '@testing-library/react';
 import { renderHook } from '@testing-library/react';
 import { type ReactNode } from 'react';
 import type { DataClass, DataClassField, EntityClass, EntityClassField } from '../../data/dataclass';
-import type { DataContext } from '../../protocol/types';
+import type { DataContext, ValidationMessage } from '../../protocol/types';
 import { AppProvider, EntityClassProvider } from '../AppContext';
 import { EntityFieldProvider, FieldProvider } from '../FieldContext';
 
@@ -15,6 +15,7 @@ type ContextHelperProps = {
     setSelectedField?: (index?: number) => void;
     detail?: boolean;
     setDetail?: (detail: boolean) => void;
+    validationMessages?: Array<ValidationMessage>;
   };
   entityClassContext?: { entityClass?: EntityClass; setEntityClass?: (entityClass: EntityClass) => void };
   fieldContext?: { field?: DataClassField; setField?: (field: DataClassField) => void };
@@ -29,7 +30,8 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
     selectedField: props.appContext?.selectedField,
     setSelectedField: props.appContext?.setSelectedField ?? (() => {}),
     detail: props.appContext?.detail !== undefined ? props.appContext.detail : true,
-    setDetail: props.appContext?.setDetail ?? (() => {})
+    setDetail: props.appContext?.setDetail ?? (() => {}),
+    validationMessages: props.appContext?.validationMessages ?? []
   };
 
   const entityClassContext = {

@@ -12,7 +12,7 @@ import { FieldDetailContent } from './detail/field/FieldDetailContent';
 import { DataClassMasterContent } from './master/DataClassMasterContent';
 import { DataClassMasterToolbar } from './master/DataClassMasterToolbar';
 import { useClient } from './protocol/ClientContextProvider';
-import type { Data, EditorProps } from './protocol/types';
+import type { Data, EditorProps, ValidationMessage } from './protocol/types';
 import { genQueryKey } from './query/query-client';
 import type { Unary } from './utils/lambda/lambda';
 
@@ -52,6 +52,7 @@ function DataClassEditor(props: EditorProps) {
     setDirectSave(props.directSave);
   }, [props]);
   const [selectedField, setSelectedField] = useState<number>();
+  const [validationMessages, setValidationMessages] = useState<Array<ValidationMessage>>([]);
 
   const client = useClient();
   const queryClient = useQueryClient();
@@ -59,7 +60,8 @@ function DataClassEditor(props: EditorProps) {
   const queryKeys = useMemo(() => {
     return {
       data: () => genQueryKey('data', context),
-      saveData: () => genQueryKey('saveData', context)
+      saveData: () => genQueryKey('saveData', context),
+      validate: () => genQueryKey('validate', context)
     };
   }, [context]);
 
@@ -67,6 +69,15 @@ function DataClassEditor(props: EditorProps) {
     queryKey: queryKeys.data(),
     queryFn: () => client.data(context),
     structuralSharing: false
+  });
+
+  useQuery({
+    queryKey: queryKeys.validate(),
+    queryFn: async () => {
+      const validationMessages = await client.validate(context);
+      setValidationMessages(validationMessages);
+      return validationMessages;
+    }
   });
 
   const mutation = useMutation({
@@ -79,7 +90,8 @@ function DataClassEditor(props: EditorProps) {
         return undefined;
       });
       if (saveData) {
-        return await client.saveData({ context, data: saveData.data, directSave });
+        const validationMessages = await client.saveData({ context, data: saveData.data, directSave });
+        return setValidationMessages(validationMessages);
       }
       return Promise.resolve();
     }
@@ -106,7 +118,7 @@ function DataClassEditor(props: EditorProps) {
   const setDataClass = (dataClass: DataClass) => mutation.mutate(() => dataClass);
 
   return (
-    <AppProvider value={{ context, dataClass, setDataClass, selectedField, setSelectedField, detail, setDetail }}>
+    <AppProvider value={{ context, dataClass, setDataClass, selectedField, setSelectedField, detail, setDetail, validationMessages }}>
       <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
         <ResizablePanel defaultSize={75} minSize={50} className='master-panel'>
           <Flex className='panel-content-container master-container' direction='column'>

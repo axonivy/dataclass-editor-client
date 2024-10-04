@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import type { DataClass, EntityClass } from '../data/dataclass';
-import type { DataContext } from '../protocol/types';
+import type { DataContext, ValidationMessage } from '../protocol/types';
 
 type AppContext = {
   context: DataContext;
@@ -10,6 +10,7 @@ type AppContext = {
   setSelectedField: (index?: number) => void;
   detail: boolean;
   setDetail: (visible: boolean) => void;
+  validationMessages: Array<ValidationMessage>;
 };
 
 const appContext = createContext<AppContext>({
@@ -19,7 +20,8 @@ const appContext = createContext<AppContext>({
   selectedField: undefined,
   setSelectedField: () => {},
   detail: true,
-  setDetail: () => {}
+  setDetail: () => {},
+  validationMessages: []
 });
 
 export const AppProvider = appContext.Provider;

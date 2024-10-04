@@ -10,9 +10,13 @@ export interface DataClassActionArgs {
   context: DataContext;
 }
 
+export type ValidationMessage = { message: string; path: string; severity: Severity };
+export type Severity = 'INFO' | 'WARNING' | 'ERROR';
+
 export interface RequestTypes {
   data: [DataContext, Data];
-  saveData: [Data, String];
+  saveData: [Data, Array<ValidationMessage>];
+  validate: [DataContext, Array<ValidationMessage>];
 }
 
 export interface NotificationTypes {
@@ -33,7 +37,8 @@ export interface Disposable {
 
 export interface Client {
   data(context: DataContext): Promise<Data>;
-  saveData(saveArgs: SaveArgs): Promise<String>;
+  saveData(saveArgs: SaveArgs): Promise<Array<ValidationMessage>>;
+  validate(context: DataContext): Promise<Array<ValidationMessage>>;
 
   action(action: DataClassActionArgs): void;
 
