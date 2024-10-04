@@ -4,10 +4,7 @@ import { useAppContext } from '../context/AppContext';
 import type { DataClassField } from '../data/dataclass';
 import type { ValidationMessage } from '../protocol/types';
 import './ValidationRow.css';
-
-export const validationMessagesOfRow = (validationMessages: Array<ValidationMessage>, field: DataClassField) => {
-  return validationMessages.filter(message => message.path === field.name);
-};
+import { useValidation } from './useValidation';
 
 export const rowClassName = (validationMessages: Array<ValidationMessage>) => {
   if (validationMessages.some(message => message.severity === 'ERROR')) {
@@ -23,9 +20,8 @@ type ValidationRowProps = {
 };
 
 export const ValidationRow = ({ row }: ValidationRowProps) => {
-  const { setSelectedField, validationMessages } = useAppContext();
-
-  const messages = validationMessagesOfRow(validationMessages, row.original);
+  const { setSelectedField } = useAppContext();
+  const messages = useValidation(row.original);
 
   return (
     <>
