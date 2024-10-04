@@ -1,9 +1,9 @@
 .master-content-container {
   height: 100%;
+  padding: var(--size-3);
 }
 
 .master-content {
-  margin: var(--size-3);
   min-height: 0;
   height: fit-content;
 }
