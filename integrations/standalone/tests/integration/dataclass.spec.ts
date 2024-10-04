@@ -33,7 +33,7 @@ test('save data', async ({ page }) => {
 
   await editor.detail.dataClass.general.fillValues('NewDescription', ['NewDataClassAnnotation'], 'Business Data');
 
-  await editor.addField('NewDataClassField', 'Integer');
+  await editor.addField('newDataClassField', 'Integer');
 
   await page.reload();
 
@@ -43,15 +43,15 @@ test('save data', async ({ page }) => {
 
   await expect(editor.table.rows).toHaveCount(1);
 
-  await editor.table.row(0).expectToHaveValues('NewDataClassField', 'Integer');
+  await editor.table.row(0).expectToHaveValues('newDataClassField', 'Integer');
 
   await editor.table.row(0).locator.click();
-  await editor.detail.field.general.fillValues('NewName', 'NewType', 'NewComment', true, ['NewFieldAnnotation']);
+  await editor.detail.field.general.fillValues('newName', 'String', 'NewComment', true, ['NewFieldAnnotation']);
 
   await page.reload();
 
   await editor.table.row(0).locator.click();
-  await editor.detail.field.general.expectToHaveValues('NewName', 'NewType', 'NewComment', true, ['NewFieldAnnotation']);
+  await editor.detail.field.general.expectToHaveValues('newName', 'String', 'NewComment', true, ['NewFieldAnnotation']);
 
   await editor.delete.locator.click();
 

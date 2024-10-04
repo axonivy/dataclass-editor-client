@@ -4,11 +4,9 @@ import {
   deleteFirstSelectedRow,
   Flex,
   selectRow,
-  SelectRow,
   Separator,
   Table,
   TableBody,
-  TableCell,
   TableResizableHeader,
   Tooltip,
   TooltipContent,
@@ -18,11 +16,12 @@ import {
   useTableSelect
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
+import { getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
 import { useAppContext } from '../context/AppContext';
 import { type DataClassField } from '../data/dataclass';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
+import { ValidationRow } from './ValidationRow';
 
 const fullQualifiedClassNameRegex = /(?:[\w]+\.)+([\w]+)(?=[<,> ]|$)/g;
 
@@ -108,11 +107,7 @@ export const DataClassMasterContent = () => {
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={resetSelection} />
           <TableBody>
             {table.getRowModel().rows.map(row => (
-              <SelectRow key={row.id} row={row} onClick={() => setSelectedField(row.index)}>
-                {row.getVisibleCells().map(cell => (
-                  <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                ))}
-              </SelectRow>
+              <ValidationRow key={row.id} row={row} />
             ))}
           </TableBody>
         </Table>
