@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { test } from '@playwright/test';
 import { DataClassEditor } from '../pageobjects/DataClassEditor';
 
 let editor: DataClassEditor;
@@ -47,13 +47,13 @@ test('save data', async ({ page }) => {
   await editor.addField('entityField0', 'String');
   await editor.detail.field.general.properties.fillValues(true);
   await editor.detail.field.entity.accordion.open();
-  await editor.detail.field.entity.databaseField.fillValues('NewDatabaseFieldName', 'NewDatabaseFieldLength', {
-    id: true,
-    generated: true,
-    notNullable: false,
-    unique: false,
-    notUpdateable: false,
-    notInsertable: false,
+  await editor.detail.field.entity.databaseField.fillValues('NewDatabaseFieldName', '128', {
+    id: false,
+    generated: false,
+    notNullable: true,
+    unique: true,
+    notUpdateable: true,
+    notInsertable: true,
     Version: false
   });
 
@@ -77,17 +77,15 @@ test('save data', async ({ page }) => {
 
   await editor.detail.dataClass.entity.expectToHaveValues('NewDatabaseTableName');
 
-  await expect(editor.table.rows).toHaveCount(3);
-
   await editor.table.row(1).locator.click();
   await editor.detail.field.entity.accordion.open();
-  await editor.detail.field.entity.databaseField.expectToHaveValues('NewDatabaseFieldName', 'NewDatabaseFieldLength', {
-    id: true,
-    generated: true,
-    notNullable: false,
-    unique: false,
-    notUpdateable: false,
-    notInsertable: false,
+  await editor.detail.field.entity.databaseField.expectToHaveValues('NewDatabaseFieldName', '128', {
+    id: false,
+    generated: false,
+    notNullable: true,
+    unique: true,
+    notUpdateable: true,
+    notInsertable: true,
     Version: false
   });
 

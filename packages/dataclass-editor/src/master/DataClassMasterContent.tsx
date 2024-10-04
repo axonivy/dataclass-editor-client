@@ -3,12 +3,11 @@ import {
   Button,
   deleteFirstSelectedRow,
   Flex,
+  Message,
   selectRow,
-  SelectRow,
   Separator,
   Table,
   TableBody,
-  TableCell,
   TableResizableHeader,
   Tooltip,
   TooltipContent,
@@ -18,11 +17,13 @@ import {
   useTableSelect
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
+import { getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
 import { useAppContext } from '../context/AppContext';
 import { type DataClassField } from '../data/dataclass';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
+import { ValidationRow } from './ValidationRow';
+import { useValidation } from './useValidation';
 
 const fullQualifiedClassNameRegex = /(?:[\w]+\.)+([\w]+)(?=[<,> ]|$)/g;
 
@@ -32,6 +33,7 @@ export const simpleTypeName = (fullQualifiedType: string) => {
 
 export const DataClassMasterContent = () => {
   const { dataClass, setDataClass, setSelectedField } = useAppContext();
+  const messages = useValidation();
 
   const selection = useTableSelect<DataClassField>();
   const columns: Array<ColumnDef<DataClassField, string>> = [
@@ -102,17 +104,18 @@ export const DataClassMasterContent = () => {
   );
 
   return (
-    <Flex direction='column' className='master-content-container' onClick={resetSelection}>
+    <Flex direction='column' gap={4} className='master-content-container' onClick={resetSelection}>
+      {messages.map((message, index) => (
+        <Message key={index} variant={message.variant}>
+          {message.message}
+        </Message>
+      ))}
       <BasicField className='master-content' label='Attributes' control={control} onClick={event => event.stopPropagation()}>
         <Table>
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={resetSelection} />
           <TableBody>
             {table.getRowModel().rows.map(row => (
-              <SelectRow key={row.id} row={row} onClick={() => setSelectedField(row.index)}>
-                {row.getVisibleCells().map(cell => (
-                  <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                ))}
-              </SelectRow>
+              <ValidationRow key={row.id} row={row} />
             ))}
           </TableBody>
         </Table>
