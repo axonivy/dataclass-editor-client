@@ -1,15 +1,14 @@
-import { MessageRow, SelectRow, TableCell } from '@axonivy/ui-components';
+import { MessageRow, SelectRow, TableCell, type MessageData } from '@axonivy/ui-components';
 import { flexRender, type Row } from '@tanstack/react-table';
 import { useAppContext } from '../context/AppContext';
 import type { DataClassField } from '../data/dataclass';
-import type { ValidationMessage } from '../protocol/types';
 import './ValidationRow.css';
 import { useValidation } from './useValidation';
 
-export const rowClassName = (validationMessages: Array<ValidationMessage>) => {
-  if (validationMessages.some(message => message.severity === 'ERROR')) {
+export const rowClassName = (messages: Array<MessageData>) => {
+  if (messages.some(message => message.variant === 'error')) {
     return 'row-error';
-  } else if (validationMessages.some(message => message.severity === 'WARNING')) {
+  } else if (messages.some(message => message.variant === 'warning')) {
     return 'row-warning';
   }
   return;
@@ -31,7 +30,7 @@ export const ValidationRow = ({ row }: ValidationRowProps) => {
         ))}
       </SelectRow>
       {messages.map((message, index) => (
-        <MessageRow key={index} columnCount={3} message={{ message: message.message, variant: message.severity.toLowerCase() }} />
+        <MessageRow key={index} columnCount={3} message={message} />
       ))}
     </>
   );

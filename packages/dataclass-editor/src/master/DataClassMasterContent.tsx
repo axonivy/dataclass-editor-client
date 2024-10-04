@@ -3,6 +3,7 @@ import {
   Button,
   deleteFirstSelectedRow,
   Flex,
+  Message,
   selectRow,
   Separator,
   Table,
@@ -22,6 +23,7 @@ import { type DataClassField } from '../data/dataclass';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 import { ValidationRow } from './ValidationRow';
+import { useValidation } from './useValidation';
 
 const fullQualifiedClassNameRegex = /(?:[\w]+\.)+([\w]+)(?=[<,> ]|$)/g;
 
@@ -31,6 +33,7 @@ export const simpleTypeName = (fullQualifiedType: string) => {
 
 export const DataClassMasterContent = () => {
   const { dataClass, setDataClass, setSelectedField } = useAppContext();
+  const messages = useValidation();
 
   const selection = useTableSelect<DataClassField>();
   const columns: Array<ColumnDef<DataClassField, string>> = [
@@ -101,7 +104,12 @@ export const DataClassMasterContent = () => {
   );
 
   return (
-    <Flex direction='column' className='master-content-container' onClick={resetSelection}>
+    <Flex direction='column' gap={4} className='master-content-container' onClick={resetSelection}>
+      {messages.map((message, index) => (
+        <Message key={index} variant={message.variant}>
+          {message.message}
+        </Message>
+      ))}
       <BasicField className='master-content' label='Attributes' control={control} onClick={event => event.stopPropagation()}>
         <Table>
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={resetSelection} />

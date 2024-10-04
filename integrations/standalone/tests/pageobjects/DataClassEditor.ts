@@ -21,6 +21,7 @@ export class DataClassEditor {
   readonly table: Table;
   readonly add: AddFieldDialog;
   readonly delete: Button;
+  readonly messages: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -32,6 +33,7 @@ export class DataClassEditor {
     this.table = new Table(this.page.locator('.master-content'));
     this.add = new AddFieldDialog(this.page);
     this.delete = new Button(this.page.locator('.master-content'), { name: 'Delete field' });
+    this.messages = this.page.locator('.ui-message');
   }
 
   static async openDataClass(page: Page, file: string) {
