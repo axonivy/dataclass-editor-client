@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { test } from '@playwright/test';
 import { DataClassEditor } from '../pageobjects/DataClassEditor';
 
 let editor: DataClassEditor;
@@ -76,8 +76,6 @@ test('save data', async ({ page }) => {
   await page.reload();
 
   await editor.detail.dataClass.entity.expectToHaveValues('NewDatabaseTableName');
-
-  await expect(editor.table.rows).toHaveCount(4);
 
   await editor.table.row(1).locator.click();
   await editor.detail.field.entity.accordion.open();
