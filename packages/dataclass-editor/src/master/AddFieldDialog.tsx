@@ -5,17 +5,23 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
   Flex,
   Input,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  useShortcut,
   type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { type Table } from '@tanstack/react-table';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import type { DataClass, DataClassField } from '../data/dataclass';
 import { isEntity } from '../data/dataclass-utils';
@@ -85,33 +91,56 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
 
   const allInputsValid = () => !nameValidationMessage && !typeValidationMessage;
 
+  const dialogTriggerRef = useRef<HTMLButtonElement>(null);
+  const shortcut = useShortcut('n', () => dialogTriggerRef.current?.click());
+
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          className='add-field-dialog-trigger-button'
-          icon={IvyIcons.Plus}
-          onClick={initializeAddFieldDialog}
-          aria-label='Add field'
-        />
-      </DialogTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger asChild>
+              <Button
+                ref={dialogTriggerRef}
+                className='add-field-dialog-trigger-button'
+                icon={IvyIcons.Plus}
+                onClick={initializeAddFieldDialog}
+                aria-label='Add field'
+              />
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>{`New attribute (${shortcut})`}</span>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <DialogContent onCloseAutoFocus={e => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>New Attribute</DialogTitle>
         </DialogHeader>
-        <Flex direction='column' gap={2}>
-          <BasicField label='Name' message={nameValidationMessage} aria-label='Name'>
-            <Input value={name} onChange={event => setName(event.target.value)} />
-          </BasicField>
-          <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
-        </Flex>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant='primary' size='large' type='submit' aria-label='Create field' disabled={!allInputsValid()} onClick={addField}>
-              Create Attribute
-            </Button>
-          </DialogClose>
-        </DialogFooter>
+        <DialogDescription>Choose the name and type of the attribute you want to add.</DialogDescription>
+        <form>
+          <Flex direction='column' gap={2}>
+            <BasicField label='Name' message={nameValidationMessage} aria-label='Name'>
+              <Input value={name} onChange={event => setName(event.target.value)} />
+            </BasicField>
+            <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
+          </Flex>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button
+                variant='primary'
+                size='large'
+                type='submit'
+                aria-label='Create field'
+                disabled={!allInputsValid()}
+                onClick={addField}
+              >
+                Create Attribute
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );
