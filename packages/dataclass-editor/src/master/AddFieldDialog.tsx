@@ -62,7 +62,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
       name: name,
       type: type,
       comment: '',
-      modifiers: [],
+      modifiers: ['PERSISTENT'],
       annotations: [],
       entity: isEntity(dataClass)
         ? {

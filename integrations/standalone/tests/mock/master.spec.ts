@@ -14,6 +14,8 @@ test.describe('add field', async () => {
       await expect(editor.table.rows).toHaveCount(5);
       await editor.table.row(4).expectToBeSelected();
       await editor.table.row(4).expectToHaveValues('newAttribute', 'String', '');
+      await editor.table.row(4).locator.click();
+      await editor.detail.field.general.properties.expectToHaveValues(true);
     });
 
     test('entity class', async () => {
