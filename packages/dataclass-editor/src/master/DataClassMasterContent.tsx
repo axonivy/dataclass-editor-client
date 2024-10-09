@@ -6,6 +6,7 @@ import {
   Message,
   selectRow,
   Separator,
+  SortableHeader,
   Table,
   TableBody,
   TableResizableHeader,
@@ -14,7 +15,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
   useReadonly,
-  useTableSelect
+  useTableSelect,
+  useTableSort
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
@@ -36,16 +38,17 @@ export const DataClassMasterContent = () => {
   const messages = useValidation();
 
   const selection = useTableSelect<DataClassField>();
+  const sort = useTableSort();
   const columns: Array<ColumnDef<DataClassField, string>> = [
     {
       accessorKey: 'name',
-      header: 'Name',
+      header: ({ column }) => <SortableHeader column={column} name='Name' />,
       cell: cell => <div>{cell.getValue()}</div>,
       minSize: 50
     },
     {
       accessorKey: 'type',
-      header: 'Type',
+      header: ({ column }) => <SortableHeader column={column} name='Type' />,
       cell: cell => (
         <TooltipProvider>
           <Tooltip>
@@ -61,17 +64,19 @@ export const DataClassMasterContent = () => {
     },
     {
       accessorKey: 'comment',
-      header: 'Comment',
+      header: ({ column }) => <SortableHeader column={column} name='Comment' />,
       cell: cell => <div>{cell.getValue()}</div>
     }
   ];
   const table = useReactTable({
     ...selection.options,
+    ...sort.options,
     data: dataClass.fields,
     columns,
     getCoreRowModel: getCoreRowModel(),
     state: {
-      ...selection.tableState
+      ...selection.tableState,
+      ...sort.tableState
     }
   });
 
