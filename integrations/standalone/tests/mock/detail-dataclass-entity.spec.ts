@@ -14,7 +14,7 @@ test('accordion state', async () => {
   await editor.table.row(0).locator.click();
   await expect(editor.detail.field.entity.accordion.locator).toBeHidden();
 
-  await editor.table.header.click();
+  await editor.table.unselect();
   await editor.detail.dataClass.general.classType.fillValues('Entity');
   await editor.detail.dataClass.entity.accordion.expectToBeClosed();
 

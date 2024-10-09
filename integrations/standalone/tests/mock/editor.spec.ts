@@ -31,14 +31,14 @@ test('detail', async () => {
   await editor.detail.expectToBeDataClass();
   await editor.table.row(0).locator.click();
   await editor.detail.expectToBeField();
-  await editor.table.header.click();
+  await editor.table.unselect();
   await editor.detail.expectToBeDataClass();
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
   await editor.detail.expectToBeDataClass(true);
   await editor.table.row(0).locator.click();
   await editor.detail.expectToBeField(true);
-  await editor.table.header.click();
+  await editor.table.unselect();
   await editor.detail.expectToBeDataClass(true);
 });
 

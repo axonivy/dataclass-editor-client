@@ -10,3 +10,8 @@
 .ui-table-row:has(+ .ui-table-row.row-warning) {
   border-bottom: 1px solid var(--warning-color);
 }
+
+tr:not(.ui-dnd-row) .ivy-edit-dots {
+  color: var(--N300);
+  cursor: not-allowed;
+}

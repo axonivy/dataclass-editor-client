@@ -105,3 +105,13 @@ test.describe('delete field', async () => {
     await editor.detail.expectToBeDataClass();
   });
 });
+
+test('disable reorder', async () => {
+  await editor.table.expectToBeReorderable();
+  await editor.table.header(0).sort.locator.click();
+  await editor.table.expectToNotBeReorderable();
+  await editor.table.header(0).sort.locator.click();
+  await editor.table.expectToNotBeReorderable();
+  await editor.table.header(0).sort.locator.click();
+  await editor.table.expectToBeReorderable();
+});
