@@ -1,9 +1,23 @@
-import { MessageRow, SelectRow, TableCell, type MessageData } from '@axonivy/ui-components';
+import { arraymove, indexOf, MessageRow, ReorderRow, SelectRow, TableCell, type MessageData } from '@axonivy/ui-components';
 import { flexRender, type Row } from '@tanstack/react-table';
 import { useAppContext } from '../context/AppContext';
 import type { DataClassField } from '../data/dataclass';
 import './ValidationRow.css';
 import { useValidation } from './useValidation';
+
+export const useUpdateOrder = () => {
+  const { dataClass, setDataClass } = useAppContext();
+  return (moveId: string, targetId: string) => {
+    const newDataClass = structuredClone(dataClass);
+    const fromIndex = indexOf(newDataClass.fields, field => field.name === moveId);
+    let toIndex = indexOf(newDataClass.fields, field => field.name === targetId);
+    if (toIndex > fromIndex) {
+      toIndex--;
+    }
+    arraymove(newDataClass.fields, fromIndex, toIndex);
+    setDataClass(newDataClass);
+  };
+};
 
 export const rowClassName = (messages: Array<MessageData>) => {
   if (messages.some(message => message.variant === 'error')) {
@@ -16,19 +30,29 @@ export const rowClassName = (messages: Array<MessageData>) => {
 
 type ValidationRowProps = {
   row: Row<DataClassField>;
+  isReorderable: boolean;
 };
 
-export const ValidationRow = ({ row }: ValidationRowProps) => {
+export const ValidationRow = ({ row, isReorderable }: ValidationRowProps) => {
   const { setSelectedField } = useAppContext();
+  const updateOrder = useUpdateOrder();
   const messages = useValidation(row.original);
+
+  const RowComponent = isReorderable ? ReorderRow : SelectRow;
 
   return (
     <>
-      <SelectRow row={row} onClick={() => setSelectedField(row.index)} className={rowClassName(messages)}>
+      <RowComponent
+        id={row.original.name}
+        row={row}
+        onClick={() => setSelectedField(row.index)}
+        className={rowClassName(messages)}
+        updateOrder={updateOrder}
+      >
         {row.getVisibleCells().map(cell => (
           <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
         ))}
-      </SelectRow>
+      </RowComponent>
       {messages.map((message, index) => (
         <MessageRow key={index} columnCount={3} message={message} />
       ))}

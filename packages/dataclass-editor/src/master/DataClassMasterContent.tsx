@@ -4,6 +4,7 @@ import {
   deleteFirstSelectedRow,
   Flex,
   Message,
+  ReorderHandleWrapper,
   selectRow,
   Separator,
   SortableHeader,
@@ -65,7 +66,11 @@ export const DataClassMasterContent = () => {
     {
       accessorKey: 'comment',
       header: ({ column }) => <SortableHeader column={column} name='Comment' />,
-      cell: cell => <div>{cell.getValue()}</div>
+      cell: cell => (
+        <ReorderHandleWrapper>
+          <div>{cell.getValue()}</div>
+        </ReorderHandleWrapper>
+      )
     }
   ];
   const table = useReactTable({
@@ -120,7 +125,7 @@ export const DataClassMasterContent = () => {
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={resetSelection} />
           <TableBody>
             {table.getRowModel().rows.map(row => (
-              <ValidationRow key={row.id} row={row} />
+              <ValidationRow key={row.id} row={row} isReorderable={table.getState().sorting.length === 0} />
             ))}
           </TableBody>
         </Table>
