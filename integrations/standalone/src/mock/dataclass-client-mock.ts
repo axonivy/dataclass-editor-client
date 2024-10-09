@@ -1,4 +1,12 @@
-import type { Client, Data, DataClassActionArgs, Event, ValidationMessage } from '@axonivy/dataclass-editor/src/protocol/types';
+import type {
+  Client,
+  Data,
+  DataClassActionArgs,
+  Event,
+  MetaRequestTypes,
+  ValidationMessage
+} from '@axonivy/dataclass-editor/src/protocol/types';
+import { MetaMock } from './meta-mock';
 
 export class DataClassClientMock implements Client {
   private dataClassData: Data = {
@@ -57,6 +65,17 @@ export class DataClassClientMock implements Client {
 
   validate(): Promise<Array<ValidationMessage>> {
     return Promise.resolve([]);
+  }
+
+  meta<TMeta extends keyof MetaRequestTypes>(path: TMeta): Promise<MetaRequestTypes[TMeta][1]> {
+    switch (path) {
+      case 'meta/scripting/ivyTypes':
+        return Promise.resolve(MetaMock.IVYTYPES);
+      case 'meta/scripting/dataClasses':
+        return Promise.resolve(MetaMock.DATACLASSES);
+      default:
+        throw Error('mock meta path not programmed');
+    }
   }
 
   action(action: DataClassActionArgs): void {

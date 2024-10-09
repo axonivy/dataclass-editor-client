@@ -12,6 +12,7 @@ import type {
   Data,
   DataClassActionArgs,
   DataContext,
+  MetaRequestTypes,
   NotificationTypes,
   OnNotificationTypes,
   RequestTypes,
@@ -37,6 +38,10 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
 
   validate(context: DataContext): Promise<Array<ValidationMessage>> {
     return this.sendRequest('validate', context);
+  }
+
+  meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]> {
+    return this.sendRequest(path, args);
   }
 
   action(action: DataClassActionArgs): void {
