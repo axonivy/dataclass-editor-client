@@ -19,6 +19,7 @@ import { useMemo, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import type { DataClass, DataClassField } from '../data/dataclass';
 import { isEntity } from '../data/dataclass-utils';
+import { InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
 
 export const validateFieldName = (name: string, dataClass: DataClass): MessageData => {
   if (name.trim() === '') {
@@ -102,9 +103,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
           <BasicField label='Name' message={nameValidationMessage} aria-label='Name'>
             <Input value={name} onChange={event => setName(event.target.value)} />
           </BasicField>
-          <BasicField label='Type' message={typeValidationMessage} aria-label='Type'>
-            <Input value={type} onChange={event => setType(event.target.value)} />
-          </BasicField>
+          <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
         </Flex>
         <DialogFooter>
           <DialogClose asChild>

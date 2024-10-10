@@ -3,6 +3,7 @@ import { useField } from '../../context/FieldContext';
 import { isIDType, isVersionType } from '../../data/dataclass';
 import { updateModifiers } from '../../data/dataclass-utils';
 import { useFieldProperty } from './useFieldProperty';
+import { InputFieldWithTypeBrowser } from './InputFieldWithTypeBrowser';
 
 export const useType = () => {
   const { field, setField } = useField();
@@ -32,9 +33,7 @@ export const FieldNameTypeComment = () => {
           <BasicField label='Name'>
             <BasicInput value={field.name} onChange={event => setProperty('name', event.target.value)} />
           </BasicField>
-          <BasicField label='Type'>
-            <BasicInput value={type} onChange={event => setType(event.target.value)} />
-          </BasicField>
+          <InputFieldWithTypeBrowser value={type} onChange={setType} />
           <BasicField label='Comment'>
             <Textarea value={field.comment} onChange={event => setProperty('comment', event.target.value)} />
           </BasicField>
