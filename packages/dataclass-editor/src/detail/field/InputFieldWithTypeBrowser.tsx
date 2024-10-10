@@ -19,7 +19,7 @@ import { typeData } from '../../data/type-data';
 import { useAppContext } from '../../context/AppContext';
 import { useMeta } from '../../context/useMeta';
 import type { DataclassType } from '../../protocol/types';
-import { getApplyValue } from '../../utils/lambda/typeBrowserHelper';
+import { getApplyValue } from '../../utils/typeBrowserHelper';
 
 export type InputFieldProps = {
   value: string;
@@ -43,7 +43,7 @@ export const InputFieldWithTypeBrowser = ({ value, onChange, onBlur, message }: 
     name: 'Type',
     icon: IvyIcons.DataClass,
     browser: typesList,
-    header: <BasicCheckbox label='Type as List' checked={typeAsList} onCheckedChange={() => setTypeAsList(!typeAsList)} />,
+    footer: <BasicCheckbox label='Type as List' checked={typeAsList} onCheckedChange={() => setTypeAsList(!typeAsList)} />,
     infoProvider: row => getApplyValue(row?.original as BrowserNode<DataclassType>, ivyTypes, typeAsList),
     applyModifier: row => ({ value: getApplyValue(row.original as BrowserNode<DataclassType>, ivyTypes, typeAsList) })
   };
