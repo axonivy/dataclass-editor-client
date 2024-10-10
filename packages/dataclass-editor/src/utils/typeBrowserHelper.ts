@@ -1,5 +1,5 @@
 import type { BrowserNode } from '@axonivy/ui-components';
-import type { DataclassType, JavaType } from '../../protocol/types';
+import type { DataclassType, JavaType } from '../protocol/types';
 
 export const getApplyValue = (type: BrowserNode<DataclassType> | undefined, ivyTypes: JavaType[], typeAsList: boolean) => {
   if (type) {
