@@ -65,6 +65,15 @@ test.describe('add field', async () => {
       });
     });
   });
+
+  test('shortcuts', async ({ browserName }) => {
+    const modifier = browserName === 'webkit' ? 'Meta' : 'Control';
+    await editor.page.keyboard.press(`${modifier}+Alt+n`);
+    await expect(editor.add.locator).toBeVisible();
+    await editor.page.keyboard.press('Enter');
+    await expect(editor.add.locator).toBeHidden();
+    await expect(editor.table.rows).toHaveCount(5);
+  });
 });
 
 test.describe('delete field', async () => {
