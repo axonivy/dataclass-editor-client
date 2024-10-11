@@ -51,7 +51,7 @@ type AddFieldDialogProps = {
 };
 
 export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
-  const { dataClass, setDataClass, setSelectedField } = useAppContext();
+  const { dataClass, setDataClass } = useAppContext();
 
   const [name, setName] = useState('');
   const [type, setType] = useState('');
@@ -86,7 +86,6 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
     const newDataClass = structuredClone(dataClass);
     newDataClass.fields = newFields;
     setDataClass(newDataClass);
-    setSelectedField(newDataClass.fields.length - 1);
   };
 
   const allInputsValid = () => !nameValidationMessage && !typeValidationMessage;
