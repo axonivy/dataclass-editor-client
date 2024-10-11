@@ -1,7 +1,7 @@
 import { BasicField, BasicInput, Button, Dialog, DialogContent, DialogTrigger, InputGroup, type MessageData } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
-import { Browser } from './browser/Browser';
+import { Browser } from '../browser/Browser';
 
 export type InputFieldProps = {
   value: string;

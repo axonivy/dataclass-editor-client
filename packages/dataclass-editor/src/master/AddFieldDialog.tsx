@@ -25,7 +25,7 @@ import { useMemo, useRef, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import type { DataClass, DataClassField } from '../data/dataclass';
 import { isEntity } from '../data/dataclass-utils';
-import { InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
+import { ComboboxWithTypeBrowser } from '../detail/field/FieldsWithBrowser/ComboboxTypeBrowser';
 
 export const validateFieldName = (name: string, dataClass: DataClass): MessageData => {
   if (name.trim() === '') {
@@ -121,25 +121,29 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
         <DialogDescription>Choose the name and type of the attribute you want to add.</DialogDescription>
         <form onSubmit={event => event.preventDefault()}>
           <Flex direction='column' gap={2}>
-            <BasicField label='Name' message={nameValidationMessage} aria-label='Name'>
-              <Input value={name} onChange={event => setName(event.target.value)} />
-            </BasicField>
-            <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
+            <Flex direction='column' gap={2}>
+              <BasicField label='Name' message={nameValidationMessage} aria-label='Name'>
+                <Input value={name} onChange={event => setName(event.target.value)} />
+              </BasicField>
+              <BasicField label='Type' message={typeValidationMessage} aria-label='Type'>
+                <ComboboxWithTypeBrowser value={type} onChange={setType} />
+              </BasicField>
+            </Flex>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button
+                  variant='primary'
+                  size='large'
+                  type='submit'
+                  aria-label='Create field'
+                  disabled={!allInputsValid()}
+                  onClick={addField}
+                >
+                  Create Attribute
+                </Button>
+              </DialogClose>
+            </DialogFooter>
           </Flex>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button
-                variant='primary'
-                size='large'
-                type='submit'
-                aria-label='Create field'
-                disabled={!allInputsValid()}
-                onClick={addField}
-              >
-                Create Attribute
-              </Button>
-            </DialogClose>
-          </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>

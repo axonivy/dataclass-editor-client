@@ -7,7 +7,9 @@ import { useMeta } from '../../../context/useMeta';
 import { typeData } from '../../../data/type-data';
 import { useAppContext } from '../../../context/AppContext';
 
-export const useTypeBrowser = (): Browser => {
+type useTypeBrowserReturn = { typeBrowser: Browser; types: Array<BrowserNode<DataclassType>> };
+
+export const useTypeBrowser = (): useTypeBrowserReturn => {
   const { context } = useAppContext();
   const [typeAsList, setTypeAsList] = useState<boolean>(false);
   const dataClasses = useMeta('meta/scripting/dataClasses', context, []).data;
@@ -15,11 +17,14 @@ export const useTypeBrowser = (): Browser => {
   const types = useMemo(() => typeData(dataClasses, ivyTypes), [dataClasses, ivyTypes]);
   const typesList = useBrowser(types);
   return {
-    name: 'Type',
-    icon: IvyIcons.DataClass,
-    browser: typesList,
-    footer: <BasicCheckbox label='Type as List' checked={typeAsList} onCheckedChange={() => setTypeAsList(!typeAsList)} />,
-    infoProvider: row => typeBrowserApply(row?.original as BrowserNode<DataclassType>, ivyTypes, typeAsList),
-    applyModifier: row => ({ value: typeBrowserApply(row.original as BrowserNode<DataclassType>, ivyTypes, typeAsList) })
+    typeBrowser: {
+      name: 'Type',
+      icon: IvyIcons.DataClass,
+      browser: typesList,
+      footer: <BasicCheckbox label='Type as List' checked={typeAsList} onCheckedChange={() => setTypeAsList(!typeAsList)} />,
+      infoProvider: row => typeBrowserApply(row?.original as BrowserNode<DataclassType>, ivyTypes, typeAsList),
+      applyModifier: row => ({ value: typeBrowserApply(row.original as BrowserNode<DataclassType>, ivyTypes, typeAsList) })
+    },
+    types: types
   };
 };

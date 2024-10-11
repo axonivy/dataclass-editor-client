@@ -3,7 +3,7 @@ import { useField } from '../../context/FieldContext';
 import { isIDType, isVersionType } from '../../data/dataclass';
 import { updateModifiers } from '../../data/dataclass-utils';
 import { useFieldProperty } from './useFieldProperty';
-import { InputFieldWithTypeBrowser } from './InputFieldWithTypeBrowser';
+import { InputFieldWithTypeBrowser } from './FieldsWithBrowser/InputFieldWithTypeBrowser';
 
 export const useType = () => {
   const { field, setField } = useField();

@@ -7,7 +7,7 @@ type BrowserProps = {
 };
 
 export const Browser = ({ onChange, close }: BrowserProps) => {
-  const typeBrowser = useTypeBrowser();
+  const { typeBrowser } = useTypeBrowser();
   return (
     <BrowsersView
       browsers={[typeBrowser]}
