@@ -119,7 +119,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
           <DialogTitle>New Attribute</DialogTitle>
         </DialogHeader>
         <DialogDescription>Choose the name and type of the attribute you want to add.</DialogDescription>
-        <form>
+        <form onSubmit={event => event.preventDefault()}>
           <Flex direction='column' gap={2}>
             <BasicField label='Name' message={nameValidationMessage} aria-label='Name'>
               <Input value={name} onChange={event => setName(event.target.value)} />
