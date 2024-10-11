@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('load data', async () => {
-  await editor.detail.dataClass.general.expectToHaveValues('DataClass', 'DataClass comment', ['@javax.persistence.Table(name="tableName")'], 'Data');
+  await editor.detail.dataClass.general.expectToHaveValues('dataclass.DataClass', 'DataClass comment', ['@javax.persistence.Table(name="tableName")'], 'Data');
 
   await expect(editor.table.rows).toHaveCount(3);
 
