@@ -10,7 +10,7 @@ export const DataClassNameDescription = () => {
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
           <BasicField label='Name'>
-            <Input value={dataClass.simpleName} disabled={true} />
+            <Input value={`${dataClass.namespace}.${dataClass.simpleName}`} disabled={true} />
           </BasicField>
           <BasicField label='Description'>
             <Textarea value={dataClass.comment} onChange={event => setProperty('comment', event.target.value)} />
