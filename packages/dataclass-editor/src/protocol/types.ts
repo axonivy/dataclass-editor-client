@@ -54,6 +54,14 @@ export interface ClientContext {
 export interface MetaRequestTypes {
   'meta/scripting/dataClasses': [DataContext, DataclassType[]];
   'meta/scripting/ivyTypes': [void, JavaType[]];
+  'meta/scripting/allTypes': [TypeSearchRequest, JavaType[]];
+  'meta/scripting/ownTypes': [TypeSearchRequest, JavaType[]];
+}
+
+export interface TypeSearchRequest {
+  context: DataContext;
+  limit: number;
+  type: string;
 }
 
 export interface JavaType {
