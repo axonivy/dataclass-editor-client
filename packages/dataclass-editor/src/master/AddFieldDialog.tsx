@@ -25,7 +25,7 @@ import { useMemo, useRef, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import type { DataClass, DataClassField } from '../data/dataclass';
 import { isEntity } from '../data/dataclass-utils';
-import { InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
+import { ComboboxFieldWithTypeBrowser } from '../detail/field/ComboboxFieldWithTypeBrowser';
 
 export const validateFieldName = (name: string, dataClass: DataClass): MessageData => {
   if (name.trim() === '') {
@@ -118,13 +118,17 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
           <DialogTitle>New Attribute</DialogTitle>
         </DialogHeader>
         <DialogDescription>Choose the name and type of the attribute you want to add.</DialogDescription>
-        <form onSubmit={event => event.preventDefault()}>
+        <form
+          onSubmit={event => {
+            event.preventDefault();
+          }}
+        >
           <Flex direction='column' gap={2}>
             <Flex direction='column' gap={2}>
               <BasicField label='Name' message={nameValidationMessage} aria-label='Name'>
                 <Input value={name} onChange={event => setName(event.target.value)} />
               </BasicField>
-              <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
+              <ComboboxFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
             </Flex>
             <DialogFooter>
               <DialogClose asChild>
