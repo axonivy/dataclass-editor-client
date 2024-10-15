@@ -18,28 +18,36 @@ const nonIvyTypes: JavaType[] = [
   { fullQualifiedName: 'com.other.TypeD', packageName: 'com.other', simpleName: 'TypeD' }
 ];
 
+const ownTypes: JavaType[] = [{ fullQualifiedName: 'com.own.TypeE', packageName: 'com.own', simpleName: 'TypeE' }];
+
+const allTypes: JavaType[] = [
+  { fullQualifiedName: 'com.example.TypeB', packageName: 'com.example', simpleName: 'TypeB' },
+  { fullQualifiedName: 'ivy.IvyTypeF', packageName: 'ivy', simpleName: 'IvyTypeF' },
+  { fullQualifiedName: 'com.own.TypeE', packageName: 'com.own', simpleName: 'TypeE' }
+];
+
 describe('typeData', () => {
   test('returns empty array if both input arrays are empty', () => {
-    const result = typeData([], []);
+    const result = typeData([], [], [], [], false);
     expect(result).toEqual([]);
   });
 
   test('returns sorted data class nodes when dataClasses are provided', () => {
-    const result = typeData(dataClasses, []);
+    const result = typeData(dataClasses, [], [], [], false);
     expect(result).toHaveLength(2);
     expect(result[0].value).toBe('ClassA');
     expect(result[1].value).toBe('ClassB');
   });
 
   test('returns sorted non-Ivy type nodes when ivyTypes are provided', () => {
-    const result = typeData([], nonIvyTypes);
+    const result = typeData([], nonIvyTypes, [], [], false);
     expect(result).toHaveLength(2);
     expect(result[0].value).toBe('TypeC');
     expect(result[1].value).toBe('TypeD');
   });
 
   test('returns combined sorted nodes from dataClasses and non-Ivy and Ivy types', () => {
-    const result = typeData(dataClasses, [...nonIvyTypes, ...ivyTypes]);
+    const result = typeData(dataClasses, [...nonIvyTypes, ...ivyTypes], [], [], false);
     expect(result).toHaveLength(6);
     expect(result[0].value).toBe('ClassA');
     expect(result[1].value).toBe('ClassB');
@@ -50,7 +58,7 @@ describe('typeData', () => {
   });
 
   test('correctly classifies and sorts Ivy and non-Ivy types', () => {
-    const result = typeData(dataClasses, ivyTypes);
+    const result = typeData(dataClasses, ivyTypes, [], [], false);
     expect(result).toHaveLength(4);
     expect(result[0].value).toBe('ClassA');
     expect(result[1].value).toBe('ClassB');
@@ -59,9 +67,50 @@ describe('typeData', () => {
   });
 
   test('returns nodes with correct icons', () => {
-    const result = typeData(dataClasses, ivyTypes);
+    const result = typeData(dataClasses, ivyTypes, [], [], false);
     expect(result[0].icon).toBe(IvyIcons.LetterD);
     expect(result[2].icon).toBe(IvyIcons.DataClass);
     expect(result[3].icon).toBe(IvyIcons.Ivy);
+  });
+
+  test('includes ownTypes if allTypesSearchActive is false', () => {
+    const result = typeData([], [], ownTypes, [], false);
+    expect(result).toHaveLength(1);
+    expect(result[0].value).toBe('TypeE');
+    expect(result[0].icon).toBe(IvyIcons.DataClass);
+  });
+
+  test('does not include ownTypes if allTypesSearchActive is true', () => {
+    const result = typeData([], [], ownTypes, [], true);
+    expect(result).toHaveLength(0);
+  });
+
+  test('returns sorted allTypes when allTypesSearchActive is true', () => {
+    const result = typeData([], [], [], allTypes, true);
+    expect(result).toHaveLength(3);
+    expect(result[0].value).toBe('IvyTypeF');
+    expect(result[1].value).toBe('TypeB');
+    expect(result[2].value).toBe('TypeE');
+  });
+
+  test('returns sorted combined types when allTypesSearchActive is true and filtered types are present', () => {
+    const result = typeData(dataClasses, ivyTypes, ownTypes, allTypes, true);
+    expect(result).toHaveLength(6);
+    expect(result[0].value).toBe('ClassA');
+    expect(result[1].value).toBe('ClassB');
+    expect(result[2].value).toBe('IvyTypeA');
+    expect(result[3].value).toBe('IvyTypeF');
+    expect(result[4].value).toBe('TypeB');
+    expect(result[5].value).toBe('TypeE');
+  });
+
+  test('sorts combined types correctly when allTypesSearchActive is false', () => {
+    const result = typeData(dataClasses, ivyTypes, ownTypes, allTypes, false);
+    expect(result).toHaveLength(5);
+    expect(result[0].value).toBe('TypeE');
+    expect(result[1].value).toBe('ClassA');
+    expect(result[2].value).toBe('ClassB');
+    expect(result[3].value).toBe('TypeB');
+    expect(result[4].value).toBe('IvyTypeA');
   });
 });

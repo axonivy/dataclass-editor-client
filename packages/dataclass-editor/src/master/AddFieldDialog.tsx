@@ -120,25 +120,27 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
         <DialogDescription>Choose the name and type of the attribute you want to add.</DialogDescription>
         <form onSubmit={event => event.preventDefault()}>
           <Flex direction='column' gap={2}>
-            <BasicField label='Name' message={nameValidationMessage} aria-label='Name'>
-              <Input value={name} onChange={event => setName(event.target.value)} />
-            </BasicField>
-            <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
+            <Flex direction='column' gap={2}>
+              <BasicField label='Name' message={nameValidationMessage} aria-label='Name'>
+                <Input value={name} onChange={event => setName(event.target.value)} />
+              </BasicField>
+              <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
+            </Flex>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button
+                  variant='primary'
+                  size='large'
+                  type='submit'
+                  aria-label='Create field'
+                  disabled={!allInputsValid()}
+                  onClick={addField}
+                >
+                  Create Attribute
+                </Button>
+              </DialogClose>
+            </DialogFooter>
           </Flex>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button
-                variant='primary'
-                size='large'
-                type='submit'
-                aria-label='Create field'
-                disabled={!allInputsValid()}
-                onClick={addField}
-              >
-                Create Attribute
-              </Button>
-            </DialogClose>
-          </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
