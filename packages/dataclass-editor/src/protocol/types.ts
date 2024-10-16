@@ -1,12 +1,12 @@
-import type { DataClass } from '../data/dataclass';
+import type { DataClass, DataClassField } from '../data/dataclass';
 
 export type Data = { context: DataContext; data: DataClass };
 export type DataContext = { app: string; pmv: string; file: string };
 export type EditorProps = { context: DataContext; directSave?: boolean };
 export type SaveArgs = Data & { directSave?: boolean };
 export interface DataClassActionArgs {
-  actionId: 'openForm' | 'openProcess';
-  payload: string;
+  actionId: 'openForm' | 'openProcess' | 'combineFields';
+  payload: string | CombinePayload;
   context: DataContext;
 }
 
@@ -17,6 +17,7 @@ export interface RequestTypes extends MetaRequestTypes {
   data: [DataContext, Data];
   saveData: [Data, Array<ValidationMessage>];
   validate: [DataContext, Array<ValidationMessage>];
+  function: [DataClassActionArgs, Array<DataClassField>];
 }
 
 export interface NotificationTypes {
@@ -39,6 +40,7 @@ export interface Client {
   data(context: DataContext): Promise<Data>;
   saveData(saveArgs: SaveArgs): Promise<Array<ValidationMessage>>;
   validate(context: DataContext): Promise<Array<ValidationMessage>>;
+  function(func: DataClassActionArgs): Promise<Array<DataClassField>>;
 
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]>;
 
@@ -75,4 +77,8 @@ export interface DataclassType {
   name: string;
   packageName: string;
   path: string;
+}
+
+export interface CombinePayload {
+  fieldNames: string[];
 }

@@ -7,6 +7,7 @@ import type {
   ValidationMessage
 } from '@axonivy/dataclass-editor/src/protocol/types';
 import { MetaMock } from './meta-mock';
+import type { DataClassField } from '@axonivy/dataclass-editor';
 
 export class DataClassClientMock implements Client {
   private dataClassData: Data = {
@@ -64,6 +65,10 @@ export class DataClassClientMock implements Client {
   }
 
   validate(): Promise<Array<ValidationMessage>> {
+    return Promise.resolve([]);
+  }
+
+  function(): Promise<Array<DataClassField>> {
     return Promise.resolve([]);
   }
 

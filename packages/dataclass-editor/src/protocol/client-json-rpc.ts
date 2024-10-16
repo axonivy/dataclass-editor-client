@@ -18,6 +18,7 @@ import type {
   RequestTypes,
   ValidationMessage
 } from './types';
+import type { DataClassField } from '../data/dataclass';
 
 export class ClientJsonRpc extends BaseRpcClient implements Client {
   protected onDataChangedEmitter = new Emitter<void>();
@@ -38,6 +39,10 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
 
   validate(context: DataContext): Promise<Array<ValidationMessage>> {
     return this.sendRequest('validate', context);
+  }
+
+  function(func: DataClassActionArgs): Promise<Array<DataClassField>> {
+    return this.sendRequest('function', func);
   }
 
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]> {
