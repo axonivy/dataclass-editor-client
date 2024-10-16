@@ -67,6 +67,10 @@ export class DataClassClientMock implements Client {
     return Promise.resolve([]);
   }
 
+  combineFields(): Promise<Array<string>> {
+    return Promise.resolve([]);
+  }
+
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta): Promise<MetaRequestTypes[TMeta][1]> {
     switch (path) {
       case 'meta/scripting/ivyTypes':
