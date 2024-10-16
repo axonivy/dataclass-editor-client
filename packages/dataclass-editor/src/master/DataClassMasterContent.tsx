@@ -21,7 +21,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { getCoreRowModel, useReactTable, type ColumnDef, type Table as TanstackTable } from '@tanstack/react-table';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { type DataClassField } from '../data/dataclass';
 import { AddFieldDialog } from './AddFieldDialog';
@@ -38,14 +38,14 @@ export const simpleTypeName = (fullQualifiedType: string) => {
 export const useUpdateSelection = (table: TanstackTable<DataClassField>) => {
   const { setSelectedField } = useAppContext();
   const selectedRows = table.getSelectedRowModel().rows;
-  const selectedField = selectedRows.length === 0 ? undefined : selectedRows[0].index;
+  const selectedField = selectedRows.length === 1 ? selectedRows[0].index : undefined;
   useEffect(() => {
     setSelectedField(selectedField);
   }, [selectedField, setSelectedField]);
 };
 
 export const DataClassMasterContent = () => {
-  const { dataClass, setDataClass, setSelectedField } = useAppContext();
+  const { dataClass, setDataClass, setSelectedField, setFieldsToCombine } = useAppContext();
   const messages = useValidation();
 
   const selection = useTableSelect<DataClassField>();
@@ -83,8 +83,10 @@ export const DataClassMasterContent = () => {
       )
     }
   ];
+  const [multiSelect, setMultiSelect] = useState(false);
   const table = useReactTable({
     ...selection.options,
+    enableMultiRowSelection: multiSelect,
     ...sort.options,
     data: dataClass.fields,
     columns,
@@ -104,16 +106,51 @@ export const DataClassMasterContent = () => {
     setSelectedField(selection);
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const isCtrlOrCmdPressed = event.ctrlKey || event.metaKey;
+      const hasSelection = Object.keys(table.getState().rowSelection).length > 0;
+
+      if (isCtrlOrCmdPressed && hasSelection) {
+        setMultiSelect(true);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', () => setMultiSelect(false));
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', () => setMultiSelect(false));
+    };
+  }, [table]);
+
   const readonly = useReadonly();
   const control = readonly ? null : (
     <Flex gap={2}>
+      {table.getSelectedRowModel().rows.length > 1 && (
+        <>
+          <Button
+            key='combineButton'
+            icon={IvyIcons.WrapToSubprocess}
+            onClick={() => {
+              const selectedRows = table.getSelectedRowModel().rows;
+              const originalData = selectedRows.map(row => row.original);
+              setFieldsToCombine(originalData);
+            }}
+            aria-label='Combine fields'
+            title='Combine fields'
+          />
+          <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
+        </>
+      )}
       <AddFieldDialog table={table} />
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <Button
         key='deleteButton'
         icon={IvyIcons.Trash}
         onClick={deleteField}
-        disabled={table.getSelectedRowModel().rows.length === 0}
+        disabled={table.getSelectedRowModel().rows.length === 0 || table.getSelectedRowModel().rows.length > 1}
         aria-label='Delete field'
       />
     </Flex>
@@ -131,7 +168,11 @@ export const DataClassMasterContent = () => {
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={() => selectRow(table)} />
           <TableBody>
             {table.getRowModel().rows.map(row => (
-              <ValidationRow key={row.id} row={row} isReorderable={table.getState().sorting.length === 0} />
+              <ValidationRow
+                key={row.id}
+                row={row}
+                isReorderable={table.getState().sorting.length === 0 && table.getSelectedRowModel().rows.length <= 1}
+              />
             ))}
           </TableBody>
         </Table>

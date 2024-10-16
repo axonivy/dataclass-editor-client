@@ -9,6 +9,7 @@ import {
 } from '@axonivy/jsonrpc';
 import type {
   Client,
+  CombineFieldsContext,
   Data,
   DataClassActionArgs,
   DataContext,
@@ -18,6 +19,7 @@ import type {
   RequestTypes,
   ValidationMessage
 } from './types';
+import type { DataClassField } from '../data/dataclass';
 
 export class ClientJsonRpc extends BaseRpcClient implements Client {
   protected onDataChangedEmitter = new Emitter<void>();
@@ -38,6 +40,10 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
 
   validate(context: DataContext): Promise<Array<ValidationMessage>> {
     return this.sendRequest('validate', context);
+  }
+
+  combineFields(context: CombineFieldsContext): Promise<Array<DataClassField>> {
+    return this.sendRequest('combineFields', context);
   }
 
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]> {
