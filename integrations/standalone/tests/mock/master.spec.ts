@@ -60,7 +60,7 @@ test.describe('add field', async () => {
       test('empty', async () => {
         await editor.add.open.locator.click();
         await expect(editor.add.typeMessage.locator).toBeHidden();
-        await editor.add.type.locator.clear();
+        await editor.add.type.clear();
         await editor.add.typeMessage.expectToHaveErrorMessage('Type cannot be empty.');
       });
     });
