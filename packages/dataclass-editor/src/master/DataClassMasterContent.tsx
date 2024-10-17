@@ -28,6 +28,9 @@ import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 import { ValidationRow } from './ValidationRow';
 import { useValidation } from './useValidation';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { genQueryKey } from '../query/query-client';
+import { useClient } from '../protocol/ClientContextProvider';
 
 const fullQualifiedClassNameRegex = /(?:[\w]+\.)+([\w]+)(?=[<,> ]|$)/g;
 
@@ -45,7 +48,10 @@ export const useUpdateSelection = (table: TanstackTable<DataClassField>) => {
 };
 
 export const DataClassMasterContent = () => {
-  const { dataClass, setDataClass, setSelectedField, setFieldsToCombine } = useAppContext();
+  const { context, dataClass, setDataClass, setSelectedField } = useAppContext();
+  const client = useClient();
+  const queryClient = useQueryClient();
+
   const messages = useValidation();
 
   const selection = useTableSelect<DataClassField>();
@@ -106,6 +112,26 @@ export const DataClassMasterContent = () => {
     setSelectedField(selection);
   };
 
+  const getRowsToCombine = () => {
+    const selectedRows = table.getSelectedRowModel().rows;
+    return selectedRows.map(row => row.original.name);
+  };
+
+  const combineFields = useMutation({
+    mutationKey: genQueryKey('combineFields', context),
+    mutationFn: async () => {
+      const fieldNames = getRowsToCombine();
+      return client.combineFields({ context, fieldNames });
+    },
+    onSuccess: result => {
+      console.log('Fields combined successfully:', result);
+      queryClient.invalidateQueries({ queryKey: genQueryKey('data', context) });
+    },
+    onError: error => {
+      console.error('Failed to combine fields:', error);
+    }
+  });
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       const isCtrlOrCmdPressed = event.ctrlKey || event.metaKey;
@@ -133,11 +159,7 @@ export const DataClassMasterContent = () => {
           <Button
             key='combineButton'
             icon={IvyIcons.WrapToSubprocess}
-            onClick={() => {
-              const selectedRows = table.getSelectedRowModel().rows;
-              const originalData = selectedRows.map(row => row.original);
-              setFieldsToCombine(originalData);
-            }}
+            onClick={() => combineFields.mutate()}
             aria-label='Combine fields'
             title='Combine fields'
           />

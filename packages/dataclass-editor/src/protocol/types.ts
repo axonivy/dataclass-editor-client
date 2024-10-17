@@ -1,12 +1,12 @@
-import type { DataClass, DataClassField } from '../data/dataclass';
+import type { DataClass } from '../data/dataclass';
 
 export type Data = { context: DataContext; data: DataClass };
 export type DataContext = { app: string; pmv: string; file: string };
 export type EditorProps = { context: DataContext; directSave?: boolean };
 export type SaveArgs = Data & { directSave?: boolean };
-export type CombineFieldsContext = { context: DataContext; fieldsToCombine: Array<DataClassField> };
+export type CombineFieldsContext = { context: DataContext; fieldNames: Array<string> };
 export interface DataClassActionArgs {
-  actionId: 'openForm' | 'openProcess' | 'combineFields';
+  actionId: 'openForm' | 'openProcess';
   payload: string;
   context: DataContext;
 }
@@ -18,7 +18,7 @@ export interface RequestTypes extends MetaRequestTypes {
   data: [DataContext, Data];
   saveData: [Data, Array<ValidationMessage>];
   validate: [DataContext, Array<ValidationMessage>];
-  combineFields: [CombineFieldsContext, Array<DataClassField>];
+  combineFields: [CombineFieldsContext, Array<string>];
 }
 
 export interface NotificationTypes {
@@ -41,7 +41,7 @@ export interface Client {
   data(context: DataContext): Promise<Data>;
   saveData(saveArgs: SaveArgs): Promise<Array<ValidationMessage>>;
   validate(context: DataContext): Promise<Array<ValidationMessage>>;
-  combineFields(context: CombineFieldsContext): Promise<Array<DataClassField>>;
+  combineFields(context: CombineFieldsContext): Promise<Array<string>>;
 
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]>;
 

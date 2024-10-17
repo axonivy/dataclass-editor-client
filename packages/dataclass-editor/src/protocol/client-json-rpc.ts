@@ -19,7 +19,6 @@ import type {
   RequestTypes,
   ValidationMessage
 } from './types';
-import type { DataClassField } from '../data/dataclass';
 
 export class ClientJsonRpc extends BaseRpcClient implements Client {
   protected onDataChangedEmitter = new Emitter<void>();
@@ -42,7 +41,7 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
     return this.sendRequest('validate', context);
   }
 
-  combineFields(context: CombineFieldsContext): Promise<Array<DataClassField>> {
+  combineFields(context: CombineFieldsContext): Promise<Array<string>> {
     return this.sendRequest('combineFields', context);
   }
 

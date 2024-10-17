@@ -12,7 +12,7 @@ import { FieldDetailContent } from './detail/field/FieldDetailContent';
 import { DataClassMasterContent } from './master/DataClassMasterContent';
 import { DataClassMasterToolbar } from './master/DataClassMasterToolbar';
 import { useClient } from './protocol/ClientContextProvider';
-import type { CombineFieldsContext, Data, EditorProps, ValidationMessage } from './protocol/types';
+import type { Data, EditorProps, ValidationMessage } from './protocol/types';
 import { genQueryKey } from './query/query-client';
 import type { Unary } from './utils/lambda/lambda';
 
@@ -53,7 +53,6 @@ function DataClassEditor(props: EditorProps) {
   }, [props]);
   const [selectedField, setSelectedField] = useState<number>();
   const [validationMessages, setValidationMessages] = useState<Array<ValidationMessage>>([]);
-  const [fieldsToCombine, setFieldsToCombine] = useState<Array<DataClassField>>([]);
 
   const client = useClient();
   const queryClient = useQueryClient();
@@ -62,10 +61,9 @@ function DataClassEditor(props: EditorProps) {
     return {
       data: () => genQueryKey('data', context),
       saveData: () => genQueryKey('saveData', context),
-      validate: () => genQueryKey('validate', context),
-      combineFields: () => genQueryKey('combineFields', { context, fieldsToCombine } as CombineFieldsContext)
+      validate: () => genQueryKey('validate', context)
     };
-  }, [context, fieldsToCombine]);
+  }, [context]);
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: queryKeys.data(),
@@ -79,14 +77,6 @@ function DataClassEditor(props: EditorProps) {
       const validationMessages = await client.validate(context);
       setValidationMessages(validationMessages);
       return validationMessages;
-    }
-  });
-
-  const { data: combineFields } = useQuery({
-    queryKey: queryKeys.combineFields(),
-    queryFn: async () => {
-      const combineFields = await client.combineFields({ context, fieldsToCombine });
-      return combineFields;
     }
   });
 
@@ -137,9 +127,7 @@ function DataClassEditor(props: EditorProps) {
         setSelectedField,
         detail,
         setDetail,
-        validationMessages,
-        setFieldsToCombine,
-        combineFields
+        validationMessages
       }}
     >
       <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>

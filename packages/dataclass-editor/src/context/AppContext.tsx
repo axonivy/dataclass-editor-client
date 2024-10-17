@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { DataClass, DataClassField, EntityClass } from '../data/dataclass';
+import type { DataClass, EntityClass } from '../data/dataclass';
 import type { DataContext, ValidationMessage } from '../protocol/types';
 
 type AppContext = {
@@ -11,8 +11,6 @@ type AppContext = {
   detail: boolean;
   setDetail: (visible: boolean) => void;
   validationMessages: Array<ValidationMessage>;
-  setFieldsToCombine: (fieldsToCombine: Array<DataClassField>) => void;
-  combineFields: DataClassField[] | undefined;
 };
 
 const appContext = createContext<AppContext>({
@@ -23,9 +21,7 @@ const appContext = createContext<AppContext>({
   setSelectedField: () => {},
   detail: true,
   setDetail: () => {},
-  validationMessages: [],
-  setFieldsToCombine: () => [],
-  combineFields: []
+  validationMessages: []
 });
 
 export const AppProvider = appContext.Provider;
