@@ -140,7 +140,7 @@ export const DataClassMasterContent = () => {
       queryClient.invalidateQueries({ queryKey: genQueryKey('data', context) });
     },
     onError: error => {
-      toast.error('Failed to combine fields: ' + error.message);
+      toast.error('Failed to combine fields', { description: error.message });
     }
   });
 
