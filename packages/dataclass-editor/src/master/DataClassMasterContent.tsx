@@ -15,6 +15,7 @@ import {
   Table,
   TableBody,
   TableResizableHeader,
+  toast,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -127,23 +128,19 @@ export const DataClassMasterContent = () => {
     resetAndSetRowSelection(table, newDataClass.fields, moveIds, row => row.name);
   };
 
-  const getRowsToCombine = () => {
-    const selectedRows = table.getSelectedRowModel().rows;
-    return selectedRows.map(row => row.original.name);
-  };
-
   const combineFields = useMutation({
     mutationKey: genQueryKey('combineFields', context),
     mutationFn: async () => {
-      const fieldNames = getRowsToCombine();
+      const selectedRows = table.getSelectedRowModel().rows;
+      const fieldNames = selectedRows.map(row => row.original.name);
       return client.combineFields({ context, fieldNames });
     },
-    onSuccess: result => {
-      console.log('Fields combined successfully:', result);
+    onSuccess: () => {
+      toast.info('Fields successfully combined');
       queryClient.invalidateQueries({ queryKey: genQueryKey('data', context) });
     },
     onError: error => {
-      console.error('Failed to combine fields:', error);
+      toast.error('Failed to combine fields: ' + error.message);
     }
   });
 
@@ -151,16 +148,13 @@ export const DataClassMasterContent = () => {
   const control = readonly ? null : (
     <Flex gap={2}>
       {table.getSelectedRowModel().rows.length > 1 && (
-        <>
-          <Button
-            key='combineButton'
-            icon={IvyIcons.WrapToSubprocess}
-            onClick={() => combineFields.mutate()}
-            aria-label='Combine fields'
-            title='Combine fields'
-          />
-          <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
-        </>
+        <Button
+          key='combineButton'
+          icon={IvyIcons.WrapToSubprocess}
+          onClick={() => combineFields.mutate()}
+          aria-label='Combine fields'
+          title='Combine fields'
+        />
       )}
       <AddFieldDialog table={table} />
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />

@@ -24,22 +24,27 @@ type ValidationRowProps = {
 export const ValidationRow = ({ row, isReorderable, updateOrder, onClick, onDrag }: ValidationRowProps) => {
   const messages = useValidation(row.original);
 
-  const RowComponent = isReorderable ? ReorderRow : SelectRow;
+  const tableCell = row
+    .getVisibleCells()
+    .map(cell => <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>);
+
+  const commonProps = {
+    id: row.index.toString(),
+    row: row,
+    className: rowClassName(messages),
+    onClick: onClick,
+    onDrag: onDrag
+  };
 
   return (
     <>
-      <RowComponent
-        id={row.index.toString()}
-        row={row}
-        className={rowClassName(messages)}
-        updateOrder={updateOrder}
-        onClick={onClick}
-        onDrag={onDrag}
-      >
-        {row.getVisibleCells().map(cell => (
-          <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-        ))}
-      </RowComponent>
+      {isReorderable ? (
+        <ReorderRow {...commonProps} updateOrder={updateOrder}>
+          {tableCell}
+        </ReorderRow>
+      ) : (
+        <SelectRow {...commonProps}>{tableCell}</SelectRow>
+      )}
       {messages.map((message, index) => (
         <MessageRow key={index} columnCount={3} message={message} />
       ))}
