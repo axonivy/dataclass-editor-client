@@ -1,16 +1,21 @@
 import {
+  arrayMoveMultiple,
   BasicField,
   Button,
-  deleteFirstSelectedRow,
+  deleteAllSelectedRows,
   Flex,
+  handleMultiSelectOnCtrlRowClick,
+  indexOf,
   Message,
   ReorderHandleWrapper,
+  resetAndSetRowSelection,
   selectRow,
   Separator,
   SortableHeader,
   Table,
   TableBody,
   TableResizableHeader,
+  toast,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -28,6 +33,9 @@ import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 import { ValidationRow } from './ValidationRow';
 import { useValidation } from './useValidation';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { genQueryKey } from '../query/query-client';
+import { useClient } from '../protocol/ClientContextProvider';
 
 const fullQualifiedClassNameRegex = /(?:[\w]+\.)+([\w]+)(?=[<,> ]|$)/g;
 
@@ -38,14 +46,17 @@ export const simpleTypeName = (fullQualifiedType: string) => {
 export const useUpdateSelection = (table: TanstackTable<DataClassField>) => {
   const { setSelectedField } = useAppContext();
   const selectedRows = table.getSelectedRowModel().rows;
-  const selectedField = selectedRows.length === 0 ? undefined : selectedRows[0].index;
+  const selectedField = selectedRows.length === 1 ? selectedRows[0].index : undefined;
   useEffect(() => {
     setSelectedField(selectedField);
   }, [selectedField, setSelectedField]);
 };
 
 export const DataClassMasterContent = () => {
-  const { dataClass, setDataClass, setSelectedField } = useAppContext();
+  const { context, dataClass, setDataClass, setSelectedField } = useAppContext();
+  const client = useClient();
+  const queryClient = useQueryClient();
+
   const messages = useValidation();
 
   const selection = useTableSelect<DataClassField>();
@@ -85,6 +96,7 @@ export const DataClassMasterContent = () => {
   ];
   const table = useReactTable({
     ...selection.options,
+    enableMultiRowSelection: true,
     ...sort.options,
     data: dataClass.fields,
     columns,
@@ -97,16 +109,53 @@ export const DataClassMasterContent = () => {
   useUpdateSelection(table);
 
   const deleteField = () => {
-    const { newData: newFields, selection } = deleteFirstSelectedRow(table, dataClass.fields);
+    const { newData: newFields, selection } = deleteAllSelectedRows(table, dataClass.fields);
     const newDataClass = structuredClone(dataClass);
     newDataClass.fields = newFields;
     setDataClass(newDataClass);
     setSelectedField(selection);
   };
 
+  const updateOrder = (moveId: string, targetId: string) => {
+    const selectedRows = table.getSelectedRowModel().flatRows.map(r => r.original.name);
+    const moveIds = selectedRows.length > 1 ? selectedRows : [dataClass.fields[parseInt(moveId)].name];
+    const newDataClass = structuredClone(dataClass);
+    const moveIndexes = moveIds.map(moveId => indexOf(newDataClass.fields, obj => obj.name === moveId));
+    const toIndex = parseInt(targetId);
+    arrayMoveMultiple(newDataClass.fields, moveIndexes, toIndex);
+
+    setDataClass(newDataClass);
+    resetAndSetRowSelection(table, newDataClass.fields, moveIds, row => row.name);
+  };
+
+  const combineFields = useMutation({
+    mutationKey: genQueryKey('combineFields', context),
+    mutationFn: async () => {
+      const selectedRows = table.getSelectedRowModel().rows;
+      const fieldNames = selectedRows.map(row => row.original.name);
+      return client.combineFields({ context, fieldNames });
+    },
+    onSuccess: () => {
+      toast.info('Fields successfully combined');
+      queryClient.invalidateQueries({ queryKey: genQueryKey('data', context) });
+    },
+    onError: error => {
+      toast.error('Failed to combine fields', { description: error.message });
+    }
+  });
+
   const readonly = useReadonly();
   const control = readonly ? null : (
     <Flex gap={2}>
+      {table.getSelectedRowModel().rows.length > 1 && (
+        <Button
+          key='combineButton'
+          icon={IvyIcons.WrapToSubprocess}
+          onClick={() => combineFields.mutate()}
+          aria-label='Combine fields'
+          title='Combine fields'
+        />
+      )}
       <AddFieldDialog table={table} />
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <Button
@@ -131,7 +180,14 @@ export const DataClassMasterContent = () => {
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={() => selectRow(table)} />
           <TableBody>
             {table.getRowModel().rows.map(row => (
-              <ValidationRow key={row.id} row={row} isReorderable={table.getState().sorting.length === 0} />
+              <ValidationRow
+                key={row.id}
+                row={row}
+                isReorderable={table.getState().sorting.length === 0}
+                onDrag={!row.getIsSelected() ? () => table.resetRowSelection() : undefined}
+                onClick={event => handleMultiSelectOnCtrlRowClick(table, row, event)}
+                updateOrder={updateOrder}
+              />
             ))}
           </TableBody>
         </Table>
