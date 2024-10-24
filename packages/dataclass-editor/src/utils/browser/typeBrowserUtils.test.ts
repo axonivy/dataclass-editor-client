@@ -1,8 +1,29 @@
 import { describe, expect } from 'vitest';
-import { getInitialSelectState, getInitialTypeAsListState, getInitialValue } from './typeBrowserUtils';
+import { getInitialExpandState, getInitialSelectState, getInitialTypeAsListState, getInitialValue } from './typeBrowserUtils';
 import type { BrowserNode } from '@axonivy/ui-components';
 import type { DataclassType } from '../../protocol/types';
 import { IvyIcons } from '@axonivy/ui-icons';
+
+const types: Array<BrowserNode<DataclassType>> = [
+  {
+    value: 'DataClass',
+    info: 'DataClassInfo',
+    icon: IvyIcons.LetterD,
+    children: [
+      { value: 'ExampleDataClass', info: 'Info1', icon: IvyIcons.LetterD, children: [] },
+      { value: 'AnotherDataClass', info: 'Info2', icon: IvyIcons.LetterD, children: [] }
+    ]
+  },
+  {
+    value: 'IvyType',
+    info: 'IvyTypeInfo',
+    icon: IvyIcons.Ivy,
+    children: [
+      { value: 'ExampleType', info: 'Info3', icon: IvyIcons.Ivy, children: [] },
+      { value: 'DifferentType', info: 'Info4', icon: IvyIcons.Ivy, children: [] }
+    ]
+  }
+];
 
 describe('getInitialValue', () => {
   test('return value as list when input is in List<> format', () => {
@@ -22,27 +43,6 @@ describe('getInitialValue', () => {
 });
 
 describe('getInitialTypeAsListState', () => {
-  const types: Array<BrowserNode<DataclassType>> = [
-    {
-      value: 'DataClass',
-      info: 'DataClassInfo',
-      icon: IvyIcons.LetterD,
-      children: [
-        { value: 'ExampleDataClass', info: 'Info1', icon: IvyIcons.LetterD, children: [] },
-        { value: 'AnotherDataClass', info: 'Info2', icon: IvyIcons.LetterD, children: [] }
-      ]
-    },
-    {
-      value: 'IvyType',
-      info: 'IvyTypeInfo',
-      icon: IvyIcons.Ivy,
-      children: [
-        { value: 'ExampleType', info: 'Info3', icon: IvyIcons.Ivy, children: [] },
-        { value: 'DifferentType', info: 'Info4', icon: IvyIcons.Ivy, children: [] }
-      ]
-    }
-  ];
-
   test('return true if the value is found in Ivy types', () => {
     const value = { value: 'ExampleType', asList: true };
     const result = getInitialTypeAsListState(types, value);
@@ -69,31 +69,16 @@ describe('getInitialTypeAsListState', () => {
 });
 
 describe('getInitialSelectState', () => {
-  const types: Array<BrowserNode<DataclassType>> = [
-    {
-      value: 'DataClass',
-      info: 'DataClassInfo',
-      icon: IvyIcons.LetterD,
-      children: [{ value: 'ExampleDataClass', info: 'Info1', icon: IvyIcons.LetterD, children: [] }]
-    },
-    {
-      value: 'IvyType',
-      info: 'IvyTypeInfo',
-      icon: IvyIcons.Ivy,
-      children: [{ value: 'ExampleType', info: 'Info2', icon: IvyIcons.Ivy, children: [] }]
-    }
-  ];
-
   test('return selected row id for IvyType if found', () => {
     const value = { value: 'ExampleType', asList: false };
     const result = getInitialSelectState(false, types, value);
-    expect(result).toEqual({ '1.0': true }); // index of ExampleType in IvyType children
+    expect(result).toEqual({ '1.0': true });
   });
 
   test('return selected row id for DataClass if found', () => {
     const value = { value: 'Info1.ExampleDataClass', asList: false };
     const result = getInitialSelectState(false, types, value);
-    expect(result).toEqual({ '0.0': true }); // index of ExampleDataClass in DataClass children
+    expect(result).toEqual({ '0.0': true });
   });
 
   test('return empty object if value is not found in either type', () => {
@@ -105,6 +90,38 @@ describe('getInitialSelectState', () => {
   test('return empty object if allTypesSearchActive is true', () => {
     const value = { value: 'ExampleType', asList: false };
     const result = getInitialSelectState(true, types, value);
+    expect(result).toEqual({});
+  });
+});
+
+describe('getInitialExpandState', () => {
+  test('return expanded state with true for DataClass if value is found in DataClass types', () => {
+    const result = getInitialExpandState(types, 'Info1.ExampleDataClass');
+    expect(result).toEqual({
+      '0': true,
+      '1': false
+    });
+  });
+
+  test('return expanded state with true for IvyType if value is found in Ivy types', () => {
+    const result = getInitialExpandState(types, 'ExampleType');
+    expect(result).toEqual({
+      '0': false,
+      '1': true
+    });
+  });
+
+  test('return expanded state with all false if value is not found in either type', () => {
+    const result = getInitialExpandState(types, 'NonExistentType');
+    expect(result).toEqual({
+      '0': false,
+      '1': false
+    });
+  });
+
+  test('return expanded state with all false if no types are present', () => {
+    const emptyTypes: Array<BrowserNode<DataclassType>> = [];
+    const result = getInitialExpandState(emptyTypes, 'ExampleType');
     expect(result).toEqual({});
   });
 });

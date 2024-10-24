@@ -37,7 +37,6 @@ export const typeData = (
       : IvyIcons.DataClass;
     return createNode(type, icon);
   });
-
   const combinedTypes = allTypesSearchActive
     ? [...dataClassNodes, ...nonIvyTypeNodes, ...ivyTypeNodes, ...allTypeNodes]
     : [
@@ -59,7 +58,7 @@ export const typeData = (
           children: [...nonIvyTypeNodes, ...ivyTypeNodes],
           isLoaded: true
         },
-        ...(ownTypes.length > 0
+        ...(ownTypeNodes.length > 0
           ? [
               {
                 value: 'Own Types',

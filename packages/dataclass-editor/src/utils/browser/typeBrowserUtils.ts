@@ -39,6 +39,25 @@ export const getInitialSelectState = (
     if (dataClassIndex !== -1) {
       return { [`0.${dataClassIndex}`]: true };
     }
+    if (types.length === 3) {
+      const ownTypesIndex = types[2].children.findIndex(ownTypes => ownTypes.info + '.' + ownTypes.value === value.value);
+      if (ownTypesIndex !== -1) {
+        return { [`2.${ownTypesIndex}`]: true };
+      }
+    }
+  }
+  return {};
+};
+
+export const getInitialExpandState = (types: Array<BrowserNode<DataclassType>>, value: string) => {
+  if (types.length >= 2) {
+    return {
+      '0': types[0].children.some(dataclass => dataclass.info + '.' + dataclass.value === value),
+      '1': types[1].children.some(ivyType => ivyType.value === value),
+      ...(types.length === 3 && {
+        '2': types[2].children.some(ownType => ownType.info + '.' + ownType.value === value)
+      })
+    };
   }
   return {};
 };
