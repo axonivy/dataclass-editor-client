@@ -4,7 +4,6 @@ import {
   Button,
   deleteAllSelectedRows,
   Flex,
-  handleMultiSelectOnCtrlRowClick,
   indexOf,
   Message,
   ReorderHandleWrapper,
@@ -20,6 +19,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
+  useMultiSelectRow,
   useReadonly,
   useTableSelect,
   useTableSort
@@ -108,6 +108,7 @@ export const DataClassMasterContent = () => {
     }
   });
   useUpdateSelection(table);
+  const { handleMultiSelectOnRow } = useMultiSelectRow(table);
 
   const deleteField = () => {
     const { newData: newFields, selection } = deleteAllSelectedRows(table, dataClass.fields);
@@ -194,7 +195,7 @@ export const DataClassMasterContent = () => {
                 row={row}
                 isReorderable={table.getState().sorting.length === 0}
                 onDrag={() => handleRowDrag(row)}
-                onClick={event => handleMultiSelectOnCtrlRowClick(table, row, event)}
+                onClick={event => handleMultiSelectOnRow(row, event)}
                 updateOrder={updateOrder}
               />
             ))}

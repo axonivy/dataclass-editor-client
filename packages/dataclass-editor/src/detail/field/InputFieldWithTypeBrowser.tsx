@@ -22,7 +22,7 @@ export const InputFieldWithTypeBrowser = ({ value, onChange, message }: InputFie
         </InputGroup>
       </BasicField>
       <DialogContent style={{ height: '80vh' }}>
-        <Browser onChange={onChange} close={() => setOpen(false)} />
+        <Browser onChange={onChange} close={() => setOpen(false)} value={value} />
       </DialogContent>
     </Dialog>
   );

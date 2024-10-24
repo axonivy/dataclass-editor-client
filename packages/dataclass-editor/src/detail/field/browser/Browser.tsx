@@ -3,11 +3,12 @@ import { useTypeBrowser } from './useTypeBrowser';
 
 type BrowserProps = {
   onChange: (value: string) => void;
+  value: string;
   close: () => void;
 };
 
-export const Browser = ({ onChange, close }: BrowserProps) => {
-  const typeBrowser = useTypeBrowser();
+export const Browser = ({ onChange, close, value }: BrowserProps) => {
+  const typeBrowser = useTypeBrowser(value);
   return (
     <BrowsersView
       browsers={[typeBrowser]}
