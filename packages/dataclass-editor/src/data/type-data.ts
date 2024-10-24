@@ -26,7 +26,7 @@ export const typeData = (
   const dataClassNodes = sortedDataClasses.map(dataClass =>
     createNode({ ...dataClass, simpleName: dataClass.name }, IvyIcons.LetterD, dataClass)
   );
-  const nonIvyTypeNodes = sortedNonIvyTypes.map(javaType => createNode(javaType, IvyIcons.DataClass));
+  const nonIvyTypeNodes = sortedNonIvyTypes.map(javaType => createNode(javaType, IvyIcons.Ivy));
   const ivyTypeNodes = sortedIvyOnlyTypes.map(javaType => createNode(javaType, IvyIcons.Ivy));
   const ownTypeNodes = filteredOwnTypes.map(javaType => createNode(javaType, IvyIcons.DataClass));
   const allTypeNodes = filteredAllTypes.map(type => {
@@ -38,13 +38,41 @@ export const typeData = (
     return createNode(type, icon);
   });
 
-  const combinedTypes = [
-    ...(allTypesSearchActive ? [] : ownTypeNodes),
-    ...dataClassNodes,
-    ...nonIvyTypeNodes,
-    ...ivyTypeNodes,
-    ...(allTypesSearchActive ? allTypeNodes : [])
-  ];
+  const combinedTypes = allTypesSearchActive
+    ? [...dataClassNodes, ...nonIvyTypeNodes, ...ivyTypeNodes, ...allTypeNodes]
+    : [
+        {
+          value: 'Data Classes',
+          info: '',
+          icon: IvyIcons.LetterD,
+          data: undefined,
+          notSelectable: true,
+          children: dataClassNodes,
+          isLoaded: true
+        },
+        {
+          value: 'Ivy Script Data Types',
+          info: '',
+          icon: IvyIcons.Ivy,
+          data: undefined,
+          notSelectable: true,
+          children: [...nonIvyTypeNodes, ...ivyTypeNodes],
+          isLoaded: true
+        },
+        ...(ownTypes.length > 0
+          ? [
+              {
+                value: 'Own Types',
+                info: '',
+                icon: IvyIcons.DataClass,
+                data: undefined,
+                notSelectable: true,
+                children: ownTypeNodes,
+                isLoaded: true
+              }
+            ]
+          : [])
+      ];
 
   const sortedCombinedTypes =
     allTypesSearchActive && (filteredAllTypes.length > 0 || filteredOwnTypes.length > 0)

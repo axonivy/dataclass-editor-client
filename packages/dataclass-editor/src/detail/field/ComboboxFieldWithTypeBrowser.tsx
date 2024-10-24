@@ -32,7 +32,7 @@ export const ComboboxFieldWithTypeBrowser = ({ value, onChange, message }: Input
   const [typeAsList, setTypeAsList] = useState<boolean>(false);
   const dataClasses = useMeta('meta/scripting/dataClasses', context, []).data;
   const ivyTypes = useMeta('meta/scripting/ivyTypes', undefined, []).data;
-  const types = useMemo(() => typeData(dataClasses, ivyTypes, [], [], false), [dataClasses, ivyTypes]);
+  const types = useMemo(() => typeData(dataClasses, ivyTypes, [], [], true), [dataClasses, ivyTypes]);
 
   const typeAsListChange = (change: boolean) => {
     setTypeAsList(!typeAsList);
@@ -64,6 +64,9 @@ export const ComboboxFieldWithTypeBrowser = ({ value, onChange, message }: Input
               } else {
                 onChange(value);
               }
+              if (!value.startsWith('List<') && !value.endsWith('>')) {
+                setTypeAsList(false);
+              }
             }}
             value={value}
             options={types}
@@ -83,6 +86,7 @@ export const ComboboxFieldWithTypeBrowser = ({ value, onChange, message }: Input
               setTypeAsList(true);
             }
           }}
+          value={value}
           close={() => setOpen(false)}
         />
       </DialogContent>
