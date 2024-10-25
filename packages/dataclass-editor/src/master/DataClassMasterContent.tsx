@@ -131,7 +131,7 @@ export const DataClassMasterContent = () => {
   const combineFields = useFunction(
     'function/combineFields',
     {
-      context: context,
+      context,
       fieldNames: table.getSelectedRowModel().rows.map(row => row.original.name)
     },
     {
