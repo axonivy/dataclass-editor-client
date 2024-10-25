@@ -1,21 +1,24 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, type UseMutationResult } from '@tanstack/react-query';
 import { genQueryKey } from '../query/query-client';
 import type { FunctionRequestTypes } from '../protocol/types';
 import { useClient } from '../protocol/ClientContextProvider';
 
-type NonUndefinedGuard<T> = T extends undefined ? never : T;
+type UseFunctionOptions<TData> = {
+  onSuccess?: (data: TData) => void;
+  onError?: (error: Error) => void;
+};
 
 export function useFunction<TFunct extends keyof FunctionRequestTypes>(
   path: TFunct,
   args: FunctionRequestTypes[TFunct][0],
-  returns: NonUndefinedGuard<FunctionRequestTypes[TFunct][1]>,
-  options?: { disable?: boolean }
-): { data: FunctionRequestTypes[TFunct][1] } {
+  options?: UseFunctionOptions<FunctionRequestTypes[TFunct][1]>
+): UseMutationResult<FunctionRequestTypes[TFunct][1], Error, void> {
   const client = useClient();
-  return useQuery({
-    enabled: !options?.disable,
-    queryKey: genQueryKey(path, args),
-    queryFn: () => client.function(path, args),
-    initialData: returns
+
+  return useMutation({
+    mutationKey: genQueryKey(path, args),
+    mutationFn: () => client.function(path, args),
+    onSuccess: options?.onSuccess,
+    onError: options?.onError
   });
 }
