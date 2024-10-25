@@ -1,4 +1,4 @@
-import type { DataClass, DataClassField } from '../data/dataclass';
+import type { DataClass } from '../data/dataclass';
 
 export type Data = { context: DataContext; data: DataClass };
 export type DataContext = { app: string; pmv: string; file: string };
@@ -79,7 +79,7 @@ export interface DataclassType {
 }
 
 export interface FunctionRequestTypes {
-  'function/combineFields': [DataClassCombineArgs, DataClassField[]];
+  'function/combineFields': [DataClassCombineArgs, DataClass];
 }
 
 export interface DataClassCombineArgs {

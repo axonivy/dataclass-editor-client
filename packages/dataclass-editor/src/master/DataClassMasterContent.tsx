@@ -28,7 +28,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { getCoreRowModel, useReactTable, type ColumnDef, type Row, type Table as TanstackTable } from '@tanstack/react-table';
 import { useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
-import { type DataClassField } from '../data/dataclass';
+import { type DataClass, type DataClassField } from '../data/dataclass';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 import { ValidationRow } from './ValidationRow';
@@ -137,7 +137,7 @@ export const DataClassMasterContent = () => {
         context: context,
         fieldNames: selectedRows.map(row => row.original.name)
       }
-      return useFunction('function/combineFields', args, []).data;
+      return useFunction('function/combineFields', args, {} as DataClass).data;
     },
     onSuccess: () => {
       toast.info('Fields successfully combined');
