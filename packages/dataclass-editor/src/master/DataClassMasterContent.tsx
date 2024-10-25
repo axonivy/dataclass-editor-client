@@ -28,7 +28,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { getCoreRowModel, useReactTable, type ColumnDef, type Row, type Table as TanstackTable } from '@tanstack/react-table';
 import { useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
-import { type DataClassField } from '../data/dataclass';
+import { type DataClassField } from '@axonivy/dataclass-editor-protocol';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 import { ValidationRow } from './ValidationRow';

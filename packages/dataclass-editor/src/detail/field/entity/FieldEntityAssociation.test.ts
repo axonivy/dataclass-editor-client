@@ -1,5 +1,5 @@
 import { customRenderHook } from '../../../context/test-utils/test-utils';
-import type { DataClassFieldEntityAssociation, EntityClassField } from '../../../data/dataclass';
+import type { DataClassFieldEntityAssociation, EntityClassField } from '@axonivy/dataclass-editor-protocol';
 import { useCardinality, useMappedByFieldName } from './FieldEntityAssociation';
 
 describe('useMappedByFieldName', () => {

@@ -1,6 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { DataClass, EntityClass } from '../data/dataclass';
-import type { DataContext, ValidationMessage } from '../protocol/types';
+import type { DataClass, EntityClass,  DataContext, ValidationMessage } from '@axonivy/dataclass-editor-protocol';
 
 type AppContext = {
   context: DataContext;

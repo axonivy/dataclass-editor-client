@@ -1,5 +1,5 @@
 import { describe, expect } from 'vitest';
-import type { DataclassType, JavaType } from '../protocol/types';
+import type { DataclassType, JavaType } from '@axonivy/dataclass-editor-protocol';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { typeData } from './type-data';
 

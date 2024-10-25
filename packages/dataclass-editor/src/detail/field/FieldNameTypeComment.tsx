@@ -1,6 +1,6 @@
 import { BasicField, BasicInput, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Textarea } from '@axonivy/ui-components';
 import { useField } from '../../context/FieldContext';
-import { isIDType, isVersionType } from '../../data/dataclass';
+import { isIDType, isVersionType } from '@axonivy/dataclass-editor-protocol';
 import { updateModifiers } from '../../data/dataclass-utils';
 import { useFieldProperty } from './useFieldProperty';
 import { InputFieldWithTypeBrowser } from './InputFieldWithTypeBrowser';

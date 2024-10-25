@@ -9,7 +9,7 @@ import {
   Input
 } from '@axonivy/ui-components';
 import { useEntityField } from '../../../context/FieldContext';
-import type { DataClassFieldEntityAssociation } from '../../../data/dataclass';
+import type { DataClassFieldEntityAssociation } from '@axonivy/dataclass-editor-protocol';
 import './FieldEntityAssociation.css';
 import { FieldEntityCascadeTypeCheckbox } from './FieldEntityCascadeTypeCheckbox';
 import { useFieldEntityProperty } from './useFieldEntityProperty';

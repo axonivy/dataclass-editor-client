@@ -1,6 +1,6 @@
 import { BasicCheckbox, deepEqual } from '@axonivy/ui-components';
 import { useEntityField } from '../../../context/FieldContext';
-import { DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES, type DataClassFieldEntityCascadeType } from '../../../data/dataclass';
+import { DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES, type DataClassFieldEntityCascadeType } from '@axonivy/dataclass-editor-protocol';
 
 type FieldEntityCascadeTypeCheckboxProps = {
   label: string;

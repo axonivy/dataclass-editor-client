@@ -1,6 +1,6 @@
 import { MessageRow, ReorderRow, SelectRow, TableCell, type MessageData } from '@axonivy/ui-components';
 import { flexRender, type Row } from '@tanstack/react-table';
-import type { DataClassField } from '../data/dataclass';
+import type { DataClassField } from '@axonivy/dataclass-editor-protocol';
 import './ValidationRow.css';
 import { useValidation } from './useValidation';
 

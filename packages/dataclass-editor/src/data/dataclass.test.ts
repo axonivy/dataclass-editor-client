@@ -1,4 +1,4 @@
-import { isIDType, isVersionType } from './dataclass';
+import { isIDType, isVersionType } from '@axonivy/dataclass-editor-protocol';
 
 describe('isIDType', () => {
   test('true', () => {

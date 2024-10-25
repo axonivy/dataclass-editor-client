@@ -1,5 +1,5 @@
 import type { BrowserNode } from '@axonivy/ui-components';
-import type { DataclassType } from '../../protocol/types';
+import type { DataclassType } from '@axonivy/dataclass-editor-protocol';
 import { type RowSelectionState } from '@tanstack/react-table';
 
 type InitialTypeBrowserValue = {

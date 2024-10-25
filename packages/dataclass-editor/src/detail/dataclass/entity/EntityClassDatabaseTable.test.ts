@@ -1,5 +1,5 @@
 import { customRenderHook } from '../../../context/test-utils/test-utils';
-import type { EntityClass } from '../../../data/dataclass';
+import type { EntityClass } from '@axonivy/dataclass-editor-protocol';
 import { useEntityProperty } from './EntityClassDatabaseTable';
 
 test('useEntityProperty', () => {

@@ -1,4 +1,4 @@
-import type { DataClass } from './data/dataclass';
+import type { DataClass } from '@axonivy/dataclass-editor-protocol';
 import { headerTitles } from './DataClassEditor';
 
 describe('headerTitles', () => {

@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { AppProvider } from './context/AppContext';
 import { FieldProvider } from './context/FieldContext';
-import type { DataClass, DataClassField } from './data/dataclass';
+import type { DataClass, DataClassField, Data, EditorProps, ValidationMessage } from '@axonivy/dataclass-editor-protocol';
 import { classTypeOf } from './data/dataclass-utils';
 import './DataClassEditor.css';
 import { DataClassDetailContent } from './detail/dataclass/DataClassDetailContent';
@@ -12,7 +12,6 @@ import { FieldDetailContent } from './detail/field/FieldDetailContent';
 import { DataClassMasterContent } from './master/DataClassMasterContent';
 import { DataClassMasterToolbar } from './master/DataClassMasterToolbar';
 import { useClient } from './protocol/ClientContextProvider';
-import type { Data, EditorProps, ValidationMessage } from './protocol/types';
 import { genQueryKey } from './query/query-client';
 import type { Unary } from './utils/lambda/lambda';
 

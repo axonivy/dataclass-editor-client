@@ -1,6 +1,6 @@
 import { BasicCheckbox, useBrowser, type Browser, type BrowserNode } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import type { DataclassType } from '../../../protocol/types';
+import type { DataclassType } from '@axonivy/dataclass-editor-protocol';
 import { typeBrowserApply } from './typeBrowserApply';
 import { useEffect, useMemo, useState } from 'react';
 import { useMeta } from '../../../context/useMeta';

@@ -1,5 +1,5 @@
 import { customRenderHook } from '../../../context/test-utils/test-utils';
-import type { EntityClassField } from '../../../data/dataclass';
+import type { EntityClassField } from '@axonivy/dataclass-editor-protocol';
 import { useFieldEntityProperty } from './useFieldEntityProperty';
 
 test('useFieldEntityProperty', () => {

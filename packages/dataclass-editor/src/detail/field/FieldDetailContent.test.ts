@@ -1,4 +1,4 @@
-import type { DataClassField, DataClassFieldModifier } from '../../data/dataclass';
+import type { DataClassField, DataClassFieldModifier } from '@axonivy/dataclass-editor-protocol';
 import { isEntityField } from './FieldDetailContent';
 
 describe('isEntityField', () => {

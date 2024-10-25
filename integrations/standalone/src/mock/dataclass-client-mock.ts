@@ -6,7 +6,7 @@ import type {
   FunctionRequestTypes,
   MetaRequestTypes,
   ValidationMessage
-} from '@axonivy/dataclass-editor/src/protocol/types';
+} from '@axonivy/dataclass-editor-protocol/src/types';
 import { MetaMock } from './meta-mock';
 
 export class DataClassClientMock implements Client {

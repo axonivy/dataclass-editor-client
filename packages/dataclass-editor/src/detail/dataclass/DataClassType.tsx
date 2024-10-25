@@ -1,6 +1,6 @@
 import { BasicSelect, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@axonivy/ui-components';
 import { useAppContext } from '../../context/AppContext';
-import type { DataClassType as ClassType, DataClass } from '../../data/dataclass';
+import type { DataClassType as ClassType, DataClass } from '@axonivy/dataclass-editor-protocol';
 import { classTypeOf } from '../../data/dataclass-utils';
 
 export const useClassType = () => {

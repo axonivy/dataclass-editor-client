@@ -18,7 +18,7 @@ import type {
   OnNotificationTypes,
   RequestTypes,
   ValidationMessage
-} from './types';
+} from '@axonivy/dataclass-editor-protocol';
 
 export class ClientJsonRpc extends BaseRpcClient implements Client {
   protected onDataChangedEmitter = new Emitter<void>();

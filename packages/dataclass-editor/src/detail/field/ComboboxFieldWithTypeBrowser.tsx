@@ -18,7 +18,7 @@ import { useAppContext } from '../../context/AppContext';
 import { useMeta } from '../../context/useMeta';
 import { typeData } from '../../data/type-data';
 import './ComboboxFieldWithTypeBrowser.css';
-import type { DataclassType } from '../../protocol/types';
+import type { DataclassType } from '@axonivy/dataclass-editor-protocol';
 
 export type InputFieldProps = {
   value: string;

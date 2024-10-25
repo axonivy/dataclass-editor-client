@@ -1,6 +1,6 @@
 import type { MessageData } from '@axonivy/ui-components';
 import { useAppContext } from '../context/AppContext';
-import type { DataClassField } from '../data/dataclass';
+import type { DataClassField } from '@axonivy/dataclass-editor-protocol';
 
 export const useValidation = (field?: DataClassField): Array<MessageData> => {
   const { validationMessages } = useAppContext();
