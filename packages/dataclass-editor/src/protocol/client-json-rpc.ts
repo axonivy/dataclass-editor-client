@@ -12,13 +12,13 @@ import type {
   Data,
   DataClassActionArgs,
   DataContext,
+  FunctionRequestTypes,
   MetaRequestTypes,
   NotificationTypes,
   OnNotificationTypes,
   RequestTypes,
   ValidationMessage
 } from './types';
-import type { DataClassField } from '../data/dataclass';
 
 export class ClientJsonRpc extends BaseRpcClient implements Client {
   protected onDataChangedEmitter = new Emitter<void>();
@@ -41,8 +41,8 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
     return this.sendRequest('validate', context);
   }
 
-  function(func: DataClassActionArgs): Promise<Array<DataClassField>> {
-    return this.sendRequest('function', func);
+  function<TFunct extends keyof FunctionRequestTypes>(path: TFunct, args: FunctionRequestTypes[TFunct][0]): Promise<FunctionRequestTypes[TFunct][1]> {
+    return this.sendRequest(path, args);
   }
 
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]> {

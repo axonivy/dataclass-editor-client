@@ -35,8 +35,8 @@ import { ValidationRow } from './ValidationRow';
 import { useValidation } from './useValidation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { genQueryKey } from '../query/query-client';
-import { useClient } from '../protocol/ClientContextProvider';
-import type { CombinePayload } from '../protocol/types';
+import { useFunction } from '../context/useFunction';
+import type { DataClassCombineArgs } from '../protocol/types';
 
 const fullQualifiedClassNameRegex = /(?:[\w]+\.)+([\w]+)(?=[<,> ]|$)/g;
 
@@ -55,7 +55,6 @@ export const useUpdateSelection = (table: TanstackTable<DataClassField>) => {
 
 export const DataClassMasterContent = () => {
   const { context, dataClass, setDataClass, setSelectedField } = useAppContext();
-  const client = useClient();
   const queryClient = useQueryClient();
 
   const messages = useValidation();
@@ -129,15 +128,16 @@ export const DataClassMasterContent = () => {
     setDataClass(newDataClass);
     resetAndSetRowSelection(table, newDataClass.fields, moveIds, row => row.name);
   };
-
+ 
+  
   const combineFields = useMutation({
-    mutationKey: genQueryKey('function', context),
     mutationFn: async () => {
       const selectedRows = table.getSelectedRowModel().rows;
-      const payload: CombinePayload = {
+      const args: DataClassCombineArgs = {
+        context: context,
         fieldNames: selectedRows.map(row => row.original.name)
-      };
-      return client.function({ actionId: 'combineFields', context, payload });
+      }
+      return useFunction('function/combineFields', args, []).data;
     },
     onSuccess: () => {
       toast.info('Fields successfully combined');
