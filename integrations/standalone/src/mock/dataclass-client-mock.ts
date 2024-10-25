@@ -3,11 +3,11 @@ import type {
   Data,
   DataClassActionArgs,
   Event,
+  FunctionRequestTypes,
   MetaRequestTypes,
   ValidationMessage
 } from '@axonivy/dataclass-editor/src/protocol/types';
 import { MetaMock } from './meta-mock';
-import type { DataClassField } from '@axonivy/dataclass-editor';
 
 export class DataClassClientMock implements Client {
   private dataClassData: Data = {
@@ -68,8 +68,13 @@ export class DataClassClientMock implements Client {
     return Promise.resolve([]);
   }
 
-  function(): Promise<Array<DataClassField>> {
-    return Promise.resolve([]);
+  function<TFunct extends keyof FunctionRequestTypes>(path: TFunct): Promise<FunctionRequestTypes[TFunct][1]> {
+    switch (path) {
+      case 'function/combineFields':
+        return Promise.resolve(this.dataClassData.data);
+      default:
+        throw Error('mock meta path not programmed');
+    }
   }
 
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta): Promise<MetaRequestTypes[TMeta][1]> {

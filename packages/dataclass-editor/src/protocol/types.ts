@@ -1,23 +1,22 @@
-import type { DataClass, DataClassField } from '../data/dataclass';
+import type { DataClass } from '../data/dataclass';
 
 export type Data = { context: DataContext; data: DataClass };
 export type DataContext = { app: string; pmv: string; file: string };
 export type EditorProps = { context: DataContext; directSave?: boolean };
 export type SaveArgs = Data & { directSave?: boolean };
 export interface DataClassActionArgs {
-  actionId: 'openForm' | 'openProcess' | 'combineFields';
-  payload: string | CombinePayload;
+  actionId: 'openForm' | 'openProcess';
+  payload: string;
   context: DataContext;
 }
 
 export type ValidationMessage = { message: string; path: string; severity: Severity };
 export type Severity = 'INFO' | 'WARNING' | 'ERROR';
 
-export interface RequestTypes extends MetaRequestTypes {
+export interface RequestTypes extends MetaRequestTypes, FunctionRequestTypes {
   data: [DataContext, Data];
   saveData: [Data, Array<ValidationMessage>];
   validate: [DataContext, Array<ValidationMessage>];
-  function: [DataClassActionArgs, Array<DataClassField>];
 }
 
 export interface NotificationTypes {
@@ -40,11 +39,11 @@ export interface Client {
   data(context: DataContext): Promise<Data>;
   saveData(saveArgs: SaveArgs): Promise<Array<ValidationMessage>>;
   validate(context: DataContext): Promise<Array<ValidationMessage>>;
-  function(func: DataClassActionArgs): Promise<Array<DataClassField>>;
-
+  
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]>;
-
+  
   action(action: DataClassActionArgs): void;
+  function<TFunct extends keyof FunctionRequestTypes>(path: TFunct, args: FunctionRequestTypes[TFunct][0]): Promise<FunctionRequestTypes[TFunct][1]>;
 
   onDataChanged: Event<void>;
 }
@@ -79,6 +78,11 @@ export interface DataclassType {
   path: string;
 }
 
-export interface CombinePayload {
+export interface FunctionRequestTypes {
+  'function/combineFields': [DataClassCombineArgs, DataClass];
+}
+
+export interface DataClassCombineArgs {
+  context: DataContext;
   fieldNames: string[];
 }

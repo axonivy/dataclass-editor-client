@@ -33,10 +33,9 @@ import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 import { ValidationRow } from './ValidationRow';
 import { useValidation } from './useValidation';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { genQueryKey } from '../query/query-client';
-import { useClient } from '../protocol/ClientContextProvider';
-import type { CombinePayload } from '../protocol/types';
+import { useFunction } from '../context/useFunction';
 
 const fullQualifiedClassNameRegex = /(?:[\w]+\.)+([\w]+)(?=[<,> ]|$)/g;
 
@@ -55,7 +54,6 @@ export const useUpdateSelection = (table: TanstackTable<DataClassField>) => {
 
 export const DataClassMasterContent = () => {
   const { context, dataClass, setDataClass, setSelectedField } = useAppContext();
-  const client = useClient();
   const queryClient = useQueryClient();
 
   const messages = useValidation();
@@ -130,24 +128,22 @@ export const DataClassMasterContent = () => {
     resetAndSetRowSelection(table, newDataClass.fields, moveIds, row => row.name);
   };
 
-  const combineFields = useMutation({
-    mutationKey: genQueryKey('function', context),
-    mutationFn: async () => {
-      const selectedRows = table.getSelectedRowModel().rows;
-      const payload: CombinePayload = {
-        fieldNames: selectedRows.map(row => row.original.name)
-      };
-      return client.function({ actionId: 'combineFields', context, payload });
+  const combineFields = useFunction(
+    'function/combineFields',
+    {
+      context,
+      fieldNames: table.getSelectedRowModel().rows.map(row => row.original.name)
     },
-    onSuccess: () => {
-      toast.info('Fields successfully combined');
-      queryClient.invalidateQueries({ queryKey: genQueryKey('data', context) });
-    },
-    onError: error => {
-      toast.error('Failed to combine fields', { description: error.message });
+    {
+      onSuccess: () => {
+        toast.info('Fields successfully combined');
+        queryClient.invalidateQueries({ queryKey: genQueryKey('data', context) });
+      },
+      onError: error => {
+        toast.error('Failed to combine fields', { description: error.message });
+      }
     }
-  });
-
+  );
   const handleRowDrag = (row: Row<DataClassField>) => {
     if (!row.getIsSelected()) {
       table.resetRowSelection();
