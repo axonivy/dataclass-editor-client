@@ -28,14 +28,14 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { getCoreRowModel, useReactTable, type ColumnDef, type Row, type Table as TanstackTable } from '@tanstack/react-table';
 import { useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
-import { type DataClass, type DataClassField } from '../data/dataclass';
+import { type DataClassField } from '../data/dataclass';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 import { ValidationRow } from './ValidationRow';
 import { useValidation } from './useValidation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { genQueryKey } from '../query/query-client';
-import { useFunction } from '../context/useFunction';
+import { useClient } from '../protocol/ClientContextProvider';
 import type { DataClassCombineArgs } from '../protocol/types';
 
 const fullQualifiedClassNameRegex = /(?:[\w]+\.)+([\w]+)(?=[<,> ]|$)/g;
@@ -56,6 +56,7 @@ export const useUpdateSelection = (table: TanstackTable<DataClassField>) => {
 export const DataClassMasterContent = () => {
   const { context, dataClass, setDataClass, setSelectedField } = useAppContext();
   const queryClient = useQueryClient();
+  const client = useClient();
 
   const messages = useValidation();
 
@@ -131,13 +132,14 @@ export const DataClassMasterContent = () => {
  
   
   const combineFields = useMutation({
+    mutationKey: genQueryKey('function', context),
     mutationFn: async () => {
       const selectedRows = table.getSelectedRowModel().rows;
       const args: DataClassCombineArgs = {
         context: context,
         fieldNames: selectedRows.map(row => row.original.name)
       }
-      return useFunction('function/combineFields', args, {} as DataClass).data;
+      return client.function('function/combineFields', args);
     },
     onSuccess: () => {
       toast.info('Fields successfully combined');
