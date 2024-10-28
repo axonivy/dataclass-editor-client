@@ -14,13 +14,13 @@
     "src"
   ],
   "type": "module",
-  "types": "lib/index.d.ts",
-  "module": "lib/index.js",
-  "source": "src/index",
+  "types": "./lib/index.d.ts",
+  "module": "./lib/protocol.js",
+  "source": "./src/index",
   "scripts": {
     "clean": "rimraf lib tsconfig.tsbuildinfo",
     "build": "tsc --build",
-    "package": "tsc",
+    "package": "vite build",
     "build:clean": "npm run clean && npm run generate && npm run build",
     "type": "tsc --noEmit",
     "lint": "eslint --ext .ts,.tsx ./src",
