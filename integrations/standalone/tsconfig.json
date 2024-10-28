@@ -9,5 +9,8 @@
   },
   "include": ["src", "tests"],
   "exclude": ["**/playwright.config.ts"],
-  "references": [{ "path": "../../packages/dataclass-editor/tsconfig.json" }]
+  "references": [
+    { "path": "../../packages/dataclass-editor/tsconfig.json" },
+    { "path": "../../packages/protocol/tsconfig.json" }
+  ]
 }
