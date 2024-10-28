@@ -1,5 +1,5 @@
 import type { DataClassFieldEntityAssociation } from '.';
-import type { Association, Modifier } from './editor';
+import type { Association, CascadeType, Modifier } from './editor';
 
 export interface DataClass {
   $schema: string;
@@ -31,7 +31,7 @@ export interface DataClassFieldEntity {
   databaseName: string;
   databaseFieldLength: string;
   association?: DataClassFieldEntityAssociation;
-  cascadeTypes: Array<DataClassFieldEntityCascadeType>;
+  cascadeTypes: Array<CascadeType>;
   mappedByFieldName: string;
   orphanRemoval: boolean;
 }
