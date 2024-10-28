@@ -25,7 +25,7 @@ import { useMemo, useRef, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import type { DataClass, DataClassField } from '@axonivy/dataclass-editor-protocol';
 import { isEntity } from '../data/dataclass-utils';
-import { ComboboxFieldWithTypeBrowser } from '../detail/field/ComboboxFieldWithTypeBrowser';
+import { InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
 
 export const validateFieldName = (name: string, dataClass: DataClass): MessageData => {
   if (name.trim() === '') {
@@ -128,7 +128,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
               <BasicField label='Name' message={nameValidationMessage} aria-label='Name'>
                 <Input value={name} onChange={event => setName(event.target.value)} />
               </BasicField>
-              <ComboboxFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
+              <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
             </Flex>
             <DialogFooter>
               <DialogClose asChild>

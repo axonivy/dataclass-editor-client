@@ -28,7 +28,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { getCoreRowModel, useReactTable, type ColumnDef, type Row, type Table as TanstackTable } from '@tanstack/react-table';
 import { useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
-import { type DataClassField } from '@axonivy/dataclass-editor-protocol';
+import type { DataClassField } from '@axonivy/dataclass-editor-protocol';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 import { ValidationRow } from './ValidationRow';
@@ -153,15 +153,6 @@ export const DataClassMasterContent = () => {
   const readonly = useReadonly();
   const control = readonly ? null : (
     <Flex gap={2}>
-      {table.getSelectedRowModel().rows.length > 0 && (
-        <Button
-          key='combineButton'
-          icon={IvyIcons.WrapToSubprocess}
-          onClick={() => combineFields.mutate()}
-          aria-label='Combine fields'
-          title='Combine fields'
-        />
-      )}
       <AddFieldDialog table={table} />
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <Button
@@ -171,6 +162,20 @@ export const DataClassMasterContent = () => {
         disabled={table.getSelectedRowModel().rows.length === 0}
         aria-label='Delete field'
       />
+
+      {!context.file.includes('/neo') && (
+        <>
+          <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
+          <Button
+            key='combineButton'
+            icon={IvyIcons.WrapToSubprocess}
+            onClick={() => combineFields.mutate()}
+            aria-label='Combine fields'
+            title='Combine fields'
+            disabled={table.getSelectedRowModel().rows.length === 0}
+          />
+        </>
+      )}
     </Flex>
   );
 

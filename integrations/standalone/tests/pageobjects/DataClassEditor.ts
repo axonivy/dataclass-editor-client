@@ -87,7 +87,7 @@ export class DataClassEditor {
   async addField(name: string, type: string) {
     await this.add.open.locator.click();
     await this.add.name.locator.fill(name);
-    await this.add.type.fill(type);
+    await this.add.type.locator.fill(type);
     await this.add.create.locator.click();
   }
 
