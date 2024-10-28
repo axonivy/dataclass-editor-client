@@ -4,6 +4,7 @@ export type {
   JavaType,
   DataclassType,
   Modifier,
+  Association,
   CascadeType,
   DataClassEditorDataContext,
   DataClassCombineArgs,

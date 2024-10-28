@@ -1,4 +1,3 @@
-import type { DataClassFieldEntityAssociation } from '.';
 import type { Association, CascadeType, Modifier } from './editor';
 
 export interface DataClass {
@@ -30,13 +29,11 @@ export type EntityClassField = Required<DataClassField>;
 export interface DataClassFieldEntity {
   databaseName: string;
   databaseFieldLength: string;
-  association?: DataClassFieldEntityAssociation;
+  association?: Association;
   cascadeTypes: Array<CascadeType>;
   mappedByFieldName: string;
   orphanRemoval: boolean;
 }
-
-export { type Association as DataClassFieldEntityAssociation };
 
 export const DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES = ['PERSIST', 'MERGE', 'REMOVE', 'REFRESH'] as const;
 export type DataClassFieldEntityCascadeType = (typeof DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES)[number] | 'ALL';
