@@ -12,9 +12,13 @@
       "path": "./packages/dataclass-editor"
     },
     {
+      "name": "package/protocol",
+      "path": "./packages/protocol"
+    },
+    {
       "name": "integrations/standalone",
       "path": "./integrations/standalone"
-    },
+    }
   ],
   "settings": {
     "task.autoDetect": "off",

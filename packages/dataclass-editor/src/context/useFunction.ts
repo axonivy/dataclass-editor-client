@@ -1,6 +1,6 @@
 import { useMutation, type UseMutationResult } from '@tanstack/react-query';
 import { genQueryKey } from '../query/query-client';
-import type { FunctionRequestTypes } from '../protocol/types';
+import type { FunctionRequestTypes } from '@axonivy/dataclass-editor-protocol';
 import { useClient } from '../protocol/ClientContextProvider';
 
 type UseFunctionOptions<TData> = {

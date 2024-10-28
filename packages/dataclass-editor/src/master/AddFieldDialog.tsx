@@ -23,7 +23,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { type Table } from '@tanstack/react-table';
 import { useMemo, useRef, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
-import type { DataClass, DataClassField } from '../data/dataclass';
+import type { DataClass, DataClassField } from '@axonivy/dataclass-editor-protocol';
 import { isEntity } from '../data/dataclass-utils';
 import { ComboboxFieldWithTypeBrowser } from '../detail/field/ComboboxFieldWithTypeBrowser';
 

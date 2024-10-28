@@ -1,6 +1,6 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input } from '@axonivy/ui-components';
 import { useEntityClass } from '../../../context/AppContext';
-import type { DataClassEntity } from '../../../data/dataclass';
+import type { DataClassEntity } from '@axonivy/dataclass-editor-protocol';
 
 export const useEntityProperty = () => {
   const { entityClass, setEntityClass } = useEntityClass();

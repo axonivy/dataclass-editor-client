@@ -1,5 +1,5 @@
 import { useEntityField } from '../../../context/FieldContext';
-import type { DataClassFieldEntity } from '../../../data/dataclass';
+import type { DataClassFieldEntity } from '@axonivy/dataclass-editor-protocol';
 
 export const useFieldEntityProperty = () => {
   const { field, setField } = useEntityField();

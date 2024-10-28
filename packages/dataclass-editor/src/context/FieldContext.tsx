@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { DataClassField, EntityClassField } from '../data/dataclass';
+import type { DataClassField, EntityClassField } from '@axonivy/dataclass-editor-protocol';
 
 type FieldContext = {
   field: DataClassField;

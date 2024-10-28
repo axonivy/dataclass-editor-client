@@ -1,4 +1,4 @@
-import type { DataClass } from './dataclass';
+import type { DataClass } from '@axonivy/dataclass-editor-protocol';
 import { classTypeOf, isEntity } from './dataclass-utils';
 
 describe('classTypeOf', () => {

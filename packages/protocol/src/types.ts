@@ -1,4 +1,4 @@
-import type { DataClass } from '../data/dataclass';
+import type { DataClass } from './dataclass';
 
 export type Data = { context: DataContext; data: DataClass };
 export type DataContext = { app: string; pmv: string; file: string };

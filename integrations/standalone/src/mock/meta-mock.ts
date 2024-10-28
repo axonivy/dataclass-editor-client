@@ -1,4 +1,4 @@
-import type { DataclassType, JavaType } from '@axonivy/dataclass-editor';
+import type { DataclassType, JavaType } from '@axonivy/dataclass-editor-protocol';
 
 export namespace MetaMock {
   export const IVYTYPES: Array<JavaType> = [];

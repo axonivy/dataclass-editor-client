@@ -1,4 +1,4 @@
-import type { DataClass } from '../data/dataclass';
+import type { DataClass } from '@axonivy/dataclass-editor-protocol';
 import { validateFieldName, validateFieldType } from './AddFieldDialog';
 
 const dataClass = {

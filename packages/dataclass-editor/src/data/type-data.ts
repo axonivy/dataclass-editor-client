@@ -1,6 +1,6 @@
 import type { BrowserNode } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import type { DataclassType, JavaType } from '../protocol/types';
+import type { DataclassType, JavaType } from '@axonivy/dataclass-editor-protocol';
 
 export const typeData = (
   dataClasses: DataclassType[],

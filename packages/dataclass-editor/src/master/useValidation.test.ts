@@ -1,6 +1,5 @@
 import { customRenderHook } from '../context/test-utils/test-utils';
-import type { DataClassField } from '../data/dataclass';
-import type { ValidationMessage } from '../protocol/types';
+import type { DataClassField, ValidationMessage } from '@axonivy/dataclass-editor-protocol';
 import { useValidation } from './useValidation';
 
 describe('useValidation', () => {

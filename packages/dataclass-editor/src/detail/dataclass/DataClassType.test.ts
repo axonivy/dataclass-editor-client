@@ -1,5 +1,5 @@
 import { customRenderHook } from '../../context/test-utils/test-utils';
-import type { DataClass, DataClassField, DataClassFieldModifier } from '../../data/dataclass';
+import type { DataClass, DataClassField, DataClassFieldModifier } from '@axonivy/dataclass-editor-protocol';
 import { useClassType } from './DataClassType';
 
 describe('useClassType', () => {

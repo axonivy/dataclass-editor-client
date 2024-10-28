@@ -1,4 +1,4 @@
-import { type DataClass, type DataClassFieldModifier, type DataClassType, type EntityClass } from './dataclass';
+import { type DataClass, type DataClassFieldModifier, type DataClassType, type EntityClass } from '@axonivy/dataclass-editor-protocol';
 
 export const classTypeOf = (dataClass: DataClass): DataClassType => {
   if (dataClass.entity) {

@@ -1,6 +1,6 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Flex } from '@axonivy/ui-components';
 import { EntityFieldProvider, useField } from '../../context/FieldContext';
-import type { DataClassField, EntityClassField } from '../../data/dataclass';
+import type { DataClassField, EntityClassField } from '@axonivy/dataclass-editor-protocol';
 import { AnnotationsTable } from '../AnnotationsTable';
 import { FieldEntityAssociation } from './entity/FieldEntityAssociation';
 import { FieldEntityDatabaseField } from './entity/FieldEntityDatabaseField';
