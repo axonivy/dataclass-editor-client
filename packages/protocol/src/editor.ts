@@ -20,8 +20,8 @@ export type Modifier =
 export type Severity = "INFO" | "WARNING" | "ERROR";
 
 export interface DataClasses {
-  "": unknown;
   dataActionArgs: DataActionArgs;
+  dataClassCombineArgs: DataClassCombineArgs;
   dataClassData: DataClassData;
   dataClassEditorDataContext: DataClassEditorDataContext;
   dataClassModel: DataClassModel;
@@ -44,6 +44,10 @@ export interface DataClassEditorDataContext {
   pmv: string;
 }
 export interface JsonNode {}
+export interface DataClassCombineArgs {
+  context: DataClassEditorDataContext;
+  fieldNames: string[];
+}
 export interface DataClassData {
   context: DataClassEditorDataContext;
   data: DataClassModel;

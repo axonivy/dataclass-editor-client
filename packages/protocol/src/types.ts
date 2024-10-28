@@ -1,7 +1,16 @@
+import type { DataContext, ValidationMessage } from '.';
 import type { DataClass } from './dataclass';
+import type {
+  DataClassCombineArgs,
+  DataClassEditorDataContext,
+  DataclassType,
+  JavaType,
+  TypeSearchRequest,
+  ValidationResult
+} from './editor';
 
+export { type DataClassEditorDataContext as DataContext };
 export type Data = { context: DataContext; data: DataClass };
-export type DataContext = { app: string; pmv: string; file: string };
 export type EditorProps = { context: DataContext; directSave?: boolean };
 export type SaveArgs = Data & { directSave?: boolean };
 export interface DataClassActionArgs {
@@ -10,8 +19,7 @@ export interface DataClassActionArgs {
   context: DataContext;
 }
 
-export type ValidationMessage = { message: string; path: string; severity: Severity };
-export type Severity = 'INFO' | 'WARNING' | 'ERROR';
+export { type ValidationResult as ValidationMessage };
 
 export interface RequestTypes extends MetaRequestTypes, FunctionRequestTypes {
   data: [DataContext, Data];
@@ -39,11 +47,14 @@ export interface Client {
   data(context: DataContext): Promise<Data>;
   saveData(saveArgs: SaveArgs): Promise<Array<ValidationMessage>>;
   validate(context: DataContext): Promise<Array<ValidationMessage>>;
-  
+
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]>;
-  
+
   action(action: DataClassActionArgs): void;
-  function<TFunct extends keyof FunctionRequestTypes>(path: TFunct, args: FunctionRequestTypes[TFunct][0]): Promise<FunctionRequestTypes[TFunct][1]>;
+  function<TFunct extends keyof FunctionRequestTypes>(
+    path: TFunct,
+    args: FunctionRequestTypes[TFunct][0]
+  ): Promise<FunctionRequestTypes[TFunct][1]>;
 
   onDataChanged: Event<void>;
 }
@@ -59,30 +70,6 @@ export interface MetaRequestTypes {
   'meta/scripting/ownTypes': [TypeSearchRequest, JavaType[]];
 }
 
-export interface TypeSearchRequest {
-  context: DataContext;
-  limit: number;
-  type: string;
-}
-
-export interface JavaType {
-  fullQualifiedName: string;
-  packageName: string;
-  simpleName: string;
-}
-
-export interface DataclassType {
-  fullQualifiedName: string;
-  name: string;
-  packageName: string;
-  path: string;
-}
-
 export interface FunctionRequestTypes {
   'function/combineFields': [DataClassCombineArgs, DataClass];
-}
-
-export interface DataClassCombineArgs {
-  context: DataContext;
-  fieldNames: string[];
 }

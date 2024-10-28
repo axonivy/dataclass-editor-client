@@ -1,3 +1,6 @@
+import type { DataClassFieldEntityAssociation, DataClassFieldModifier } from '.';
+import type { Association, Modifier } from './editor';
+
 export interface DataClass {
   $schema: string;
   simpleName: string;
@@ -33,17 +36,8 @@ export interface DataClassFieldEntity {
   orphanRemoval: boolean;
 }
 
-export type DataClassFieldModifier =
-  | 'PERSISTENT'
-  | 'ID'
-  | 'GENERATED'
-  | 'NOT_NULLABLE'
-  | 'UNIQUE'
-  | 'NOT_UPDATEABLE'
-  | 'NOT_INSERTABLE'
-  | 'VERSION';
-
-export type DataClassFieldEntityAssociation = 'ONE_TO_ONE' | 'ONE_TO_MANY' | 'MANY_TO_ONE';
+export { type Modifier as DataClassFieldModifier };
+export { type Association as DataClassFieldEntityAssociation };
 
 export const DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES = ['PERSIST', 'MERGE', 'REMOVE', 'REFRESH'] as const;
 export type DataClassFieldEntityCascadeType = (typeof DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES)[number] | 'ALL';
