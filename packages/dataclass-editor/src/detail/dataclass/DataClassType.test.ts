@@ -1,14 +1,9 @@
 import { customRenderHook } from '../../context/test-utils/test-utils';
-import type { DataClass, DataClassField, DataClassFieldModifier } from '@axonivy/dataclass-editor-protocol';
+import type { DataClass, DataClassField, Modifier } from '@axonivy/dataclass-editor-protocol';
 import { useClassType } from './DataClassType';
 
 describe('useClassType', () => {
-  const expectClassType = (
-    dataClass: DataClass,
-    isBusinessCaseData: boolean,
-    hasEntity: boolean,
-    modifiers: Array<Array<DataClassFieldModifier>>
-  ) => {
+  const expectClassType = (dataClass: DataClass, isBusinessCaseData: boolean, hasEntity: boolean, modifiers: Array<Array<Modifier>>) => {
     expect(dataClass.isBusinessCaseData).toEqual(isBusinessCaseData);
     expect(!!dataClass.entity).toEqual(hasEntity);
     expect(dataClass.fields.every((field: DataClassField) => !!field.entity === hasEntity)).toBeTruthy();
@@ -164,7 +159,7 @@ describe('useClassType', () => {
       entity: undefined,
       fields: [
         { modifiers: ['PERSISTENT'], entity: undefined },
-        { name: 'id', modifiers: [] as Array<DataClassFieldModifier>, entity: undefined },
+        { name: 'id', modifiers: [] as Array<Modifier>, entity: undefined },
         { modifiers: [], entity: undefined }
       ]
     } as DataClass;

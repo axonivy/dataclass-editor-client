@@ -1,4 +1,4 @@
-import type { DataClassField, DataClassFieldModifier } from '@axonivy/dataclass-editor-protocol';
+import type { DataClassField, Modifier } from '@axonivy/dataclass-editor-protocol';
 import { isEntityField } from './FieldDetailContent';
 
 describe('isEntityField', () => {
@@ -9,7 +9,7 @@ describe('isEntityField', () => {
 
   describe('false', () => {
     test('missing modifier persistent', () => {
-      const field = { modifiers: [] as Array<DataClassFieldModifier>, entity: {} } as DataClassField;
+      const field = { modifiers: [] as Array<Modifier>, entity: {} } as DataClassField;
       expect(isEntityField(field)).toBeFalsy();
     });
 

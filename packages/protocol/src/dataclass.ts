@@ -1,4 +1,4 @@
-import type { DataClassFieldEntityAssociation, DataClassFieldModifier } from '.';
+import type { DataClassFieldEntityAssociation } from '.';
 import type { Association, Modifier } from './editor';
 
 export interface DataClass {
@@ -21,7 +21,7 @@ export interface DataClassField {
   name: string;
   type: string;
   comment: string;
-  modifiers: Array<DataClassFieldModifier>;
+  modifiers: Array<Modifier>;
   annotations: Array<string>;
   entity?: DataClassFieldEntity;
 }
@@ -36,7 +36,6 @@ export interface DataClassFieldEntity {
   orphanRemoval: boolean;
 }
 
-export { type Modifier as DataClassFieldModifier };
 export { type Association as DataClassFieldEntityAssociation };
 
 export const DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES = ['PERSIST', 'MERGE', 'REMOVE', 'REFRESH'] as const;

@@ -1,5 +1,5 @@
 import { customRenderHook } from '../../context/test-utils/test-utils';
-import type { DataClassField, DataClassFieldModifier, EntityClassField } from '@axonivy/dataclass-editor-protocol';
+import type { DataClassField, Modifier, EntityClassField } from '@axonivy/dataclass-editor-protocol';
 import { useModifier } from './FieldModifierCheckbox';
 
 describe('useModifier', () => {
@@ -86,7 +86,7 @@ describe('useModifier', () => {
         test('mappedByFieldName is set', () => {
           const field = {
             type: 'String',
-            modifiers: [] as Array<DataClassFieldModifier>,
+            modifiers: [] as Array<Modifier>,
             entity: { mappedByFieldName: 'mappedByFieldName' }
           } as EntityClassField;
           const view = customRenderHook(() => useModifier('ID'), {
@@ -110,7 +110,7 @@ describe('useModifier', () => {
         test('has no id type', () => {
           const field = {
             type: 'Date',
-            modifiers: [] as Array<DataClassFieldModifier>,
+            modifiers: [] as Array<Modifier>,
             entity: { mappedByFieldName: '' }
           } as EntityClassField;
           const view = customRenderHook(() => useModifier('ID'), {
@@ -123,7 +123,7 @@ describe('useModifier', () => {
       test('false', () => {
         const field = {
           type: 'String',
-          modifiers: [] as Array<DataClassFieldModifier>,
+          modifiers: [] as Array<Modifier>,
           entity: { mappedByFieldName: '' }
         } as EntityClassField;
         const view = customRenderHook(() => useModifier('ID'), {
@@ -148,7 +148,7 @@ describe('useModifier', () => {
 
         test('has not id modifier', () => {
           const field = {
-            modifiers: [] as Array<DataClassFieldModifier>,
+            modifiers: [] as Array<Modifier>,
             entity: { mappedByFieldName: '' }
           } as EntityClassField;
           const view = customRenderHook(() => useModifier('GENERATED'), {
@@ -175,7 +175,7 @@ describe('useModifier', () => {
         test('mappedByFieldName is set', () => {
           const field = {
             type: 'Short',
-            modifiers: [] as Array<DataClassFieldModifier>,
+            modifiers: [] as Array<Modifier>,
             entity: { mappedByFieldName: 'mappedByFieldName' }
           } as EntityClassField;
           const view = customRenderHook(() => useModifier('VERSION'), {
@@ -199,7 +199,7 @@ describe('useModifier', () => {
         test('has no id type', () => {
           const field = {
             type: 'Date',
-            modifiers: [] as Array<DataClassFieldModifier>,
+            modifiers: [] as Array<Modifier>,
             entity: { mappedByFieldName: '' }
           } as EntityClassField;
           const view = customRenderHook(() => useModifier('VERSION'), {
@@ -212,7 +212,7 @@ describe('useModifier', () => {
       test('false', () => {
         const field = {
           type: 'Short',
-          modifiers: [] as Array<DataClassFieldModifier>,
+          modifiers: [] as Array<Modifier>,
           entity: { mappedByFieldName: '' }
         } as EntityClassField;
         const view = customRenderHook(() => useModifier('VERSION'), {

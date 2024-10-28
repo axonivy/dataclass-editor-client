@@ -1,4 +1,4 @@
-import { type DataClass, type DataClassFieldModifier, type DataClassType, type EntityClass } from '@axonivy/dataclass-editor-protocol';
+import { type DataClass, type Modifier, type DataClassType, type EntityClass } from '@axonivy/dataclass-editor-protocol';
 
 export const classTypeOf = (dataClass: DataClass): DataClassType => {
   if (dataClass.entity) {
@@ -14,7 +14,7 @@ export const isEntity = (dataClass: DataClass): dataClass is EntityClass => {
   return !!dataClass.entity;
 };
 
-export const updateModifiers = (add: boolean, newModifiers: Array<DataClassFieldModifier>, modifier: DataClassFieldModifier) => {
+export const updateModifiers = (add: boolean, newModifiers: Array<Modifier>, modifier: Modifier) => {
   if (add) {
     if (modifier === 'ID' || modifier === 'VERSION') {
       newModifiers = newModifiers.filter(mod => mod === 'GENERATED' || mod === 'PERSISTENT');
