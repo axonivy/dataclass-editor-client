@@ -1,5 +1,5 @@
 import { customRenderHook } from '../context/test-utils/test-utils';
-import type { Field, ValidationMessage } from '@axonivy/dataclass-editor-protocol';
+import type { Field, ValidationResult } from '@axonivy/dataclass-editor-protocol';
 import { useValidation } from './useValidation';
 
 describe('useValidation', () => {
@@ -13,7 +13,7 @@ describe('useValidation', () => {
             { message: 'message2', severity: 'WARNING' },
             { message: 'message3', path: 'field1', severity: 'INFO' },
             { message: 'message4', severity: 'ERROR' }
-          ] as Array<ValidationMessage>
+          ] as Array<ValidationResult>
         }
       }
     });
@@ -36,7 +36,7 @@ describe('useValidation', () => {
               { message: 'message2', path: 'field1', severity: 'WARNING' },
               { message: 'message3', path: 'field1', severity: 'ERROR' },
               { message: 'message4', path: 'field2', severity: 'INFO' }
-            ] as Array<ValidationMessage>
+            ] as Array<ValidationResult>
           }
         }
       });

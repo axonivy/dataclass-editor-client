@@ -6,7 +6,7 @@ import type {
   Field,
   EntityDataClass,
   EntityClassField,
-  ValidationMessage,
+  ValidationResult,
   DataClassEditorDataContext
 } from '@axonivy/dataclass-editor-protocol';
 import { AppProvider, EntityClassProvider } from '../AppContext';
@@ -21,7 +21,7 @@ type ContextHelperProps = {
     setSelectedField?: (index?: number) => void;
     detail?: boolean;
     setDetail?: (detail: boolean) => void;
-    validationMessages?: Array<ValidationMessage>;
+    validationMessages?: Array<ValidationResult>;
   };
   entityClassContext?: { entityClass?: EntityDataClass; setEntityClass?: (entityClass: EntityDataClass) => void };
   fieldContext?: { field?: Field; setField?: (field: Field) => void };
