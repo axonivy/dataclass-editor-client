@@ -6,6 +6,7 @@ export type {
   Modifier,
   Association,
   CascadeType,
+  EntityField,
   DataClassEditorDataContext,
   DataClassCombineArgs,
   TypeSearchRequest,

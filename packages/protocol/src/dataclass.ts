@@ -1,4 +1,4 @@
-import type { Association, CascadeType, Modifier } from './editor';
+import type { EntityField, Modifier } from './editor';
 
 export interface DataClass {
   $schema: string;
@@ -22,18 +22,9 @@ export interface DataClassField {
   comment: string;
   modifiers: Array<Modifier>;
   annotations: Array<string>;
-  entity?: DataClassFieldEntity;
+  entity?: EntityField;
 }
 export type EntityClassField = Required<DataClassField>;
-
-export interface DataClassFieldEntity {
-  databaseName: string;
-  databaseFieldLength: string;
-  association?: Association;
-  cascadeTypes: Array<CascadeType>;
-  mappedByFieldName: string;
-  orphanRemoval: boolean;
-}
 
 export const DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES = ['PERSIST', 'MERGE', 'REMOVE', 'REFRESH'] as const;
 export type DataClassFieldEntityCascadeType = (typeof DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES)[number] | 'ALL';
