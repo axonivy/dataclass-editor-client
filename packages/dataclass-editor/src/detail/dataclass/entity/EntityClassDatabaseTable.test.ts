@@ -1,10 +1,10 @@
 import { customRenderHook } from '../../../context/test-utils/test-utils';
-import type { EntityClass } from '@axonivy/dataclass-editor-protocol';
+import type { EntityDataClass } from '@axonivy/dataclass-editor-protocol';
 import { useEntityProperty } from './EntityClassDatabaseTable';
 
 test('useEntityProperty', () => {
-  const entityClass = { entity: { tableName: 'tableName' } } as EntityClass;
-  let newEntityClass = {} as EntityClass;
+  const entityClass = { entity: { tableName: 'tableName' } } as EntityDataClass;
+  let newEntityClass = {} as EntityDataClass;
   const view = customRenderHook(() => useEntityProperty(), {
     wrapperProps: { entityClassContext: { entityClass, setEntityClass: entityClass => (newEntityClass = entityClass) } }
   });

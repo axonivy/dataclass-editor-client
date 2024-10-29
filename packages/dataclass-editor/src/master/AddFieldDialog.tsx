@@ -23,7 +23,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { type Table } from '@tanstack/react-table';
 import { useMemo, useRef, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
-import type { DataClass, DataClassField } from '@axonivy/dataclass-editor-protocol';
+import type { DataClass, Field } from '@axonivy/dataclass-editor-protocol';
 import { isEntity } from '../data/dataclass-utils';
 import { InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
 
@@ -47,7 +47,7 @@ const toErrorMessage = (message: string) => {
 };
 
 type AddFieldDialogProps = {
-  table: Table<DataClassField>;
+  table: Table<Field>;
 };
 
 export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
@@ -65,7 +65,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
   };
 
   const addField = () => {
-    const newField: DataClassField = {
+    const newField: Field = {
       name: name,
       type: type,
       comment: '',

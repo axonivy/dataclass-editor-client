@@ -3,8 +3,8 @@ import { renderHook } from '@testing-library/react';
 import { type ReactNode } from 'react';
 import type {
   DataClass,
-  DataClassField,
-  EntityClass,
+  Field,
+  EntityDataClass,
   EntityClassField,
   DataContext,
   ValidationMessage
@@ -23,8 +23,8 @@ type ContextHelperProps = {
     setDetail?: (detail: boolean) => void;
     validationMessages?: Array<ValidationMessage>;
   };
-  entityClassContext?: { entityClass?: EntityClass; setEntityClass?: (entityClass: EntityClass) => void };
-  fieldContext?: { field?: DataClassField; setField?: (field: DataClassField) => void };
+  entityClassContext?: { entityClass?: EntityDataClass; setEntityClass?: (entityClass: EntityDataClass) => void };
+  fieldContext?: { field?: Field; setField?: (field: Field) => void };
   entityFieldContext?: { field?: EntityClassField; setField?: (field: EntityClassField) => void };
 };
 
@@ -41,12 +41,12 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
   };
 
   const entityClassContext = {
-    entityClass: props.entityClassContext?.entityClass ?? ({} as EntityClass),
+    entityClass: props.entityClassContext?.entityClass ?? ({} as EntityDataClass),
     setEntityClass: props.entityClassContext?.setEntityClass ?? (() => {})
   };
 
   const fieldContext = {
-    field: props.fieldContext?.field ?? ({} as DataClassField),
+    field: props.fieldContext?.field ?? ({} as Field),
     setField: props.fieldContext?.setField ?? (() => {})
   };
 

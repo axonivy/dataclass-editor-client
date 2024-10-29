@@ -1,5 +1,5 @@
 import { customRenderHook } from '../../../context/test-utils/test-utils';
-import type { DataClassFieldEntityAssociation, EntityClassField } from '@axonivy/dataclass-editor-protocol';
+import type { Association, EntityClassField } from '@axonivy/dataclass-editor-protocol';
 import { useCardinality, useMappedByFieldName } from './FieldEntityAssociation';
 
 describe('useMappedByFieldName', () => {
@@ -63,7 +63,7 @@ describe('useMappedByFieldName', () => {
 describe('useCardinality', () => {
   const expectAssociation = (
     field: EntityClassField,
-    association: DataClassFieldEntityAssociation | undefined,
+    association: Association | undefined,
     mappedByFieldName: string,
     orphanRemoval: boolean
   ) => {
@@ -84,7 +84,7 @@ describe('useCardinality', () => {
       expect(view.result.current.cardinality).toEqual('ONE_TO_ONE');
 
       const originalField = structuredClone(field);
-      view.result.current.setCardinality(undefined as unknown as DataClassFieldEntityAssociation);
+      view.result.current.setCardinality(undefined as unknown as Association);
       expect(field).toEqual(originalField);
 
       expectAssociation(newField, undefined, '', false);

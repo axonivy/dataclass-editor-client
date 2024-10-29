@@ -9,7 +9,7 @@ import {
   Input
 } from '@axonivy/ui-components';
 import { useEntityField } from '../../../context/FieldContext';
-import type { DataClassFieldEntityAssociation } from '@axonivy/dataclass-editor-protocol';
+import type { Association } from '@axonivy/dataclass-editor-protocol';
 import './FieldEntityAssociation.css';
 import { FieldEntityCascadeTypeCheckbox } from './FieldEntityCascadeTypeCheckbox';
 import { useFieldEntityProperty } from './useFieldEntityProperty';
@@ -28,7 +28,7 @@ export const useMappedByFieldName = () => {
 
 export const useCardinality = () => {
   const { field, setField } = useEntityField();
-  const setCardinality = (association: DataClassFieldEntityAssociation) => {
+  const setCardinality = (association: Association) => {
     const newField = structuredClone(field);
     if (!association || association === 'MANY_TO_ONE') {
       newField.entity.mappedByFieldName = '';
@@ -40,7 +40,7 @@ export const useCardinality = () => {
   return { cardinality: field.entity.association, setCardinality };
 };
 
-const cardinalityItems: Array<{ value: DataClassFieldEntityAssociation; label: string }> = [
+const cardinalityItems: Array<{ value: Association; label: string }> = [
   { value: 'ONE_TO_ONE', label: 'One-to-One' },
   { value: 'ONE_TO_MANY', label: 'One-to-Many' },
   { value: 'MANY_TO_ONE', label: 'Many-to-One' }

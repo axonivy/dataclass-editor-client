@@ -1,6 +1,6 @@
 import { MessageRow, ReorderRow, SelectRow, TableCell, type MessageData } from '@axonivy/ui-components';
 import { flexRender, type Row } from '@tanstack/react-table';
-import type { DataClassField } from '@axonivy/dataclass-editor-protocol';
+import type { Field } from '@axonivy/dataclass-editor-protocol';
 import './ValidationRow.css';
 import { useValidation } from './useValidation';
 
@@ -14,7 +14,7 @@ export const rowClassName = (messages: Array<MessageData>) => {
 };
 
 type ValidationRowProps = {
-  row: Row<DataClassField>;
+  row: Row<Field>;
   isReorderable: boolean;
   updateOrder: (moveId: string, targetId: string) => void;
   onClick: React.MouseEventHandler<HTMLTableRowElement>;

@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { AppProvider } from './context/AppContext';
 import { FieldProvider } from './context/FieldContext';
-import type { DataClass, DataClassField, Data, EditorProps, ValidationMessage } from '@axonivy/dataclass-editor-protocol';
+import type { DataClass, Field, Data, EditorProps, ValidationMessage } from '@axonivy/dataclass-editor-protocol';
 import { classTypeOf } from './data/dataclass-utils';
 import './DataClassEditor.css';
 import { DataClassDetailContent } from './detail/dataclass/DataClassDetailContent';
@@ -29,13 +29,13 @@ export const headerTitles = (dataClass: DataClass, selectedField?: number) => {
   }
   const masterTitle = `${baseTitle} Class - ${dataClass.simpleName}`;
 
-  const dataClassFields = dataClass.fields;
+  const fields = dataClass.fields;
 
   let detailTitle = '';
   if (selectedField === undefined) {
     detailTitle = masterTitle;
-  } else if (selectedField < dataClassFields.length) {
-    const selectedDataClassField = dataClassFields[selectedField];
+  } else if (selectedField < fields.length) {
+    const selectedDataClassField = fields[selectedField];
     detailTitle = 'Attribute - ' + selectedDataClassField.name;
   }
   return { masterTitle, detailTitle };
@@ -137,7 +137,7 @@ function DataClassEditor(props: EditorProps) {
                   <FieldProvider
                     value={{
                       field: dataClass.fields[selectedField],
-                      setField: (field: DataClassField) => {
+                      setField: (field: Field) => {
                         const newDataClass = structuredClone(dataClass);
                         newDataClass.fields[selectedField] = field;
                         setDataClass(newDataClass);

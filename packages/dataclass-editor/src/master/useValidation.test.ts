@@ -1,5 +1,5 @@
 import { customRenderHook } from '../context/test-utils/test-utils';
-import type { DataClassField, ValidationMessage } from '@axonivy/dataclass-editor-protocol';
+import type { Field, ValidationMessage } from '@axonivy/dataclass-editor-protocol';
 import { useValidation } from './useValidation';
 
 describe('useValidation', () => {
@@ -27,7 +27,7 @@ describe('useValidation', () => {
 
   test('field', () => {
     const renderValidationHook = (fieldName: string) => {
-      return customRenderHook(() => useValidation({ name: fieldName } as DataClassField), {
+      return customRenderHook(() => useValidation({ name: fieldName } as Field), {
         wrapperProps: {
           appContext: {
             validationMessages: [

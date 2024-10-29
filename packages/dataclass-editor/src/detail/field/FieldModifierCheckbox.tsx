@@ -1,14 +1,14 @@
 import { BasicCheckbox } from '@axonivy/ui-components';
 import { useField } from '../../context/FieldContext';
-import { isIDType, isVersionType, type DataClassFieldModifier } from '@axonivy/dataclass-editor-protocol';
+import { isIDType, isVersionType, type Modifier } from '@axonivy/dataclass-editor-protocol';
 import { updateModifiers } from '../../data/dataclass-utils';
 
 type FieldModifierCheckboxProps = {
   label: string;
-  modifier: DataClassFieldModifier;
+  modifier: Modifier;
 };
 
-export const useModifier = (modifier: DataClassFieldModifier) => {
+export const useModifier = (modifier: Modifier) => {
   const { field, setField } = useField();
   const setModifier = (add: boolean) => {
     const newField = structuredClone(field);

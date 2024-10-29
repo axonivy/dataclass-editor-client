@@ -1,11 +1,11 @@
 import { customRenderHook } from '../../context/test-utils/test-utils';
-import type { DataClassField } from '@axonivy/dataclass-editor-protocol';
+import type { Field } from '@axonivy/dataclass-editor-protocol';
 import { useType } from './FieldNameTypeComment';
 
 describe('useType', () => {
   test('not id type', () => {
-    const field = { type: 'String', modifiers: ['PERSISTENT', 'ID', 'GENERATED'] } as DataClassField;
-    let newField = {} as DataClassField;
+    const field = { type: 'String', modifiers: ['PERSISTENT', 'ID', 'GENERATED'] } as Field;
+    let newField = {} as Field;
     const view = customRenderHook(() => useType(), {
       wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
     });
@@ -20,8 +20,8 @@ describe('useType', () => {
   });
 
   test('not version type', () => {
-    const field = { type: 'Short', modifiers: ['PERSISTENT', 'VERSION'] } as DataClassField;
-    let newField = {} as DataClassField;
+    const field = { type: 'Short', modifiers: ['PERSISTENT', 'VERSION'] } as Field;
+    let newField = {} as Field;
     const view = customRenderHook(() => useType(), {
       wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
     });
