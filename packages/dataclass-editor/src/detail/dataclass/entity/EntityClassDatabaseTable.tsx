@@ -1,10 +1,10 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input } from '@axonivy/ui-components';
 import { useEntityClass } from '../../../context/AppContext';
-import type { DataClassEntity } from '@axonivy/dataclass-editor-protocol';
+import type { EntityClass } from '@axonivy/dataclass-editor-protocol';
 
 export const useEntityProperty = () => {
   const { entityClass, setEntityClass } = useEntityClass();
-  const setProperty = <EKey extends keyof DataClassEntity>(key: EKey, value: DataClassEntity[EKey]) => {
+  const setProperty = <EKey extends keyof EntityClass>(key: EKey, value: EntityClass[EKey]) => {
     const newEntityClass = structuredClone(entityClass);
     newEntityClass.entity[key] = value;
     setEntityClass(newEntityClass);

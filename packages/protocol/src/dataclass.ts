@@ -1,4 +1,4 @@
-import type { Field } from './editor';
+import type { EntityClass, Field } from './editor';
 
 export interface DataClass {
   $schema: string;
@@ -7,15 +7,10 @@ export interface DataClass {
   comment: string;
   annotations: Array<string>;
   isBusinessCaseData: boolean;
-  entity?: DataClassEntity;
+  entity?: EntityClass;
   fields: Array<Field>;
 }
-export type EntityClass = Required<DataClass> & { fields: Array<EntityClassField> };
-
-export interface DataClassEntity {
-  tableName: string;
-}
-
+export type EntityDataClass = Required<DataClass> & { fields: Array<EntityClassField> };
 export type EntityClassField = Required<Field>;
 
 export const DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES = ['PERSIST', 'MERGE', 'REMOVE', 'REFRESH'] as const;

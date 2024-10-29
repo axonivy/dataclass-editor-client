@@ -4,7 +4,7 @@ import { type ReactNode } from 'react';
 import type {
   DataClass,
   Field,
-  EntityClass,
+  EntityDataClass,
   EntityClassField,
   DataContext,
   ValidationMessage
@@ -23,7 +23,7 @@ type ContextHelperProps = {
     setDetail?: (detail: boolean) => void;
     validationMessages?: Array<ValidationMessage>;
   };
-  entityClassContext?: { entityClass?: EntityClass; setEntityClass?: (entityClass: EntityClass) => void };
+  entityClassContext?: { entityClass?: EntityDataClass; setEntityClass?: (entityClass: EntityDataClass) => void };
   fieldContext?: { field?: Field; setField?: (field: Field) => void };
   entityFieldContext?: { field?: EntityClassField; setField?: (field: EntityClassField) => void };
 };
@@ -41,7 +41,7 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
   };
 
   const entityClassContext = {
-    entityClass: props.entityClassContext?.entityClass ?? ({} as EntityClass),
+    entityClass: props.entityClassContext?.entityClass ?? ({} as EntityDataClass),
     setEntityClass: props.entityClassContext?.setEntityClass ?? (() => {})
   };
 

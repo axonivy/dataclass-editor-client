@@ -7,6 +7,7 @@ export type {
   Modifier,
   Association,
   CascadeType,
+  EntityClass,
   EntityField,
   DataClassEditorDataContext,
   DataClassCombineArgs,

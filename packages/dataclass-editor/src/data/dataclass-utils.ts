@@ -1,4 +1,4 @@
-import { type DataClass, type Modifier, type DataClassType, type EntityClass } from '@axonivy/dataclass-editor-protocol';
+import { type DataClass, type Modifier, type DataClassType, type EntityDataClass } from '@axonivy/dataclass-editor-protocol';
 
 export const classTypeOf = (dataClass: DataClass): DataClassType => {
   if (dataClass.entity) {
@@ -10,7 +10,7 @@ export const classTypeOf = (dataClass: DataClass): DataClassType => {
   return 'DATA';
 };
 
-export const isEntity = (dataClass: DataClass): dataClass is EntityClass => {
+export const isEntity = (dataClass: DataClass): dataClass is EntityDataClass => {
   return !!dataClass.entity;
 };
 

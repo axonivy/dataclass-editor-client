@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { DataClass, EntityClass,  DataContext, ValidationMessage } from '@axonivy/dataclass-editor-protocol';
+import type { DataClass, EntityDataClass,  DataContext, ValidationMessage } from '@axonivy/dataclass-editor-protocol';
 
 type AppContext = {
   context: DataContext;
@@ -30,12 +30,12 @@ export const useAppContext = () => {
 };
 
 type EntityClassContext = {
-  entityClass: EntityClass;
-  setEntityClass: (entityClass: EntityClass) => void;
+  entityClass: EntityDataClass;
+  setEntityClass: (entityClass: EntityDataClass) => void;
 };
 
 const entityClassContext = createContext<EntityClassContext>({
-  entityClass: {} as EntityClass,
+  entityClass: {} as EntityDataClass,
   setEntityClass: () => {}
 });
 
