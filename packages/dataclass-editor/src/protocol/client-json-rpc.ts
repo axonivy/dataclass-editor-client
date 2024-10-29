@@ -10,7 +10,7 @@ import {
 import type {
   Client,
   Data,
-  DataClassActionArgs,
+  DataActionArgs,
   DataContext,
   FunctionRequestTypes,
   MetaRequestTypes,
@@ -49,7 +49,7 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
     return this.sendRequest(path, args);
   }
 
-  action(action: DataClassActionArgs): void {
+  action(action: DataActionArgs): void {
     this.sendNotification('action', action);
   }
 
