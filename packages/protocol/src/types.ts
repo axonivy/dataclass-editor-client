@@ -1,34 +1,26 @@
-import type { DataContext, ValidationMessage } from '.';
+import type { DataClassEditorDataContext } from '.';
 import type { DataClass } from './dataclass';
 import type {
+  DataActionArgs,
   DataClassCombineArgs,
-  DataClassEditorDataContext,
+  DataClassData,
   DataclassType,
   JavaType,
   TypeSearchRequest,
   ValidationResult
 } from './editor';
 
-export { type DataClassEditorDataContext as DataContext };
-export type Data = { context: DataContext; data: DataClass };
-export type EditorProps = { context: DataContext; directSave?: boolean };
-export type SaveArgs = Data & { directSave?: boolean };
-export interface DataClassActionArgs {
-  actionId: 'openForm' | 'openProcess';
-  payload: string;
-  context: DataContext;
-}
-
-export { type ValidationResult as ValidationMessage };
+export type EditorProps = { context: DataClassEditorDataContext; directSave?: boolean };
+export type SaveArgs = DataClassData & { directSave?: boolean };
 
 export interface RequestTypes extends MetaRequestTypes, FunctionRequestTypes {
-  data: [DataContext, Data];
-  saveData: [Data, Array<ValidationMessage>];
-  validate: [DataContext, Array<ValidationMessage>];
+  data: [DataClassEditorDataContext, DataClassData];
+  saveData: [DataClassData, Array<ValidationResult>];
+  validate: [DataClassEditorDataContext, Array<ValidationResult>];
 }
 
 export interface NotificationTypes {
-  action: DataClassActionArgs;
+  action: DataActionArgs;
 }
 
 export interface OnNotificationTypes {
@@ -44,13 +36,13 @@ export interface Disposable {
 }
 
 export interface Client {
-  data(context: DataContext): Promise<Data>;
-  saveData(saveArgs: SaveArgs): Promise<Array<ValidationMessage>>;
-  validate(context: DataContext): Promise<Array<ValidationMessage>>;
+  data(context: DataClassEditorDataContext): Promise<DataClassData>;
+  saveData(saveArgs: SaveArgs): Promise<Array<ValidationResult>>;
+  validate(context: DataClassEditorDataContext): Promise<Array<ValidationResult>>;
 
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]>;
 
-  action(action: DataClassActionArgs): void;
+  action(action: DataActionArgs): void;
   function<TFunct extends keyof FunctionRequestTypes>(
     path: TFunct,
     args: FunctionRequestTypes[TFunct][0]
@@ -64,7 +56,7 @@ export interface ClientContext {
 }
 
 export interface MetaRequestTypes {
-  'meta/scripting/dataClasses': [DataContext, DataclassType[]];
+  'meta/scripting/dataClasses': [DataClassEditorDataContext, DataclassType[]];
   'meta/scripting/ivyTypes': [void, JavaType[]];
   'meta/scripting/allTypes': [TypeSearchRequest, JavaType[]];
   'meta/scripting/ownTypes': [TypeSearchRequest, JavaType[]];

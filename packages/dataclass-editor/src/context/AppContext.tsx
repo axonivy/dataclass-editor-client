@@ -1,15 +1,15 @@
 import { createContext, useContext } from 'react';
-import type { DataClass, EntityDataClass,  DataContext, ValidationMessage } from '@axonivy/dataclass-editor-protocol';
+import type { DataClass, EntityDataClass, DataClassEditorDataContext, ValidationResult } from '@axonivy/dataclass-editor-protocol';
 
 type AppContext = {
-  context: DataContext;
+  context: DataClassEditorDataContext;
   dataClass: DataClass;
   setDataClass: (dataClass: DataClass) => void;
   selectedField?: number;
   setSelectedField: (index?: number) => void;
   detail: boolean;
   setDetail: (visible: boolean) => void;
-  validationMessages: Array<ValidationMessage>;
+  validationMessages: Array<ValidationResult>;
 };
 
 const appContext = createContext<AppContext>({

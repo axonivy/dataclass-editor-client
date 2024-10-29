@@ -36,14 +36,13 @@ export interface DataClasses {
 export interface DataActionArgs {
   actionId: "openForm" | "openProcess";
   context: DataClassEditorDataContext;
-  payload: JsonNode;
+  payload: string;
 }
 export interface DataClassEditorDataContext {
   app: string;
   file: string;
   pmv: string;
 }
-export interface JsonNode {}
 export interface DataClassCombineArgs {
   context: DataClassEditorDataContext;
   fieldNames: string[];

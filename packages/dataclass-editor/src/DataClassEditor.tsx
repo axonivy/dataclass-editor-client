@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { AppProvider } from './context/AppContext';
 import { FieldProvider } from './context/FieldContext';
-import type { DataClass, Field, Data, EditorProps, ValidationMessage } from '@axonivy/dataclass-editor-protocol';
+import type { DataClass, Field, DataClassData, EditorProps, ValidationResult } from '@axonivy/dataclass-editor-protocol';
 import { classTypeOf } from './data/dataclass-utils';
 import './DataClassEditor.css';
 import { DataClassDetailContent } from './detail/dataclass/DataClassDetailContent';
@@ -51,7 +51,7 @@ function DataClassEditor(props: EditorProps) {
     setDirectSave(props.directSave);
   }, [props]);
   const [selectedField, setSelectedField] = useState<number>();
-  const [validationMessages, setValidationMessages] = useState<Array<ValidationMessage>>([]);
+  const [validationMessages, setValidationMessages] = useState<Array<ValidationResult>>([]);
 
   const client = useClient();
   const queryClient = useQueryClient();
@@ -82,7 +82,7 @@ function DataClassEditor(props: EditorProps) {
   const mutation = useMutation({
     mutationKey: queryKeys.saveData(),
     mutationFn: async (updateData: Unary<DataClass>) => {
-      const saveData = queryClient.setQueryData<Data>(queryKeys.data(), prevData => {
+      const saveData = queryClient.setQueryData<DataClassData>(queryKeys.data(), prevData => {
         if (prevData) {
           return { ...prevData, data: updateData(prevData.data) };
         }

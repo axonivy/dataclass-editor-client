@@ -9,15 +9,15 @@ import {
 } from '@axonivy/jsonrpc';
 import type {
   Client,
-  Data,
-  DataClassActionArgs,
-  DataContext,
+  DataClassData,
+  DataActionArgs,
+  DataClassEditorDataContext,
   FunctionRequestTypes,
   MetaRequestTypes,
   NotificationTypes,
   OnNotificationTypes,
   RequestTypes,
-  ValidationMessage
+  ValidationResult
 } from '@axonivy/dataclass-editor-protocol';
 
 export class ClientJsonRpc extends BaseRpcClient implements Client {
@@ -29,19 +29,22 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
     this.onNotification('dataChanged', data => this.onDataChangedEmitter.fire(data));
   }
 
-  data(context: DataContext): Promise<Data> {
+  data(context: DataClassEditorDataContext): Promise<DataClassData> {
     return this.sendRequest('data', context);
   }
 
-  saveData(saveData: Data): Promise<Array<ValidationMessage>> {
+  saveData(saveData: DataClassData): Promise<Array<ValidationResult>> {
     return this.sendRequest('saveData', saveData);
   }
 
-  validate(context: DataContext): Promise<Array<ValidationMessage>> {
+  validate(context: DataClassEditorDataContext): Promise<Array<ValidationResult>> {
     return this.sendRequest('validate', context);
   }
 
-  function<TFunct extends keyof FunctionRequestTypes>(path: TFunct, args: FunctionRequestTypes[TFunct][0]): Promise<FunctionRequestTypes[TFunct][1]> {
+  function<TFunct extends keyof FunctionRequestTypes>(
+    path: TFunct,
+    args: FunctionRequestTypes[TFunct][0]
+  ): Promise<FunctionRequestTypes[TFunct][1]> {
     return this.sendRequest(path, args);
   }
 
@@ -49,7 +52,7 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
     return this.sendRequest(path, args);
   }
 
-  action(action: DataClassActionArgs): void {
+  action(action: DataActionArgs): void {
     this.sendNotification('action', action);
   }
 
