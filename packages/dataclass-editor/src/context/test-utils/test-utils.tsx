@@ -6,15 +6,15 @@ import type {
   Field,
   EntityDataClass,
   EntityClassField,
-  DataContext,
-  ValidationMessage
+  ValidationMessage,
+  DataClassEditorDataContext
 } from '@axonivy/dataclass-editor-protocol';
 import { AppProvider, EntityClassProvider } from '../AppContext';
 import { EntityFieldProvider, FieldProvider } from '../FieldContext';
 
 type ContextHelperProps = {
   appContext?: {
-    context?: DataContext;
+    context?: DataClassEditorDataContext;
     dataClass?: DataClass;
     setDataClass?: (dataclass: DataClass) => void;
     selectedField?: number;
@@ -30,7 +30,7 @@ type ContextHelperProps = {
 
 const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
   const appContext = {
-    context: props.appContext?.context ?? ({} as DataContext),
+    context: props.appContext?.context ?? ({} as DataClassEditorDataContext),
     dataClass: props.appContext?.dataClass ?? ({} as DataClass),
     setDataClass: props.appContext?.setDataClass ?? (() => {}),
     selectedField: props.appContext?.selectedField,
