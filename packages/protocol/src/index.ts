@@ -3,6 +3,7 @@ export * from './types';
 export type {
   JavaType,
   DataclassType,
+  Field,
   Modifier,
   Association,
   CascadeType,

@@ -1,4 +1,4 @@
-import type { EntityField, Modifier } from './editor';
+import type { Field } from './editor';
 
 export interface DataClass {
   $schema: string;
@@ -8,7 +8,7 @@ export interface DataClass {
   annotations: Array<string>;
   isBusinessCaseData: boolean;
   entity?: DataClassEntity;
-  fields: Array<DataClassField>;
+  fields: Array<Field>;
 }
 export type EntityClass = Required<DataClass> & { fields: Array<EntityClassField> };
 
@@ -16,15 +16,7 @@ export interface DataClassEntity {
   tableName: string;
 }
 
-export interface DataClassField {
-  name: string;
-  type: string;
-  comment: string;
-  modifiers: Array<Modifier>;
-  annotations: Array<string>;
-  entity?: EntityField;
-}
-export type EntityClassField = Required<DataClassField>;
+export type EntityClassField = Required<Field>;
 
 export const DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES = ['PERSIST', 'MERGE', 'REMOVE', 'REFRESH'] as const;
 export type DataClassFieldEntityCascadeType = (typeof DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES)[number] | 'ALL';

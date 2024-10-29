@@ -1,13 +1,13 @@
 import { createContext, useContext } from 'react';
-import type { DataClassField, EntityClassField } from '@axonivy/dataclass-editor-protocol';
+import type { Field, EntityClassField } from '@axonivy/dataclass-editor-protocol';
 
 type FieldContext = {
-  field: DataClassField;
-  setField: (field: DataClassField) => void;
+  field: Field;
+  setField: (field: Field) => void;
 };
 
 const fieldContext = createContext<FieldContext>({
-  field: {} as DataClassField,
+  field: {} as Field,
   setField: () => {}
 });
 

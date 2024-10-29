@@ -1,9 +1,9 @@
 import { useField } from '../../context/FieldContext';
-import type { DataClassField } from '@axonivy/dataclass-editor-protocol';
+import type { Field } from '@axonivy/dataclass-editor-protocol';
 
 export const useFieldProperty = () => {
   const { field, setField } = useField();
-  const setProperty = <FKey extends keyof DataClassField>(key: FKey, value: DataClassField[FKey]) => {
+  const setProperty = <FKey extends keyof Field>(key: FKey, value: Field[FKey]) => {
     const newField = structuredClone(field);
     newField[key] = value;
     setField(newField);

@@ -1,6 +1,6 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Flex } from '@axonivy/ui-components';
 import { EntityFieldProvider, useField } from '../../context/FieldContext';
-import type { DataClassField, EntityClassField } from '@axonivy/dataclass-editor-protocol';
+import type { Field, EntityClassField } from '@axonivy/dataclass-editor-protocol';
 import { AnnotationsTable } from '../AnnotationsTable';
 import { FieldEntityAssociation } from './entity/FieldEntityAssociation';
 import { FieldEntityDatabaseField } from './entity/FieldEntityDatabaseField';
@@ -8,7 +8,7 @@ import { FieldNameTypeComment } from './FieldNameTypeComment';
 import { FieldProperties } from './FieldProperties';
 import { useFieldProperty } from './useFieldProperty';
 
-export const isEntityField = (field: DataClassField): field is EntityClassField => {
+export const isEntityField = (field: Field): field is EntityClassField => {
   return !!field.entity && field.modifiers.includes('PERSISTENT');
 };
 

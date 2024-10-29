@@ -28,7 +28,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { getCoreRowModel, useReactTable, type ColumnDef, type Row, type Table as TanstackTable } from '@tanstack/react-table';
 import { useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
-import type { DataClassField } from '@axonivy/dataclass-editor-protocol';
+import { type Field } from '@axonivy/dataclass-editor-protocol';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 import { ValidationRow } from './ValidationRow';
@@ -43,7 +43,7 @@ export const simpleTypeName = (fullQualifiedType: string) => {
   return fullQualifiedType.replace(fullQualifiedClassNameRegex, (_fullQualifiedClassName, className) => className);
 };
 
-export const useUpdateSelection = (table: TanstackTable<DataClassField>) => {
+export const useUpdateSelection = (table: TanstackTable<Field>) => {
   const { setSelectedField } = useAppContext();
   const selectedRows = table.getSelectedRowModel().rows;
   const selectedField = selectedRows.length === 1 ? selectedRows[0].index : undefined;
@@ -58,9 +58,9 @@ export const DataClassMasterContent = () => {
 
   const messages = useValidation();
 
-  const selection = useTableSelect<DataClassField>();
+  const selection = useTableSelect<Field>();
   const sort = useTableSort();
-  const columns: Array<ColumnDef<DataClassField, string>> = [
+  const columns: Array<ColumnDef<Field, string>> = [
     {
       accessorKey: 'name',
       header: ({ column }) => <SortableHeader column={column} name='Name' />,
@@ -144,7 +144,7 @@ export const DataClassMasterContent = () => {
       }
     }
   );
-  const handleRowDrag = (row: Row<DataClassField>) => {
+  const handleRowDrag = (row: Row<Field>) => {
     if (!row.getIsSelected()) {
       table.resetRowSelection();
     }

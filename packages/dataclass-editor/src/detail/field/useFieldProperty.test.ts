@@ -1,10 +1,10 @@
 import { customRenderHook } from '../../context/test-utils/test-utils';
-import type { DataClassField } from '@axonivy/dataclass-editor-protocol';
+import type { Field } from '@axonivy/dataclass-editor-protocol';
 import { useFieldProperty } from './useFieldProperty';
 
 test('useFieldProperty', () => {
-  const field = { name: 'name' } as DataClassField;
-  let newField = {} as DataClassField;
+  const field = { name: 'name' } as Field;
+  let newField = {} as Field;
   const view = customRenderHook(() => useFieldProperty(), {
     wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
   });

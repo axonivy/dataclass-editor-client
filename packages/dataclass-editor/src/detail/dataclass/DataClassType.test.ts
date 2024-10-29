@@ -1,12 +1,12 @@
 import { customRenderHook } from '../../context/test-utils/test-utils';
-import type { DataClass, DataClassField, Modifier } from '@axonivy/dataclass-editor-protocol';
+import type { DataClass, Field, Modifier } from '@axonivy/dataclass-editor-protocol';
 import { useClassType } from './DataClassType';
 
 describe('useClassType', () => {
   const expectClassType = (dataClass: DataClass, isBusinessCaseData: boolean, hasEntity: boolean, modifiers: Array<Array<Modifier>>) => {
     expect(dataClass.isBusinessCaseData).toEqual(isBusinessCaseData);
     expect(!!dataClass.entity).toEqual(hasEntity);
-    expect(dataClass.fields.every((field: DataClassField) => !!field.entity === hasEntity)).toBeTruthy();
+    expect(dataClass.fields.every((field: Field) => !!field.entity === hasEntity)).toBeTruthy();
     expect(dataClass.fields).toHaveLength(modifiers.length);
     for (let i = 0; i < modifiers.length; i++) {
       expect(dataClass.fields[i].modifiers).toEqual(modifiers[i]);

@@ -3,7 +3,7 @@ import { renderHook } from '@testing-library/react';
 import { type ReactNode } from 'react';
 import type {
   DataClass,
-  DataClassField,
+  Field,
   EntityClass,
   EntityClassField,
   DataContext,
@@ -24,7 +24,7 @@ type ContextHelperProps = {
     validationMessages?: Array<ValidationMessage>;
   };
   entityClassContext?: { entityClass?: EntityClass; setEntityClass?: (entityClass: EntityClass) => void };
-  fieldContext?: { field?: DataClassField; setField?: (field: DataClassField) => void };
+  fieldContext?: { field?: Field; setField?: (field: Field) => void };
   entityFieldContext?: { field?: EntityClassField; setField?: (field: EntityClassField) => void };
 };
 
@@ -46,7 +46,7 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
   };
 
   const fieldContext = {
-    field: props.fieldContext?.field ?? ({} as DataClassField),
+    field: props.fieldContext?.field ?? ({} as Field),
     setField: props.fieldContext?.setField ?? (() => {})
   };
 

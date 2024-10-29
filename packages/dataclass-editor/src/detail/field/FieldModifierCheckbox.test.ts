@@ -1,11 +1,11 @@
 import { customRenderHook } from '../../context/test-utils/test-utils';
-import type { DataClassField, Modifier, EntityClassField } from '@axonivy/dataclass-editor-protocol';
+import type { Field, Modifier, EntityClassField } from '@axonivy/dataclass-editor-protocol';
 import { useModifier } from './FieldModifierCheckbox';
 
 describe('useModifier', () => {
   test('add', () => {
-    const field = { modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] } as DataClassField;
-    let newField = {} as DataClassField;
+    const field = { modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] } as Field;
+    let newField = {} as Field;
     const view = customRenderHook(() => useModifier('UNIQUE'), {
       wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
     });
@@ -19,8 +19,8 @@ describe('useModifier', () => {
   });
 
   test('remove', () => {
-    const field = { modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] } as DataClassField;
-    let newField = {} as DataClassField;
+    const field = { modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] } as Field;
+    let newField = {} as Field;
     const view = customRenderHook(() => useModifier('NOT_INSERTABLE'), {
       wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
     });
@@ -35,8 +35,8 @@ describe('useModifier', () => {
 
   describe('id', () => {
     test('add', () => {
-      const field = { modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] } as DataClassField;
-      let newField = {} as DataClassField;
+      const field = { modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] } as Field;
+      let newField = {} as Field;
       const view = customRenderHook(() => useModifier('ID'), {
         wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
       });
@@ -50,8 +50,8 @@ describe('useModifier', () => {
     });
 
     test('remove', () => {
-      const field = { modifiers: ['PERSISTENT', 'ID', 'GENERATED'] } as DataClassField;
-      let newField = {} as DataClassField;
+      const field = { modifiers: ['PERSISTENT', 'ID', 'GENERATED'] } as Field;
+      let newField = {} as Field;
       const view = customRenderHook(() => useModifier('ID'), {
         wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
       });
@@ -66,8 +66,8 @@ describe('useModifier', () => {
   });
 
   test('version', () => {
-    const field = { modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] } as DataClassField;
-    let newField = {} as DataClassField;
+    const field = { modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] } as Field;
+    let newField = {} as Field;
     const view = customRenderHook(() => useModifier('VERSION'), {
       wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
     });
