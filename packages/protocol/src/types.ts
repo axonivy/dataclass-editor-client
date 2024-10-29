@@ -1,14 +1,21 @@
 import type { DataClassEditorDataContext } from '.';
 import type { DataClass } from './dataclass';
-import type { DataActionArgs, DataClassCombineArgs, DataclassType, JavaType, TypeSearchRequest, ValidationResult } from './editor';
+import type {
+  DataActionArgs,
+  DataClassCombineArgs,
+  DataClassData,
+  DataclassType,
+  JavaType,
+  TypeSearchRequest,
+  ValidationResult
+} from './editor';
 
-export type Data = { context: DataClassEditorDataContext; data: DataClass };
 export type EditorProps = { context: DataClassEditorDataContext; directSave?: boolean };
-export type SaveArgs = Data & { directSave?: boolean };
+export type SaveArgs = DataClassData & { directSave?: boolean };
 
 export interface RequestTypes extends MetaRequestTypes, FunctionRequestTypes {
-  data: [DataClassEditorDataContext, Data];
-  saveData: [Data, Array<ValidationResult>];
+  data: [DataClassEditorDataContext, DataClassData];
+  saveData: [DataClassData, Array<ValidationResult>];
   validate: [DataClassEditorDataContext, Array<ValidationResult>];
 }
 
@@ -29,7 +36,7 @@ export interface Disposable {
 }
 
 export interface Client {
-  data(context: DataClassEditorDataContext): Promise<Data>;
+  data(context: DataClassEditorDataContext): Promise<DataClassData>;
   saveData(saveArgs: SaveArgs): Promise<Array<ValidationResult>>;
   validate(context: DataClassEditorDataContext): Promise<Array<ValidationResult>>;
 

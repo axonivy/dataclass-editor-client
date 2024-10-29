@@ -9,7 +9,7 @@ import {
 } from '@axonivy/jsonrpc';
 import type {
   Client,
-  Data,
+  DataClassData,
   DataActionArgs,
   DataClassEditorDataContext,
   FunctionRequestTypes,
@@ -29,11 +29,11 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
     this.onNotification('dataChanged', data => this.onDataChangedEmitter.fire(data));
   }
 
-  data(context: DataClassEditorDataContext): Promise<Data> {
+  data(context: DataClassEditorDataContext): Promise<DataClassData> {
     return this.sendRequest('data', context);
   }
 
-  saveData(saveData: Data): Promise<Array<ValidationResult>> {
+  saveData(saveData: DataClassData): Promise<Array<ValidationResult>> {
     return this.sendRequest('saveData', saveData);
   }
 

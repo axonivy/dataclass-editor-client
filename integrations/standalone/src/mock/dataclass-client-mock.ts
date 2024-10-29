@@ -1,18 +1,9 @@
-import type {
-  Client,
-  Data,
-  Event,
-  FunctionRequestTypes,
-  MetaRequestTypes
-} from '@axonivy/dataclass-editor-protocol/src/types';
-import type {
-  DataActionArgs,
-  ValidationResult
-} from '@axonivy/dataclass-editor-protocol/src/editor';
+import type { Client, Event, FunctionRequestTypes, MetaRequestTypes } from '@axonivy/dataclass-editor-protocol/src/types';
+import type { DataActionArgs, ValidationResult, DataClassData } from '@axonivy/dataclass-editor-protocol/src/editor';
 import { MetaMock } from './meta-mock';
 
 export class DataClassClientMock implements Client {
-  private dataClassData: Data = {
+  private dataClassData: DataClassData = {
     context: { app: '', pmv: '', file: '' },
     data: {
       $schema: 'https://json-schema.axonivy.com/data-class/11.4.0/data-class.json',
@@ -57,11 +48,11 @@ export class DataClassClientMock implements Client {
     }
   };
 
-  data(): Promise<Data> {
+  data(): Promise<DataClassData> {
     return Promise.resolve(this.dataClassData);
   }
 
-  saveData(saveData: Data): Promise<Array<ValidationResult>> {
+  saveData(saveData: DataClassData): Promise<Array<ValidationResult>> {
     this.dataClassData.data = saveData.data;
     return Promise.resolve([]);
   }
