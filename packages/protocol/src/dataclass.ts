@@ -1,15 +1,7 @@
-import type { EntityClass, Field } from './editor';
+import type { DataClass } from '.';
+import type { DataClassModel, Field } from './editor';
 
-export interface DataClass {
-  $schema: string;
-  simpleName: string;
-  namespace: string;
-  comment: string;
-  annotations: Array<string>;
-  isBusinessCaseData: boolean;
-  entity?: EntityClass;
-  fields: Array<Field>;
-}
+export type { DataClassModel as DataClass}
 export type EntityDataClass = Required<DataClass> & { fields: Array<EntityClassField> };
 export type EntityClassField = Required<Field>;
 
