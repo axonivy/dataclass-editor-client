@@ -59,7 +59,7 @@ export interface DataClassModel {
   comment: string;
   annotations: string[];
   isBusinessCaseData: boolean;
-  entity: EntityClass;
+  entity?: EntityClass;
   fields: Field[];
 }
 export interface EntityClass {
@@ -68,13 +68,13 @@ export interface EntityClass {
 export interface Field {
   annotations: string[];
   comment: string;
-  entity: EntityField;
+  entity?: EntityField;
   modifiers: Modifier[];
   name: string;
   type: string;
 }
 export interface EntityField {
-  association: Association;
+  association?: Association;
   cascadeTypes: CascadeType[];
   databaseFieldLength: string;
   databaseName: string;
