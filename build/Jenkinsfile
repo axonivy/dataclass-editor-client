@@ -55,7 +55,7 @@ pipeline {
       steps {
         script {
           catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
-            docker.build('node', '-f build/Dockerfile.node .').inside {
+            docker.build('node', '-f build/Dockerfile .').inside {
               def branchName = env.BRANCH_NAME.replace("/", "%252F")
               sh '''
                 npm install
