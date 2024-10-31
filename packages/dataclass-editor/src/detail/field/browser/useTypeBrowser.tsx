@@ -62,7 +62,7 @@ export const useTypeBrowser = (value: string): Browser => {
     browser: typesList,
     header: !context.file.includes('/neo') ? (
       <BasicCheckbox
-        label='Search over all Types'
+        label='Search over all types'
         checked={allTypesSearchActive}
         onCheckedChange={() => {
           setAllTypesSearchActive(!allTypesSearchActive);
