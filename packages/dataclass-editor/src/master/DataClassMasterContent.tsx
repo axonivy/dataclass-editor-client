@@ -140,7 +140,7 @@ export const DataClassMasterContent = () => {
         queryClient.invalidateQueries({ queryKey: genQueryKey('data', context) });
       },
       onError: error => {
-        toast.error('Failed to combine fields', { description: error.message });
+        toast.error('Failed to combine attributes', { description: error.message });
       }
     }
   );
@@ -170,8 +170,8 @@ export const DataClassMasterContent = () => {
             key='combineButton'
             icon={IvyIcons.WrapToSubprocess}
             onClick={() => combineFields.mutate()}
-            aria-label='Combine fields'
-            title='Combine fields'
+            aria-label='Combine attributes'
+            title='Combine attributes'
             disabled={table.getSelectedRowModel().rows.length === 0}
           />
         </>
