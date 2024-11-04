@@ -15,6 +15,7 @@
     <engine.test.app>ivy-dev-dataclass-test</engine.test.app>
     <engine.test.ws>dataclass-test</engine.test.ws>
     <engine.dir>${project.build.directory}/ivyEngine</engine.dir>
+    <webtest.cmd>webtest</webtest.cmd>
   </properties>
 
   <pluginRepositories>
@@ -105,7 +106,7 @@
               <executable>npm</executable>
               <arguments>
                 <argument>run</argument>
-                <argument>webtest:engine</argument>
+                <argument>${webtest.cmd}</argument>
               </arguments>
               <environmentVariables>
                 <BASE_URL>${test.engine.url}</BASE_URL>

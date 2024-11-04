@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { DataClassEditor } from '../pageobjects/DataClassEditor';
+import { DataClassEditor } from '../../pageobjects/DataClassEditor';
 
 let editor: DataClassEditor;
 
