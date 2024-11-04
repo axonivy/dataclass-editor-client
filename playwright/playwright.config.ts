@@ -8,13 +8,13 @@ export default defineConfig({
   reporter: process.env.CI ? [['./tests/custom-reporter.ts'], ['junit', { outputFile: 'report.xml' }], ['list']] : 'html',
   use: {
     actionTimeout: 0,
-    baseURL: process.env.CI ? 'http://localhost:4173' : 'http://localhost:3000',
+    baseURL: process.env.CI ? 'http://localhost:4173' : 'http://localhost:3002',
     trace: 'retain-on-failure',
     headless: process.env.CI ? true : false
   },
   webServer: {
     command: `npm run ${process.env.CI ? 'serve' : 'dev'} -w @axonivy/dataclass-editor-standalone`,
-    url: process.env.CI ? 'http://localhost:4173' : 'http://localhost:3000',
+    url: process.env.CI ? 'http://localhost:4173' : 'http://localhost:3002',
     reuseExistingServer: !process.env.CI
   },
   globalTeardown: './tests/global.teardown',
