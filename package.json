@@ -20,9 +20,9 @@
     "dev": "npm --prefix integrations/standalone run dev",
     "test": "npm --prefix packages/dataclass-editor run test",
     "test:ci": "lerna run test:ci",
-    "webtest:mock": "npm --prefix integrations/standalone run webtest:mock",
-    "webtest:engine": "npm --prefix integrations/standalone run webtest:engine",
-    "webtest:screenshot": "npm --prefix integrations/standalone run webtest:screenshot",
+    "webtest:mock": "npm --workspace=@axonivy/dataclass-editor-playwright run webtest:mock",
+    "webtest:engine": "npm --workspace=@axonivy/dataclass-editor-playwright run webtest:engine",
+    "webtest:screenshot": "npm --workspace=@axonivy/dataclass-editor-playwright run webtest:screenshots",
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws -t patch -u",
     "publish:next": "lerna publish --exact --canary --preid next --tag-version-prefix beta --pre-dist-tag next --no-git-tag-version --no-push --ignore-scripts --yes"
   },
@@ -30,7 +30,6 @@
     "@types/node": "^20.10.5",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
-    "concurrently": "^8.2.2",
     "eslint": "^8.56.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
@@ -43,6 +42,7 @@
   },
   "workspaces": [
     "packages/*",
-    "integrations/*"
+    "integrations/*",
+    "playwright"
   ]
 }
