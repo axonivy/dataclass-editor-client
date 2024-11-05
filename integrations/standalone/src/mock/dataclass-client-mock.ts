@@ -45,7 +45,8 @@ export class DataClassClientMock implements Client {
           annotations: []
         }
       ]
-    }
+    },
+    helpUrl: 'https://dev.axonivy.com'
   };
 
   data(): Promise<DataClassData> {

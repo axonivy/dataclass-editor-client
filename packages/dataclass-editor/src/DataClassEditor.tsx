@@ -1,4 +1,13 @@
-import { Flex, PanelMessage, ResizableHandle, ResizablePanel, ResizablePanelGroup, SidebarHeader, Spinner } from '@axonivy/ui-components';
+import {
+  Button,
+  Flex,
+  PanelMessage,
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+  SidebarHeader,
+  Spinner
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
@@ -14,6 +23,7 @@ import { DataClassMasterToolbar } from './master/DataClassMasterToolbar';
 import { useClient } from './protocol/ClientContextProvider';
 import { genQueryKey } from './query/query-client';
 import type { Unary } from './utils/lambda/lambda';
+import { useAction } from './context/useAction';
 
 export const headerTitles = (dataClass: DataClass, selectedField?: number) => {
   let baseTitle = '';
@@ -96,6 +106,8 @@ function DataClassEditor(props: EditorProps) {
     }
   });
 
+  const openUrl = useAction('openUrl');
+
   if (isPending) {
     return (
       <Flex alignItems='center' justifyContent='center' style={{ width: '100%', height: '100%' }}>
@@ -130,7 +142,9 @@ function DataClassEditor(props: EditorProps) {
             <ResizableHandle />
             <ResizablePanel defaultSize={25} minSize={10} className='detail-panel'>
               <Flex direction='column' className='panel-content-container detail-container'>
-                <SidebarHeader icon={IvyIcons.PenEdit} title={detailTitle} className='detail-header' />
+                <SidebarHeader icon={IvyIcons.PenEdit} title={detailTitle} className='detail-header'>
+                  <Button icon={IvyIcons.Help} onClick={() => openUrl(data.helpUrl)} aria-label='Help' />
+                </SidebarHeader>
                 {selectedField === undefined || dataClass.fields.length <= selectedField ? (
                   <DataClassDetailContent />
                 ) : (
