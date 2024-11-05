@@ -2,7 +2,6 @@
 set -e
 
 mvn --batch-mode -f integrations/standalone/pom.xml versions:set versions:commit -DnewVersion=${1}
-mvn --batch-mode -f playwright/pom.xml versions:set versions:commit -DnewVersion=${1}
 mvn --batch-mode -f playwright/dataclass-test-project/pom.xml versions:set versions:commit -DnewVersion=${1}
 mvn --batch-mode -f playwright/tests/screenshots/pom.xml versions:set versions:commit -DnewVersion=${1}
 
