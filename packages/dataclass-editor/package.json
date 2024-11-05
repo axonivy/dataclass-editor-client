@@ -17,6 +17,7 @@
   "types": "lib/index.d.ts",
   "main": "lib/editor.js",
   "dependencies": {
+    "@axonivy/dataclass-editor-protocol": "^12.0.0-next",
     "@axonivy/jsonrpc": "~12.0.0-next.372",
     "@axonivy/ui-components": "~12.0.0-next.372",
     "@axonivy/ui-icons": "~12.0.0-next.372",
@@ -25,7 +26,6 @@
     "react": "^18.2.0"
   },
   "devDependencies": {
-    "@axonivy/dataclass-editor-protocol": "^12.0.0-next",
     "@testing-library/react": "^15.0.2",
     "@types/react": "^18.2.13",
     "@vitejs/plugin-react": "4.2.1",
