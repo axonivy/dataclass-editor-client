@@ -34,7 +34,7 @@ export interface DataClasses {
   [k: string]: unknown;
 }
 export interface DataActionArgs {
-  actionId: "openForm" | "openProcess";
+  actionId: "openForm" | "openProcess" | "openUrl";
   context: DataClassEditorDataContext;
   payload: string;
 }
@@ -50,6 +50,7 @@ export interface DataClassCombineArgs {
 export interface DataClassData {
   context: DataClassEditorDataContext;
   data: DataClassModel;
+  helpUrl: string;
 }
 export interface DataClassModel {
   $schema: string;

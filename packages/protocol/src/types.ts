@@ -4,6 +4,7 @@ import type {
   DataActionArgs,
   DataClassCombineArgs,
   DataClassData,
+  DataClassSaveDataArgs,
   DataclassType,
   JavaType,
   TypeSearchRequest,
@@ -11,7 +12,7 @@ import type {
 } from './editor';
 
 export type EditorProps = { context: DataClassEditorDataContext; directSave?: boolean };
-export type SaveArgs = DataClassData & { directSave?: boolean };
+export type SaveArgs = DataClassSaveDataArgs & { directSave?: boolean };
 
 export interface RequestTypes extends MetaRequestTypes, FunctionRequestTypes {
   data: [DataClassEditorDataContext, DataClassData];
