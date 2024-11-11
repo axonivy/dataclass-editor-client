@@ -10,7 +10,7 @@
   <packaging>iar</packaging>
 
   <properties>
-    <project.build.plugin.version>12.0.1-SNAPSHOT</project.build.plugin.version>
+    <project.build.plugin.version>14.0.1-SNAPSHOT</project.build.plugin.version>
     <engine.page.url>https://product.ivyteam.io/</engine.page.url>
     <engine.test.app>ivy-dev-dataclass-test</engine.test.app>
     <engine.test.ws>dataclass-test</engine.test.ws>
