@@ -35,14 +35,14 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
       <Flex gap={1}>
         {isFormData && (
           <>
-            <Button icon={IvyIcons.File} size='large' aria-label='Open Form' onClick={() => openForm()} />
-            <Button icon={IvyIcons.Process} size='large' aria-label='Open Process' onClick={() => openProcess()} />
+            <Button icon={IvyIcons.File} size='large' title='Open Form' aria-label='Open Form' onClick={() => openForm()} />
+            <Button icon={IvyIcons.Process} size='large' title='Open Process' aria-label='Open Process' onClick={() => openProcess()} />
           </>
         )}
         {theme !== 'system' && (
           <Popover>
             <PopoverTrigger asChild>
-              <Button icon={IvyIcons.Settings} size='large' aria-label='Settings' />
+              <Button icon={IvyIcons.Settings} size='large' title='Settings' aria-label='Settings' />
             </PopoverTrigger>
             <PopoverContent sideOffset={12}>
               <ReadonlyProvider readonly={false}>
@@ -67,7 +67,13 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
             </PopoverContent>
           </Popover>
         )}
-        <Button icon={IvyIcons.LayoutSidebarRightCollapse} size='large' onClick={() => setDetail(!detail)} aria-label='Details toggle' />
+        <Button
+          icon={IvyIcons.LayoutSidebarRightCollapse}
+          size='large'
+          onClick={() => setDetail(!detail)}
+          title='Details toggle'
+          aria-label='Details toggle'
+        />
       </Flex>
     </Toolbar>
   );
