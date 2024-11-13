@@ -12,8 +12,8 @@
   <properties>
     <project.build.plugin.version>12.0.1-SNAPSHOT</project.build.plugin.version>
     <engine.page.url>https://product.ivyteam.io/</engine.page.url>
-    <engine.test.app>ivy-dev-dataclass-test</engine.test.app>
-    <engine.test.ws>dataclass-test</engine.test.ws>
+    <engine.test.app>Developer-dataclass-test-project</engine.test.app>
+    <engine.test.ws>dataclass-test-project</engine.test.ws>
     <engine.dir>${project.build.directory}/ivyEngine</engine.dir>
     <webtest.cmd>webtest</webtest.cmd>
   </properties>
@@ -45,7 +45,7 @@
             </goals>
             <configuration>
               <outputDirectory>
-                ${engine.dir}/neo-designer-workspaces/${engine.test.ws}/dataclass-test-project
+                ${engine.dir}/data/workspaces/Developer/${engine.test.ws}/dataclass-test-project
               </outputDirectory>
               <resources>
                 <resource>
@@ -110,7 +110,7 @@
               </arguments>
               <environmentVariables>
                 <BASE_URL>${test.engine.url}</BASE_URL>
-                <TEST_WS>ivy-dev-${engine.test.ws}</TEST_WS>
+                <TEST_WS>~Developer-${engine.test.ws}</TEST_WS>
                 <TEST_APP>${engine.test.app}</TEST_APP>
               </environmentVariables>
               <successCodes>

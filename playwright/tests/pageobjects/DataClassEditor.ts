@@ -6,7 +6,8 @@ import { Settings } from './Settings';
 import { Button } from './abstract/Button';
 import { Table } from './abstract/Table';
 
-const server = process.env.BASE_URL ?? 'http://localhost:8081';
+export const server = process.env.BASE_URL ?? 'http://localhost:8081';
+export const user = 'Developer';
 const ws = process.env.TEST_WS ?? '';
 const app = process.env.TEST_APP ?? 'designer';
 const pmv = 'dataclass-test-project';
@@ -45,7 +46,6 @@ export class DataClassEditor {
   static async openNewDataClass(page: Page) {
     const name = 'DataClass' + randomUUID().replaceAll('-', '');
     const namespace = 'temp';
-    const user = 'Developer';
     const result = await fetch(`${server}${ws}/api/web-ide/dataclass`, {
       method: 'POST',
       headers: {
