@@ -128,6 +128,18 @@ export const DataClassMasterContent = () => {
     resetAndSetRowSelection(table, newDataClass.fields, moveIds, row => row.name);
   };
 
+  const isSameFields = (data: Field[]) => {
+    if (data.length !== dataClass.fields.length) {
+      return false;
+    }
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].type !== dataClass.fields[i].type) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   const combineFields = useFunction(
     'function/combineFields',
     {
@@ -135,9 +147,11 @@ export const DataClassMasterContent = () => {
       fieldNames: table.getSelectedRowModel().rows.map(row => row.original.name)
     },
     {
-      onSuccess: () => {
-        toast.info('Fields successfully combined');
-        queryClient.invalidateQueries({ queryKey: genQueryKey('data', context) });
+      onSuccess: data => {
+        if (!isSameFields(data.fields)) {
+          toast.info('Fields successfully combined');
+          queryClient.invalidateQueries({ queryKey: genQueryKey('data', context) });
+        }
       },
       onError: error => {
         toast.error('Failed to combine attributes', { description: error.message });
