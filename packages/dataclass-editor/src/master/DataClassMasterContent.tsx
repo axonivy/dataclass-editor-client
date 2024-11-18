@@ -177,7 +177,7 @@ export const DataClassMasterContent = () => {
         aria-label='Delete field'
       />
 
-      {!context.file.includes('/neo') && (
+      {context.app === 'designer' && (
         <>
           <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
           <Button
