@@ -7,18 +7,10 @@
  */
 
 export type Association = ("ONE_TO_ONE" | "ONE_TO_MANY" | "MANY_TO_ONE")
-export type CascadeType = "ALL" | "PERSIST" | "MERGE" | "REMOVE" | "REFRESH";
-export type Modifier =
-  | "PERSISTENT"
-  | "ID"
-  | "GENERATED"
-  | "NOT_NULLABLE"
-  | "UNIQUE"
-  | "NOT_UPDATEABLE"
-  | "NOT_INSERTABLE"
-  | "VERSION";
-export type EntityClassFieldAssociation = "ONE_TO_ONE" | "ONE_TO_MANY" | "MANY_TO_ONE";
-export type Severity = "INFO" | "WARNING" | "ERROR";
+export type CascadeType = 'ALL' | 'PERSIST' | 'MERGE' | 'REMOVE' | 'REFRESH';
+export type Modifier = 'PERSISTENT' | 'ID' | 'GENERATED' | 'NOT_NULLABLE' | 'UNIQUE' | 'NOT_UPDATEABLE' | 'NOT_INSERTABLE' | 'VERSION';
+export type EntityClassFieldAssociation = 'ONE_TO_ONE' | 'ONE_TO_MANY' | 'MANY_TO_ONE';
+export type Severity = 'INFO' | 'WARNING' | 'ERROR';
 
 export interface DataClasses {
   dataActionArgs: DataActionArgs;
@@ -38,7 +30,7 @@ export interface DataClasses {
   [k: string]: unknown;
 }
 export interface DataActionArgs {
-  actionId: "openForm" | "openProcess" | "openUrl";
+  actionId: 'openForm' | 'openProcess' | 'openUrl';
   context: DataClassEditorDataContext;
   payload: string;
 }
@@ -94,6 +86,11 @@ export interface DataclassType {
   name: string;
   packageName: string;
   path: string;
+  fields: DataclassTypeField[];
+}
+export interface DataclassTypeField {
+  name: string;
+  type: string;
 }
 export interface FieldContext {
   app: string;

@@ -6,6 +6,6 @@ import type { ReactNode } from 'react';
 export const QueryProvider = ({ client, children }: { client: QueryClient; children: ReactNode }) => (
   <QueryClientProvider client={client}>
     {children}
-    <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-left'} />
+    <ReactQueryDevtools initialIsOpen={false} buttonPosition={'top-left'} />
   </QueryClientProvider>
 );

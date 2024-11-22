@@ -24,6 +24,8 @@ import { useClient } from './protocol/ClientContextProvider';
 import { genQueryKey } from './query/query-client';
 import type { Unary } from './utils/lambda/lambda';
 import { useAction } from './context/useAction';
+import { DataClassGraph } from './graph/DataClassGraph';
+import { ReactFlowProvider } from '@xyflow/react';
 
 export const headerTitles = (dataClass: DataClass, selectedField?: number) => {
   let baseTitle = '';
@@ -54,6 +56,7 @@ export const headerTitles = (dataClass: DataClass, selectedField?: number) => {
 function DataClassEditor(props: EditorProps) {
   const [detail, setDetail] = useState(true);
 
+  const [graph, setGraph] = useState(false);
   const [context, setContext] = useState(props.context);
   const [directSave, setDirectSave] = useState(props.directSave);
   useEffect(() => {
@@ -133,11 +136,17 @@ function DataClassEditor(props: EditorProps) {
       <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
         <ResizablePanel defaultSize={75} minSize={50} className='master-panel'>
           <Flex className='panel-content-container master-container' direction='column'>
-            <DataClassMasterToolbar title={masterTitle} />
-            <DataClassMasterContent />
+            <DataClassMasterToolbar title={masterTitle} graph={graph} setGraph={setGraph} />
+            {graph ? (
+              <ReactFlowProvider>
+                <DataClassGraph />
+              </ReactFlowProvider>
+            ) : (
+              <DataClassMasterContent />
+            )}
           </Flex>
         </ResizablePanel>
-        {detail && (
+        {detail && !graph && (
           <>
             <ResizableHandle />
             <ResizablePanel defaultSize={25} minSize={10} className='detail-panel'>

@@ -17,16 +17,20 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useAppContext } from '../context/AppContext';
 import { useAction } from '../context/useAction';
+import { useState } from 'react';
 
 type DataClassMasterToolbarProps = {
   title: string;
+  graph: boolean;
+  setGraph: (value: boolean) => void;
 };
 
-export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) => {
+export const DataClassMasterToolbar = ({ title, graph, setGraph }: DataClassMasterToolbarProps) => {
   const { detail, setDetail, isHdData } = useAppContext();
   const { theme, setTheme, disabled } = useTheme();
   const openForm = useAction('openForm');
   const openProcess = useAction('openProcess');
+  const [open, setOpen] = useState(false);
 
   return (
     <Toolbar className='master-toolbar'>
@@ -39,7 +43,12 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
           </>
         )}
         {!disabled && (
-          <Popover>
+          <Popover
+            open={open}
+            onOpenChange={e => {
+              setOpen(e);
+            }}
+          >
             <PopoverTrigger asChild>
               <Button icon={IvyIcons.Settings} size='large' title='Settings' aria-label='Settings' />
             </PopoverTrigger>
@@ -60,6 +69,22 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
                       aria-label='Theme'
                     />
                   </Field>
+                  <Field direction='row' alignItems='center' justifyContent='space-between' gap={4}>
+                    <Label>
+                      <Flex alignItems='center' gap={1}>
+                        <IvyIcon icon={IvyIcons.Process} />
+                        Data Class Graph
+                      </Flex>
+                    </Label>
+                    <Switch
+                      checked={graph}
+                      onCheckedChange={e => {
+                        setGraph(e), setOpen(false);
+                      }}
+                      size='small'
+                      aria-label='Theme'
+                    />
+                  </Field>
                 </Flex>
                 <PopoverArrow />
               </ReadonlyProvider>
@@ -67,9 +92,9 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
           </Popover>
         )}
         <Button
-          icon={IvyIcons.LayoutSidebarRightCollapse}
+          icon={graph ? IvyIcons.Undo : IvyIcons.LayoutSidebarRightCollapse}
           size='large'
-          onClick={() => setDetail(!detail)}
+          onClick={() => (graph ? setGraph(false) : setDetail(!detail))}
           title='Details toggle'
           aria-label='Details toggle'
         />
