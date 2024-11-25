@@ -10,7 +10,8 @@ import {
   MiniMap,
   Panel,
   // Panel,
-  ReactFlow
+  ReactFlow,
+  useReactFlow
 } from '@xyflow/react';
 import { useCallback, useEffect, useState } from 'react';
 import '@xyflow/react/dist/style.css';
@@ -21,6 +22,7 @@ import { useAppContext } from '../context/AppContext';
 import { useLayoutedElements } from './useLayoutedElements';
 import { Button, Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { getLayoutedElements_dagre, type Direction } from './getLayoutedElements_Dagre';
 
 export const DataClassGraph = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -28,6 +30,7 @@ export const DataClassGraph = () => {
   const { getLayoutedElements } = useLayoutedElements();
   const { context, dataClass: originalDataClass } = useAppContext();
   const dataClasses = useMeta('meta/scripting/dataClasses', context, []).data;
+  const { getNodes, getEdges } = useReactFlow<CustomNode>();
 
   const onNodesChange: OnNodesChange = useCallback(changes => setNodes(nds => applyNodeChanges(changes, nds)), [setNodes]);
   const onEdgesChange: OnEdgesChange = useCallback(changes => setEdges(eds => applyEdgeChanges(changes, eds)), [setEdges]);
@@ -44,6 +47,15 @@ export const DataClassGraph = () => {
         )
       ),
     [setEdges]
+  );
+
+  const onLayout = useCallback(
+    (direction: Direction) => {
+      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements_dagre({ nodes: getNodes(), edges: getEdges(), direction });
+      setNodes([...layoutedNodes]);
+      setEdges([...layoutedEdges]);
+    },
+    [getEdges, getNodes]
   );
 
   useEffect(() => {
@@ -109,6 +121,8 @@ export const DataClassGraph = () => {
       {/* <PositioningTools /> */}
       <Panel position='top-right'>
         <Flex direction='row' gap={1}>
+          <button onClick={() => onLayout('TB')}>vertical layout</button>
+          <button onClick={() => onLayout('LR')}>horizontal layout</button>
           <Button
             icon={IvyIcons.Process}
             rotate={90}
