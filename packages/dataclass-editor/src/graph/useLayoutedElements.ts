@@ -7,7 +7,6 @@ import type { CustomNode } from './CustomNode';
 const elk = new ElkConstructor();
 export const useLayoutedElements = () => {
   const { getNodes, setNodes, getEdges, fitView } = useReactFlow<CustomNode>();
-  console.log(getNodes());
 
   const getLayoutedElements = useCallback(
     (options: Record<string, string | number>) => {

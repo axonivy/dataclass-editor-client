@@ -7,11 +7,11 @@
 }
 
 .custom-node.selected {
-  border: 2px solid green;
+  border: 2px solid blue;
 }
 
 .custom-node.original {
-  border: 2px solid blue;
+  border: 2px solid green;
 }
 
 .custom-node.normal {
