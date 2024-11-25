@@ -1,0 +1,40 @@
+.custom-node {
+  padding: 10px;
+  text-align: left;
+  border-radius: 5px;
+  background: white;
+  display: inline-block;
+}
+
+.custom-node.selected {
+  border: 2px solid green;
+}
+
+.custom-node.original {
+  border: 2px solid blue;
+}
+
+.custom-node.normal {
+  border: 1px solid black;
+}
+
+.custom-node-header {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.custom-node-fields {
+  padding: 0 10px;
+  list-style-type: none;
+  margin: 0;
+}
+
+.custom-node-field {
+  display: flex;
+  gap: 5px;
+}
+
+.custom-node-field-name {
+  font-weight: bold;
+}

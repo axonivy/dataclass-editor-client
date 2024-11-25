@@ -9,6 +9,7 @@ import {
   MarkerType,
   MiniMap,
   Panel,
+  // Panel,
   ReactFlow
 } from '@xyflow/react';
 import { useCallback, useEffect, useState } from 'react';
@@ -18,6 +19,8 @@ import FloatingEdge from './FloatingEdge';
 import { useMeta } from '../context/useMeta';
 import { useAppContext } from '../context/AppContext';
 import { useLayoutedElements } from './useLayoutedElements';
+import { Button, Flex } from '@axonivy/ui-components';
+import { IvyIcons } from '@axonivy/ui-icons';
 
 export const DataClassGraph = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -50,11 +53,13 @@ export const DataClassGraph = () => {
       id: dataClass.fullQualifiedName,
       position: { x: index * 200, y: 0 },
       data: {
-        borderColor: originalDataClassFqn === dataClass.fullQualifiedName ? 'blue' : 'black',
-        dataClass: {
-          name: dataClass.name,
-          fullQualifiedName: dataClass.fullQualifiedName,
-          fields: dataClass.fields
+        CustomNodeData: {
+          isOriginalDataClass: originalDataClassFqn === dataClass.fullQualifiedName,
+          dataClass: {
+            name: dataClass.name,
+            fullQualifiedName: dataClass.fullQualifiedName,
+            fields: dataClass.fields
+          }
         }
       },
       type: 'customNode'
@@ -101,36 +106,40 @@ export const DataClassGraph = () => {
       <Controls />
       <MiniMap />
       <Background gap={12} size={1} />
+      {/* <PositioningTools /> */}
       <Panel position='top-right'>
-        <button
-          onClick={() =>
-            getLayoutedElements({
-              'elk.algorithm': 'layered',
-              'elk.direction': 'DOWN'
-            })
-          }
-        >
-          vertical layout
-        </button>
-        <button
-          onClick={() =>
-            getLayoutedElements({
-              'elk.algorithm': 'layered',
-              'elk.direction': 'RIGHT'
-            })
-          }
-        >
-          horizontal layout
-        </button>
-        <button
-          onClick={() =>
-            getLayoutedElements({
-              'elk.algorithm': 'org.eclipse.elk.force'
-            })
-          }
-        >
-          force layout
-        </button>
+        <Flex direction='row' gap={1}>
+          <Button
+            icon={IvyIcons.Process}
+            rotate={90}
+            onClick={() =>
+              getLayoutedElements({
+                'elk.algorithm': 'layered',
+                'elk.direction': 'DOWN'
+              })
+            }
+            style={{ background: 'white', boxShadow: 'var(--xy-controls-box-shadow, var(--xy-controls-box-shadow-default))' }}
+          />
+          <Button
+            icon={IvyIcons.Process}
+            onClick={() =>
+              getLayoutedElements({
+                'elk.algorithm': 'layered',
+                'elk.direction': 'RIGHT'
+              })
+            }
+            style={{ background: 'white', boxShadow: 'var(--xy-controls-box-shadow, var(--xy-controls-box-shadow-default))' }}
+          />
+          <Button
+            icon={IvyIcons.FitToScreen}
+            onClick={() =>
+              getLayoutedElements({
+                'elk.algorithm': 'org.eclipse.elk.force'
+              })
+            }
+            style={{ background: 'white', boxShadow: 'var(--xy-controls-box-shadow, var(--xy-controls-box-shadow-default))' }}
+          />
+        </Flex>
       </Panel>
     </ReactFlow>
   );
