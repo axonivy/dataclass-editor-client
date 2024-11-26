@@ -30,7 +30,7 @@ export const DataClassGraph = () => {
   const { getLayoutedElements } = useLayoutedElements();
   const { context, dataClass: originalDataClass } = useAppContext();
   const dataClasses = useMeta('meta/scripting/dataClasses', context, []).data;
-  const { getNodes, getEdges } = useReactFlow<CustomNode>();
+  const { getNodes, getEdges, fitView } = useReactFlow<CustomNode>();
 
   const onNodesChange: OnNodesChange = useCallback(changes => setNodes(nds => applyNodeChanges(changes, nds)), [setNodes]);
   const onEdgesChange: OnEdgesChange = useCallback(changes => setEdges(eds => applyEdgeChanges(changes, eds)), [setEdges]);
@@ -54,14 +54,24 @@ export const DataClassGraph = () => {
       const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements_dagre({ nodes: getNodes(), edges: getEdges(), direction });
       setNodes([...layoutedNodes]);
       setEdges([...layoutedEdges]);
+      window.requestAnimationFrame(() => {
+        fitView();
+      });
     },
-    [getEdges, getNodes]
+    [fitView, getEdges, getNodes]
   );
 
   useEffect(() => {
+    console.log(dataClasses);
     const originalDataClassFqn = originalDataClass.namespace + '.' + originalDataClass.simpleName;
+    const filteredDataClasses = dataClasses.filter(dataClass => {
+      const isOriginalDataClass = dataClass.fullQualifiedName === originalDataClassFqn;
+      const hasMatchingField = dataClass.fields?.some(field => field.type === originalDataClassFqn);
+      const fieldInOriginalDataClassMatches = originalDataClass.fields?.some(field => field.type === dataClass.fullQualifiedName);
+      return isOriginalDataClass || hasMatchingField || fieldInOriginalDataClassMatches;
+    });
     // Create nodes
-    const newNodes = dataClasses.map((dataClass, index) => ({
+    const newNodes = filteredDataClasses.map((dataClass, index) => ({
       id: dataClass.fullQualifiedName,
       position: { x: index * 200, y: 0 },
       data: {
