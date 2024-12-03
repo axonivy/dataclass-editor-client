@@ -72,6 +72,6 @@ export const useTypeBrowser = (value: string): Browser => {
     ) : undefined,
     footer: <BasicCheckbox label='Type as List' checked={typeAsList} onCheckedChange={() => setTypeAsList(!typeAsList)} />,
     infoProvider: row => typeBrowserApply(row?.original as BrowserNode<DataclassType>, ivyTypes, typeAsList),
-    applyModifier: row => ({ value: typeBrowserApply(row.original as BrowserNode<DataclassType>, ivyTypes, typeAsList) })
+    applyModifier: row => ({ value: typeBrowserApply(row?.original as BrowserNode<DataclassType>, ivyTypes, typeAsList) })
   };
 };
