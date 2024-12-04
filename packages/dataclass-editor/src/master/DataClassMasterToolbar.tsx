@@ -24,7 +24,7 @@ type DataClassMasterToolbarProps = {
 
 export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) => {
   const { context, detail, setDetail } = useAppContext();
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, disabled } = useTheme();
   const isFormData = context.file.includes('src_hd');
   const openForm = useAction('openForm');
   const openProcess = useAction('openProcess');
@@ -39,7 +39,7 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
             <Button icon={IvyIcons.Process} size='large' title='Open Process' aria-label='Open Process' onClick={() => openProcess()} />
           </>
         )}
-        {theme !== 'system' && (
+        {!disabled && (
           <Popover>
             <PopoverTrigger asChild>
               <Button icon={IvyIcons.Settings} size='large' title='Settings' aria-label='Settings' />
