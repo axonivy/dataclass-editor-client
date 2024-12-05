@@ -6,6 +6,8 @@ import type {
   DataClassData,
   DataClassSaveDataArgs,
   DataclassType,
+  EntityClassFieldAssociation,
+  FieldContext,
   JavaType,
   TypeSearchRequest,
   ValidationResult
@@ -57,10 +59,12 @@ export interface ClientContext {
 }
 
 export interface MetaRequestTypes {
-  'meta/scripting/dataClasses': [DataClassEditorDataContext, DataclassType[]];
-  'meta/scripting/ivyTypes': [void, JavaType[]];
-  'meta/scripting/allTypes': [TypeSearchRequest, JavaType[]];
-  'meta/scripting/ownTypes': [TypeSearchRequest, JavaType[]];
+  'meta/scripting/dataClasses': [DataClassEditorDataContext, Array<DataclassType>];
+  'meta/scripting/ivyTypes': [void, Array<JavaType>];
+  'meta/scripting/allTypes': [TypeSearchRequest, Array<JavaType>];
+  'meta/scripting/ownTypes': [TypeSearchRequest, Array<JavaType>];
+  'meta/scripting/cardinalities': [FieldContext, Array<EntityClassFieldAssociation>];
+  'meta/scripting/mappedByFields': [FieldContext, Array<string>];
 }
 
 export interface FunctionRequestTypes {

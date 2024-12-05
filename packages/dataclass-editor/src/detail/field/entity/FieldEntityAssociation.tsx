@@ -1,15 +1,8 @@
-import {
-  BasicCheckbox,
-  BasicField,
-  BasicSelect,
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-  Flex,
-  Input
-} from '@axonivy/ui-components';
-import { useEntityField } from '../../../context/FieldContext';
 import type { Association } from '@axonivy/dataclass-editor-protocol';
+import { BasicCheckbox, BasicField, BasicSelect, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
+import { useAppContext } from '../../../context/AppContext';
+import { useEntityField } from '../../../context/FieldContext';
+import { useMeta } from '../../../context/useMeta';
 import './FieldEntityAssociation.css';
 import { FieldEntityCascadeTypeCheckbox } from './FieldEntityCascadeTypeCheckbox';
 import { useFieldEntityProperty } from './useFieldEntityProperty';
@@ -47,9 +40,20 @@ const cardinalityItems: Array<{ value: Association; label: string }> = [
 ] as const;
 
 export const FieldEntityAssociation = () => {
+  const { context } = useAppContext();
   const { field, setProperty } = useFieldEntityProperty();
   const { mappedByFieldName, setMappedByFieldName, isDisabled: mappedByFieldNameIsDisabled } = useMappedByFieldName();
   const { cardinality, setCardinality } = useCardinality();
+
+  const fieldContext = { ...context, field: field.name };
+
+  const possibleCardinalities = useMeta('meta/scripting/cardinalities', fieldContext, []).data;
+  const cardinalities = cardinalityItems.filter(cardinality => possibleCardinalities.includes(cardinality.value));
+
+  const mappedByFields = useMeta('meta/scripting/mappedByFields', fieldContext, []).data.map(mappedByField => ({
+    value: mappedByField,
+    label: mappedByField
+  }));
 
   return (
     <Collapsible>
@@ -57,7 +61,7 @@ export const FieldEntityAssociation = () => {
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
           <BasicField label='Cardinality'>
-            <BasicSelect value={cardinality} emptyItem items={cardinalityItems} onValueChange={setCardinality} />
+            <BasicSelect value={cardinality} emptyItem items={cardinalities} onValueChange={setCardinality} />
           </BasicField>
           <BasicField label='Cascade'>
             <FieldEntityCascadeTypeCheckbox label='All' cascadeType='ALL' />
@@ -69,9 +73,11 @@ export const FieldEntityAssociation = () => {
             </Flex>
           </BasicField>
           <BasicField label='Mapped by'>
-            <Input
+            <BasicSelect
               value={mappedByFieldName}
-              onChange={event => setMappedByFieldName(event.target.value)}
+              emptyItem
+              items={mappedByFields}
+              onValueChange={setMappedByFieldName}
               disabled={mappedByFieldNameIsDisabled}
             />
           </BasicField>

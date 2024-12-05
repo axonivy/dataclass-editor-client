@@ -22,13 +22,13 @@ test('name', async () => {
   await databaseFieldName.locator.fill('DatabaseFieldName');
   await editor.detail.field.entity.association.collapsible.open();
   await editor.detail.field.entity.association.cardinality.choose('One-to-One');
-  await editor.detail.field.entity.association.mappedBy.locator.fill('MappedByFieldName');
+  await editor.detail.field.entity.association.mappedBy.choose('MappedByFieldName');
 
   await expect(databaseFieldName.locator).toHaveValue('');
   await databaseFieldName.expectToHavePlaceholder('');
   await expect(databaseFieldName.locator).toBeDisabled();
 
-  await editor.detail.field.entity.association.mappedBy.locator.clear();
+  await editor.detail.field.entity.association.mappedBy.choose('');
 
   await expect(databaseFieldName.locator).toHaveValue('DatabaseFieldName');
 });
@@ -131,7 +131,7 @@ test('properties', async () => {
   await databaseField.properties.Version.click();
   await editor.detail.field.entity.association.collapsible.open();
   await editor.detail.field.entity.association.cardinality.choose('One-to-One');
-  await editor.detail.field.entity.association.mappedBy.locator.fill('MappedByFieldName');
+  await editor.detail.field.entity.association.mappedBy.choose('MappedByFieldName');
 
   // mappedByFieldName is set
   await databaseField.expectPropertiesToHaveEnabledState({

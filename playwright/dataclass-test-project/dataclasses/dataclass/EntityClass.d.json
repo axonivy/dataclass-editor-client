@@ -33,7 +33,7 @@
     "entity" : {
       "association" : "ONE_TO_ONE",
       "cascadeTypes" : [ "REMOVE", "REFRESH" ],
-      "mappedByFieldName" : "invers",
+      "mappedByFieldName" : "inverse",
       "orphanRemoval" : true
     }
   } ]
