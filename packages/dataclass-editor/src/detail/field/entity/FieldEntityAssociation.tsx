@@ -50,45 +50,47 @@ export const FieldEntityAssociation = () => {
   const possibleCardinalities = useMeta('meta/scripting/cardinalities', fieldContext, []).data;
   const cardinalities = cardinalityItems.filter(cardinality => possibleCardinalities.includes(cardinality.value));
 
-  const mappedByFields = useMeta('meta/scripting/mappedByFields', fieldContext, []).data.map(mappedByField => ({
+  const mappedByFields = useMeta('meta/scripting/mappedByFields', { ...fieldContext, cardinality }, []).data.map(mappedByField => ({
     value: mappedByField,
     label: mappedByField
   }));
 
   return (
-    <Collapsible>
-      <CollapsibleTrigger>Association</CollapsibleTrigger>
-      <CollapsibleContent>
-        <Flex direction='column' gap={4}>
-          <BasicField label='Cardinality'>
-            <BasicSelect value={cardinality} emptyItem items={cardinalities} onValueChange={setCardinality} />
-          </BasicField>
-          <BasicField label='Cascade'>
-            <FieldEntityCascadeTypeCheckbox label='All' cascadeType='ALL' />
-            <Flex direction='column' gap={1} className='cascade-types-container'>
-              <FieldEntityCascadeTypeCheckbox label='Persist' cascadeType='PERSIST' />
-              <FieldEntityCascadeTypeCheckbox label='Merge' cascadeType='MERGE' />
-              <FieldEntityCascadeTypeCheckbox label='Remove' cascadeType='REMOVE' />
-              <FieldEntityCascadeTypeCheckbox label='Refresh' cascadeType='REFRESH' />
-            </Flex>
-          </BasicField>
-          <BasicField label='Mapped by'>
-            <BasicSelect
-              value={mappedByFieldName}
-              emptyItem
-              items={mappedByFields}
-              onValueChange={setMappedByFieldName}
+    possibleCardinalities.length !== 0 && (
+      <Collapsible defaultOpen={true}>
+        <CollapsibleTrigger>Association</CollapsibleTrigger>
+        <CollapsibleContent>
+          <Flex direction='column' gap={4}>
+            <BasicField label='Cardinality'>
+              <BasicSelect value={cardinality} emptyItem items={cardinalities} onValueChange={setCardinality} />
+            </BasicField>
+            <BasicField label='Cascade'>
+              <FieldEntityCascadeTypeCheckbox label='All' cascadeType='ALL' />
+              <Flex direction='column' gap={1} className='cascade-types-container'>
+                <FieldEntityCascadeTypeCheckbox label='Persist' cascadeType='PERSIST' />
+                <FieldEntityCascadeTypeCheckbox label='Merge' cascadeType='MERGE' />
+                <FieldEntityCascadeTypeCheckbox label='Remove' cascadeType='REMOVE' />
+                <FieldEntityCascadeTypeCheckbox label='Refresh' cascadeType='REFRESH' />
+              </Flex>
+            </BasicField>
+            <BasicField label='Mapped by'>
+              <BasicSelect
+                value={mappedByFieldName}
+                emptyItem
+                items={mappedByFields}
+                onValueChange={setMappedByFieldName}
+                disabled={mappedByFieldNameIsDisabled}
+              />
+            </BasicField>
+            <BasicCheckbox
+              label='Remove orphans'
+              checked={field.entity.orphanRemoval}
+              onCheckedChange={event => setProperty('orphanRemoval', event.valueOf() as boolean)}
               disabled={mappedByFieldNameIsDisabled}
             />
-          </BasicField>
-          <BasicCheckbox
-            label='Remove orphans'
-            checked={field.entity.orphanRemoval}
-            onCheckedChange={event => setProperty('orphanRemoval', event.valueOf() as boolean)}
-            disabled={mappedByFieldNameIsDisabled}
-          />
-        </Flex>
-      </CollapsibleContent>
-    </Collapsible>
+          </Flex>
+        </CollapsibleContent>
+      </Collapsible>
+    )
   );
 };

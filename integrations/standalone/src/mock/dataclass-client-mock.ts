@@ -1,4 +1,4 @@
-import type { DataActionArgs, DataClassData, ValidationResult } from '@axonivy/dataclass-editor-protocol/src/editor';
+import type { DataActionArgs, DataClassData, FieldContext, ValidationResult } from '@axonivy/dataclass-editor-protocol/src/editor';
 import type { Client, Event, FunctionRequestTypes, MetaRequestTypes } from '@axonivy/dataclass-editor-protocol/src/types';
 
 export class DataClassClientMock implements Client {
@@ -42,6 +42,13 @@ export class DataClassClientMock implements Client {
           modifiers: [],
           comment: 'Transcript of the conversation.',
           annotations: []
+        },
+        {
+          name: 'entity',
+          type: 'mock.Entity',
+          modifiers: ['PERSISTENT'],
+          comment: 'An entity.',
+          annotations: []
         }
       ]
     },
@@ -70,14 +77,14 @@ export class DataClassClientMock implements Client {
     }
   }
 
-  meta<TMeta extends keyof MetaRequestTypes>(path: TMeta): Promise<MetaRequestTypes[TMeta][1]> {
+  meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]> {
     switch (path) {
       case 'meta/scripting/ivyTypes':
         return Promise.resolve([]);
       case 'meta/scripting/dataClasses':
         return Promise.resolve([]);
       case 'meta/scripting/cardinalities':
-        return Promise.resolve(['ONE_TO_ONE', 'ONE_TO_MANY', 'MANY_TO_ONE']);
+        return Promise.resolve((args as FieldContext).field === 'entity' ? ['ONE_TO_ONE', 'MANY_TO_ONE'] : []);
       case 'meta/scripting/mappedByFields':
         return Promise.resolve(['MappedByFieldName']);
       default:

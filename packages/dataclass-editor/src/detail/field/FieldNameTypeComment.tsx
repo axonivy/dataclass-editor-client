@@ -1,9 +1,9 @@
+import { isIDType, isVersionType } from '@axonivy/dataclass-editor-protocol';
 import { BasicField, BasicInput, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Textarea } from '@axonivy/ui-components';
 import { useField } from '../../context/FieldContext';
-import { isIDType, isVersionType } from '@axonivy/dataclass-editor-protocol';
 import { updateModifiers } from '../../data/dataclass-utils';
-import { useFieldProperty } from './useFieldProperty';
 import { InputFieldWithTypeBrowser } from './InputFieldWithTypeBrowser';
+import { useFieldProperty } from './useFieldProperty';
 
 export const useType = () => {
   const { field, setField } = useField();

@@ -64,7 +64,7 @@ export interface MetaRequestTypes {
   'meta/scripting/allTypes': [TypeSearchRequest, Array<JavaType>];
   'meta/scripting/ownTypes': [TypeSearchRequest, Array<JavaType>];
   'meta/scripting/cardinalities': [FieldContext, Array<EntityClassFieldAssociation>];
-  'meta/scripting/mappedByFields': [FieldContext, Array<string>];
+  'meta/scripting/mappedByFields': [FieldContext & { cardinality?: string }, Array<string>];
 }
 
 export interface FunctionRequestTypes {
