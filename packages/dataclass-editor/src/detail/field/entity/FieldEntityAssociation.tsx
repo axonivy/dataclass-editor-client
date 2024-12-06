@@ -21,7 +21,7 @@ export const useMappedByFieldName = () => {
 
 export const useCardinality = () => {
   const { field, setField } = useEntityField();
-  const setCardinality = (association: Association) => {
+  const setCardinality = (association?: Association) => {
     const newField = structuredClone(field);
     if (!association || association === 'MANY_TO_ONE') {
       newField.entity.mappedByFieldName = '';
@@ -30,7 +30,7 @@ export const useCardinality = () => {
     newField.entity.association = association;
     setField(newField);
   };
-  return { cardinality: field.entity.association, setCardinality };
+  return { cardinality: field.entity?.association, setCardinality };
 };
 
 const cardinalityItems: Array<{ value: Association; label: string }> = [
@@ -62,7 +62,12 @@ export const FieldEntityAssociation = () => {
         <CollapsibleContent>
           <Flex direction='column' gap={4}>
             <BasicField label='Cardinality'>
-              <BasicSelect value={cardinality} emptyItem items={cardinalities} onValueChange={setCardinality} />
+              <BasicSelect
+                value={cardinality}
+                emptyItem
+                items={cardinalities}
+                onValueChange={value => setCardinality(value as Association)}
+              />
             </BasicField>
             <BasicField label='Cascade'>
               <FieldEntityCascadeTypeCheckbox label='All' cascadeType='ALL' />

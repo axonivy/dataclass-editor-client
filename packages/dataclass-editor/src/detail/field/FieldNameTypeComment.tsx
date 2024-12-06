@@ -2,11 +2,14 @@ import { isIDType, isVersionType } from '@axonivy/dataclass-editor-protocol';
 import { BasicField, BasicInput, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Textarea } from '@axonivy/ui-components';
 import { useField } from '../../context/FieldContext';
 import { updateModifiers } from '../../data/dataclass-utils';
+import { useCardinality } from './entity/FieldEntityAssociation';
+import { isEntityField } from './FieldDetailContent';
 import { InputFieldWithTypeBrowser } from './InputFieldWithTypeBrowser';
 import { useFieldProperty } from './useFieldProperty';
 
 export const useType = () => {
   const { field, setField } = useField();
+  const { setCardinality } = useCardinality();
   const setType = (type: string) => {
     const newField = structuredClone(field);
     if (!isIDType(type)) {
@@ -14,6 +17,9 @@ export const useType = () => {
     }
     if (!isVersionType(type)) {
       newField.modifiers = updateModifiers(false, newField.modifiers, 'VERSION');
+    }
+    if (isEntityField(field)) {
+      setCardinality();
     }
     newField.type = type;
     setField(newField);
