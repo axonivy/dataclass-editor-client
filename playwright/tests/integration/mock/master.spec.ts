@@ -11,16 +11,15 @@ test.describe('add field', async () => {
   test.describe('add', async () => {
     test('data class', async () => {
       await editor.addField('newAttribute', 'String');
-      await expect(editor.table.rows).toHaveCount(5);
-      await editor.table.row(4).expectToBeSelected();
-      await editor.table.row(4).expectToHaveValues('newAttribute', 'String', '');
-      await editor.table.row(4).locator.click();
+      await expect(editor.table.rows).toHaveCount(7);
+      await editor.table.row(6).expectToBeSelected();
+      await editor.table.row(6).expectToHaveValues('newAttribute', 'String', '');
       await editor.detail.field.general.properties.expectToHaveValues(true);
     });
 
     test('entity class', async () => {
       await editor.detail.dataClass.general.classType.fillValues('Entity');
-      await editor.addField('newAttribute', 'String');
+      await editor.addField('entityNew', 'String');
       await editor.detail.field.general.properties.fillValues(true);
       await editor.detail.field.entity.accordion.open();
       await editor.detail.field.entity.association.collapsible.open();
@@ -72,25 +71,25 @@ test.describe('add field', async () => {
     await expect(editor.add.locator).toBeVisible();
     await editor.page.keyboard.press('Enter');
     await expect(editor.add.locator).toBeHidden();
-    await expect(editor.table.rows).toHaveCount(5);
+    await expect(editor.table.rows).toHaveCount(7);
   });
 });
 
 test.describe('delete field', async () => {
   test('delete', async () => {
     await editor.deleteField(1);
-    await expect(editor.table.rows).toHaveCount(3);
+    await expect(editor.table.rows).toHaveCount(5);
 
     await editor.table.row(1).expectToBeSelected();
     await editor.detail.field.general.expectToHaveValues('date', 'Date', '', true, []);
   });
 
   test('delete last field', async () => {
-    await editor.deleteField(3);
-    await expect(editor.table.rows).toHaveCount(3);
+    await editor.deleteField(5);
+    await expect(editor.table.rows).toHaveCount(5);
 
-    await editor.table.row(2).expectToBeSelected();
-    await editor.detail.field.general.expectToHaveValues('date', 'Date', '', true, []);
+    await editor.table.row(4).expectToBeSelected();
+    await editor.detail.field.general.expectToHaveValues('entity', 'mock.Entity', 'An entity.', true, []);
   });
 
   test('delete last remaining field', async () => {

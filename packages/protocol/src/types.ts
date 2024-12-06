@@ -58,13 +58,15 @@ export interface ClientContext {
   client: Client;
 }
 
+export type MappedByFieldsContext = FieldContext & { cardinality?: string };
+
 export interface MetaRequestTypes {
   'meta/scripting/dataClasses': [DataClassEditorDataContext, Array<DataclassType>];
   'meta/scripting/ivyTypes': [void, Array<JavaType>];
   'meta/scripting/allTypes': [TypeSearchRequest, Array<JavaType>];
   'meta/scripting/ownTypes': [TypeSearchRequest, Array<JavaType>];
   'meta/scripting/cardinalities': [FieldContext, Array<EntityClassFieldAssociation>];
-  'meta/scripting/mappedByFields': [FieldContext, Array<string>];
+  'meta/scripting/mappedByFields': [MappedByFieldsContext, Array<string>];
 }
 
 export interface FunctionRequestTypes {

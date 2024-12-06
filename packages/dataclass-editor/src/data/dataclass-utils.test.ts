@@ -1,5 +1,5 @@
-import type { DataClass } from '@axonivy/dataclass-editor-protocol';
-import { classTypeOf, isEntity } from './dataclass-utils';
+import type { DataClass, Field, Modifier } from '@axonivy/dataclass-editor-protocol';
+import { classTypeOf, isEntity, isEntityField } from './dataclass-utils';
 
 describe('classTypeOf', () => {
   test('data', () => {
@@ -27,5 +27,24 @@ describe('isEntity', () => {
   test('false', () => {
     const dataClass = {} as DataClass;
     expect(isEntity(dataClass)).toBeFalsy();
+  });
+});
+
+describe('isEntityField', () => {
+  test('true', () => {
+    const field = { modifiers: ['PERSISTENT'], entity: {} } as Field;
+    expect(isEntityField(field)).toBeTruthy();
+  });
+
+  describe('false', () => {
+    test('missing modifier persistent', () => {
+      const field = { modifiers: [] as Array<Modifier>, entity: {} } as Field;
+      expect(isEntityField(field)).toBeFalsy();
+    });
+
+    test('missing entity', () => {
+      const field = { modifiers: ['PERSISTENT'] } as Field;
+      expect(isEntityField(field)).toBeFalsy();
+    });
   });
 });

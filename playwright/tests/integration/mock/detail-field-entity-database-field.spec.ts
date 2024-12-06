@@ -11,12 +11,12 @@ test('name', async () => {
   const databaseFieldName = editor.detail.field.entity.databaseField.name;
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
-  await editor.table.row(1).locator.click();
+  await editor.table.row(5).locator.click();
   await editor.detail.field.entity.accordion.open();
   await editor.detail.field.entity.databaseField.collapsible.open();
 
   await expect(databaseFieldName.locator).toHaveValue('');
-  await databaseFieldName.expectToHavePlaceholder('firstName');
+  await databaseFieldName.expectToHavePlaceholder('entity');
   await expect(databaseFieldName.locator).toBeEnabled();
 
   await databaseFieldName.locator.fill('DatabaseFieldName');
@@ -69,7 +69,7 @@ test('properties', async () => {
   const databaseField = editor.detail.field.entity.databaseField;
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
-  await editor.table.row(3).locator.click();
+  await editor.table.row(5).locator.click();
   await editor.detail.field.entity.accordion.open();
   await databaseField.collapsible.open();
 
