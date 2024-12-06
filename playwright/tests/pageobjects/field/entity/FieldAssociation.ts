@@ -65,7 +65,9 @@ export class FieldAssociation {
     await this.collapsible.open();
     await this.cardinality.choose(cardinality);
     await this.fillCascadeTypes(cascadeTypes);
-    await this.mappedBy.choose(mappedBy);
+    if (mappedBy !== undefined) {
+      await this.mappedBy.choose(mappedBy);
+    }
     if (removeOrphans !== (await this.removeOrphans.isChecked())) {
       await this.removeOrphans.click();
     }

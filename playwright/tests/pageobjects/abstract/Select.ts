@@ -13,10 +13,7 @@ export class Select {
     }
   }
 
-  async choose(value?: string) {
-    if (value === undefined) {
-      return;
-    }
+  async choose(value: string) {
     await this.locator.click();
     await this.page.getByRole('option', { name: value, exact: true }).first().click();
   }
