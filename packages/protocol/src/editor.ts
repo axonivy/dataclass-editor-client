@@ -17,6 +17,7 @@ export type Modifier =
   | "NOT_UPDATEABLE"
   | "NOT_INSERTABLE"
   | "VERSION";
+export type EntityClassFieldAssociation = "ONE_TO_ONE" | "ONE_TO_MANY" | "MANY_TO_ONE";
 export type Severity = "INFO" | "WARNING" | "ERROR";
 
 export interface DataClasses {
@@ -27,7 +28,10 @@ export interface DataClasses {
   dataClassModel: DataClassModel;
   dataClassSaveDataArgs: DataClassSaveDataArgs;
   dataclassType: DataclassType[];
+  entityClassFieldAssociation: EntityClassFieldAssociation[];
+  fieldContext: FieldContext;
   javaType: JavaType[];
+  string: string[];
   typeSearchRequest: TypeSearchRequest;
   validationResult: ValidationResult[];
   void: Void;
@@ -90,6 +94,12 @@ export interface DataclassType {
   name: string;
   packageName: string;
   path: string;
+}
+export interface FieldContext {
+  app: string;
+  field: string;
+  file: string;
+  pmv: string;
 }
 export interface JavaType {
   fullQualifiedName: string;

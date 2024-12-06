@@ -33,7 +33,7 @@ test('load data', async () => {
       remove: true,
       refresh: true
     },
-    'invers',
+    'inverse',
     true
   );
 });
@@ -69,7 +69,7 @@ test('save data', async ({ page }) => {
       remove: true,
       refresh: true
     },
-    'NewMappedByFieldName',
+    undefined,
     true
   );
 
@@ -100,7 +100,15 @@ test('save data', async ({ page }) => {
       remove: true,
       refresh: true
     },
-    'NewMappedByFieldName',
+    '',
     true
   );
+});
+
+test('association', async () => {
+  await editor.table.row(2).locator.click();
+  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.association.collapsible.open();
+  await editor.detail.field.entity.association.cardinality.expectToHaveOptions('', 'One-to-One', 'Many-to-One');
+  await editor.detail.field.entity.association.mappedBy.expectToHaveOptions('', 'inverse', 'anotherInverse');
 });

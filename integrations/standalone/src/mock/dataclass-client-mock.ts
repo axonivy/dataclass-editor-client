@@ -1,6 +1,5 @@
+import type { DataActionArgs, DataClassData, ValidationResult } from '@axonivy/dataclass-editor-protocol/src/editor';
 import type { Client, Event, FunctionRequestTypes, MetaRequestTypes } from '@axonivy/dataclass-editor-protocol/src/types';
-import type { DataActionArgs, ValidationResult, DataClassData } from '@axonivy/dataclass-editor-protocol/src/editor';
-import { MetaMock } from './meta-mock';
 
 export class DataClassClientMock implements Client {
   private dataClassData: DataClassData = {
@@ -74,9 +73,13 @@ export class DataClassClientMock implements Client {
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta): Promise<MetaRequestTypes[TMeta][1]> {
     switch (path) {
       case 'meta/scripting/ivyTypes':
-        return Promise.resolve(MetaMock.IVYTYPES);
+        return Promise.resolve([]);
       case 'meta/scripting/dataClasses':
-        return Promise.resolve(MetaMock.DATACLASSES);
+        return Promise.resolve([]);
+      case 'meta/scripting/cardinalities':
+        return Promise.resolve(['ONE_TO_ONE', 'ONE_TO_MANY', 'MANY_TO_ONE']);
+      case 'meta/scripting/mappedByFields':
+        return Promise.resolve(['MappedByFieldName']);
       default:
         throw Error('mock meta path not programmed');
     }

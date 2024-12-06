@@ -1,7 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { Collapsible } from '../../abstract/Collapsible';
 import { Select } from '../../abstract/Select';
-import { TextArea } from '../../abstract/TextArea';
 
 export type FieldAssociationCascadeTypes = { [K in keyof FieldAssociation['cascadeTypes']]: boolean };
 
@@ -15,7 +14,7 @@ export class FieldAssociation {
     remove: Locator;
     refresh: Locator;
   };
-  readonly mappedBy: TextArea;
+  readonly mappedBy: Select;
   readonly removeOrphans: Locator;
 
   constructor(page: Page, parentLocator: Locator) {
@@ -28,7 +27,7 @@ export class FieldAssociation {
       remove: this.collapsible.locator.getByLabel('Remove', { exact: true }),
       refresh: this.collapsible.locator.getByLabel('Refresh')
     };
-    this.mappedBy = new TextArea(this.collapsible.locator, { label: 'Mapped by' });
+    this.mappedBy = new Select(page, this.collapsible.locator, { label: 'Mapped by' });
     this.removeOrphans = this.collapsible.locator.getByLabel('Remove orphans');
   }
 
@@ -36,7 +35,7 @@ export class FieldAssociation {
     await this.collapsible.open();
     await expect(this.cardinality.locator).toHaveText(cardinality);
     await this.expectCascadeTypesToHaveCheckedState(cascadeTypes);
-    await expect(this.mappedBy.locator).toHaveValue(mappedBy);
+    await expect(this.mappedBy.locator).toHaveText(mappedBy);
     expect(await this.removeOrphans.isChecked()).toEqual(removeOrphans);
   }
 
@@ -62,11 +61,13 @@ export class FieldAssociation {
     }
   }
 
-  async fillValues(cardinality: string, cascadeTypes: FieldAssociationCascadeTypes, mappedBy: string, removeOrphans: boolean) {
+  async fillValues(cardinality: string, cascadeTypes: FieldAssociationCascadeTypes, mappedBy: string | undefined, removeOrphans: boolean) {
     await this.collapsible.open();
     await this.cardinality.choose(cardinality);
     await this.fillCascadeTypes(cascadeTypes);
-    await this.mappedBy.locator.fill(mappedBy);
+    if (mappedBy !== undefined) {
+      await this.mappedBy.choose(mappedBy);
+    }
     if (removeOrphans !== (await this.removeOrphans.isChecked())) {
       await this.removeOrphans.click();
     }

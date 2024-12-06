@@ -59,7 +59,7 @@ describe('collapsible state', async () => {
 
         await entity.association.collapsible.open();
         await entity.association.cardinality.choose('One-to-One');
-        await entity.association.mappedBy.locator.fill('MappedByFieldName');
+        await entity.association.mappedBy.choose('MappedByFieldName');
         await entity.accordion.reopen();
 
         await entity.databaseField.collapsible.expectToBeClosed();
