@@ -1,5 +1,5 @@
-import { customRenderHook } from '../../../context/test-utils/test-utils';
 import type { Association, EntityClassField } from '@axonivy/dataclass-editor-protocol';
+import { customRenderHook } from '../../../context/test-utils/test-utils';
 import { useCardinality, useMappedByFieldName } from './FieldEntityAssociation';
 
 describe('useMappedByFieldName', () => {
@@ -61,86 +61,79 @@ describe('useMappedByFieldName', () => {
 });
 
 describe('useCardinality', () => {
-  const expectAssociation = (
-    field: EntityClassField,
-    association: Association | undefined,
-    mappedByFieldName: string,
-    orphanRemoval: boolean
-  ) => {
-    expect(field.entity.association).toEqual(association);
-    expect(field.entity.mappedByFieldName).toEqual(mappedByFieldName);
-    expect(field.entity.orphanRemoval).toEqual(orphanRemoval);
-  };
-
-  describe('clear properties', () => {
-    test('to none', () => {
-      const field = {
-        entity: { association: 'ONE_TO_ONE', mappedByFieldName: 'mappedByFieldName', orphanRemoval: true }
-      } as EntityClassField;
-      let newField = {} as EntityClassField;
-      const view = customRenderHook(() => useCardinality(), {
-        wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
-      });
-      expect(view.result.current.cardinality).toEqual('ONE_TO_ONE');
-
-      const originalField = structuredClone(field);
-      view.result.current.setCardinality(undefined as unknown as Association);
-      expect(field).toEqual(originalField);
-
-      expectAssociation(newField, undefined, '', false);
+  test('to none', () => {
+    const field = {
+      entity: { association: 'ONE_TO_ONE', mappedByFieldName: 'mappedByFieldName', orphanRemoval: true }
+    } as EntityClassField;
+    let newField = {} as EntityClassField;
+    const view = customRenderHook(() => useCardinality(), {
+      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
     });
+    expect(view.result.current.cardinality).toEqual('ONE_TO_ONE');
 
-    test('to many-to-one', () => {
-      const field = {
-        entity: { association: 'ONE_TO_ONE', mappedByFieldName: 'mappedByFieldName', orphanRemoval: true }
-      } as EntityClassField;
-      let newField = {} as EntityClassField;
-      const view = customRenderHook(() => useCardinality(), {
-        wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
-      });
-      expect(view.result.current.cardinality).toEqual('ONE_TO_ONE');
+    const originalField = structuredClone(field);
+    view.result.current.setCardinality(undefined as unknown as Association);
+    expect(field).toEqual(originalField);
 
-      const originalDataClass = structuredClone(field);
-      view.result.current.setCardinality('MANY_TO_ONE');
-      expect(field).toEqual(originalDataClass);
-
-      expectAssociation(newField, 'MANY_TO_ONE', '', false);
-    });
+    expect(newField.entity.association).toBeUndefined();
+    expect(newField.entity.mappedByFieldName).toEqual('');
+    expect(newField.entity.orphanRemoval).toBeFalsy();
   });
 
-  describe('keep properties', () => {
-    test('to one-to-one', () => {
-      const field = {
-        entity: { association: 'ONE_TO_MANY', mappedByFieldName: 'mappedByFieldName', orphanRemoval: true }
-      } as EntityClassField;
-      let newField = {} as EntityClassField;
-      const view = customRenderHook(() => useCardinality(), {
-        wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
-      });
-      expect(view.result.current.cardinality).toEqual('ONE_TO_MANY');
-
-      const originalField = structuredClone(field);
-      view.result.current.setCardinality('ONE_TO_ONE');
-      expect(field).toEqual(originalField);
-
-      expectAssociation(newField, 'ONE_TO_ONE', 'mappedByFieldName', true);
+  test('to many-to-one', () => {
+    const field = {
+      entity: { association: 'ONE_TO_ONE', mappedByFieldName: 'mappedByFieldName', orphanRemoval: true }
+    } as EntityClassField;
+    let newField = {} as EntityClassField;
+    const view = customRenderHook(() => useCardinality(), {
+      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
     });
+    expect(view.result.current.cardinality).toEqual('ONE_TO_ONE');
 
-    test('to many-to-one', () => {
-      const field = {
-        entity: { association: 'ONE_TO_ONE', mappedByFieldName: 'mappedByFieldName', orphanRemoval: true }
-      } as EntityClassField;
-      let newField = {} as EntityClassField;
-      const view = customRenderHook(() => useCardinality(), {
-        wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
-      });
-      expect(view.result.current.cardinality).toEqual('ONE_TO_ONE');
+    const originalDataClass = structuredClone(field);
+    view.result.current.setCardinality('MANY_TO_ONE');
+    expect(field).toEqual(originalDataClass);
 
-      const originalField = structuredClone(field);
-      view.result.current.setCardinality('ONE_TO_MANY');
-      expect(field).toEqual(originalField);
+    expect(newField.entity.association).toEqual('MANY_TO_ONE');
+    expect(newField.entity.mappedByFieldName).toEqual('');
+    expect(newField.entity.orphanRemoval).toBeFalsy();
+  });
 
-      expectAssociation(newField, 'ONE_TO_MANY', 'mappedByFieldName', true);
+  test('to one-to-one', () => {
+    const field = {
+      entity: { association: 'ONE_TO_MANY', mappedByFieldName: 'mappedByFieldName', orphanRemoval: true }
+    } as EntityClassField;
+    let newField = {} as EntityClassField;
+    const view = customRenderHook(() => useCardinality(), {
+      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
     });
+    expect(view.result.current.cardinality).toEqual('ONE_TO_MANY');
+
+    const originalField = structuredClone(field);
+    view.result.current.setCardinality('ONE_TO_ONE');
+    expect(field).toEqual(originalField);
+
+    expect(newField.entity.association).toEqual('ONE_TO_ONE');
+    expect(newField.entity.mappedByFieldName).toEqual('');
+    expect(newField.entity.orphanRemoval).toBeFalsy();
+  });
+
+  test('to many-to-one', () => {
+    const field = {
+      entity: { association: 'ONE_TO_ONE', mappedByFieldName: 'mappedByFieldName', orphanRemoval: true }
+    } as EntityClassField;
+    let newField = {} as EntityClassField;
+    const view = customRenderHook(() => useCardinality(), {
+      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
+    });
+    expect(view.result.current.cardinality).toEqual('ONE_TO_ONE');
+
+    const originalField = structuredClone(field);
+    view.result.current.setCardinality('ONE_TO_MANY');
+    expect(field).toEqual(originalField);
+
+    expect(newField.entity.association).toEqual('ONE_TO_MANY');
+    expect(newField.entity.mappedByFieldName).toEqual('');
+    expect(newField.entity.orphanRemoval).toBeFalsy();
   });
 });
