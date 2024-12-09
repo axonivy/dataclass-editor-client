@@ -96,12 +96,10 @@ export class DataClassClientMock implements Client {
         return Promise.resolve([]);
       case 'meta/scripting/dataClasses':
         return Promise.resolve([]);
-      case 'meta/scripting/cardinalities': {
+      case 'meta/scripting/cardinalities': 
         return Promise.resolve(cardinalities(args as FieldContext));
-      }
-      case 'meta/scripting/mappedByFields': {
+      case 'meta/scripting/mappedByFields': 
         return Promise.resolve(mappedByFields(args as MappedByFieldsContext));
-      }
       default:
         throw Error('mock meta path not programmed');
     }
