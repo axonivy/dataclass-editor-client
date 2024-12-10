@@ -14,7 +14,7 @@ test('cardinality', async () => {
   await editor.table.row(5).locator.click();
   await editor.detail.field.entity.accordion.open();
 
-  await cardinality.expectToHaveOptions('', 'One-to-One', 'Many-to-One');
+  await cardinality.expectToHaveOptions('One-to-One', 'Many-to-One');
 });
 
 test('cascade', async () => {
