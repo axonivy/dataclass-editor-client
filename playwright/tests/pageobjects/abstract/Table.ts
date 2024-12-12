@@ -3,10 +3,12 @@ import { expect } from '@playwright/test';
 import { Button } from './Button';
 
 export class Table {
+  readonly table: Locator;
   readonly rows: Locator;
   readonly headers: Locator;
 
   constructor(parentLocator: Locator) {
+    this.table = parentLocator.locator('table');
     this.rows = parentLocator.locator('tbody tr');
     this.headers = parentLocator.locator('.ui-table-head');
   }
@@ -15,10 +17,31 @@ export class Table {
     return new Row(this.rows, index);
   }
 
+  async focusTable() {
+    await this.table.focus();
+  }
+
   async expectToHaveValues(...values: Array<Array<string>>) {
     await expect(this.rows).toHaveCount(values.length);
     for (let i = 0; i < values.length; i++) {
       await this.row(i).expectToHaveValues(...values[i]);
+    }
+  }
+
+  async expectToBeSelected(indexes: Array<number>) {
+    for (let i = 0; i < indexes.length; i++) {
+      await this.row(indexes[i]).expectToBeSelected();
+    }
+  }
+
+  async expectRowToBeAtPosition(position: number, name: string) {
+    const cell = this.row(position).column(0).locator;
+    await expect(cell).toHaveText(name);
+  }
+
+  async expectToHaveNothingSelected() {
+    for (let i = 0; i < (await this.rows.count()); i++) {
+      await this.row(i).expectToBeUnselected();
     }
   }
 
@@ -80,6 +103,10 @@ export class Row {
 
   async expectToBeSelected() {
     await expect(this.locator).toHaveAttribute('data-state', 'selected');
+  }
+
+  async expectToBeUnselected() {
+    await expect(this.locator).toHaveAttribute('data-state', 'unselected');
   }
 }
 
