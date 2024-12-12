@@ -21,6 +21,7 @@ import {
   TooltipTrigger,
   useMultiSelectRow,
   useReadonly,
+  useTableKeyHandler,
   useTableSelect,
   useTableSort
 } from '@axonivy/ui-components';
@@ -53,7 +54,7 @@ export const useUpdateSelection = (table: TanstackTable<Field>) => {
 };
 
 export const DataClassMasterContent = () => {
-  const { context, dataClass, setDataClass, setSelectedField } = useAppContext();
+  const { context, dataClass, setDataClass, setSelectedField, setDetail, detail } = useAppContext();
   const queryClient = useQueryClient();
 
   const messages = useValidation();
@@ -116,17 +117,26 @@ export const DataClassMasterContent = () => {
     setSelectedField(selection);
   };
 
+  const updateDataArray = (moveIndexes: number[], toIndex: number, data: Field[]) => {
+    const newArray = arrayMoveMultiple(data, moveIndexes, toIndex);
+    setDataClass({ ...dataClass, fields: [...newArray] });
+  };
+
   const updateOrder = (moveId: string, targetId: string) => {
     const selectedRows = table.getSelectedRowModel().flatRows.map(r => r.original.name);
     const moveIds = selectedRows.length > 1 ? selectedRows : [dataClass.fields[parseInt(moveId)].name];
     const newDataClass = structuredClone(dataClass);
     const moveIndexes = moveIds.map(moveId => indexOf(newDataClass.fields, field => field.name === moveId));
     const toIndex = parseInt(targetId);
-    arrayMoveMultiple(newDataClass.fields, moveIndexes, toIndex);
-
-    setDataClass(newDataClass);
+    updateDataArray(moveIndexes, toIndex, newDataClass.fields);
     resetAndSetRowSelection(table, newDataClass.fields, moveIds, row => row.name);
   };
+
+  const { handleKeyDown } = useTableKeyHandler({
+    table,
+    data: dataClass.fields,
+    options: { multiSelect: true, reorder: { updateOrder: updateDataArray, getRowId: row => row.name } }
+  });
 
   const isSameFields = (data: Field[]) => {
     if (data.length !== dataClass.fields.length) {
@@ -201,7 +211,7 @@ export const DataClassMasterContent = () => {
         </Message>
       ))}
       <BasicField className='master-content' label='Attributes' control={control} onClick={event => event.stopPropagation()}>
-        <Table>
+        <Table onKeyDown={e => handleKeyDown(e, () => setDetail(!detail))}>
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={() => selectRow(table)} />
           <TableBody>
             {table.getRowModel().rows.map(row => (
