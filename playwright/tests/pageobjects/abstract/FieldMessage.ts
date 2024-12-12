@@ -11,4 +11,9 @@ export class FieldMessage {
     await expect(this.locator).toHaveText(message);
     await expect(this.locator).toHaveAttribute('data-state', 'error');
   }
+
+  async expectToHaveWarningMessage(message: string) {
+    await expect(this.locator).toHaveText(message);
+    await expect(this.locator).toHaveAttribute('data-state', 'warning');
+  }
 }
