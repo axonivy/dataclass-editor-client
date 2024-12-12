@@ -1,5 +1,14 @@
 import type { Association } from '@axonivy/dataclass-editor-protocol';
-import { BasicCheckbox, BasicField, BasicSelect, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
+import {
+  BasicCheckbox,
+  BasicField,
+  BasicSelect,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  Flex,
+  type MessageData
+} from '@axonivy/ui-components';
 import { useAppContext } from '../../../context/AppContext';
 import { useEntityField } from '../../../context/FieldContext';
 import { useMeta } from '../../../context/useMeta';
@@ -36,7 +45,7 @@ const cardinalityItems: Array<{ value: Association; label: string }> = [
   { value: 'MANY_TO_ONE', label: 'Many-to-One' }
 ] as const;
 
-export const cardinalityMessage = (cardinality?: Association) => {
+export const cardinalityMessage = (cardinality?: Association): MessageData | undefined => {
   if (cardinality === 'ONE_TO_MANY') {
     return {
       message: 'A One-to-Many association comes with a significant performance impact. Only use it if it is absolutely necessary.',

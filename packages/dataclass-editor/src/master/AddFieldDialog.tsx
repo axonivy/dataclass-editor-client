@@ -27,22 +27,24 @@ import type { DataClass, Field } from '@axonivy/dataclass-editor-protocol';
 import { isEntity } from '../data/dataclass-utils';
 import { InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
 
-export const validateFieldName = (name: string, dataClass: DataClass): MessageData => {
+export const validateFieldName = (name: string, dataClass: DataClass) => {
   if (name.trim() === '') {
     return toErrorMessage('Name cannot be empty.');
   }
   if (dataClass.fields.some(field => field.name === name)) {
     return toErrorMessage('Name is already taken.');
   }
+  return;
 };
 
-export const validateFieldType = (type: string): MessageData => {
+export const validateFieldType = (type: string) => {
   if (type.trim() === '') {
     return toErrorMessage('Type cannot be empty.');
   }
+  return;
 };
 
-const toErrorMessage = (message: string) => {
+const toErrorMessage = (message: string): MessageData => {
   return { message: message, variant: 'error' };
 };
 
