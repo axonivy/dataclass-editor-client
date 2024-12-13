@@ -36,6 +36,16 @@ const cardinalityItems: Array<{ value: Association; label: string }> = [
   { value: 'MANY_TO_ONE', label: 'Many-to-One' }
 ] as const;
 
+export const cardinalityMessage = (cardinality?: Association) => {
+  if (cardinality === 'ONE_TO_MANY') {
+    return {
+      message: 'A One-to-Many association comes with a significant performance impact. Only use it if it is absolutely necessary.',
+      variant: 'warning'
+    };
+  }
+  return;
+};
+
 export const FieldEntityAssociation = () => {
   const { context } = useAppContext();
   const { field, setProperty } = useFieldEntityProperty();
@@ -58,7 +68,7 @@ export const FieldEntityAssociation = () => {
         <CollapsibleTrigger>Association</CollapsibleTrigger>
         <CollapsibleContent>
           <Flex direction='column' gap={4}>
-            <BasicField label='Cardinality'>
+            <BasicField label='Cardinality' message={cardinalityMessage(cardinality)} aria-label='Cardinality'>
               <BasicSelect value={cardinality} emptyItem items={cardinalities} onValueChange={setCardinality} />
             </BasicField>
             <BasicField label='Cascade'>

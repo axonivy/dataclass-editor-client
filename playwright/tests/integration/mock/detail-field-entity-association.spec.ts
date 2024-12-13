@@ -9,12 +9,20 @@ test.beforeEach(async ({ page }) => {
 
 test('cardinality', async () => {
   const cardinality = editor.detail.field.entity.association.cardinality;
+  const cardinalityMessage = editor.detail.field.entity.association.cardinalityMessage;
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
   await editor.table.row(5).locator.click();
   await editor.detail.field.entity.accordion.open();
 
   await cardinality.expectToHaveOptions('One-to-One', 'Many-to-One');
+
+  await editor.table.row(6).locator.click();
+  await editor.detail.field.entity.accordion.open();
+
+  await expect(cardinalityMessage.locator).toBeHidden();
+  await cardinality.choose('One-to-Many');
+  await cardinalityMessage.expectToHaveWarningMessage('A One-to-Many association comes with a significant performance impact. Only use it if it is absolutely necessary.');
 });
 
 test('cascade', async () => {

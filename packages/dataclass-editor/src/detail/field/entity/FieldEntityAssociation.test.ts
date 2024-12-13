@@ -1,6 +1,6 @@
 import type { Association, EntityClassField } from '@axonivy/dataclass-editor-protocol';
 import { customRenderHook } from '../../../context/test-utils/test-utils';
-import { useCardinality, useMappedByFieldName } from './FieldEntityAssociation';
+import { cardinalityMessage, useCardinality, useMappedByFieldName } from './FieldEntityAssociation';
 
 describe('useMappedByFieldName', () => {
   test('clear modifiers', () => {
@@ -135,5 +135,17 @@ describe('useCardinality', () => {
     expect(newField.entity.association).toEqual('ONE_TO_MANY');
     expect(newField.entity.mappedByFieldName).toEqual('');
     expect(newField.entity.orphanRemoval).toBeFalsy();
+  });
+});
+
+describe('cardinalityMessage', () => {
+  test('one-to-many association returns a warning', () => {
+    expect(cardinalityMessage('ONE_TO_MANY')).toBeDefined();
+  });
+
+  test('other associations return nothing', () => {
+    expect(cardinalityMessage()).toBeUndefined();
+    expect(cardinalityMessage('ONE_TO_ONE')).toBeUndefined();
+    expect(cardinalityMessage('MANY_TO_ONE')).toBeUndefined();
   });
 });
