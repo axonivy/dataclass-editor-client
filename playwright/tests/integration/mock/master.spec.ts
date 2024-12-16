@@ -114,3 +114,61 @@ test('disable reorder', async () => {
   await editor.table.header(0).sort.locator.click();
   await editor.table.expectToBeReorderable();
 });
+
+test.describe('table keyboard support', async () => {
+  test('move single selection via arrowKey', async () => {
+    await editor.table.expectToHaveNothingSelected();
+    await editor.table.focusTable();
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.table.expectToBeSelected([1]);
+
+    await editor.page.keyboard.press('ArrowUp');
+    await editor.page.keyboard.press('ArrowUp');
+    await editor.page.keyboard.press('ArrowUp');
+    await editor.table.expectToBeSelected([4]);
+  });
+
+  test('move multi selection via arrowKey', async () => {
+    await editor.table.expectToHaveNothingSelected();
+    await editor.table.focusTable();
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.down('Shift');
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.table.expectToBeSelected([0, 1, 2]);
+
+    await editor.page.keyboard.up('Shift');
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.table.expectToBeSelected([3]);
+
+    await editor.page.keyboard.down('Shift');
+    await editor.page.keyboard.press('ArrowUp');
+    await editor.page.keyboard.press('ArrowUp');
+    await editor.table.expectToBeSelected([1, 2, 3]);
+  });
+
+  test('reorder single row via arrowKey', async () => {
+    await editor.table.expectToHaveNothingSelected();
+    await editor.table.focusTable();
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.down('Alt');
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.table.expectRowToBeAtPosition(2, 'firstName');
+  });
+
+  test('reorder multiple rows via arrowKey', async () => {
+    await editor.table.expectToHaveNothingSelected();
+    await editor.table.focusTable();
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.down('Shift');
+    await editor.page.keyboard.press('ArrowDown');
+
+    await editor.page.keyboard.down('Alt');
+    await editor.page.keyboard.press('ArrowUp');
+    await editor.page.keyboard.press('ArrowUp');
+    await editor.table.expectRowToBeAtPosition(3, 'firstName');
+    await editor.table.expectRowToBeAtPosition(4, 'lastName');
+  });
+});
