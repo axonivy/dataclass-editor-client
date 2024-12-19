@@ -26,7 +26,8 @@ const appContext = createContext<AppContext>({
 export const AppProvider = appContext.Provider;
 
 export const useAppContext = () => {
-  return useContext(appContext);
+  const context = useContext(appContext);
+  return { ...context, isHdData: context.context.file.includes('src_hd') };
 };
 
 type EntityClassContext = {
