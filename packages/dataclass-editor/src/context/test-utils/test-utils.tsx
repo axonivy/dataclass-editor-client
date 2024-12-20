@@ -30,7 +30,7 @@ type ContextHelperProps = {
 
 const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
   const appContext = {
-    context: props.appContext?.context ?? ({} as DataClassEditorDataContext),
+    context: props.appContext?.context ?? ({ file: '' } as DataClassEditorDataContext),
     dataClass: props.appContext?.dataClass ?? ({} as DataClass),
     setDataClass: props.appContext?.setDataClass ?? (() => {}),
     selectedField: props.appContext?.selectedField,

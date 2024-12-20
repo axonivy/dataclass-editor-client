@@ -8,7 +8,7 @@ import { EntityClassDatabaseTable } from './entity/EntityClassDatabaseTable';
 import { useDataClassProperty } from './useDataClassProperty';
 
 export const DataClassDetailContent = () => {
-  const { dataClass, setDataClass } = useAppContext();
+  const { dataClass, setDataClass, isHdData } = useAppContext();
   const { setProperty } = useDataClassProperty();
 
   return (
@@ -22,7 +22,7 @@ export const DataClassDetailContent = () => {
               annotations={dataClass.annotations}
               setAnnotations={(newAnnotations: Array<string>) => setProperty('annotations', newAnnotations)}
             />
-            <DataClassType />
+            {!isHdData && <DataClassType />}
           </Flex>
         </AccordionContent>
       </AccordionItem>

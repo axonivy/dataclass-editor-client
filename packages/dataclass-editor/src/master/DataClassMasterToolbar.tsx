@@ -23,9 +23,8 @@ type DataClassMasterToolbarProps = {
 };
 
 export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) => {
-  const { context, detail, setDetail } = useAppContext();
+  const { detail, setDetail, isHdData } = useAppContext();
   const { theme, setTheme, disabled } = useTheme();
-  const isFormData = context.file.includes('src_hd');
   const openForm = useAction('openForm');
   const openProcess = useAction('openProcess');
 
@@ -33,7 +32,7 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
     <Toolbar className='master-toolbar'>
       <ToolbarTitle className='master-header'>{title}</ToolbarTitle>
       <Flex gap={1}>
-        {isFormData && (
+        {isHdData && (
           <>
             <Button icon={IvyIcons.File} size='large' title='Open Form' aria-label='Open Form' onClick={() => openForm()} />
             <Button icon={IvyIcons.Process} size='large' title='Open Process' aria-label='Open Process' onClick={() => openProcess()} />

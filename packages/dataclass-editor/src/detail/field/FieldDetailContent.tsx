@@ -7,8 +7,10 @@ import { FieldEntityDatabaseField } from './entity/FieldEntityDatabaseField';
 import { FieldNameTypeComment } from './FieldNameTypeComment';
 import { FieldProperties } from './FieldProperties';
 import { useFieldProperty } from './useFieldProperty';
+import { useAppContext } from '../../context/AppContext';
 
 export const FieldDetailContent = () => {
+  const { isHdData } = useAppContext();
   const { field, setField } = useField();
   const { setProperty } = useFieldProperty();
 
@@ -19,7 +21,7 @@ export const FieldDetailContent = () => {
         <AccordionContent>
           <Flex direction='column' gap={4}>
             <FieldNameTypeComment />
-            <FieldProperties />
+            {!isHdData && <FieldProperties />}
             <AnnotationsTable
               annotations={field.annotations}
               setAnnotations={(annotations: Array<string>) => setProperty('annotations', annotations)}
