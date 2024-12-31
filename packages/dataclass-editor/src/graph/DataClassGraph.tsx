@@ -19,15 +19,14 @@ import { CustomNode } from './CustomNode';
 import FloatingEdge from './FloatingEdge';
 import { useMeta } from '../context/useMeta';
 import { useAppContext } from '../context/AppContext';
-import { useLayoutedElements } from './useLayoutedElements';
 import { Button, Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { getLayoutedElements_dagre, type Direction } from './getLayoutedElements_Dagre';
+import { layoutElements } from './layout-elements';
 
 export const DataClassGraph = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
-  const { getLayoutedElements } = useLayoutedElements();
   const { context, dataClass: originalDataClass } = useAppContext();
   const dataClasses = useMeta('meta/scripting/dataClasses', context, []).data;
   const { getNodes, getEdges, fitView } = useReactFlow<CustomNode>();
@@ -62,7 +61,6 @@ export const DataClassGraph = () => {
   );
 
   useEffect(() => {
-    console.log(dataClasses);
     const originalDataClassFqn = originalDataClass.namespace + '.' + originalDataClass.simpleName;
     const filteredDataClasses = dataClasses.filter(dataClass => {
       const isOriginalDataClass = dataClass.fullQualifiedName === originalDataClassFqn;
@@ -131,30 +129,20 @@ export const DataClassGraph = () => {
       {/* <PositioningTools /> */}
       <Panel position='top-right'>
         <Flex direction='row' gap={1}>
-          <button onClick={() => onLayout('TB')}>vertical layout</button>
-          <button onClick={() => onLayout('LR')}>horizontal layout</button>
+          {/* <button onClick={() => onLayout('TB')}>vertical layout</button>
+          <button onClick={() => onLayout('LR')}>horizontal layout</button> */}
           <Button
             icon={IvyIcons.Process}
             rotate={90}
-            onClick={() =>
-              getLayoutedElements({
-                'elk.algorithm': 'layered',
-                'elk.direction': 'DOWN'
-              })
-            }
+            onClick={() => onLayout('TB')}
             style={{ background: 'white', boxShadow: 'var(--xy-controls-box-shadow, var(--xy-controls-box-shadow-default))' }}
           />
           <Button
             icon={IvyIcons.Process}
-            onClick={() =>
-              getLayoutedElements({
-                'elk.algorithm': 'layered',
-                'elk.direction': 'RIGHT'
-              })
-            }
+            onClick={() => onLayout('LR')}
             style={{ background: 'white', boxShadow: 'var(--xy-controls-box-shadow, var(--xy-controls-box-shadow-default))' }}
           />
-          <Button
+          {/* <Button
             icon={IvyIcons.FitToScreen}
             onClick={() =>
               getLayoutedElements({
@@ -162,7 +150,7 @@ export const DataClassGraph = () => {
               })
             }
             style={{ background: 'white', boxShadow: 'var(--xy-controls-box-shadow, var(--xy-controls-box-shadow-default))' }}
-          />
+          /> */}
         </Flex>
       </Panel>
     </ReactFlow>

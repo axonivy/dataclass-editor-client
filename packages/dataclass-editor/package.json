@@ -23,7 +23,8 @@
     "@axonivy/ui-icons": "~13.1.0-next.413",
     "@tanstack/react-query": "5.32.1",
     "@xyflow/react": "^12.3.5",
-    "elkjs": "^0.9.3",
+    "entitree-flex": "^0.4.1",
+    "@dagrejs/dagre": "^1.1.4",
     "@tanstack/react-query-devtools": "5.32.1"
   },
   "peerDependencies": {
