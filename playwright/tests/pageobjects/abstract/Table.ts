@@ -3,22 +3,18 @@ import { expect } from '@playwright/test';
 import { Button } from './Button';
 
 export class Table {
-  readonly table: Locator;
+  readonly locator: Locator;
   readonly rows: Locator;
   readonly headers: Locator;
 
   constructor(parentLocator: Locator) {
-    this.table = parentLocator.locator('table');
+    this.locator = parentLocator.locator('table');
     this.rows = parentLocator.locator('tbody tr');
     this.headers = parentLocator.locator('.ui-table-head');
   }
 
   row(index: number) {
     return new Row(this.rows, index);
-  }
-
-  async focusTable() {
-    await this.table.focus();
   }
 
   async expectToHaveValues(...values: Array<Array<string>>) {
@@ -28,15 +24,10 @@ export class Table {
     }
   }
 
-  async expectToBeSelected(indexes: Array<number>) {
+  async expectToBeSelected(...indexes: Array<number>) {
     for (let i = 0; i < indexes.length; i++) {
       await this.row(indexes[i]).expectToBeSelected();
     }
-  }
-
-  async expectRowToBeAtPosition(position: number, name: string) {
-    const cell = this.row(position).column(0).locator;
-    await expect(cell).toHaveText(name);
   }
 
   async expectToHaveNothingSelected() {

@@ -117,18 +117,19 @@ export const DataClassMasterContent = () => {
     setSelectedField(selection);
   };
 
-  const updateDataArray = (moveIndexes: number[], toIndex: number) => {
-    const newArray = arrayMoveMultiple(dataClass.fields, moveIndexes, toIndex);
+  const updateDataArray = (moveIndexes: number[], toIndex: number, data: Field[]) => {
+    const newArray = arrayMoveMultiple(data, moveIndexes, toIndex);
     setDataClass({ ...dataClass, fields: [...newArray] });
   };
 
   const updateOrder = (moveId: string, targetId: string) => {
     const selectedRows = table.getSelectedRowModel().flatRows.map(r => r.original.name);
     const moveIds = selectedRows.length > 1 ? selectedRows : [dataClass.fields[parseInt(moveId)].name];
-    const moveIndexes = moveIds.map(moveId => indexOf(dataClass.fields, field => field.name === moveId));
+    const newDataClass = structuredClone(dataClass);
+    const moveIndexes = moveIds.map(moveId => indexOf(newDataClass.fields, field => field.name === moveId));
     const toIndex = parseInt(targetId);
-    updateDataArray(moveIndexes, toIndex);
-    resetAndSetRowSelection(table, dataClass.fields, moveIds, row => row.name);
+    updateDataArray(moveIndexes, toIndex, newDataClass.fields);
+    resetAndSetRowSelection(table, newDataClass.fields, moveIds, row => row.name);
   };
 
   const { handleKeyDown } = useTableKeyHandler({
