@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { describe } from 'node:test';
 import { DataClassEditor } from '../pageobjects/DataClassEditor';
 
-describe('validation', async () => {
+describe('validation', () => {
   test('class', async ({ page }) => {
     const editor = await DataClassEditor.openNewDataClass(page);
     await editor.detail.dataClass.general.classType.fillValues('Entity');

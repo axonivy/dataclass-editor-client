@@ -7,8 +7,8 @@ test.beforeEach(async ({ page }) => {
   editor = await DataClassEditor.openMock(page);
 });
 
-test.describe('add field', async () => {
-  test.describe('add', async () => {
+test.describe('add field', () => {
+  test.describe('add', () => {
     test('data class', async () => {
       await editor.addField('newAttribute', 'String');
       await expect(editor.table.rows).toHaveCount(7);
@@ -38,8 +38,8 @@ test.describe('add field', async () => {
     await editor.add.expectToHaveValues('newAttribute', 'String');
   });
 
-  test.describe('validation', async () => {
-    test.describe('name', async () => {
+  test.describe('validation', () => {
+    test.describe('name', () => {
       test('empty', async () => {
         await editor.add.open.locator.click();
         await expect(editor.add.nameMessage.locator).toBeHidden();
@@ -55,7 +55,7 @@ test.describe('add field', async () => {
       });
     });
 
-    test.describe('type', async () => {
+    test.describe('type', () => {
       test('empty', async () => {
         await editor.add.open.locator.click();
         await expect(editor.add.typeMessage.locator).toBeHidden();
@@ -65,9 +65,8 @@ test.describe('add field', async () => {
     });
   });
 
-  test('shortcuts', async ({ browserName }) => {
-    const modifier = browserName === 'webkit' ? 'Meta' : 'Control';
-    await editor.page.keyboard.press(`${modifier}+Alt+n`);
+  test('shortcuts', async () => {
+    await editor.page.keyboard.press('ControlOrMeta+Alt+n');
     await expect(editor.add.locator).toBeVisible();
     await editor.page.keyboard.press('Enter');
     await expect(editor.add.locator).toBeHidden();
@@ -75,7 +74,7 @@ test.describe('add field', async () => {
   });
 });
 
-test.describe('delete field', async () => {
+test.describe('delete field', () => {
   test('delete', async () => {
     await editor.deleteField(1);
     await expect(editor.table.rows).toHaveCount(5);

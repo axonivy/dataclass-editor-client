@@ -54,7 +54,7 @@ test('theme', async () => {
 test('toggle detail', async () => {
   await expect(editor.detail.locator).toBeVisible();
   await editor.detailToggle.locator.click();
-  await expect(editor.detail.locator).not.toBeVisible();
+  await expect(editor.detail.locator).toBeHidden();
   await editor.detailToggle.locator.click();
   await expect(editor.detail.locator).toBeVisible();
 });

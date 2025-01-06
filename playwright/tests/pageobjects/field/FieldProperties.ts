@@ -12,7 +12,11 @@ export class FieldProperties {
 
   async expectToHaveValues(persistent: boolean) {
     await this.collapsible.open();
-    expect(await this.persistent.isChecked()).toEqual(persistent);
+    if (persistent) {
+      await expect(this.persistent).toBeChecked();
+    } else {
+      await expect(this.persistent).not.toBeChecked();
+    }
   }
 
   async fillValues(persistent: boolean) {
