@@ -57,7 +57,7 @@ describe('useClassType', () => {
     expect(newDataClass.fields[0].name).toEqual('id');
     expect(newDataClass.fields[0].type).toEqual('Integer');
     expect(newDataClass.fields[0].comment).toEqual('Identifier');
-    newDataClass.fields.forEach(field => expect(field.entity!.cascadeTypes).toEqual(['PERSIST', 'MERGE']));
+    newDataClass.fields.forEach(field => expect(field.entity?.cascadeTypes).toEqual(['PERSIST', 'MERGE']));
     expectClassType(newDataClass, false, true, [['PERSISTENT', 'ID', 'GENERATED'], ['PERSISTENT'], []]);
   });
 
@@ -105,7 +105,7 @@ describe('useClassType', () => {
     expect(newDataClass.fields[0].name).toEqual('id');
     expect(newDataClass.fields[0].type).toEqual('Integer');
     expect(newDataClass.fields[0].comment).toEqual('Identifier');
-    newDataClass.fields.forEach(field => expect(field.entity!.cascadeTypes).toEqual(['PERSIST', 'MERGE']));
+    newDataClass.fields.forEach(field => expect(field.entity?.cascadeTypes).toEqual(['PERSIST', 'MERGE']));
     expectClassType(newDataClass, false, true, [['PERSISTENT', 'ID', 'GENERATED'], ['PERSISTENT'], []]);
   });
 
@@ -176,7 +176,7 @@ describe('useClassType', () => {
     expect(newDataClass.fields[0].name).not.toEqual('id');
     expect(newDataClass.fields[0].type).not.toEqual('Integer');
     expect(newDataClass.fields[0].comment).not.toEqual('Identifier');
-    newDataClass.fields.forEach(field => expect(field.entity!.cascadeTypes).toEqual(['PERSIST', 'MERGE']));
+    newDataClass.fields.forEach(field => expect(field.entity?.cascadeTypes).toEqual(['PERSIST', 'MERGE']));
     expectClassType(newDataClass, false, true, [['PERSISTENT'], [], []]);
   });
 });

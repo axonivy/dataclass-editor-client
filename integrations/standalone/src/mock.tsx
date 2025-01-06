@@ -4,15 +4,20 @@ import React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import './index.css';
 import { DataClassClientMock } from './mock/dataclass-client-mock';
-import { URLParams } from './url-helper';
+import { appParam, fileParam, readonlyParam } from './url-helper';
 
-const root = ReactDOM.createRoot(document.getElementById('root')!);
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error('Root element not found.');
+}
+const root = ReactDOM.createRoot(rootElement);
+
 const client = new DataClassClientMock();
 const queryClient = initQueryClient();
 
-const readonly = URLParams.readonly();
-const app = URLParams.app();
-const file = URLParams.file();
+const readonly = readonlyParam();
+const app = appParam();
+const file = fileParam();
 
 root.render(
   <React.StrictMode>
