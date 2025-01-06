@@ -13,7 +13,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { AppProvider } from './context/AppContext';
 import { FieldProvider } from './context/FieldContext';
-import type { DataClass, Field, DataClassData, EditorProps, ValidationResult } from '@axonivy/dataclass-editor-protocol';
+import type {
+  DataClass,
+  Field,
+  DataClassData,
+  EditorProps,
+  ValidationResult,
+  DataClassEditorDataContext
+} from '@axonivy/dataclass-editor-protocol';
 import { classTypeOf } from './data/dataclass-utils';
 import './DataClassEditor.css';
 import { DataClassDetailContent } from './detail/dataclass/DataClassDetailContent';
@@ -68,20 +75,20 @@ function DataClassEditor(props: EditorProps) {
 
   const queryKeys = useMemo(() => {
     return {
-      data: () => genQueryKey('data', context),
-      saveData: () => genQueryKey('saveData', context),
-      validate: () => genQueryKey('validate', context)
+      data: (context: DataClassEditorDataContext) => genQueryKey('data', context),
+      saveData: (context: DataClassEditorDataContext) => genQueryKey('saveData', context),
+      validate: (context: DataClassEditorDataContext) => genQueryKey('validate', context)
     };
-  }, [context]);
+  }, []);
 
   const { data, isPending, isError, error } = useQuery({
-    queryKey: queryKeys.data(),
+    queryKey: queryKeys.data(context),
     queryFn: () => client.data(context),
     structuralSharing: false
   });
 
   useQuery({
-    queryKey: queryKeys.validate(),
+    queryKey: queryKeys.validate(context),
     queryFn: async () => {
       const validationMessages = await client.validate(context);
       setValidationMessages(validationMessages);
@@ -90,9 +97,9 @@ function DataClassEditor(props: EditorProps) {
   });
 
   const mutation = useMutation({
-    mutationKey: queryKeys.saveData(),
+    mutationKey: queryKeys.saveData(context),
     mutationFn: async (updateData: Unary<DataClass>) => {
-      const saveData = queryClient.setQueryData<DataClassData>(queryKeys.data(), prevData => {
+      const saveData = queryClient.setQueryData<DataClassData>(queryKeys.data(context), prevData => {
         if (prevData) {
           return { ...prevData, data: updateData(prevData.data) };
         }

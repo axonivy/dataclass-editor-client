@@ -52,8 +52,8 @@ describe('useType', () => {
     expect(field).toEqual(originalField);
 
     expect(newField.type).toEqual('Integer');
-    expect(newField.entity!.association).toBeUndefined();
-    expect(newField.entity!.mappedByFieldName).toEqual('');
-    expect(newField.entity!.orphanRemoval).toBeFalsy();
+    expect(newField.entity?.association).toBeUndefined();
+    expect(newField.entity?.mappedByFieldName).toEqual('');
+    expect(newField.entity?.orphanRemoval).toBeFalsy();
   });
 });

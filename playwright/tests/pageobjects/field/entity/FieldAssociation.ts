@@ -39,7 +39,11 @@ export class FieldAssociation {
     await expect(this.cardinality.locator).toHaveText(cardinality);
     await this.expectCascadeTypesToHaveCheckedState(cascadeTypes);
     await expect(this.mappedBy.locator).toHaveText(mappedBy);
-    expect(await this.removeOrphans.isChecked()).toEqual(removeOrphans);
+    if (removeOrphans) {
+      await expect(this.removeOrphans).toBeChecked();
+    } else {
+      await expect(this.removeOrphans).not.toBeChecked();
+    }
   }
 
   async expectCascadeTypesToHaveCheckedState(cascadeTypes: FieldAssociationCascadeTypes) {
