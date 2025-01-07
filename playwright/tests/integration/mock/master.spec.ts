@@ -113,3 +113,75 @@ test('disable reorder', async () => {
   await editor.table.header(0).sort.locator.click();
   await editor.table.expectToBeReorderable();
 });
+
+test.describe('table keyboard support', async () => {
+  test('move single selection via arrowKey', async () => {
+    await editor.table.expectToHaveNothingSelected();
+    await editor.table.locator.focus();
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.table.expectToBeSelected(1);
+
+    await editor.page.keyboard.press('ArrowUp');
+    await editor.page.keyboard.press('ArrowUp');
+    await editor.page.keyboard.press('ArrowUp');
+    await editor.table.expectToBeSelected(4);
+  });
+
+  test('move multi selection via arrowKey', async () => {
+    await editor.table.expectToHaveNothingSelected();
+    await editor.table.locator.focus();
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.down('Shift');
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.table.expectToBeSelected(0, 1, 2);
+
+    await editor.page.keyboard.up('Shift');
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.table.expectToBeSelected(3);
+
+    await editor.page.keyboard.down('Shift');
+    await editor.page.keyboard.press('ArrowUp');
+    await editor.page.keyboard.press('ArrowUp');
+    await editor.table.expectToBeSelected(1, 2, 3);
+  });
+
+  test('reorder single row via arrowKey', async () => {
+    await editor.table.expectToHaveNothingSelected();
+    await editor.table.locator.focus();
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.down('Alt');
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.press('ArrowDown');
+    await expect(editor.table.row(2).column(0).locator).toHaveText('firstName');
+  });
+
+  test('reorder multiple rows via arrowKey', async () => {
+    await editor.table.expectToHaveNothingSelected();
+    await editor.table.locator.focus();
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.down('Shift');
+    await editor.page.keyboard.press('ArrowDown');
+
+    await editor.page.keyboard.down('Alt');
+    await editor.page.keyboard.press('ArrowUp');
+    await editor.page.keyboard.press('ArrowUp');
+    await expect(editor.table.row(3).column(0).locator).toHaveText('firstName');
+    await expect(editor.table.row(4).column(0).locator).toHaveText('lastName');
+  });
+
+  test('open/close detail via enter', async () => {
+    await editor.table.expectToHaveNothingSelected();
+    await expect(editor.detail.locator).toBeVisible();
+    await editor.table.locator.focus();
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.press('Enter');
+    await expect(editor.detail.locator).not.toBeVisible();
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.press('Enter');
+    await expect(editor.detail.locator).toBeVisible();
+    await editor.detail.field.general.nameTypeComment.expectToHaveValues('date', 'Date', '');
+  });
+});
