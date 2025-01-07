@@ -116,7 +116,7 @@ test('disable reorder', async () => {
   await editor.table.expectToBeReorderable();
 });
 
-test.describe('table keyboard support', async () => {
+test.describe('table keyboard support', () => {
   test('move single selection via arrowKey', async () => {
     await editor.table.expectToHaveNothingSelected();
     await editor.table.locator.focus();
@@ -179,7 +179,7 @@ test.describe('table keyboard support', async () => {
     await editor.table.locator.focus();
     await editor.page.keyboard.press('ArrowDown');
     await editor.page.keyboard.press('Enter');
-    await expect(editor.detail.locator).not.toBeVisible();
+    await expect(editor.detail.locator).toBeHidden();
     await editor.page.keyboard.press('ArrowDown');
     await editor.page.keyboard.press('ArrowDown');
     await editor.page.keyboard.press('Enter');
