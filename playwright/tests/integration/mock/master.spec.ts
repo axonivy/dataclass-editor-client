@@ -65,8 +65,10 @@ test.describe('add field', () => {
     });
   });
 
-  test('shortcuts', async () => {
-    await editor.page.keyboard.press('ControlOrMeta+Alt+n');
+  test('shortcuts', async ({ browserName }) => {
+    // eslint-disable-next-line playwright/no-conditional-in-test
+    const modifier = browserName === 'webkit' ? 'Meta' : 'Control';
+    await editor.page.keyboard.press(`${modifier}+Alt+n`);
     await expect(editor.add.locator).toBeVisible();
     await editor.page.keyboard.press('Enter');
     await expect(editor.add.locator).toBeHidden();
