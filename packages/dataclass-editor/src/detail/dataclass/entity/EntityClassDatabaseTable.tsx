@@ -1,4 +1,4 @@
-import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input } from '@axonivy/ui-components';
+import { BasicField, BasicInput, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
 import { useEntityClass } from '../../../context/AppContext';
 import type { EntityClass } from '@axonivy/dataclass-editor-protocol';
 
@@ -22,7 +22,7 @@ export const EntityClassDatabaseTable = () => {
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
           <BasicField label='Name'>
-            <Input value={entityClass.entity.tableName} onChange={event => setProperty('tableName', event.target.value)} />
+            <BasicInput value={entityClass.entity.tableName} onChange={event => setProperty('tableName', event.target.value)} />
           </BasicField>
         </Flex>
       </CollapsibleContent>
