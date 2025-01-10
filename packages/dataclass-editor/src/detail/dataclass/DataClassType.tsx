@@ -6,22 +6,21 @@ import { classTypeOf } from '../../data/dataclass-utils';
 export const useClassType = () => {
   const { dataClass, setDataClass } = useAppContext();
   const setClassType = (classType: ClassType) => {
-    const newDataClass = structuredClone(dataClass);
+    setDataClass(old => {
+      old.isBusinessCaseData = false;
+      old.entity = undefined;
+      old.fields.forEach(field => {
+        field.modifiers = field.modifiers.filter(modifier => modifier === 'PERSISTENT');
+        field.entity = undefined;
+      });
 
-    newDataClass.isBusinessCaseData = false;
-    newDataClass.entity = undefined;
-    newDataClass.fields.forEach(field => {
-      field.modifiers = field.modifiers.filter(modifier => modifier === 'PERSISTENT');
-      field.entity = undefined;
+      if (classType === 'BUSINESS_DATA') {
+        old.isBusinessCaseData = true;
+      } else if (classType === 'ENTITY') {
+        changeToEntityClass(old);
+      }
+      return old;
     });
-
-    if (classType === 'BUSINESS_DATA') {
-      newDataClass.isBusinessCaseData = true;
-    } else if (classType === 'ENTITY') {
-      changeToEntityClass(newDataClass);
-    }
-
-    setDataClass(newDataClass);
   };
   return { classType: classTypeOf(dataClass), setClassType };
 };

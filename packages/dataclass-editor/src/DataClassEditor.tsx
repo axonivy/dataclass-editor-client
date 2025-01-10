@@ -133,10 +133,12 @@ function DataClassEditor(props: EditorProps) {
   const dataClass = data.data;
   const { masterTitle, detailTitle } = headerTitles(dataClass, selectedField);
 
-  const setDataClass = (dataClass: DataClass) => mutation.mutate(() => dataClass);
+  // const setDataClass = (dataClass: DataClass) => mutation.mutate(() => dataClass);
 
   return (
-    <AppProvider value={{ context, dataClass, setDataClass, selectedField, setSelectedField, detail, setDetail, validationMessages }}>
+    <AppProvider
+      value={{ context, dataClass, setDataClass: mutation.mutate, selectedField, setSelectedField, detail, setDetail, validationMessages }}
+    >
       <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
         <ResizablePanel defaultSize={75} minSize={50} className='master-panel'>
           <Flex className='panel-content-container master-container' direction='column'>
@@ -159,9 +161,10 @@ function DataClassEditor(props: EditorProps) {
                     value={{
                       field: dataClass.fields[selectedField],
                       setField: (field: Field) => {
-                        const newDataClass = structuredClone(dataClass);
-                        newDataClass.fields[selectedField] = field;
-                        setDataClass(newDataClass);
+                        mutation.mutate(old => {
+                          old.fields[selectedField] = field;
+                          return old;
+                        });
                       }
                     }}
                   >

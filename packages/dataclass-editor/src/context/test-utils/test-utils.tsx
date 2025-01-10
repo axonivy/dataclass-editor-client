@@ -9,7 +9,7 @@ import type {
   ValidationResult,
   DataClassEditorDataContext
 } from '@axonivy/dataclass-editor-protocol';
-import { AppProvider, EntityClassProvider } from '../AppContext';
+import { AppProvider, EntityClassProvider, type AppContext, type EntityClassContext } from '../AppContext';
 import { EntityFieldProvider, FieldProvider } from '../FieldContext';
 
 type ContextHelperProps = {
@@ -29,10 +29,12 @@ type ContextHelperProps = {
 };
 
 const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
-  const appContext = {
+  const appContext: AppContext = {
     context: props.appContext?.context ?? ({ file: '' } as DataClassEditorDataContext),
     dataClass: props.appContext?.dataClass ?? ({} as DataClass),
-    setDataClass: props.appContext?.setDataClass ?? (() => {}),
+    setDataClass: props.appContext?.setDataClass
+      ? getData => props.appContext?.setDataClass?.(getData(props.appContext?.dataClass ?? ({} as DataClass)))
+      : () => {},
     selectedField: props.appContext?.selectedField,
     setSelectedField: props.appContext?.setSelectedField ?? (() => {}),
     detail: props.appContext?.detail !== undefined ? props.appContext.detail : true,
@@ -40,9 +42,11 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
     validationMessages: props.appContext?.validationMessages ?? []
   };
 
-  const entityClassContext = {
+  const entityClassContext: EntityClassContext = {
     entityClass: props.entityClassContext?.entityClass ?? ({} as EntityDataClass),
-    setEntityClass: props.entityClassContext?.setEntityClass ?? (() => {})
+    setEntityClass: props.entityClassContext?.setEntityClass
+      ? getData => props.entityClassContext?.setEntityClass?.(getData(props.entityClassContext?.entityClass ?? ({} as EntityDataClass)))
+      : () => {}
   };
 
   const fieldContext = {

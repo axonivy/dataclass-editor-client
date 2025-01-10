@@ -6,6 +6,8 @@ import { DataClassNameDescription } from './DataClassNameDescription';
 import { DataClassType } from './DataClassType';
 import { EntityClassDatabaseTable } from './entity/EntityClassDatabaseTable';
 import { useDataClassProperty } from './useDataClassProperty';
+import type { UpdateConsumer } from '../../utils/lambda/lambda';
+import type { EntityDataClass } from '@axonivy/dataclass-editor-protocol';
 
 export const DataClassDetailContent = () => {
   const { dataClass, setDataClass, isHdData } = useAppContext();
@@ -27,7 +29,7 @@ export const DataClassDetailContent = () => {
         </AccordionContent>
       </AccordionItem>
       {isEntity(dataClass) && (
-        <EntityClassProvider value={{ entityClass: dataClass, setEntityClass: setDataClass }}>
+        <EntityClassProvider value={{ entityClass: dataClass, setEntityClass: setDataClass as UpdateConsumer<EntityDataClass> }}>
           <AccordionItem value='entity'>
             <AccordionTrigger>Entity</AccordionTrigger>
             <AccordionContent>

@@ -111,15 +111,18 @@ export const DataClassMasterContent = () => {
 
   const deleteField = () => {
     const { newData: newFields, selection } = deleteAllSelectedRows(table, dataClass.fields);
-    const newDataClass = structuredClone(dataClass);
-    newDataClass.fields = newFields;
-    setDataClass(newDataClass);
+    setDataClass(old => {
+      old.fields = newFields;
+      return old;
+    });
     setSelectedField(selection);
   };
 
   const updateDataArray = (moveIndexes: number[], toIndex: number, data: Field[]) => {
     const newArray = arrayMoveMultiple(data, moveIndexes, toIndex);
-    setDataClass({ ...dataClass, fields: [...newArray] });
+    setDataClass(old => {
+      return { ...old, fields: [...newArray] };
+    });
   };
 
   const updateOrder = (moveId: string, targetId: string) => {

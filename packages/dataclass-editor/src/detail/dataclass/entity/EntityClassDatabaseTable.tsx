@@ -3,11 +3,12 @@ import { useEntityClass } from '../../../context/AppContext';
 import type { EntityClass } from '@axonivy/dataclass-editor-protocol';
 
 export const useEntityProperty = () => {
-  const { entityClass, setEntityClass } = useEntityClass();
+  const { setEntityClass } = useEntityClass();
   const setProperty = <EKey extends keyof EntityClass>(key: EKey, value: EntityClass[EKey]) => {
-    const newEntityClass = structuredClone(entityClass);
-    newEntityClass.entity[key] = value;
-    setEntityClass(newEntityClass);
+    setEntityClass(old => {
+      old.entity[key] = value;
+      return old;
+    });
   };
   return setProperty;
 };
@@ -22,6 +23,7 @@ export const EntityClassDatabaseTable = () => {
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
           <BasicField label='Name'>
+            {/* check if not wrong */}
             <Input value={entityClass.entity.tableName} onChange={event => setProperty('tableName', event.target.value)} />
           </BasicField>
         </Flex>

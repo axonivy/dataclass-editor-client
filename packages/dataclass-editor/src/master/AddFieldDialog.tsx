@@ -84,10 +84,10 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
         : undefined
     };
     const newFields = addRow(table, dataClass.fields, newField);
-
-    const newDataClass = structuredClone(dataClass);
-    newDataClass.fields = newFields;
-    setDataClass(newDataClass);
+    setDataClass(old => {
+      old.fields = newFields;
+      return old;
+    });
   };
 
   const allInputsValid = () => !nameValidationMessage && !typeValidationMessage;
