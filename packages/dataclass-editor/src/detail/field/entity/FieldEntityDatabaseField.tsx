@@ -1,4 +1,4 @@
-import { BasicField, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex, Input } from '@axonivy/ui-components';
+import { BasicField, BasicInput, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
 import { FieldModifierCheckbox } from '../FieldModifierCheckbox';
 import { useFieldEntityProperty } from './useFieldEntityProperty';
 
@@ -28,7 +28,7 @@ export const FieldEntityDatabaseField = () => {
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
           <BasicField label='Name'>
-            <Input
+            <BasicInput
               value={mappedByFieldNameIsSet ? '' : field.entity.databaseName}
               onChange={event => setProperty('databaseName', event.target.value)}
               placeholder={mappedByFieldNameIsSet ? '' : field.name}
@@ -36,7 +36,7 @@ export const FieldEntityDatabaseField = () => {
             />
           </BasicField>
           <BasicField label='Length'>
-            <Input
+            <BasicInput
               value={canHaveDatabaseLength ? field.entity.databaseFieldLength : ''}
               onChange={event => setProperty('databaseFieldLength', event.target.value)}
               placeholder={defaultLengthOfType(field.type)}
