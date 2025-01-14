@@ -9,7 +9,7 @@ type AppContext = {
   setSelectedField: (index?: number) => void;
   detail: boolean;
   setDetail: (visible: boolean) => void;
-  validationMessages: Array<ValidationResult>;
+  validations: Array<ValidationResult>;
 };
 
 const appContext = createContext<AppContext>({
@@ -20,7 +20,7 @@ const appContext = createContext<AppContext>({
   setSelectedField: () => {},
   detail: true,
   setDetail: () => {},
-  validationMessages: []
+  validations: []
 });
 
 export const AppProvider = appContext.Provider;

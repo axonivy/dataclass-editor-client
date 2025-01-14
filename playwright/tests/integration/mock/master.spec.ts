@@ -54,25 +54,28 @@ test.describe('add field', () => {
     test.describe('name', () => {
       test('empty', async () => {
         await editor.add.open.locator.click();
-        await expect(editor.add.nameMessage.locator).toBeHidden();
+        const nameMessage = await editor.add.name.message();
+        await expect(nameMessage.locator).toBeHidden();
         await editor.add.name.locator.clear();
-        await editor.add.nameMessage.expectToHaveErrorMessage('Name cannot be empty.');
+        await nameMessage.expectToBeError('Name cannot be empty.');
       });
 
       test('taken', async () => {
         await editor.add.open.locator.click();
-        await expect(editor.add.nameMessage.locator).toBeHidden();
+        const nameMessage = await editor.add.name.message();
+        await expect(nameMessage.locator).toBeHidden();
         await editor.add.name.locator.fill('firstName');
-        await editor.add.nameMessage.expectToHaveErrorMessage('Name is already taken.');
+        await nameMessage.expectToBeError('Name is already taken.');
       });
     });
 
     test.describe('type', () => {
       test('empty', async () => {
         await editor.add.open.locator.click();
-        await expect(editor.add.typeMessage.locator).toBeHidden();
+        const typeMessage = await editor.add.type.message();
+        await expect(typeMessage.locator).toBeHidden();
         await editor.add.type.locator.clear();
-        await editor.add.typeMessage.expectToHaveErrorMessage('Type cannot be empty.');
+        await typeMessage.expectToBeError('Type cannot be empty.');
       });
     });
   });

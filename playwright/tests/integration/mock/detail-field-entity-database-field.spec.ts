@@ -74,14 +74,14 @@ test('properties', async () => {
   await databaseField.collapsible.open();
 
   // not a type that can be an ID or Version
-  await databaseField.expectPropertiesToHaveEnabledState({
+  await databaseField.properties.expectToBeEnabled({
     id: false,
     generated: false,
     notNullable: true,
     unique: true,
     notUpdateable: true,
     notInsertable: true,
-    Version: false
+    version: false
   });
 
   await editor.detail.field.general.accordion.open();
@@ -91,56 +91,56 @@ test('properties', async () => {
   await editor.detail.field.entity.databaseField.collapsible.open();
 
   // a type that can be an ID or Version
-  await databaseField.expectPropertiesToHaveEnabledState({
+  await databaseField.properties.expectToBeEnabled({
     id: true,
     generated: false,
     notNullable: true,
     unique: true,
     notUpdateable: true,
     notInsertable: true,
-    Version: true
+    version: true
   });
 
-  await databaseField.properties.id.click();
+  await databaseField.properties.checkboxes.id.click();
 
   // ID is selected
-  await databaseField.expectPropertiesToHaveEnabledState({
+  await databaseField.properties.expectToBeEnabled({
     id: true,
     generated: true,
     notNullable: false,
     unique: false,
     notUpdateable: false,
     notInsertable: false,
-    Version: false
+    version: false
   });
 
-  await databaseField.properties.id.click();
-  await databaseField.properties.Version.click();
+  await databaseField.properties.checkboxes.id.click();
+  await databaseField.properties.checkboxes.version.click();
 
   // Version is selected
-  await databaseField.expectPropertiesToHaveEnabledState({
+  await databaseField.properties.expectToBeEnabled({
     id: false,
     generated: false,
     notNullable: false,
     unique: false,
     notUpdateable: false,
     notInsertable: false,
-    Version: true
+    version: true
   });
 
-  await databaseField.properties.Version.click();
+  await databaseField.properties.checkboxes.version.click();
   await editor.detail.field.entity.association.collapsible.open();
   await editor.detail.field.entity.association.cardinality.choose('One-to-One');
   await editor.detail.field.entity.association.mappedBy.choose('MappedByFieldName');
 
   // mappedByFieldName is set
-  await databaseField.expectPropertiesToHaveEnabledState({
+  await databaseField.properties.expectToBeEnabled({
     id: false,
     generated: false,
     notNullable: false,
     unique: false,
     notUpdateable: false,
     notInsertable: false,
-    Version: false
+    version: false
   });
 });

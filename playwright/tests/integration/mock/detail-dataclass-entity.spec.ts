@@ -97,7 +97,7 @@ describe('collapsible state', () => {
         await entity.databaseField.collapsible.expectToBeClosed();
 
         await entity.databaseField.collapsible.open();
-        await entity.databaseField.properties.id.click();
+        await entity.databaseField.properties.checkboxes.id.click();
         await entity.accordion.reopen();
 
         await entity.databaseField.collapsible.expectToBeOpen();
