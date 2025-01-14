@@ -5,6 +5,7 @@ import {
   BasicSelect,
   Collapsible,
   CollapsibleContent,
+  CollapsibleState,
   CollapsibleTrigger,
   Flex,
   type MessageData
@@ -13,6 +14,7 @@ import { useAppContext } from '../../../context/AppContext';
 import { useEntityField } from '../../../context/FieldContext';
 import { useMeta } from '../../../context/useMeta';
 import { updateCardinality } from '../../../data/dataclass-utils';
+import { combineMessagesOfProperties } from '../../../data/validation-utils';
 import './FieldEntityAssociation.css';
 import { FieldEntityCascadeTypeCheckbox } from './FieldEntityCascadeTypeCheckbox';
 import { useFieldEntityProperty } from './useFieldEntityProperty';
@@ -55,7 +57,11 @@ export const cardinalityMessage = (cardinality?: Association): MessageData | und
   return;
 };
 
-export const FieldEntityAssociation = () => {
+type FieldEntityDatabaseFieldProps = {
+  messagesByProperty: Record<string, MessageData>;
+};
+
+export const FieldEntityAssociation = ({ messagesByProperty }: FieldEntityDatabaseFieldProps) => {
   const { context } = useAppContext();
   const { field, setProperty } = useFieldEntityProperty();
   const { mappedByFieldName, setMappedByFieldName, isDisabled: mappedByFieldNameIsDisabled } = useMappedByFieldName();
@@ -74,10 +80,18 @@ export const FieldEntityAssociation = () => {
   return (
     possibleCardinalities.length !== 0 && (
       <Collapsible defaultOpen={true}>
-        <CollapsibleTrigger>Association</CollapsibleTrigger>
+        <CollapsibleTrigger
+          state={<CollapsibleState messages={combineMessagesOfProperties(messagesByProperty, 'CARDINALITY', 'MAPPED_BY')} />}
+        >
+          Association
+        </CollapsibleTrigger>
         <CollapsibleContent>
           <Flex direction='column' gap={4}>
-            <BasicField label='Cardinality' message={cardinalityMessage(cardinality)} aria-label='Cardinality'>
+            <BasicField
+              label='Cardinality'
+              message={messagesByProperty.CARDINALITY ?? cardinalityMessage(cardinality)}
+              aria-label='Cardinality'
+            >
               <BasicSelect value={cardinality} emptyItem items={cardinalities} onValueChange={setCardinality} />
             </BasicField>
             <BasicField label='Cascade'>
@@ -89,7 +103,7 @@ export const FieldEntityAssociation = () => {
                 <FieldEntityCascadeTypeCheckbox label='Refresh' cascadeType='REFRESH' />
               </Flex>
             </BasicField>
-            <BasicField label='Mapped by'>
+            <BasicField label='Mapped by' message={messagesByProperty.MAPPED_BY}>
               <BasicSelect
                 value={mappedByFieldName}
                 emptyItem

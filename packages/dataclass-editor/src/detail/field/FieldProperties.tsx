@@ -1,15 +1,28 @@
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@axonivy/ui-components';
+import {
+  BasicField,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleState,
+  CollapsibleTrigger,
+  type MessageData
+} from '@axonivy/ui-components';
 import { useField } from '../../context/FieldContext';
 import { FieldModifierCheckbox } from './FieldModifierCheckbox';
 
-export const FieldProperties = () => {
+type FieldPropertiesProps = {
+  message: MessageData;
+};
+
+export const FieldProperties = ({ message }: FieldPropertiesProps) => {
   const { field } = useField();
 
   return (
     <Collapsible defaultOpen={field.modifiers.includes('PERSISTENT')}>
-      <CollapsibleTrigger>Properties</CollapsibleTrigger>
+      <CollapsibleTrigger state={<CollapsibleState messages={message ? [message] : undefined} />}>Properties</CollapsibleTrigger>
       <CollapsibleContent>
-        <FieldModifierCheckbox label='Persistent' modifier='PERSISTENT' />
+        <BasicField message={message}>
+          <FieldModifierCheckbox label='Persistent' modifier='PERSISTENT' />
+        </BasicField>
       </CollapsibleContent>
     </Collapsible>
   );
