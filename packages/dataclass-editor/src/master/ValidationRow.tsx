@@ -28,13 +28,7 @@ export const ValidationRow = ({ row, isReorderable, updateOrder, onClick, onDrag
     .getVisibleCells()
     .map(cell => <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>);
 
-  const commonProps = {
-    id: row.index.toString(),
-    row: row,
-    className: rowClassName(messages),
-    onClick: onClick,
-    onDrag: onDrag
-  };
+  const commonProps = { id: row.index.toString(), row, className: rowClassName(messages), onClick, onDrag };
 
   return (
     <>
