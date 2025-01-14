@@ -5,6 +5,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import './index.css';
 import { appParam, directSaveParam, fileParam, pmvParam, readonlyParam, themeParam, webSocketBaseParam } from './url-helper';
+import { HotkeysProvider } from 'react-hotkeys-hook';
 
 export async function start(): Promise<void> {
   const server = webSocketBaseParam();
@@ -40,7 +41,9 @@ export async function start(): Promise<void> {
           <ClientContextProvider client={client}>
             <QueryProvider client={queryClient}>
               <ReadonlyProvider readonly={readonly}>
-                <DataClassEditor context={{ app, pmv, file: file }} directSave={directSave} />
+                <HotkeysProvider initiallyActiveScopes={['global']}>
+                  <DataClassEditor context={{ app, pmv, file: file }} directSave={directSave} />
+                </HotkeysProvider>
               </ReadonlyProvider>
             </QueryProvider>
           </ClientContextProvider>

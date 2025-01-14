@@ -31,6 +31,8 @@ import { useClient } from './protocol/ClientContextProvider';
 import { genQueryKey } from './query/query-client';
 import type { Unary } from './utils/lambda/lambda';
 import { useAction } from './context/useAction';
+import { HOTKEYS, useHotkeyTexts } from './utils/hotkeys';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 export const headerTitles = (dataClass: DataClass, selectedField?: number) => {
   let baseTitle = '';
@@ -114,6 +116,8 @@ function DataClassEditor(props: EditorProps) {
   });
 
   const openUrl = useAction('openUrl');
+  const { openHelp: helpText } = useHotkeyTexts();
+  useHotkeys(HOTKEYS.OPEN_HELP, () => openUrl(data?.helpUrl), { scopes: ['global'] });
 
   if (isPending) {
     return (
@@ -136,7 +140,18 @@ function DataClassEditor(props: EditorProps) {
   const setDataClass = (dataClass: DataClass) => mutation.mutate(() => dataClass);
 
   return (
-    <AppProvider value={{ context, dataClass, setDataClass, selectedField, setSelectedField, detail, setDetail, validationMessages }}>
+    <AppProvider
+      value={{
+        context,
+        dataClass,
+        setDataClass,
+        selectedField,
+        setSelectedField,
+        detail,
+        setDetail,
+        validationMessages
+      }}
+    >
       <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
         <ResizablePanel defaultSize={75} minSize={50} className='master-panel'>
           <Flex className='panel-content-container master-container' direction='column'>
@@ -150,7 +165,7 @@ function DataClassEditor(props: EditorProps) {
             <ResizablePanel defaultSize={25} minSize={10} className='detail-panel'>
               <Flex direction='column' className='panel-content-container detail-container'>
                 <SidebarHeader icon={IvyIcons.PenEdit} title={detailTitle} className='detail-header'>
-                  <Button icon={IvyIcons.Help} onClick={() => openUrl(data.helpUrl)} aria-label='Help' />
+                  <Button icon={IvyIcons.Help} onClick={() => openUrl(data.helpUrl)} title={helpText} aria-label={helpText} />
                 </SidebarHeader>
                 {selectedField === undefined || dataClass.fields.length <= selectedField ? (
                   <DataClassDetailContent />

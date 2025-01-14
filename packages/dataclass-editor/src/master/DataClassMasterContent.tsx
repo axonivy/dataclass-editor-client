@@ -27,7 +27,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { getCoreRowModel, useReactTable, type ColumnDef, type Row, type Table as TanstackTable } from '@tanstack/react-table';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { type Field } from '@axonivy/dataclass-editor-protocol';
 import { AddFieldDialog } from './AddFieldDialog';
@@ -37,6 +37,8 @@ import { useValidation } from './useValidation';
 import { useQueryClient } from '@tanstack/react-query';
 import { genQueryKey } from '../query/query-client';
 import { useFunction } from '../context/useFunction';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { HOTKEYS, useHotkeyTexts } from '../utils/hotkeys';
 
 const fullQualifiedClassNameRegex = /(?:[\w]+\.)+([\w]+)(?=[<,> ]|$)/g;
 
@@ -175,27 +177,28 @@ export const DataClassMasterContent = () => {
   };
 
   const readonly = useReadonly();
+  const texts = useHotkeyTexts();
+  const isCombineSupported = context.app === 'designer';
   const control = readonly ? null : (
     <Flex gap={2}>
       <AddFieldDialog table={table} />
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <Button
-        key='deleteButton'
         icon={IvyIcons.Trash}
         onClick={deleteField}
         disabled={table.getSelectedRowModel().rows.length === 0}
-        aria-label='Delete field'
+        aria-label={texts.deleteAttr}
+        title={texts.deleteAttr}
       />
 
-      {context.app === 'designer' && (
+      {isCombineSupported && (
         <>
           <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
           <Button
-            key='combineButton'
             icon={IvyIcons.WrapToSubprocess}
             onClick={() => combineFields.mutate()}
-            aria-label='Combine attributes'
-            title='Combine attributes'
+            aria-label={texts.combineAttr}
+            title={texts.combineAttr}
             disabled={table.getSelectedRowModel().rows.length === 0}
           />
         </>
@@ -203,14 +206,36 @@ export const DataClassMasterContent = () => {
     </Flex>
   );
 
+  const ref = useHotkeys(
+    [HOTKEYS.DELETE_ATTR, HOTKEYS.COMBINE_ATTR],
+    (_, { hotkey }) => {
+      if (hotkey === HOTKEYS.DELETE_ATTR) {
+        deleteField();
+      }
+      if (hotkey === HOTKEYS.COMBINE_ATTR && isCombineSupported) {
+        combineFields.mutate();
+      }
+    },
+    { scopes: ['global'], enabled: !readonly }
+  );
+  const firstElement = useRef<HTMLDivElement>(null);
+  useHotkeys(HOTKEYS.FOCUS_MAIN, () => firstElement.current?.focus(), { scopes: ['global'] });
+
   return (
-    <Flex direction='column' gap={4} className='master-content-container' onClick={() => selectRow(table)}>
+    <Flex direction='column' ref={ref} gap={4} className='master-content-container' onClick={() => selectRow(table)}>
       {messages.map((message, index) => (
         <Message key={index} variant={message.variant}>
           {message.message}
         </Message>
       ))}
-      <BasicField className='master-content' label='Attributes' control={control} onClick={event => event.stopPropagation()}>
+      <BasicField
+        tabIndex={-1}
+        ref={firstElement}
+        className='master-content'
+        label='Attributes'
+        control={control}
+        onClick={event => event.stopPropagation()}
+      >
         <Table onKeyDown={e => handleKeyDown(e, () => setDetail(!detail))}>
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={() => selectRow(table)} />
           <TableBody>
@@ -218,7 +243,7 @@ export const DataClassMasterContent = () => {
               <ValidationRow
                 key={row.id}
                 row={row}
-                isReorderable={table.getState().sorting.length === 0}
+                isReorderable={table.getState().sorting.length === 0 && !readonly}
                 onDrag={() => handleRowDrag(row)}
                 onClick={event => handleMultiSelectOnRow(row, event)}
                 updateOrder={updateOrder}
