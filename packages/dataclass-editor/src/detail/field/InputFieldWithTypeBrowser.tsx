@@ -3,6 +3,8 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
 import { Browser } from './browser/Browser';
 
+export const BROWSER_LABEL = 'Browser';
+
 export type InputFieldProps = {
   value: string;
   onChange: (value: string) => void;
@@ -17,7 +19,7 @@ export const InputFieldWithTypeBrowser = ({ value, onChange, message }: InputFie
         <InputGroup>
           <BasicInput value={value} onChange={event => onChange(event.target.value)} />
           <DialogTrigger asChild>
-            <Button icon={IvyIcons.ListSearch} aria-label='Browser' />
+            <Button icon={IvyIcons.ListSearch} aria-label={BROWSER_LABEL} title={BROWSER_LABEL} />
           </DialogTrigger>
         </InputGroup>
       </BasicField>

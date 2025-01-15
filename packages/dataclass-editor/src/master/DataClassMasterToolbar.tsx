@@ -17,6 +17,9 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useAppContext } from '../context/AppContext';
 import { useAction } from '../context/useAction';
+import { HOTKEYS, useHotkeyTexts } from '../utils/hotkeys';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { useRef } from 'react';
 
 type DataClassMasterToolbarProps = {
   title: string;
@@ -28,14 +31,37 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
   const openForm = useAction('openForm');
   const openProcess = useAction('openProcess');
 
+  useHotkeys(HOTKEYS.OPEN_FORM, () => openForm(), { scopes: ['global'], enabled: isHdData });
+  useHotkeys(HOTKEYS.OPEN_PROCESS, () => openProcess(), { scopes: ['global'], enabled: isHdData });
+
+  const firstElement = useRef<HTMLDivElement>(null);
+  useHotkeys(HOTKEYS.FOCUS_TOOLBAR, () => firstElement.current?.focus(), { scopes: ['global'] });
+  useHotkeys(
+    HOTKEYS.FOCUS_INSCRIPTION,
+    () => {
+      setDetail(true);
+      document.querySelector<HTMLElement>('.ui-accordion-trigger')?.focus();
+    },
+    {
+      scopes: ['global']
+    }
+  );
+  const texts = useHotkeyTexts();
+
   return (
-    <Toolbar className='master-toolbar'>
+    <Toolbar tabIndex={-1} ref={firstElement} className='master-toolbar'>
       <ToolbarTitle className='master-header'>{title}</ToolbarTitle>
       <Flex gap={1}>
         {isHdData && (
           <>
-            <Button icon={IvyIcons.File} size='large' title='Open Form' aria-label='Open Form' onClick={() => openForm()} />
-            <Button icon={IvyIcons.Process} size='large' title='Open Process' aria-label='Open Process' onClick={() => openProcess()} />
+            <Button icon={IvyIcons.File} size='large' title={texts.openForm} aria-label={texts.openForm} onClick={() => openForm()} />
+            <Button
+              icon={IvyIcons.Process}
+              size='large'
+              title={texts.openProcess}
+              aria-label={texts.openProcess}
+              onClick={() => openProcess()}
+            />
           </>
         )}
         {!disabled && (

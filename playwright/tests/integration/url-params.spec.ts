@@ -20,3 +20,20 @@ test('hd data class', async ({ page }) => {
   await editor.table.row(0).locator.click();
   await expect(editor.detail.field.general.properties.collapsible.locator).toBeHidden();
 });
+
+test('readonly', async ({ page }) => {
+  const editor = await DataClassEditor.openDataClass(page, 'dataclasses/dataclass/DataClass.d.json', { readonly: true });
+  await expect(editor.add.locator).toBeHidden();
+  await page.keyboard.press('a');
+  await expect(page.getByRole('dialog')).toBeHidden();
+
+  await expect(editor.delete.locator).toBeHidden();
+  await editor.table.row(0).locator.click();
+  await editor.table.expectToBeSelected(0);
+  await expect(editor.table.rows).toHaveCount(3);
+  await page.keyboard.press('Delete');
+  await expect(editor.table.rows).toHaveCount(3);
+
+  await editor.table.expectToNotBeReorderable();
+  await expect(editor.detail.field.general.nameTypeComment.name.locator).toBeDisabled();
+});
