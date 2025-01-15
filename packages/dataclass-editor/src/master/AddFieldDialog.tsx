@@ -54,7 +54,7 @@ type AddFieldDialogProps = {
 };
 
 export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
-  const { dataClass, setDataClass } = useAppContext();
+  const { dataClass, setDataClass, setSelectedField } = useAppContext();
 
   const [name, setName] = useState('');
   const [type, setType] = useState('');
@@ -89,6 +89,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
     const newDataClass = structuredClone(dataClass);
     newDataClass.fields = newFields;
     setDataClass(newDataClass);
+    setSelectedField(newDataClass.fields.findIndex(field => field.name === newField.name));
     if (!e.ctrlKey && !e.metaKey) {
       setOpen(false);
     }
