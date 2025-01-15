@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { DataClassEditor } from '../../pageobjects/DataClassEditor';
+import { consoleLog } from '../../pageobjects/console-log';
 
 let editor: DataClassEditor;
 
@@ -30,6 +31,17 @@ test.describe('add field', async () => {
         remove: false,
         refresh: false
       });
+    });
+
+    test('keyboard', async () => {
+      await editor.page.keyboard.press('a');
+      await expect(editor.add.locator).toBeVisible();
+      await editor.page.keyboard.press('ControlOrMeta+Enter');
+      await expect(editor.add.locator).toBeVisible();
+      await editor.page.keyboard.press('Escape');
+      await expect(editor.add.locator).toBeHidden();
+      await editor.table.row(6).expectToBeSelected();
+      await editor.table.row(6).expectToHaveValues('newAttribute', 'String', '');
     });
   });
 
@@ -64,15 +76,6 @@ test.describe('add field', async () => {
       });
     });
   });
-
-  test('shortcuts', async ({ browserName }) => {
-    const modifier = browserName === 'webkit' ? 'Meta' : 'Control';
-    await editor.page.keyboard.press(`${modifier}+Alt+n`);
-    await expect(editor.add.locator).toBeVisible();
-    await editor.page.keyboard.press('Enter');
-    await expect(editor.add.locator).toBeHidden();
-    await expect(editor.table.rows).toHaveCount(7);
-  });
 });
 
 test.describe('delete field', async () => {
@@ -103,6 +106,15 @@ test.describe('delete field', async () => {
     await expect(editor.table.rows).toHaveCount(0);
     await editor.detail.expectToBeDataClass();
   });
+
+  test('keyboard', async () => {
+    await editor.table.expectToHaveNothingSelected();
+    await editor.table.locator.focus();
+    await expect(editor.table.rows).toHaveCount(6);
+    await editor.page.keyboard.press('ArrowDown');
+    await editor.page.keyboard.press('Delete');
+    await expect(editor.table.rows).toHaveCount(5);
+  });
 });
 
 test('disable reorder', async () => {
@@ -115,7 +127,25 @@ test('disable reorder', async () => {
   await editor.table.expectToBeReorderable();
 });
 
-test.describe('table keyboard support', async () => {
+test('combine', async ({ page }) => {
+  const editor = await DataClassEditor.openMock(page, { app: 'designer' });
+  const combineBtn = page.getByRole('button', { name: 'Combine Attributes' });
+  await expect(combineBtn).toBeDisabled();
+  await editor.table.row(0).locator.click();
+  await expect(combineBtn).toBeEnabled();
+  const msg1 = consoleLog(page);
+  await combineBtn.click();
+  expect(await msg1).toContain('combineFields');
+  expect(await msg1).toContain('firstName');
+
+  await editor.table.row(4).locator.click();
+  const msg2 = consoleLog(page);
+  await page.keyboard.press('c');
+  expect(await msg2).toContain('combineFields');
+  expect(await msg2).toContain('entity');
+});
+
+test.describe('table keyboard support', () => {
   test('move single selection via arrowKey', async () => {
     await editor.table.expectToHaveNothingSelected();
     await editor.table.locator.focus();

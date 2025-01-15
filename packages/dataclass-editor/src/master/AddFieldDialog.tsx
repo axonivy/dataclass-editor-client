@@ -3,7 +3,6 @@ import {
   BasicField,
   Button,
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -11,21 +10,23 @@ import {
   DialogTitle,
   DialogTrigger,
   Flex,
+  hotkeyText,
   Input,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  useShortcut,
   type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { type Table } from '@tanstack/react-table';
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import type { DataClass, Field } from '@axonivy/dataclass-editor-protocol';
 import { isEntity } from '../data/dataclass-utils';
-import { InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
+import { BROWSER_LABEL, InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { useHotkeyTexts } from '../utils/hotkeys';
 
 export const validateFieldName = (name: string, dataClass: DataClass) => {
   if (name.trim() === '') {
@@ -66,7 +67,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
     setType('String');
   };
 
-  const addField = () => {
+  const addField = (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | KeyboardEvent) => {
     const newField: Field = {
       name: name,
       type: type,
@@ -88,30 +89,47 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
     const newDataClass = structuredClone(dataClass);
     newDataClass.fields = newFields;
     setDataClass(newDataClass);
+    if (!e.ctrlKey && !e.metaKey) {
+      setOpen(false);
+    }
   };
 
   const allInputsValid = () => !nameValidationMessage && !typeValidationMessage;
-
-  const dialogTriggerRef = useRef<HTMLButtonElement>(null);
-  const shortcut = useShortcut('n', () => dialogTriggerRef.current?.click());
+  const [open, setOpen] = useState(false);
+  const onOpenChange = (open: boolean) => {
+    setOpen(open);
+    if (open) {
+      initializeAddFieldDialog();
+    }
+  };
+  useHotkeys('a', () => onOpenChange(true), { scopes: ['global'], keyup: true, enabled: !open });
+  const { addAttr: shortcut } = useHotkeyTexts();
+  const enter = useHotkeys(
+    ['Enter', 'mod+Enter'],
+    e => {
+      if (!allInputsValid() || document.activeElement?.ariaLabel === BROWSER_LABEL) {
+        return;
+      }
+      addField(e);
+    },
+    {
+      scopes: ['global'],
+      enabled: open,
+      enableOnFormTags: true
+    }
+  );
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
             <DialogTrigger asChild>
-              <Button
-                ref={dialogTriggerRef}
-                className='add-field-dialog-trigger-button'
-                icon={IvyIcons.Plus}
-                onClick={initializeAddFieldDialog}
-                aria-label='Add field'
-              />
+              <Button className='add-field-dialog-trigger-button' icon={IvyIcons.Plus} aria-label={shortcut} />
             </DialogTrigger>
           </TooltipTrigger>
           <TooltipContent>
-            <span>{`New attribute (${shortcut})`}</span>
+            <span>{shortcut}</span>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -120,34 +138,28 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
           <DialogTitle>New Attribute</DialogTitle>
         </DialogHeader>
         <DialogDescription>Choose the name and type of the attribute you want to add.</DialogDescription>
-        <form
-          onSubmit={event => {
-            event.preventDefault();
-          }}
-        >
+        <Flex ref={enter} tabIndex={-1} direction='column' gap={2}>
           <Flex direction='column' gap={2}>
-            <Flex direction='column' gap={2}>
-              <BasicField label='Name' message={nameValidationMessage} aria-label='Name'>
-                <Input value={name} onChange={event => setName(event.target.value)} />
-              </BasicField>
-              <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
-            </Flex>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button
-                  variant='primary'
-                  size='large'
-                  type='submit'
-                  aria-label='Create field'
-                  disabled={!allInputsValid()}
-                  onClick={addField}
-                >
-                  Create Attribute
-                </Button>
-              </DialogClose>
-            </DialogFooter>
+            <BasicField label='Name' message={nameValidationMessage} aria-label='Name'>
+              <Input value={name} onChange={event => setName(event.target.value)} />
+            </BasicField>
+            <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
           </Flex>
-        </form>
+          <DialogFooter>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant='primary' size='large' aria-label='Create field' disabled={!allInputsValid()} onClick={addField}>
+                    Create Attribute
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span>Hold {hotkeyText('mod')} to add an additional attribute</span>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </DialogFooter>
+        </Flex>
       </DialogContent>
     </Dialog>
   );

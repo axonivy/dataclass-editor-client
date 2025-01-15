@@ -14,7 +14,7 @@ export class AddFieldDialog {
 
   constructor(page: Page) {
     this.locator = page.getByRole('dialog', { name: 'New Attribute' });
-    this.open = new Button(page.locator('.master-content'), { name: 'Add field' });
+    this.open = new Button(page.locator('.master-content'), { name: 'Add Attribute' });
     this.name = new TextArea(this.locator, { label: 'Name' });
     this.nameMessage = new FieldMessage(this.locator, { label: 'Name' });
     this.type = new TextArea(this.locator, { label: 'Type' });

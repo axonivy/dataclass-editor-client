@@ -81,9 +81,13 @@ export class DataClassClientMock implements Client {
     return Promise.resolve([]);
   }
 
-  function<TFunct extends keyof FunctionRequestTypes>(path: TFunct): Promise<FunctionRequestTypes[TFunct][1]> {
+  function<TFunct extends keyof FunctionRequestTypes>(
+    path: TFunct,
+    args: FunctionRequestTypes[TFunct][0]
+  ): Promise<FunctionRequestTypes[TFunct][1]> {
     switch (path) {
       case 'function/combineFields':
+        console.log(`Function ${path}: ${JSON.stringify(args)}`);
         return Promise.resolve(this.dataClassData.data);
       default:
         throw Error('mock meta path not programmed');
@@ -96,9 +100,9 @@ export class DataClassClientMock implements Client {
         return Promise.resolve([]);
       case 'meta/scripting/dataClasses':
         return Promise.resolve([]);
-      case 'meta/scripting/cardinalities': 
+      case 'meta/scripting/cardinalities':
         return Promise.resolve(cardinalities(args as FieldContext));
-      case 'meta/scripting/mappedByFields': 
+      case 'meta/scripting/mappedByFields':
         return Promise.resolve(mappedByFields(args as MappedByFieldsContext));
       default:
         throw Error('mock meta path not programmed');
@@ -106,7 +110,7 @@ export class DataClassClientMock implements Client {
   }
 
   action(action: DataActionArgs): void {
-    console.log(action);
+    console.log(`Action: ${JSON.stringify(action)}`);
   }
 
   onDataChanged: Event<void>;

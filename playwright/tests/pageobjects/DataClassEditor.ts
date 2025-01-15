@@ -19,6 +19,7 @@ export class DataClassEditor {
   readonly detailToggle: Button;
   readonly detail: Detail;
   readonly settings: Settings;
+  readonly main: Locator;
   readonly table: Table;
   readonly add: AddFieldDialog;
   readonly delete: Button;
@@ -31,15 +32,19 @@ export class DataClassEditor {
     this.detailToggle = new Button(this.toolbar, { name: 'Details toggle' });
     this.detail = new Detail(this.page);
     this.settings = new Settings(this.page);
-    this.table = new Table(this.page.locator('.master-content'));
+    this.main = this.page.locator('.master-content');
+    this.table = new Table(this.main);
     this.add = new AddFieldDialog(this.page);
-    this.delete = new Button(this.page.locator('.master-content'), { name: 'Delete field' });
+    this.delete = new Button(this.main, { name: 'Delete Attribute' });
     this.messages = this.page.locator('.ui-message');
   }
 
-  static async openDataClass(page: Page, file: string) {
+  static async openDataClass(page: Page, file: string, options?: { readonly?: boolean }) {
     const serverUrl = server.replace(/^https?:\/\//, '');
-    const url = `?server=${serverUrl}${ws}&app=${app}&pmv=${pmv}&file=${file}`;
+    let url = `?server=${serverUrl}${ws}&app=${app}&pmv=${pmv}&file=${file}`;
+    if (options) {
+      url += `${this.params(options)}`;
+    }
     return this.openUrl(page, url);
   }
 
@@ -62,8 +67,21 @@ export class DataClassEditor {
     return editor;
   }
 
-  static async openMock(page: Page) {
-    return this.openUrl(page, '/mock.html');
+  static async openMock(page: Page, options?: { readonly?: boolean; app?: string; file?: string }) {
+    let params = '';
+    if (options) {
+      params = '?';
+      params += this.params(options);
+    }
+    return this.openUrl(page, `/mock.html${params}`);
+  }
+
+  private static params(options: Record<string, string | boolean>) {
+    let params = '';
+    params += Object.entries(options)
+      .map(([key, value]) => `&${key}=${value}`)
+      .join('');
+    return params;
   }
 
   private static async openUrl(page: Page, url: string) {
