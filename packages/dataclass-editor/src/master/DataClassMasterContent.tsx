@@ -26,8 +26,8 @@ import {
   useTableSort
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { getCoreRowModel, useReactTable, type ColumnDef, type Row, type Table as TanstackTable } from '@tanstack/react-table';
-import { useEffect, useRef } from 'react';
+import { getCoreRowModel, useReactTable, type ColumnDef, type Row } from '@tanstack/react-table';
+import { useRef } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { type Field } from '@axonivy/dataclass-editor-protocol';
 import { AddFieldDialog } from './AddFieldDialog';
@@ -46,22 +46,20 @@ export const simpleTypeName = (fullQualifiedType: string) => {
   return fullQualifiedType.replace(fullQualifiedClassNameRegex, (_fullQualifiedClassName, className) => className);
 };
 
-export const useUpdateSelection = (table: TanstackTable<Field>) => {
-  const { setSelectedField } = useAppContext();
-  const selectedRows = table.getSelectedRowModel().rows;
-  const selectedField = selectedRows.length === 1 ? selectedRows[0].index : undefined;
-  useEffect(() => {
-    setSelectedField(selectedField);
-  }, [selectedField, setSelectedField]);
-};
-
 export const DataClassMasterContent = () => {
   const { context, dataClass, setDataClass, setSelectedField, setDetail, detail } = useAppContext();
   const queryClient = useQueryClient();
 
   const messages = useValidation();
 
-  const selection = useTableSelect<Field>();
+  const selection = useTableSelect<Field>({
+    onSelect: selectedRows => {
+      const selectedRowId = Object.keys(selectedRows).find(key => selectedRows[key]);
+      const selectedRowCount = Object.values(selectedRows).filter(value => value === true).length;
+      const selectedField = selectedRowCount === 1 ? table.getRowModel().flatRows.find(row => row.id === selectedRowId)?.index : undefined;
+      setSelectedField(selectedField);
+    }
+  });
   const sort = useTableSort();
   const columns: Array<ColumnDef<Field, string>> = [
     {
@@ -108,15 +106,13 @@ export const DataClassMasterContent = () => {
       ...sort.tableState
     }
   });
-  useUpdateSelection(table);
   const { handleMultiSelectOnRow } = useMultiSelectRow(table);
 
   const deleteField = () => {
-    const { newData: newFields, selection } = deleteAllSelectedRows(table, dataClass.fields);
+    const { newData: newFields } = deleteAllSelectedRows(table, dataClass.fields);
     const newDataClass = structuredClone(dataClass);
     newDataClass.fields = newFields;
     setDataClass(newDataClass);
-    setSelectedField(selection);
   };
 
   const updateDataArray = (moveIndexes: number[], toIndex: number, data: Field[]) => {
