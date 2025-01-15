@@ -26,7 +26,7 @@ import type { DataClass, Field } from '@axonivy/dataclass-editor-protocol';
 import { isEntity } from '../data/dataclass-utils';
 import { BROWSER_LABEL, InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useHotkeyTexts } from '../utils/hotkeys';
+import { HOTKEYS, useHotkeyTexts } from '../utils/hotkeys';
 
 export const validateFieldName = (name: string, dataClass: DataClass) => {
   if (name.trim() === '') {
@@ -102,7 +102,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
       initializeAddFieldDialog();
     }
   };
-  useHotkeys('a', () => onOpenChange(true), { scopes: ['global'], keyup: true, enabled: !open });
+  useHotkeys(HOTKEYS.ADD_ATTR, () => onOpenChange(true), { scopes: ['global'], keyup: true, enabled: !open });
   const { addAttr: shortcut } = useHotkeyTexts();
   const enter = useHotkeys(
     ['Enter', 'mod+Enter'],
