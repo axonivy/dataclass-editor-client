@@ -1,11 +1,10 @@
 import { ClientContextProvider, ClientJsonRpc, DataClassEditor, QueryProvider, initQueryClient } from '@axonivy/dataclass-editor';
-import { ReadonlyProvider, ThemeProvider, toast, Toaster, Spinner, Flex } from '@axonivy/ui-components';
+import { ReadonlyProvider, ThemeProvider, toast, Toaster, Spinner, Flex, HotkeysProvider } from '@axonivy/ui-components';
 import { webSocketConnection, type Connection } from '@axonivy/jsonrpc';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import './index.css';
 import { URLParams } from './url-helper';
-import { HotkeysProvider } from 'react-hotkeys-hook';
 
 export async function start(): Promise<void> {
   const server = URLParams.webSocketBase();

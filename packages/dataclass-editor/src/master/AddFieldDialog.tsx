@@ -16,6 +16,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
+  useHotkeys,
   type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
@@ -25,7 +26,6 @@ import { useAppContext } from '../context/AppContext';
 import type { DataClass, Field } from '@axonivy/dataclass-editor-protocol';
 import { isEntity } from '../data/dataclass-utils';
 import { BROWSER_LABEL, InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
-import { useHotkeys } from 'react-hotkeys-hook';
 import { HOTKEYS, useHotkeyTexts } from '../utils/hotkeys';
 
 export const validateFieldName = (name: string, dataClass: DataClass) => {

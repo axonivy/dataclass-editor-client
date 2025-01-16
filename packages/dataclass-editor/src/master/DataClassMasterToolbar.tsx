@@ -12,13 +12,13 @@ import {
   Switch,
   Toolbar,
   ToolbarTitle,
+  useHotkeys,
   useTheme
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useAppContext } from '../context/AppContext';
 import { useAction } from '../context/useAction';
 import { HOTKEYS, useHotkeyTexts } from '../utils/hotkeys';
-import { useHotkeys } from 'react-hotkeys-hook';
 import { useRef } from 'react';
 
 type DataClassMasterToolbarProps = {

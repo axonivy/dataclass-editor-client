@@ -7,12 +7,12 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
   SidebarHeader,
-  Spinner
+  Spinner,
+  useHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
-import { useHotkeys } from 'react-hotkeys-hook';
 import { AppProvider } from './context/AppContext';
 import { FieldProvider } from './context/FieldContext';
 import { useAction } from './context/useAction';
