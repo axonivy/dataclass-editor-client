@@ -1,4 +1,14 @@
-import { BasicField, BasicInput, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
+import {
+  BasicField,
+  BasicInput,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleState,
+  CollapsibleTrigger,
+  Flex,
+  type MessageData
+} from '@axonivy/ui-components';
+import { combineMessagesOfProperties } from '../../../data/validation-utils';
 import { FieldModifierCheckbox } from '../FieldModifierCheckbox';
 import { useFieldEntityProperty } from './useFieldEntityProperty';
 
@@ -10,7 +20,11 @@ const DATABASE_TYPE_LENGHTS = {
 export const typeCanHaveDatabaseLength = (type: string) => Object.hasOwn(DATABASE_TYPE_LENGHTS, type);
 export const defaultLengthOfType = (type: string) => DATABASE_TYPE_LENGHTS[type as keyof typeof DATABASE_TYPE_LENGHTS] || '';
 
-export const FieldEntityDatabaseField = () => {
+type FieldEntityDatabaseFieldProps = {
+  messagesByProperty: Record<string, MessageData>;
+};
+
+export const FieldEntityDatabaseField = ({ messagesByProperty }: FieldEntityDatabaseFieldProps) => {
   const { field, setProperty } = useFieldEntityProperty();
 
   const mappedByFieldNameIsSet = field.entity.mappedByFieldName !== '';
@@ -24,10 +38,18 @@ export const FieldEntityDatabaseField = () => {
         field.modifiers.some(modifier => modifier !== 'PERSISTENT')
       }
     >
-      <CollapsibleTrigger>Database Field</CollapsibleTrigger>
+      <CollapsibleTrigger
+        state={
+          <CollapsibleState
+            messages={combineMessagesOfProperties(messagesByProperty, 'DB_FIELD_NAME', 'DB_FIELD_LENGTH', 'PROPERTIES_ENTITY')}
+          />
+        }
+      >
+        Database Field
+      </CollapsibleTrigger>
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
-          <BasicField label='Name'>
+          <BasicField label='Name' message={messagesByProperty.DB_FIELD_NAME}>
             <BasicInput
               value={mappedByFieldNameIsSet ? '' : field.entity.databaseName}
               onChange={event => setProperty('databaseName', event.target.value)}
@@ -35,7 +57,7 @@ export const FieldEntityDatabaseField = () => {
               disabled={mappedByFieldNameIsSet}
             />
           </BasicField>
-          <BasicField label='Length'>
+          <BasicField label='Length' message={messagesByProperty.DB_FIELD_LENGTH}>
             <BasicInput
               value={canHaveDatabaseLength ? field.entity.databaseFieldLength : ''}
               onChange={event => setProperty('databaseFieldLength', event.target.value)}
@@ -43,7 +65,7 @@ export const FieldEntityDatabaseField = () => {
               disabled={!canHaveDatabaseLength}
             />
           </BasicField>
-          <BasicField label='Properties'>
+          <BasicField label='Properties' message={messagesByProperty.PROPERTIES_ENTITY} data-testid='database-field-properties'>
             <FieldModifierCheckbox label='ID' modifier='ID' />
             <FieldModifierCheckbox label='Generated' modifier='GENERATED' />
             <FieldModifierCheckbox label='Not nullable' modifier='NOT_NULLABLE' />

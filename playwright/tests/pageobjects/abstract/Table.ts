@@ -1,16 +1,19 @@
 import type { Locator } from '@playwright/test';
 import { expect } from '@playwright/test';
 import { Button } from './Button';
+import { Message } from './Message';
 
 export class Table {
   readonly locator: Locator;
   readonly rows: Locator;
   readonly headers: Locator;
+  readonly messages: Locator;
 
-  constructor(parentLocator: Locator) {
-    this.locator = parentLocator.locator('table');
-    this.rows = parentLocator.locator('tbody tr');
-    this.headers = parentLocator.locator('.ui-table-head');
+  constructor(parent: Locator) {
+    this.locator = parent.locator('table');
+    this.rows = this.locator.locator('tbody tr:not(.ui-message-row)');
+    this.headers = this.locator.locator('.ui-table-head');
+    this.messages = this.locator.locator('tbody tr.ui-message-row');
   }
 
   row(index: number) {
@@ -55,6 +58,10 @@ export class Table {
       await expect(this.row(i).locator).not.toHaveClass(/ui-dnd-row/);
     }
   }
+
+  message(nth: number) {
+    return new Message(this.messages.nth(nth));
+  }
 }
 
 export class TableHeader {
@@ -98,6 +105,19 @@ export class Row {
 
   async expectToBeUnselected() {
     await expect(this.locator).toHaveAttribute('data-state', 'unselected');
+  }
+
+  async expectToHaveNoValidation() {
+    await expect(this.locator).not.toHaveClass(/row-error/);
+    await expect(this.locator).not.toHaveClass(/row-warning/);
+  }
+
+  async expectToHaveError() {
+    await expect(this.locator).toHaveClass(/row-error/);
+  }
+
+  async expectToHaveWarning() {
+    await expect(this.locator).toHaveClass(/row-warning/);
   }
 }
 

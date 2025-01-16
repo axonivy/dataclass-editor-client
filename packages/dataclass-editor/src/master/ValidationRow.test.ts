@@ -1,7 +1,9 @@
-import { rowClassName } from './ValidationRow';
+import type { ValidationResult } from '@axonivy/dataclass-editor-protocol';
+import { rowClass } from './ValidationRow';
 
-test('rowClassName', () => {
-  expect(rowClassName([{ variant: 'info' }, { variant: 'info' }, { variant: 'info' }])).toBeUndefined();
-  expect(rowClassName([{ variant: 'info' }, { variant: 'warning' }, { variant: 'warning' }])).toEqual('row-warning');
-  expect(rowClassName([{ variant: 'info' }, { variant: 'warning' }, { variant: 'error' }])).toEqual('row-error');
+test('rowClass', () => {
+  expect(rowClass([])).toEqual('');
+  expect(rowClass([{ severity: 'INFO' }] as Array<ValidationResult>)).toEqual('');
+  expect(rowClass([{ severity: 'INFO' }, { severity: 'WARNING' }] as Array<ValidationResult>)).toEqual('row-warning');
+  expect(rowClass([{ severity: 'INFO' }, { severity: 'WARNING' }, { severity: 'ERROR' }] as Array<ValidationResult>)).toEqual('row-error');
 });

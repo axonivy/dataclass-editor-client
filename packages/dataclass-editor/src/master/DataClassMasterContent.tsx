@@ -1,3 +1,4 @@
+import { type Field } from '@axonivy/dataclass-editor-protocol';
 import {
   arrayMoveMultiple,
   BasicField,
@@ -26,19 +27,19 @@ import {
   useTableSort
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { useQueryClient } from '@tanstack/react-query';
 import { getCoreRowModel, useReactTable, type ColumnDef, type Row } from '@tanstack/react-table';
 import { useRef } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { useAppContext } from '../context/AppContext';
-import { type Field } from '@axonivy/dataclass-editor-protocol';
+import { useFunction } from '../context/useFunction';
+import { useValidation } from '../context/useValidation';
+import { variant } from '../data/validation-utils';
+import { genQueryKey } from '../query/query-client';
+import { HOTKEYS, useHotkeyTexts } from '../utils/hotkeys';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 import { ValidationRow } from './ValidationRow';
-import { useValidation } from './useValidation';
-import { useQueryClient } from '@tanstack/react-query';
-import { genQueryKey } from '../query/query-client';
-import { useFunction } from '../context/useFunction';
-import { useHotkeys } from 'react-hotkeys-hook';
-import { HOTKEYS, useHotkeyTexts } from '../utils/hotkeys';
 
 const fullQualifiedClassNameRegex = /(?:[\w]+\.)+([\w]+)(?=[<,> ]|$)/g;
 
@@ -50,7 +51,7 @@ export const DataClassMasterContent = () => {
   const { context, dataClass, setDataClass, setSelectedField, setDetail, detail } = useAppContext();
   const queryClient = useQueryClient();
 
-  const messages = useValidation();
+  const validations = useValidation();
 
   const selection = useTableSelect<Field>({
     onSelect: selectedRows => {
@@ -219,9 +220,9 @@ export const DataClassMasterContent = () => {
 
   return (
     <Flex direction='column' ref={ref} gap={4} className='master-content-container' onClick={() => selectRow(table)}>
-      {messages.map((message, index) => (
-        <Message key={index} variant={message.variant}>
-          {message.message}
+      {validations.map((val, index) => (
+        <Message key={index} variant={variant(val)}>
+          {val.message}
         </Message>
       ))}
       <BasicField

@@ -1,17 +1,9 @@
-import { MessageRow, ReorderRow, SelectRow, TableCell, type MessageData } from '@axonivy/ui-components';
+import type { Field, ValidationResult } from '@axonivy/dataclass-editor-protocol';
+import { MessageRow, ReorderRow, SelectRow, TableCell } from '@axonivy/ui-components';
 import { flexRender, type Row } from '@tanstack/react-table';
-import type { Field } from '@axonivy/dataclass-editor-protocol';
+import { useValidation } from '../context/useValidation';
+import { toMessageData } from '../data/validation-utils';
 import './ValidationRow.css';
-import { useValidation } from './useValidation';
-
-export const rowClassName = (messages: Array<MessageData>) => {
-  if (messages.some(message => message.variant === 'error')) {
-    return 'row-error';
-  } else if (messages.some(message => message.variant === 'warning')) {
-    return 'row-warning';
-  }
-  return;
-};
 
 type ValidationRowProps = {
   row: Row<Field>;
@@ -22,13 +14,13 @@ type ValidationRowProps = {
 };
 
 export const ValidationRow = ({ row, isReorderable, updateOrder, onClick, onDrag }: ValidationRowProps) => {
-  const messages = useValidation(row.original);
+  const validations = useValidation(row.original);
 
   const tableCell = row
     .getVisibleCells()
     .map(cell => <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>);
 
-  const commonProps = { id: row.index.toString(), row, className: rowClassName(messages), onClick, onDrag };
+  const commonProps = { id: row.index.toString(), row, className: rowClass(validations), onClick, onDrag };
 
   return (
     <>
@@ -39,9 +31,20 @@ export const ValidationRow = ({ row, isReorderable, updateOrder, onClick, onDrag
       ) : (
         <SelectRow {...commonProps}>{tableCell}</SelectRow>
       )}
-      {messages.map((message, index) => (
-        <MessageRow key={index} columnCount={3} message={message} />
-      ))}
+      {validations
+        .filter(val => val.severity !== 'INFO')
+        .map((val, index) => (
+          <MessageRow key={index} columnCount={3} message={toMessageData(val)} />
+        ))}
     </>
   );
+};
+
+export const rowClass = (messages: Array<ValidationResult>) => {
+  if (messages.some(message => message.severity === 'ERROR')) {
+    return 'row-error';
+  } else if (messages.some(message => message.severity === 'WARNING')) {
+    return 'row-warning';
+  }
+  return '';
 };
