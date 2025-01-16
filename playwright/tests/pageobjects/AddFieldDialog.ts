@@ -19,7 +19,7 @@ export class AddFieldDialog {
     this.nameMessage = new FieldMessage(this.locator, { label: 'Name' });
     this.type = new TextArea(this.locator, { label: 'Type' });
     this.typeMessage = new FieldMessage(this.locator, { label: 'Type' });
-    this.create = new Button(this.locator, { name: 'Create field' });
+    this.create = new Button(this.locator, { name: 'Create Attribute' });
   }
 
   async expectToHaveValues(name: string, type: string) {

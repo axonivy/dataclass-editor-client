@@ -150,7 +150,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant='primary' size='large' aria-label='Create field' disabled={!allInputsValid()} onClick={addField}>
+                  <Button variant='primary' size='large' aria-label='Create Attribute' disabled={!allInputsValid()} onClick={addField}>
                     Create Attribute
                   </Button>
                 </TooltipTrigger>
