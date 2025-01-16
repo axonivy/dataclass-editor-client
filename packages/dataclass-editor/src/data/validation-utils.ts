@@ -1,16 +1,8 @@
 import type { Severity, ValidationResult } from '@axonivy/dataclass-editor-protocol';
-import type { MessageData } from '@axonivy/ui-components';
+import { groupBy, type MessageData } from '@axonivy/ui-components';
 
 export const messagesByProperty = (validations: Array<ValidationResult>) => {
-  const validationsByProperty = validations.reduce<Record<string, Array<ValidationResult>>>((validationsByProperty, validation) => {
-    const property = validationProperty(validation);
-    if (!validationsByProperty[property]) {
-      validationsByProperty[property] = [];
-    }
-    validationsByProperty[property].push(validation);
-    return validationsByProperty;
-  }, {});
-
+  const validationsByProperty = groupBy(validations, validation => validationProperty(validation));
   const messageDataByProperty: Record<string, MessageData> = {};
   Object.entries(validationsByProperty).forEach(([property, validations]) => {
     messageDataByProperty[property] = messageData(validations);
