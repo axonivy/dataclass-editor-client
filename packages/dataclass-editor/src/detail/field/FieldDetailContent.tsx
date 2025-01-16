@@ -12,11 +12,11 @@ import { FieldProperties } from './FieldProperties';
 import { useFieldProperty } from './useFieldProperty';
 
 export const FieldDetailContent = () => {
-  const { selectedField, isHdData } = useAppContext();
+  const { isHdData } = useAppContext();
   const { field, setField } = useField();
   const { setProperty } = useFieldProperty();
 
-  const validations = useValidation(selectedField);
+  const validations = useValidation(field);
   const messages = messagesByProperty(validations);
 
   return (

@@ -1,10 +1,9 @@
-import type { ValidationResult } from '@axonivy/dataclass-editor-protocol';
+import type { Field, ValidationResult } from '@axonivy/dataclass-editor-protocol';
 import { useAppContext } from './AppContext';
 
-export const useValidation = (field?: number): Array<ValidationResult> => {
-  const { dataClass, validations } = useAppContext();
-  const fieldName = field === undefined ? undefined : dataClass.fields[field].name;
-  return validations.filter(val => name(val) === fieldName);
+export const useValidation = (field?: Field): Array<ValidationResult> => {
+  const { validations } = useAppContext();
+  return validations.filter(val => name(val) === field?.name);
 };
 
 const name = (validation: ValidationResult) => {
