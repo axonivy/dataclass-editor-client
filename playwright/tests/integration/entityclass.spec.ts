@@ -19,7 +19,7 @@ test('load data', async () => {
     unique: true,
     notUpdateable: true,
     notInsertable: true,
-    Version: false
+    version: false
   });
 
   await editor.table.row(2).locator.click();
@@ -54,7 +54,7 @@ test('save data', async ({ page }) => {
     unique: true,
     notUpdateable: true,
     notInsertable: true,
-    Version: false
+    version: false
   });
 
   await editor.addField('entityField1', 'dataclass.AnotherEntityClass');
@@ -86,7 +86,7 @@ test('save data', async ({ page }) => {
     unique: true,
     notUpdateable: true,
     notInsertable: true,
-    Version: false
+    version: false
   });
 
   await editor.table.row(2).locator.click();

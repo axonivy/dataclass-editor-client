@@ -1,14 +1,14 @@
+import type {
+  DataClass,
+  DataClassEditorDataContext,
+  EntityClassField,
+  EntityDataClass,
+  Field,
+  ValidationResult
+} from '@axonivy/dataclass-editor-protocol';
 import type { RenderHookOptions } from '@testing-library/react';
 import { renderHook } from '@testing-library/react';
 import { type ReactNode } from 'react';
-import type {
-  DataClass,
-  Field,
-  EntityDataClass,
-  EntityClassField,
-  ValidationResult,
-  DataClassEditorDataContext
-} from '@axonivy/dataclass-editor-protocol';
 import { AppProvider, EntityClassProvider } from '../AppContext';
 import { EntityFieldProvider, FieldProvider } from '../FieldContext';
 
@@ -21,7 +21,7 @@ type ContextHelperProps = {
     setSelectedField?: (index?: number) => void;
     detail?: boolean;
     setDetail?: (detail: boolean) => void;
-    validationMessages?: Array<ValidationResult>;
+    validations?: Array<ValidationResult>;
   };
   entityClassContext?: { entityClass?: EntityDataClass; setEntityClass?: (entityClass: EntityDataClass) => void };
   fieldContext?: { field?: Field; setField?: (field: Field) => void };
@@ -37,7 +37,7 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
     setSelectedField: props.appContext?.setSelectedField ?? (() => {}),
     detail: props.appContext?.detail !== undefined ? props.appContext.detail : true,
     setDetail: props.appContext?.setDetail ?? (() => {}),
-    validationMessages: props.appContext?.validationMessages ?? []
+    validations: props.appContext?.validations ?? []
   };
 
   const entityClassContext = {

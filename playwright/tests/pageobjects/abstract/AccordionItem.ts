@@ -5,17 +5,19 @@ export class AccordionItem {
   readonly page: Page;
   readonly locator: Locator;
   readonly trigger: Button;
+  readonly state: Locator;
 
-  constructor(page: Page, parentLocator: Locator, options?: { label?: string; nth?: number }) {
+  constructor(page: Page, parent: Locator, options?: { label?: string; nth?: number }) {
     this.page = page;
     if (options?.label) {
-      this.locator = parentLocator.locator('.ui-accordion-item').filter({
+      this.locator = parent.locator('.ui-accordion-item').filter({
         has: this.page.locator('h3').getByText(options.label, { exact: true })
       });
     } else {
-      this.locator = parentLocator.locator('.ui-accordion-item').nth(options?.nth ?? 0);
+      this.locator = parent.locator('.ui-accordion-item').nth(options?.nth ?? 0);
     }
     this.trigger = new Button(this.locator);
+    this.state = this.trigger.locator.locator('.ui-state-dot');
   }
 
   async open() {
@@ -41,5 +43,13 @@ export class AccordionItem {
 
   async expectToBeClosed() {
     await expect(this.locator).toHaveAttribute('data-state', 'closed');
+  }
+
+  async expectToHaveWarning() {
+    await expect(this.state).toHaveAttribute('data-state', 'warning');
+  }
+
+  async expectToHaveError() {
+    await expect(this.state).toHaveAttribute('data-state', 'error');
   }
 }

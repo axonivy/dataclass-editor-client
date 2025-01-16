@@ -1,3 +1,4 @@
+import type { DataClass, DataClassData, EditorProps, Field, ValidationResult } from '@axonivy/dataclass-editor-protocol';
 import {
   Button,
   Flex,
@@ -11,9 +12,10 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { AppProvider } from './context/AppContext';
 import { FieldProvider } from './context/FieldContext';
-import type { DataClass, Field, DataClassData, EditorProps, ValidationResult } from '@axonivy/dataclass-editor-protocol';
+import { useAction } from './context/useAction';
 import { classTypeOf } from './data/dataclass-utils';
 import './DataClassEditor.css';
 import { DataClassDetailContent } from './detail/dataclass/DataClassDetailContent';
@@ -22,10 +24,8 @@ import { DataClassMasterContent } from './master/DataClassMasterContent';
 import { DataClassMasterToolbar } from './master/DataClassMasterToolbar';
 import { useClient } from './protocol/ClientContextProvider';
 import { genQueryKey } from './query/query-client';
-import type { Unary } from './utils/lambda/lambda';
-import { useAction } from './context/useAction';
 import { HOTKEYS, useHotkeyTexts } from './utils/hotkeys';
-import { useHotkeys } from 'react-hotkeys-hook';
+import type { Unary } from './utils/lambda/lambda';
 
 export const headerTitles = (dataClass: DataClass, selectedField?: number) => {
   let baseTitle = '';
@@ -63,7 +63,7 @@ function DataClassEditor(props: EditorProps) {
     setDirectSave(props.directSave);
   }, [props]);
   const [selectedField, setSelectedField] = useState<number>();
-  const [validationMessages, setValidationMessages] = useState<Array<ValidationResult>>([]);
+  const [validations, setValidations] = useState<Array<ValidationResult>>([]);
 
   const client = useClient();
   const queryClient = useQueryClient();
@@ -85,9 +85,9 @@ function DataClassEditor(props: EditorProps) {
   useQuery({
     queryKey: queryKeys.validate(),
     queryFn: async () => {
-      const validationMessages = await client.validate(context);
-      setValidationMessages(validationMessages);
-      return validationMessages;
+      const validations = await client.validate(context);
+      setValidations(validations);
+      return validations;
     }
   });
 
@@ -101,8 +101,8 @@ function DataClassEditor(props: EditorProps) {
         return undefined;
       });
       if (saveData) {
-        const validationMessages = await client.saveData({ context, data: saveData.data, directSave });
-        return setValidationMessages(validationMessages);
+        const validations = await client.saveData({ context, data: saveData.data, directSave });
+        return setValidations(validations);
       }
       return Promise.resolve();
     }
@@ -133,18 +133,7 @@ function DataClassEditor(props: EditorProps) {
   const setDataClass = (dataClass: DataClass) => mutation.mutate(() => dataClass);
 
   return (
-    <AppProvider
-      value={{
-        context,
-        dataClass,
-        setDataClass,
-        selectedField,
-        setSelectedField,
-        detail,
-        setDetail,
-        validationMessages
-      }}
-    >
+    <AppProvider value={{ context, dataClass, setDataClass, selectedField, setSelectedField, detail, setDetail, validations }}>
       <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
         <ResizablePanel defaultSize={75} minSize={50} className='master-panel'>
           <Flex className='panel-content-container master-container' direction='column'>

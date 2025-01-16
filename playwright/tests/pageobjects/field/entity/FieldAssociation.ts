@@ -1,6 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { Collapsible } from '../../abstract/Collapsible';
-import { FieldMessage } from '../../abstract/FieldMessage';
 import { Select } from '../../abstract/Select';
 
 export type FieldAssociationCascadeTypes = { [K in keyof FieldAssociation['cascadeTypes']]: boolean };
@@ -8,7 +7,6 @@ export type FieldAssociationCascadeTypes = { [K in keyof FieldAssociation['casca
 export class FieldAssociation {
   readonly collapsible: Collapsible;
   readonly cardinality: Select;
-  readonly cardinalityMessage: FieldMessage;
   readonly cascadeTypes: {
     all: Locator;
     persist: Locator;
@@ -22,7 +20,6 @@ export class FieldAssociation {
   constructor(page: Page, parentLocator: Locator) {
     this.collapsible = new Collapsible(page, parentLocator, { label: 'Association' });
     this.cardinality = new Select(page, this.collapsible.locator, { label: 'Cardinality' });
-    this.cardinalityMessage = new FieldMessage(this.collapsible.locator, { label: 'Cardinality' });
     this.cascadeTypes = {
       all: this.collapsible.locator.getByLabel('All'),
       persist: this.collapsible.locator.getByLabel('Persist'),
