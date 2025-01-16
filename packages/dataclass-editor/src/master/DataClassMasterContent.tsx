@@ -20,6 +20,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
+  useHotkeys,
   useMultiSelectRow,
   useReadonly,
   useTableKeyHandler,
@@ -30,7 +31,6 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import { getCoreRowModel, useReactTable, type ColumnDef, type Row } from '@tanstack/react-table';
 import { useRef } from 'react';
-import { useHotkeys } from 'react-hotkeys-hook';
 import { useAppContext } from '../context/AppContext';
 import { useFunction } from '../context/useFunction';
 import { useValidation } from '../context/useValidation';
