@@ -6,6 +6,7 @@ import type {
   Field,
   ValidationResult
 } from '@axonivy/dataclass-editor-protocol';
+import type { MessageData } from '@axonivy/ui-components';
 import type { RenderHookOptions } from '@testing-library/react';
 import { renderHook } from '@testing-library/react';
 import { type ReactNode } from 'react';
@@ -24,8 +25,8 @@ type ContextHelperProps = {
     validations?: Array<ValidationResult>;
   };
   entityClassContext?: { entityClass?: EntityDataClass; setEntityClass?: (entityClass: EntityDataClass) => void };
-  fieldContext?: { field?: Field; setField?: (field: Field) => void };
-  entityFieldContext?: { field?: EntityClassField; setField?: (field: EntityClassField) => void };
+  fieldContext?: { field?: Field; setField?: (field: Field) => void; messages?: Record<string, MessageData> };
+  entityFieldContext?: { field?: EntityClassField; setField?: (field: EntityClassField) => void; messages?: Record<string, MessageData> };
 };
 
 const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
@@ -47,12 +48,14 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
 
   const fieldContext = {
     field: props.fieldContext?.field ?? ({} as Field),
-    setField: props.fieldContext?.setField ?? (() => {})
+    setField: props.fieldContext?.setField ?? (() => {}),
+    messages: props.fieldContext?.messages ?? {}
   };
 
   const entityFieldContext = {
     field: props.entityFieldContext?.field ?? ({} as EntityClassField),
-    setField: props.entityFieldContext?.setField ?? (() => {})
+    setField: props.entityFieldContext?.setField ?? (() => {}),
+    messages: props.entityFieldContext?.messages ?? {}
   };
 
   return (
