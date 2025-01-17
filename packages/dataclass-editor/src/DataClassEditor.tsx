@@ -5,11 +5,12 @@ import type {
   EditorProps,
   ValidationResult
 } from '@axonivy/dataclass-editor-protocol';
-import { Flex, PanelMessage, ResizableHandle, ResizablePanel, ResizablePanelGroup, Spinner } from '@axonivy/ui-components';
+import { Flex, PanelMessage, ResizableHandle, ResizablePanel, ResizablePanelGroup, Spinner, useHotkeys } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { AppProvider } from './context/AppContext';
+import { useAction } from './context/useAction';
 import { classTypeOf } from './data/dataclass-utils';
 import './DataClassEditor.css';
 import { Detail } from './detail/Detail';
@@ -17,6 +18,7 @@ import { DataClassMasterContent } from './master/DataClassMasterContent';
 import { DataClassMasterToolbar } from './master/DataClassMasterToolbar';
 import { useClient } from './protocol/ClientContextProvider';
 import { genQueryKey } from './query/query-client';
+import { HOTKEYS } from './utils/hotkeys';
 import type { Unary } from './utils/lambda/lambda';
 
 export const headerTitles = (dataClass: DataClass, selectedField?: number) => {
@@ -99,6 +101,9 @@ function DataClassEditor(props: EditorProps) {
       return Promise.resolve();
     }
   });
+
+  const openUrl = useAction('openUrl');
+  useHotkeys(HOTKEYS.OPEN_HELP, () => openUrl(data?.helpUrl), { scopes: ['global'] });
 
   if (isPending) {
     return (

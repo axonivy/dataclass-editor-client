@@ -1,12 +1,12 @@
 import type { Field } from '@axonivy/dataclass-editor-protocol';
-import { Button, Flex, SidebarHeader, useHotkeys } from '@axonivy/ui-components';
+import { Button, Flex, SidebarHeader } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useAppContext } from '../context/AppContext';
 import { FieldProvider } from '../context/FieldContext';
 import { useAction } from '../context/useAction';
 import { useValidation } from '../context/useValidation';
 import { messagesByProperty } from '../data/validation-utils';
-import { HOTKEYS, useHotkeyTexts } from '../utils/hotkeys';
+import { useHotkeyTexts } from '../utils/hotkeys';
 import { DataClassDetailContent } from './dataclass/DataClassDetailContent';
 import { FieldDetailContent } from './field/FieldDetailContent';
 
@@ -32,7 +32,6 @@ export const Detail = ({ title, helpUrl }: DetailProps) => {
 
   const openUrl = useAction('openUrl');
   const { openHelp: helpText } = useHotkeyTexts();
-  useHotkeys(HOTKEYS.OPEN_HELP, () => openUrl(helpUrl), { scopes: ['global'] });
 
   return (
     <Flex direction='column' className='panel-content-container detail-container'>
