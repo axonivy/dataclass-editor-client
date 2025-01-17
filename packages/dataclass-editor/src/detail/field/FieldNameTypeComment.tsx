@@ -7,8 +7,7 @@ import {
   CollapsibleState,
   CollapsibleTrigger,
   Flex,
-  Textarea,
-  type MessageData
+  Textarea
 } from '@axonivy/ui-components';
 import { useField } from '../../context/FieldContext';
 import { isEntityField, updateCardinality, updateModifiers } from '../../data/dataclass-utils';
@@ -35,25 +34,22 @@ export const useType = () => {
   return { type: field.type, setType };
 };
 
-type FieldNameTypeCommentProps = {
-  messagesByProperty: Record<string, MessageData>;
-};
-
-export const FieldNameTypeComment = ({ messagesByProperty }: FieldNameTypeCommentProps) => {
+export const FieldNameTypeComment = () => {
+  const { messages } = useField();
   const { field, setProperty } = useFieldProperty();
   const { type, setType } = useType();
 
   return (
     <Collapsible defaultOpen={true}>
-      <CollapsibleTrigger state={<CollapsibleState messages={combineMessagesOfProperties(messagesByProperty, 'NAME', 'TYPE')} />}>
+      <CollapsibleTrigger state={<CollapsibleState messages={combineMessagesOfProperties(messages, 'NAME', 'TYPE')} />}>
         Name / Type / Comment
       </CollapsibleTrigger>
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
-          <BasicField label='Name' message={messagesByProperty.NAME}>
+          <BasicField label='Name' message={messages.NAME}>
             <BasicInput value={field.name} onChange={event => setProperty('name', event.target.value)} />
           </BasicField>
-          <InputFieldWithTypeBrowser value={type} onChange={setType} message={messagesByProperty.TYPE} />
+          <InputFieldWithTypeBrowser value={type} onChange={setType} message={messages.TYPE} />
           <BasicField label='Comment'>
             <Textarea value={field.comment} onChange={event => setProperty('comment', event.target.value)} />
           </BasicField>

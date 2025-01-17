@@ -1,9 +1,8 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionState, AccordionTrigger, Flex } from '@axonivy/ui-components';
 import { useAppContext } from '../../context/AppContext';
 import { EntityFieldProvider, useField } from '../../context/FieldContext';
-import { useValidation } from '../../context/useValidation';
 import { isEntityField } from '../../data/dataclass-utils';
-import { combineMessagesOfProperties, messagesByProperty } from '../../data/validation-utils';
+import { combineMessagesOfProperties } from '../../data/validation-utils';
 import { AnnotationsTable } from '../AnnotationsTable';
 import { FieldEntityAssociation } from './entity/FieldEntityAssociation';
 import { FieldEntityDatabaseField } from './entity/FieldEntityDatabaseField';
@@ -13,11 +12,8 @@ import { useFieldProperty } from './useFieldProperty';
 
 export const FieldDetailContent = () => {
   const { isHdData } = useAppContext();
-  const { field, setField } = useField();
+  const { field, setField, messages } = useField();
   const { setProperty } = useFieldProperty();
-
-  const validations = useValidation(field);
-  const messages = messagesByProperty(validations);
 
   return (
     <Accordion type='single' collapsible defaultValue='general' className='field-detail-content'>
@@ -27,8 +23,8 @@ export const FieldDetailContent = () => {
         </AccordionTrigger>
         <AccordionContent>
           <Flex direction='column' gap={4}>
-            <FieldNameTypeComment messagesByProperty={messages} />
-            {!isHdData && <FieldProperties message={messages.PROPERTIES_GENERAL} />}
+            <FieldNameTypeComment />
+            {!isHdData && <FieldProperties />}
             <AnnotationsTable
               annotations={field.annotations}
               setAnnotations={(annotations: Array<string>) => setProperty('annotations', annotations)}
@@ -37,7 +33,7 @@ export const FieldDetailContent = () => {
         </AccordionContent>
       </AccordionItem>
       {isEntityField(field) && (
-        <EntityFieldProvider value={{ field, setField }}>
+        <EntityFieldProvider value={{ field, setField, messages }}>
           <AccordionItem value='entity'>
             <AccordionTrigger
               state={
@@ -57,8 +53,8 @@ export const FieldDetailContent = () => {
             </AccordionTrigger>
             <AccordionContent>
               <Flex direction='column' gap={4}>
-                <FieldEntityDatabaseField messagesByProperty={messages} />
-                <FieldEntityAssociation messagesByProperty={messages} />
+                <FieldEntityDatabaseField />
+                <FieldEntityAssociation />
               </Flex>
             </AccordionContent>
           </AccordionItem>
