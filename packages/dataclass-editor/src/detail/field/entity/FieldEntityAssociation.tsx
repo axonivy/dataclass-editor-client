@@ -54,14 +54,11 @@ export const cardinalityMessage = (cardinality?: Association): MessageData | und
       variant: 'warning'
     };
   }
-  return;
+  return undefined;
 };
 
-type FieldEntityDatabaseFieldProps = {
-  messagesByProperty: Record<string, MessageData>;
-};
-
-export const FieldEntityAssociation = ({ messagesByProperty }: FieldEntityDatabaseFieldProps) => {
+export const FieldEntityAssociation = () => {
+  const { messages } = useEntityField();
   const { context } = useAppContext();
   const { field, setProperty } = useFieldEntityProperty();
   const { mappedByFieldName, setMappedByFieldName, isDisabled: mappedByFieldNameIsDisabled } = useMappedByFieldName();
@@ -80,18 +77,12 @@ export const FieldEntityAssociation = ({ messagesByProperty }: FieldEntityDataba
   return (
     possibleCardinalities.length !== 0 && (
       <Collapsible defaultOpen={true}>
-        <CollapsibleTrigger
-          state={<CollapsibleState messages={combineMessagesOfProperties(messagesByProperty, 'CARDINALITY', 'MAPPED_BY')} />}
-        >
+        <CollapsibleTrigger state={<CollapsibleState messages={combineMessagesOfProperties(messages, 'CARDINALITY', 'MAPPED_BY')} />}>
           Association
         </CollapsibleTrigger>
         <CollapsibleContent>
           <Flex direction='column' gap={4}>
-            <BasicField
-              label='Cardinality'
-              message={messagesByProperty.CARDINALITY ?? cardinalityMessage(cardinality)}
-              aria-label='Cardinality'
-            >
+            <BasicField label='Cardinality' message={messages.CARDINALITY ?? cardinalityMessage(cardinality)} aria-label='Cardinality'>
               <BasicSelect value={cardinality} emptyItem items={cardinalities} onValueChange={setCardinality} />
             </BasicField>
             <BasicField label='Cascade'>
@@ -103,7 +94,7 @@ export const FieldEntityAssociation = ({ messagesByProperty }: FieldEntityDataba
                 <FieldEntityCascadeTypeCheckbox label='Refresh' cascadeType='REFRESH' />
               </Flex>
             </BasicField>
-            <BasicField label='Mapped by' message={messagesByProperty.MAPPED_BY}>
+            <BasicField label='Mapped by' message={messages.MAPPED_BY}>
               <BasicSelect
                 value={mappedByFieldName}
                 emptyItem

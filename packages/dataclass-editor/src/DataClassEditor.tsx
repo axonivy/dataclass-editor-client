@@ -1,30 +1,18 @@
-import type { DataClass, DataClassData, EditorProps, Field, ValidationResult } from '@axonivy/dataclass-editor-protocol';
-import {
-  Button,
-  Flex,
-  PanelMessage,
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-  SidebarHeader,
-  Spinner,
-  useHotkeys
-} from '@axonivy/ui-components';
+import type { DataClass, DataClassData, EditorProps, ValidationResult } from '@axonivy/dataclass-editor-protocol';
+import { Flex, PanelMessage, ResizableHandle, ResizablePanel, ResizablePanelGroup, Spinner, useHotkeys } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { AppProvider } from './context/AppContext';
-import { FieldProvider } from './context/FieldContext';
 import { useAction } from './context/useAction';
 import { classTypeOf } from './data/dataclass-utils';
 import './DataClassEditor.css';
-import { DataClassDetailContent } from './detail/dataclass/DataClassDetailContent';
-import { FieldDetailContent } from './detail/field/FieldDetailContent';
+import { Detail } from './detail/Detail';
 import { DataClassMasterContent } from './master/DataClassMasterContent';
 import { DataClassMasterToolbar } from './master/DataClassMasterToolbar';
 import { useClient } from './protocol/ClientContextProvider';
 import { genQueryKey } from './query/query-client';
-import { HOTKEYS, useHotkeyTexts } from './utils/hotkeys';
+import { HOTKEYS } from './utils/hotkeys';
 import type { Unary } from './utils/lambda/lambda';
 
 export const headerTitles = (dataClass: DataClass, selectedField?: number) => {
@@ -109,7 +97,6 @@ function DataClassEditor(props: EditorProps) {
   });
 
   const openUrl = useAction('openUrl');
-  const { openHelp: helpText } = useHotkeyTexts();
   useHotkeys(HOTKEYS.OPEN_HELP, () => openUrl(data?.helpUrl), { scopes: ['global'] });
 
   if (isPending) {
@@ -145,27 +132,7 @@ function DataClassEditor(props: EditorProps) {
           <>
             <ResizableHandle />
             <ResizablePanel defaultSize={25} minSize={10} className='detail-panel'>
-              <Flex direction='column' className='panel-content-container detail-container'>
-                <SidebarHeader icon={IvyIcons.PenEdit} title={detailTitle} className='detail-header'>
-                  <Button icon={IvyIcons.Help} onClick={() => openUrl(data.helpUrl)} title={helpText} aria-label={helpText} />
-                </SidebarHeader>
-                {selectedField === undefined || dataClass.fields.length <= selectedField ? (
-                  <DataClassDetailContent />
-                ) : (
-                  <FieldProvider
-                    value={{
-                      field: dataClass.fields[selectedField],
-                      setField: (field: Field) => {
-                        const newDataClass = structuredClone(dataClass);
-                        newDataClass.fields[selectedField] = field;
-                        setDataClass(newDataClass);
-                      }
-                    }}
-                  >
-                    <FieldDetailContent key={selectedField} />
-                  </FieldProvider>
-                )}
-              </Flex>
+              <Detail title={detailTitle} helpUrl={data.helpUrl} />
             </ResizablePanel>
           </>
         )}
