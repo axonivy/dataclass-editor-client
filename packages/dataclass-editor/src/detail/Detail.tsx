@@ -8,6 +8,7 @@ import { useValidation } from '../context/useValidation';
 import { messagesByProperty } from '../data/validation-utils';
 import { useHotkeyTexts } from '../utils/hotkeys';
 import { DataClassDetailContent } from './dataclass/DataClassDetailContent';
+import './Detail.css';
 import { FieldDetailContent } from './field/FieldDetailContent';
 
 type DetailProps = {
@@ -38,13 +39,15 @@ export const Detail = ({ title, helpUrl }: DetailProps) => {
       <SidebarHeader icon={IvyIcons.PenEdit} title={title} className='detail-header'>
         <Button icon={IvyIcons.Help} onClick={() => openUrl(helpUrl)} title={helpText} aria-label={helpText} />
       </SidebarHeader>
-      {!field ? (
-        <DataClassDetailContent />
-      ) : (
-        <FieldProvider value={{ field, setField, messages: messagesByProperty(validations) }}>
-          <FieldDetailContent key={selectedField} />
-        </FieldProvider>
-      )}
+      <Flex direction='column' className='detail-content'>
+        {!field ? (
+          <DataClassDetailContent />
+        ) : (
+          <FieldProvider value={{ field, setField, messages: messagesByProperty(validations) }}>
+            <FieldDetailContent key={selectedField} />
+          </FieldProvider>
+        )}
+      </Flex>
     </Flex>
   );
 };
