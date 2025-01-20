@@ -5,6 +5,7 @@ import { Detail } from './Detail';
 import { Settings } from './Settings';
 import { Button } from './abstract/Button';
 import { Table } from './abstract/Table';
+import { Toolbar } from './Toolbar';
 
 export const server = process.env.BASE_URL ?? 'http://localhost:8081';
 export const user = 'Developer';
@@ -15,8 +16,7 @@ const pmv = 'dataclass-test-project';
 export class DataClassEditor {
   readonly page: Page;
   readonly title: Locator;
-  readonly toolbar: Locator;
-  readonly detailToggle: Button;
+  readonly toolbar: Toolbar;
   readonly detail: Detail;
   readonly settings: Settings;
   readonly main: Locator;
@@ -28,8 +28,7 @@ export class DataClassEditor {
   constructor(page: Page) {
     this.page = page;
     this.title = this.page.locator('.master-header');
-    this.toolbar = this.page.locator('.master-toolbar');
-    this.detailToggle = new Button(this.toolbar, { name: 'Details toggle' });
+    this.toolbar = new Toolbar(this.page, page.locator('.master-panel'));
     this.detail = new Detail(this.page);
     this.settings = new Settings(this.page);
     this.main = this.page.locator('.master-content');

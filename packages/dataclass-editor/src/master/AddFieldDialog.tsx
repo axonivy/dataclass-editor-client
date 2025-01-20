@@ -86,10 +86,12 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
     };
     const newFields = addRow(table, dataClass.fields, newField);
 
-    const newDataClass = structuredClone(dataClass);
-    newDataClass.fields = newFields;
-    setDataClass(newDataClass);
-    setSelectedField(newDataClass.fields.findIndex(field => field.name === newField.name));
+    setDataClass(old => {
+      const newDataClass = structuredClone(old);
+      newDataClass.fields = newFields;
+      setSelectedField(newDataClass.fields.findIndex(field => field.name === newField.name));
+      return newDataClass;
+    });
     if (!e.ctrlKey && !e.metaKey) {
       setOpen(false);
     }

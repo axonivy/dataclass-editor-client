@@ -110,15 +110,17 @@ export const DataClassMasterContent = () => {
   const { handleMultiSelectOnRow } = useMultiSelectRow(table);
 
   const deleteField = () => {
-    const { newData: newFields } = deleteAllSelectedRows(table, dataClass.fields);
-    const newDataClass = structuredClone(dataClass);
-    newDataClass.fields = newFields;
-    setDataClass(newDataClass);
+    setDataClass(old => {
+      const { newData: newFields } = deleteAllSelectedRows(table, old.fields);
+      const newDataClass = structuredClone(old);
+      newDataClass.fields = newFields;
+      return newDataClass;
+    });
   };
 
   const updateDataArray = (moveIndexes: number[], toIndex: number, data: Field[]) => {
     const newArray = arrayMoveMultiple(data, moveIndexes, toIndex);
-    setDataClass({ ...dataClass, fields: [...newArray] });
+    setDataClass(old => ({ ...old, fields: [...newArray] }));
   };
 
   const updateOrder = (moveId: string, targetId: string) => {
