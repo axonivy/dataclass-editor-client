@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import type {
   DataClass,
   DataClassEditorDataContext,
@@ -24,45 +25,69 @@ type ContextHelperProps = {
     setDetail?: (detail: boolean) => void;
     validations?: Array<ValidationResult>;
   };
-  entityClassContext?: { entityClass?: EntityDataClass; setEntityClass?: (entityClass: EntityDataClass) => void };
-  fieldContext?: { field?: Field; setField?: (field: Field) => void; messages?: Record<string, MessageData> };
-  entityFieldContext?: { field?: EntityClassField; setField?: (field: EntityClassField) => void; messages?: Record<string, MessageData> };
+  entityClassContext?: {
+    entityClass?: EntityDataClass;
+    setEntityClass?: (entityClass: EntityDataClass) => void;
+  };
+  fieldContext?: {
+    field?: Field;
+    setField?: (field: Field) => void;
+    messages?: Record<string, MessageData>;
+  };
+  entityFieldContext?: {
+    field?: EntityClassField;
+    setField?: (field: EntityClassField) => void;
+    messages?: Record<string, MessageData>;
+  };
 };
 
-const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
-  const appContext = {
-    context: props.appContext?.context ?? ({ file: '' } as DataClassEditorDataContext),
-    dataClass: props.appContext?.dataClass ?? ({} as DataClass),
-    setDataClass: props.appContext?.setDataClass ?? (() => {}),
-    selectedField: props.appContext?.selectedField,
-    setSelectedField: props.appContext?.setSelectedField ?? (() => {}),
-    detail: props.appContext?.detail !== undefined ? props.appContext.detail : true,
-    setDetail: props.appContext?.setDetail ?? (() => {}),
-    validations: props.appContext?.validations ?? []
+const ContextHelper = ({
+  appContext,
+  entityClassContext,
+  fieldContext,
+  entityFieldContext,
+  children
+}: ContextHelperProps & { children: ReactNode }) => {
+  const dataClass = appContext?.dataClass ?? ({} as DataClass);
+
+  const dContext = {
+    context: appContext?.context ?? ({ file: '' } as DataClassEditorDataContext),
+    dataClass,
+    // @ts-ignore
+    setDataClass: appContext?.setDataClass ? getData => appContext.setDataClass(getData(dataClass)) : () => {},
+    selectedField: appContext?.selectedField,
+    setSelectedField: appContext?.setSelectedField ?? (() => {}),
+    detail: appContext?.detail !== undefined ? appContext.detail : true,
+    setDetail: appContext?.setDetail ?? (() => {}),
+    validations: appContext?.validations ?? [],
+    history: { push: () => {}, undo: () => {}, redo: () => {}, canUndo: false, canRedo: false }
   };
 
-  const entityClassContext = {
-    entityClass: props.entityClassContext?.entityClass ?? ({} as EntityDataClass),
-    setEntityClass: props.entityClassContext?.setEntityClass ?? (() => {})
+  const entityClass = entityClassContext?.entityClass ?? ({} as EntityDataClass);
+
+  const edContext = {
+    entityClass,
+    // @ts-ignore
+    setEntityClass: entityClassContext?.setEntityClass ? getData => entityClassContext.setEntityClass(getData(entityClass)) : () => {}
   };
 
-  const fieldContext = {
-    field: props.fieldContext?.field ?? ({} as Field),
-    setField: props.fieldContext?.setField ?? (() => {}),
-    messages: props.fieldContext?.messages ?? {}
+  const fContext = {
+    field: fieldContext?.field ?? ({} as Field),
+    setField: fieldContext?.setField ?? (() => {}),
+    messages: fieldContext?.messages ?? {}
   };
 
-  const entityFieldContext = {
-    field: props.entityFieldContext?.field ?? ({} as EntityClassField),
-    setField: props.entityFieldContext?.setField ?? (() => {}),
-    messages: props.entityFieldContext?.messages ?? {}
+  const efContext = {
+    field: entityFieldContext?.field ?? ({} as EntityClassField),
+    setField: entityFieldContext?.setField ?? (() => {}),
+    messages: entityFieldContext?.messages ?? {}
   };
 
   return (
-    <AppProvider value={appContext}>
-      <EntityClassProvider value={entityClassContext}>
-        <FieldProvider value={fieldContext}>
-          <EntityFieldProvider value={entityFieldContext}>{props.children}</EntityFieldProvider>
+    <AppProvider value={dContext}>
+      <EntityClassProvider value={edContext}>
+        <FieldProvider value={fContext}>
+          <EntityFieldProvider value={efContext}>{children}</EntityFieldProvider>
         </FieldProvider>
       </EntityClassProvider>
     </AppProvider>

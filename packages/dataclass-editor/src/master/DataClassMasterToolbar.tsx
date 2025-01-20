@@ -9,8 +9,10 @@ import {
   PopoverContent,
   PopoverTrigger,
   ReadonlyProvider,
+  Separator,
   Switch,
   Toolbar,
+  ToolbarContainer,
   ToolbarTitle,
   useHotkeys,
   useTheme
@@ -26,7 +28,7 @@ type DataClassMasterToolbarProps = {
 };
 
 export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) => {
-  const { detail, setDetail, isHdData } = useAppContext();
+  const { detail, setDetail, isHdData, history, setUnhistorisedDataClass } = useAppContext();
   const { theme, setTheme, disabled } = useTheme();
   const openForm = useAction('openForm');
   const openProcess = useAction('openProcess');
@@ -46,12 +48,39 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
       scopes: ['global']
     }
   );
+  const undo = () => history.undo(setUnhistorisedDataClass);
+  const redo = () => history.redo(setUnhistorisedDataClass);
+  useHotkeys(HOTKEYS.UNDO, undo, { scopes: ['global'] });
+  useHotkeys(HOTKEYS.REDO, redo, { scopes: ['global'] });
   const texts = useHotkeyTexts();
 
   return (
     <Toolbar tabIndex={-1} ref={firstElement} className='master-toolbar'>
       <ToolbarTitle className='master-header'>{title}</ToolbarTitle>
       <Flex gap={1}>
+        <ToolbarContainer maxWidth={450}>
+          <Flex>
+            <Flex gap={1}>
+              <Button
+                title={texts.undo}
+                aria-label={texts.undo}
+                icon={IvyIcons.Undo}
+                size='large'
+                onClick={undo}
+                disabled={!history.canUndo}
+              />
+              <Button
+                title={texts.redo}
+                aria-label={texts.redo}
+                icon={IvyIcons.Redo}
+                size='large'
+                onClick={redo}
+                disabled={!history.canRedo}
+              />
+            </Flex>
+            <Separator orientation='vertical' style={{ height: '26px', marginInline: 'var(--size-2)' }} />
+          </Flex>
+        </ToolbarContainer>
         {isHdData && (
           <>
             <Button icon={IvyIcons.File} size='large' title={texts.openForm} aria-label={texts.openForm} onClick={() => openForm()} />

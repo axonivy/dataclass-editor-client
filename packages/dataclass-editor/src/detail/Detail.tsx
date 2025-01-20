@@ -24,9 +24,11 @@ export const Detail = ({ title, helpUrl }: DetailProps) => {
   if (selectedField !== undefined) {
     field = dataClass.fields[selectedField];
     setField = (field: Field) => {
-      const newDataClass = structuredClone(dataClass);
-      newDataClass.fields[selectedField] = field;
-      setDataClass(newDataClass);
+      setDataClass(old => {
+        const newDataClass = structuredClone(old);
+        newDataClass.fields[selectedField] = field;
+        return newDataClass;
+      });
     };
   }
   const validations = useValidation(field);
