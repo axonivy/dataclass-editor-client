@@ -53,9 +53,9 @@ test('theme', async ({ page }) => {
 test('toggle detail', async ({ page }) => {
   const editor = await DataClassEditor.openMock(page);
   await expect(editor.detail.locator).toBeVisible();
-  await editor.detailToggle.locator.click();
-  await expect(editor.detail.locator).not.toBeVisible();
-  await editor.detailToggle.locator.click();
+  await editor.toolbar.detailsToggle.click();
+  await expect(editor.detail.locator).toBeHidden();
+  await editor.toolbar.detailsToggle.click();
   await expect(editor.detail.locator).toBeVisible();
 });
 
@@ -70,7 +70,7 @@ test('type', async ({ page }) => {
 test('open process', async ({ page }) => {
   const editor = await DataClassEditor.openMock(page, { file: '/src_hd/Data.d.json' });
   const msg1 = consoleLog(page);
-  await editor.toolbar.getByRole('button', { name: 'Open Process' }).click();
+  await editor.toolbar.processBtn.click();
   expect(await msg1).toContain('openProcess');
 
   const msg2 = consoleLog(page);
@@ -81,7 +81,7 @@ test('open process', async ({ page }) => {
 test('open form', async ({ page }) => {
   const editor = await DataClassEditor.openMock(page, { file: '/src_hd/Data.d.json' });
   const msg1 = consoleLog(page);
-  await editor.toolbar.getByRole('button', { name: 'Open Form' }).click();
+  await editor.toolbar.formBtn.click();
   expect(await msg1).toContain('openForm');
 
   const msg2 = consoleLog(page);
@@ -104,7 +104,7 @@ test('help', async ({ page }) => {
 test('focus jumps', async ({ page }) => {
   const editor = await DataClassEditor.openMock(page);
   await page.keyboard.press('1');
-  await expect(editor.toolbar).toBeFocused();
+  await expect(editor.toolbar.locator).toBeFocused();
   await page.keyboard.press('2');
   await expect(editor.main).toBeFocused();
   await page.keyboard.press('3');
@@ -112,4 +112,30 @@ test('focus jumps', async ({ page }) => {
   await editor.table.row(0).locator.click();
   await page.keyboard.press('3');
   await expect(editor.detail.field.general.accordion.trigger.locator).toBeFocused();
+});
+
+test('undo / redo', async ({ page }) => {
+  const editor = await DataClassEditor.openMock(page);
+  await expect(editor.toolbar.undo).toBeDisabled();
+  await expect(editor.toolbar.redo).toBeDisabled();
+  await editor.table.row(2).locator.click();
+  await expect(editor.table.rows).toHaveCount(6);
+  await page.keyboard.press('Delete');
+  await expect(editor.table.rows).toHaveCount(5);
+
+  await expect(editor.toolbar.undo).toBeEnabled();
+  await editor.toolbar.undo.click();
+  await expect(editor.table.rows).toHaveCount(6);
+  await expect(editor.toolbar.undo).toBeDisabled();
+
+  await expect(editor.toolbar.redo).toBeEnabled();
+  await editor.toolbar.redo.click();
+  await expect(editor.table.rows).toHaveCount(5);
+  await expect(editor.toolbar.redo).toBeDisabled();
+
+  await page.keyboard.press('ControlOrMeta+Z');
+  await expect(editor.table.rows).toHaveCount(6);
+
+  await page.keyboard.press('ControlOrMeta+Shift+Z');
+  await expect(editor.table.rows).toHaveCount(5);
 });
