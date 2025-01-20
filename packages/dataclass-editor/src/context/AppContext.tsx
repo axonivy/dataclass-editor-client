@@ -1,15 +1,17 @@
 import { createContext, useContext } from 'react';
 import type { DataClass, EntityDataClass, DataClassEditorDataContext, ValidationResult } from '@axonivy/dataclass-editor-protocol';
+import type { UpdateConsumer, useHistoryData } from '@axonivy/ui-components';
 
 type AppContext = {
   context: DataClassEditorDataContext;
   dataClass: DataClass;
-  setDataClass: (dataClass: DataClass) => void;
+  setDataClass: UpdateConsumer<DataClass>;
   selectedField?: number;
   setSelectedField: (index?: number) => void;
   detail: boolean;
   setDetail: (visible: boolean) => void;
   validations: Array<ValidationResult>;
+  history: ReturnType<typeof useHistoryData<DataClass>>;
 };
 
 const appContext = createContext<AppContext>({
@@ -20,19 +22,31 @@ const appContext = createContext<AppContext>({
   setSelectedField: () => {},
   detail: true,
   setDetail: () => {},
-  validations: []
+  validations: [],
+  history: { push: () => {}, undo: () => {}, redo: () => {}, canUndo: false, canRedo: false }
 });
 
 export const AppProvider = appContext.Provider;
 
-export const useAppContext = () => {
+export const useAppContext = (): AppContext & { setUnhistorisedDataClass: UpdateConsumer<DataClass>; isHdData: boolean } => {
   const context = useContext(appContext);
-  return { ...context, isHdData: context.context.file.includes('src_hd') };
+  return {
+    ...context,
+    setDataClass: updater => {
+      context.setDataClass(old => {
+        const newData = updater(old);
+        context.history.push(newData);
+        return newData;
+      });
+    },
+    setUnhistorisedDataClass: context.setDataClass,
+    isHdData: context.context.file.includes('src_hd')
+  };
 };
 
 type EntityClassContext = {
   entityClass: EntityDataClass;
-  setEntityClass: (entityClass: EntityDataClass) => void;
+  setEntityClass: UpdateConsumer<EntityDataClass>;
 };
 
 const entityClassContext = createContext<EntityClassContext>({

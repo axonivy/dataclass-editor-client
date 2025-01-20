@@ -5,7 +5,16 @@ import type {
   EditorProps,
   ValidationResult
 } from '@axonivy/dataclass-editor-protocol';
-import { Flex, PanelMessage, ResizableHandle, ResizablePanel, ResizablePanelGroup, Spinner, useHotkeys } from '@axonivy/ui-components';
+import {
+  Flex,
+  PanelMessage,
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+  Spinner,
+  useHistoryData,
+  useHotkeys
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
@@ -58,6 +67,7 @@ function DataClassEditor(props: EditorProps) {
   }, [props]);
   const [selectedField, setSelectedField] = useState<number>();
   const [validations, setValidations] = useState<Array<ValidationResult>>([]);
+  const history = useHistoryData<DataClass>();
 
   const client = useClient();
   const queryClient = useQueryClient();
@@ -72,7 +82,11 @@ function DataClassEditor(props: EditorProps) {
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: queryKeys.data(context),
-    queryFn: () => client.data(context),
+    queryFn: async () => {
+      const data = await client.data(context);
+      history.push(data.data);
+      return data;
+    },
     structuralSharing: false
   });
 
@@ -123,10 +137,20 @@ function DataClassEditor(props: EditorProps) {
   const dataClass = data.data;
   const { masterTitle, detailTitle } = headerTitles(dataClass, selectedField);
 
-  const setDataClass = (dataClass: DataClass) => mutation.mutate(() => dataClass);
-
   return (
-    <AppProvider value={{ context, dataClass, setDataClass, selectedField, setSelectedField, detail, setDetail, validations }}>
+    <AppProvider
+      value={{
+        context,
+        dataClass,
+        setDataClass: mutation.mutate,
+        selectedField,
+        setSelectedField,
+        detail,
+        setDetail,
+        validations,
+        history
+      }}
+    >
       <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
         <ResizablePanel defaultSize={75} minSize={50} className='master-panel'>
           <Flex className='panel-content-container master-container' direction='column'>
