@@ -21,8 +21,8 @@
     "@axonivy/jsonrpc": "~13.1.0-next.443",
     "@axonivy/ui-components": "~13.1.0-next.443",
     "@axonivy/ui-icons": "~13.1.0-next.443",
-    "@tanstack/react-query": "5.32.1",
-    "@tanstack/react-query-devtools": "5.32.1"
+    "@tanstack/react-query": "5.64.2",
+    "@tanstack/react-query-devtools": "5.64.2"
   },
   "peerDependencies": {
     "react": "^18.2 || ^19.0"
