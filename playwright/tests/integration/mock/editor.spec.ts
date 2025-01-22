@@ -136,6 +136,6 @@ test('undo / redo', async ({ page }) => {
   await page.keyboard.press('ControlOrMeta+Z');
   await expect(editor.table.rows).toHaveCount(6);
 
-  await page.keyboard.press('ControlOrMeta+Shift+Z');
+  await page.keyboard.press('ControlOrMeta+Y');
   await expect(editor.table.rows).toHaveCount(5);
 });
