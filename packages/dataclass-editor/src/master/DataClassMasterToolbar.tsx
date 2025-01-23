@@ -2,6 +2,8 @@ import {
   Button,
   Field,
   Flex,
+  hotkeyRedoFix,
+  hotkeyUndoFix,
   IvyIcon,
   Label,
   Popover,
@@ -20,7 +22,7 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useAppContext } from '../context/AppContext';
 import { useAction } from '../context/useAction';
-import { HOTKEYS, useHotkeyTexts } from '../utils/hotkeys';
+import { useKnownHotkeys } from '../utils/hotkeys';
 import { useRef } from 'react';
 
 type DataClassMasterToolbarProps = {
@@ -32,14 +34,15 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
   const { theme, setTheme, disabled } = useTheme();
   const openForm = useAction('openForm');
   const openProcess = useAction('openProcess');
+  const hotkeys = useKnownHotkeys();
 
-  useHotkeys(HOTKEYS.OPEN_FORM, () => openForm(), { scopes: ['global'], enabled: isHdData });
-  useHotkeys(HOTKEYS.OPEN_PROCESS, () => openProcess(), { scopes: ['global'], enabled: isHdData });
+  useHotkeys(hotkeys.openForm.hotkey, () => openForm(), { scopes: ['global'], enabled: isHdData });
+  useHotkeys(hotkeys.openProcess.hotkey, () => openProcess(), { scopes: ['global'], enabled: isHdData });
 
   const firstElement = useRef<HTMLDivElement>(null);
-  useHotkeys(HOTKEYS.FOCUS_TOOLBAR, () => firstElement.current?.focus(), { scopes: ['global'] });
+  useHotkeys(hotkeys.focusToolbar.hotkey, () => firstElement.current?.focus(), { scopes: ['global'] });
   useHotkeys(
-    HOTKEYS.FOCUS_INSCRIPTION,
+    hotkeys.focusInscription.hotkey,
     () => {
       setDetail(true);
       document.querySelector<HTMLElement>('.ui-accordion-trigger')?.focus();
@@ -50,9 +53,8 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
   );
   const undo = () => history.undo(setUnhistorisedDataClass);
   const redo = () => history.redo(setUnhistorisedDataClass);
-  useHotkeys(HOTKEYS.UNDO, undo, { scopes: ['global'] });
-  useHotkeys(HOTKEYS.REDO, redo, { scopes: ['global'] });
-  const texts = useHotkeyTexts();
+  useHotkeys(hotkeys.undo.hotkey, e => hotkeyUndoFix(e, undo), { scopes: ['global'] });
+  useHotkeys(hotkeys.redo.hotkey, e => hotkeyRedoFix(e, redo), { scopes: ['global'] });
 
   return (
     <Toolbar tabIndex={-1} ref={firstElement} className='master-toolbar'>
@@ -62,16 +64,16 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
           <Flex>
             <Flex gap={1}>
               <Button
-                title={texts.undo}
-                aria-label={texts.undo}
+                title={hotkeys.undo.label}
+                aria-label={hotkeys.undo.label}
                 icon={IvyIcons.Undo}
                 size='large'
                 onClick={undo}
                 disabled={!history.canUndo}
               />
               <Button
-                title={texts.redo}
-                aria-label={texts.redo}
+                title={hotkeys.redo.label}
+                aria-label={hotkeys.redo.label}
                 icon={IvyIcons.Redo}
                 size='large'
                 onClick={redo}
@@ -83,12 +85,18 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
         </ToolbarContainer>
         {isHdData && (
           <>
-            <Button icon={IvyIcons.File} size='large' title={texts.openForm} aria-label={texts.openForm} onClick={() => openForm()} />
+            <Button
+              icon={IvyIcons.File}
+              size='large'
+              title={hotkeys.openForm.label}
+              aria-label={hotkeys.openForm.label}
+              onClick={() => openForm()}
+            />
             <Button
               icon={IvyIcons.Process}
               size='large'
-              title={texts.openProcess}
-              aria-label={texts.openProcess}
+              title={hotkeys.openProcess.label}
+              aria-label={hotkeys.openProcess.label}
               onClick={() => openProcess()}
             />
           </>

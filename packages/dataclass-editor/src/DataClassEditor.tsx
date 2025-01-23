@@ -21,7 +21,7 @@ import { DataClassMasterContent } from './master/DataClassMasterContent';
 import { DataClassMasterToolbar } from './master/DataClassMasterToolbar';
 import { useClient } from './protocol/ClientContextProvider';
 import { genQueryKey } from './query/query-client';
-import { HOTKEYS } from './utils/hotkeys';
+import { useKnownHotkeys } from './utils/hotkeys';
 import type { Unary } from './utils/lambda/lambda';
 
 export const headerTitles = (dataClass: DataClass, selectedField?: number) => {
@@ -110,8 +110,9 @@ function DataClassEditor(props: EditorProps) {
     }
   });
 
+  const hotkeys = useKnownHotkeys();
   const openUrl = useAction('openUrl');
-  useHotkeys(HOTKEYS.OPEN_HELP, () => openUrl(data?.helpUrl), { scopes: ['global'] });
+  useHotkeys(hotkeys.openHelp.hotkey, () => openUrl(data?.helpUrl), { scopes: ['global'] });
 
   if (isPending) {
     return (

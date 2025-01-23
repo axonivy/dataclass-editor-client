@@ -26,7 +26,7 @@ import { useAppContext } from '../context/AppContext';
 import type { DataClass, Field } from '@axonivy/dataclass-editor-protocol';
 import { isEntity } from '../data/dataclass-utils';
 import { BROWSER_LABEL, InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
-import { HOTKEYS, useHotkeyTexts } from '../utils/hotkeys';
+import { useKnownHotkeys } from '../utils/hotkeys';
 
 export const validateFieldName = (name: string, dataClass: DataClass) => {
   if (name.trim() === '') {
@@ -105,8 +105,8 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
       initializeAddFieldDialog();
     }
   };
-  useHotkeys(HOTKEYS.ADD_ATTR, () => onOpenChange(true), { scopes: ['global'], keyup: true, enabled: !open });
-  const { addAttr: shortcut } = useHotkeyTexts();
+  const { addAttr: shortcut } = useKnownHotkeys();
+  useHotkeys(shortcut.hotkey, () => onOpenChange(true), { scopes: ['global'], keyup: true, enabled: !open });
   const enter = useHotkeys(
     ['Enter', 'mod+Enter'],
     e => {
@@ -128,11 +128,11 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
         <Tooltip>
           <TooltipTrigger asChild>
             <DialogTrigger asChild>
-              <Button className='add-field-dialog-trigger-button' icon={IvyIcons.Plus} aria-label={shortcut} />
+              <Button className='add-field-dialog-trigger-button' icon={IvyIcons.Plus} aria-label={shortcut.label} />
             </DialogTrigger>
           </TooltipTrigger>
           <TooltipContent>
-            <span>{shortcut}</span>
+            <span>{shortcut.label}</span>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
