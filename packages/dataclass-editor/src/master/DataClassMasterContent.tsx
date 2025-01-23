@@ -36,7 +36,7 @@ import { useFunction } from '../context/useFunction';
 import { useValidation } from '../context/useValidation';
 import { variant } from '../data/validation-utils';
 import { genQueryKey } from '../query/query-client';
-import { HOTKEYS, useHotkeyTexts } from '../utils/hotkeys';
+import { useKnownHotkeys } from '../utils/hotkeys';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 import { ValidationRow } from './ValidationRow';
@@ -176,7 +176,7 @@ export const DataClassMasterContent = () => {
   };
 
   const readonly = useReadonly();
-  const texts = useHotkeyTexts();
+  const hotkeys = useKnownHotkeys();
   const isCombineSupported = context.app === 'designer';
   const control = readonly ? null : (
     <Flex gap={2}>
@@ -186,8 +186,8 @@ export const DataClassMasterContent = () => {
         icon={IvyIcons.Trash}
         onClick={deleteField}
         disabled={table.getSelectedRowModel().rows.length === 0}
-        aria-label={texts.deleteAttr}
-        title={texts.deleteAttr}
+        aria-label={hotkeys.deleteAttr.label}
+        title={hotkeys.deleteAttr.label}
       />
 
       {isCombineSupported && (
@@ -196,8 +196,8 @@ export const DataClassMasterContent = () => {
           <Button
             icon={IvyIcons.WrapToSubprocess}
             onClick={() => combineFields.mutate()}
-            aria-label={texts.combineAttr}
-            title={texts.combineAttr}
+            aria-label={hotkeys.combineAttr.label}
+            title={hotkeys.combineAttr.label}
             disabled={table.getSelectedRowModel().rows.length === 0}
           />
         </>
@@ -206,19 +206,19 @@ export const DataClassMasterContent = () => {
   );
 
   const ref = useHotkeys(
-    [HOTKEYS.DELETE_ATTR, HOTKEYS.COMBINE_ATTR],
+    [hotkeys.deleteAttr.hotkey, hotkeys.combineAttr.hotkey],
     (_, { hotkey }) => {
-      if (hotkey === HOTKEYS.DELETE_ATTR) {
+      if (hotkey === hotkeys.deleteAttr.hotkey) {
         deleteField();
       }
-      if (hotkey === HOTKEYS.COMBINE_ATTR && isCombineSupported) {
+      if (hotkey === hotkeys.combineAttr.hotkey && isCombineSupported) {
         combineFields.mutate();
       }
     },
     { scopes: ['global'], enabled: !readonly }
   );
   const firstElement = useRef<HTMLDivElement>(null);
-  useHotkeys(HOTKEYS.FOCUS_MAIN, () => firstElement.current?.focus(), { scopes: ['global'] });
+  useHotkeys(hotkeys.focusMain.hotkey, () => firstElement.current?.focus(), { scopes: ['global'] });
 
   return (
     <Flex direction='column' ref={ref} gap={4} className='master-content-container' onClick={() => selectRow(table)}>

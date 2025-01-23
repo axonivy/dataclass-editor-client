@@ -5,7 +5,7 @@
   "dependencies": {
     "@axonivy/dataclass-editor": "*",
     "@axonivy/dataclass-editor-protocol": "*",
-    "@axonivy/ui-components": "~13.1.0-next.445",
+    "@axonivy/ui-components": "~13.1.0-next.449",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

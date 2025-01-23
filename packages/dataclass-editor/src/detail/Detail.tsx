@@ -6,7 +6,7 @@ import { FieldProvider } from '../context/FieldContext';
 import { useAction } from '../context/useAction';
 import { useValidation } from '../context/useValidation';
 import { messagesByProperty } from '../data/validation-utils';
-import { useHotkeyTexts } from '../utils/hotkeys';
+import { useKnownHotkeys } from '../utils/hotkeys';
 import { DataClassDetailContent } from './dataclass/DataClassDetailContent';
 import './Detail.css';
 import { FieldDetailContent } from './field/FieldDetailContent';
@@ -34,12 +34,12 @@ export const Detail = ({ title, helpUrl }: DetailProps) => {
   const validations = useValidation(field);
 
   const openUrl = useAction('openUrl');
-  const { openHelp: helpText } = useHotkeyTexts();
+  const { openHelp: helpText } = useKnownHotkeys();
 
   return (
     <Flex direction='column' className='panel-content-container detail-container'>
       <SidebarHeader icon={IvyIcons.PenEdit} title={title} className='detail-header'>
-        <Button icon={IvyIcons.Help} onClick={() => openUrl(helpUrl)} title={helpText} aria-label={helpText} />
+        <Button icon={IvyIcons.Help} onClick={() => openUrl(helpUrl)} title={helpText.label} aria-label={helpText.label} />
       </SidebarHeader>
       <Flex direction='column' className='detail-content'>
         {!field ? (
