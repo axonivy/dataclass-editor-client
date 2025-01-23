@@ -114,7 +114,7 @@ test('focus jumps', async ({ page }) => {
   await expect(editor.detail.field.general.accordion.trigger.locator).toBeFocused();
 });
 
-test('undo / redo', async ({ page }) => {
+test('undo / redo', async ({ page, browserName }) => {
   const editor = await DataClassEditor.openMock(page);
   await expect(editor.toolbar.undo).toBeDisabled();
   await expect(editor.toolbar.redo).toBeDisabled();
@@ -136,6 +136,6 @@ test('undo / redo', async ({ page }) => {
   await page.keyboard.press('ControlOrMeta+Z');
   await expect(editor.table.rows).toHaveCount(6);
 
-  await page.keyboard.press('ControlOrMeta+Y');
+  await page.keyboard.press(browserName === 'webkit' ? 'ControlOrMeta+Shift+Z' : 'ControlOrMeta+Y');
   await expect(editor.table.rows).toHaveCount(5);
 });
