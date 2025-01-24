@@ -235,7 +235,7 @@ export const DataClassMasterContent = () => {
         control={control}
         onClick={event => event.stopPropagation()}
       >
-        <Table onKeyDown={e => handleKeyDown(e, () => setDetail(!detail))}>
+        <Table onKeyDown={e => handleKeyDown(e, () => setDetail(!detail))} style={{ overflowX: 'unset' }}>
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={() => selectRow(table)} />
           <TableBody>
             {table.getRowModel().rows.map(row => (
