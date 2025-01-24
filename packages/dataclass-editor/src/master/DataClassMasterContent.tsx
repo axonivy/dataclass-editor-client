@@ -18,7 +18,6 @@ import {
   toast,
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
   useHotkeys,
   useMultiSelectRow,
@@ -73,16 +72,12 @@ export const DataClassMasterContent = () => {
       accessorKey: 'type',
       header: ({ column }) => <SortableHeader column={column} name='Type' />,
       cell: cell => (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span className='cell-with-tooltip'>{simpleTypeName(cell.getValue())}</span>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>{cell.getValue()}</span>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className='cell-with-tooltip'>{simpleTypeName(cell.getValue())}</span>
+          </TooltipTrigger>
+          <TooltipContent>{cell.getValue()}</TooltipContent>
+        </Tooltip>
       )
     },
     {
@@ -182,24 +177,32 @@ export const DataClassMasterContent = () => {
     <Flex gap={2}>
       <AddFieldDialog table={table} />
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
-      <Button
-        icon={IvyIcons.Trash}
-        onClick={deleteField}
-        disabled={table.getSelectedRowModel().rows.length === 0}
-        aria-label={hotkeys.deleteAttr.label}
-        title={hotkeys.deleteAttr.label}
-      />
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            icon={IvyIcons.Trash}
+            onClick={deleteField}
+            disabled={table.getSelectedRowModel().rows.length === 0}
+            aria-label={hotkeys.deleteAttr.label}
+          />
+        </TooltipTrigger>
+        <TooltipContent>{hotkeys.deleteAttr.label}</TooltipContent>
+      </Tooltip>
 
       {isCombineSupported && (
         <>
           <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
-          <Button
-            icon={IvyIcons.WrapToSubprocess}
-            onClick={() => combineFields.mutate()}
-            aria-label={hotkeys.combineAttr.label}
-            title={hotkeys.combineAttr.label}
-            disabled={table.getSelectedRowModel().rows.length === 0}
-          />
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                icon={IvyIcons.WrapToSubprocess}
+                onClick={() => combineFields.mutate()}
+                aria-label={hotkeys.combineAttr.label}
+                disabled={table.getSelectedRowModel().rows.length === 0}
+              />
+            </TooltipTrigger>
+            <TooltipContent>{hotkeys.combineAttr.label}</TooltipContent>
+          </Tooltip>
         </>
       )}
     </Flex>
