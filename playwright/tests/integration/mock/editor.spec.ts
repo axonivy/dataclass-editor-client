@@ -61,7 +61,7 @@ test('toggle detail', async ({ page }) => {
 
 test('type', async ({ page }) => {
   const editor = await DataClassEditor.openMock(page);
-  await expect(editor.table.row(3).column(1).locator).toHaveText('Conversation');
+  await expect(editor.table.row(3).column(1).text).toHaveText('Conversation');
   await editor.table.row(3).locator.click();
   await editor.detail.field.general.nameTypeComment.collapsible.open();
   await expect(editor.detail.field.general.nameTypeComment.type.locator).toHaveValue('mock.Conversation');
