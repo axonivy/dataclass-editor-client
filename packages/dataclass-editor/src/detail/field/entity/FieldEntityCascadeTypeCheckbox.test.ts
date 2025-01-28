@@ -1,5 +1,5 @@
 import { customRenderHook } from '../../../context/test-utils/test-utils';
-import type { DataClassFieldEntityCascadeType, EntityClassField } from '@axonivy/dataclass-editor-protocol';
+import type { CascadeType, EntityClassField } from '@axonivy/dataclass-editor-protocol';
 import { useCascadeType } from './FieldEntityCascadeTypeCheckbox';
 
 describe('useCascadeType', () => {
@@ -95,7 +95,7 @@ describe('useCascadeType', () => {
 
   describe('disabled', () => {
     test('true', () => {
-      const field = { entity: { cascadeTypes: [] as Array<DataClassFieldEntityCascadeType> } } as EntityClassField;
+      const field = { entity: { cascadeTypes: [] as Array<CascadeType> } } as EntityClassField;
       const view = customRenderHook(() => useCascadeType('ALL'), {
         wrapperProps: { detailContext: { field } }
       });
@@ -104,7 +104,7 @@ describe('useCascadeType', () => {
 
     test('false', () => {
       const field = {
-        entity: { association: 'ONE_TO_ONE', cascadeTypes: [] as Array<DataClassFieldEntityCascadeType> }
+        entity: { association: 'ONE_TO_ONE', cascadeTypes: [] as Array<CascadeType> }
       } as EntityClassField;
       const view = customRenderHook(() => useCascadeType('ALL'), {
         wrapperProps: { detailContext: { field } }

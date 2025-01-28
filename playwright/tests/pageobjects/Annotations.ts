@@ -40,12 +40,10 @@ export class Annotations {
     }
 
     for (let i = 0; i < annotations.length; i++) {
-      await this.table.row(i).locator.locator('input').fill(annotations[i]);
-    }
-
-    const lastRow = this.table.rows.last().locator('input');
-    if (await lastRow.isVisible()) {
-      await lastRow.blur();
+      const input = this.table.row(i).locator.locator('input');
+      await input.click();
+      await input.fill(annotations[i]);
+      await input.blur();
     }
   }
 }

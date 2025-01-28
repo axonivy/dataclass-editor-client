@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { DataClassEditor } from '../../pageobjects/DataClassEditor';
 import { consoleLog } from '../../pageobjects/console-log';
+import { describe } from 'node:test';
 
 let editor: DataClassEditor;
 
@@ -188,7 +189,7 @@ test.describe('table keyboard support', () => {
     await editor.page.keyboard.down('Alt');
     await editor.page.keyboard.press('ArrowDown');
     await editor.page.keyboard.press('ArrowDown');
-    await expect(editor.table.row(2).column(0).locator).toHaveText('firstName');
+    await expect(editor.table.row(2).column(0).text).toHaveText('firstName');
   });
 
   test('reorder multiple rows via arrowKey', async () => {
@@ -201,8 +202,8 @@ test.describe('table keyboard support', () => {
     await editor.page.keyboard.down('Alt');
     await editor.page.keyboard.press('ArrowUp');
     await editor.page.keyboard.press('ArrowUp');
-    await expect(editor.table.row(3).column(0).locator).toHaveText('firstName');
-    await expect(editor.table.row(4).column(0).locator).toHaveText('lastName');
+    await expect(editor.table.row(3).column(0).text).toHaveText('firstName');
+    await expect(editor.table.row(4).column(0).text).toHaveText('lastName');
   });
 
   test('open/close detail via enter', async () => {
@@ -217,5 +218,73 @@ test.describe('table keyboard support', () => {
     await editor.page.keyboard.press('Enter');
     await expect(editor.detail.locator).toBeVisible();
     await editor.detail.field.general.nameTypeComment.expectToHaveValues('date', 'Date', '');
+  });
+});
+
+describe('badges', () => {
+  test('general', async () => {
+    const row = editor.table.row(3);
+    await row.locator.click();
+
+    await expect(row.badges).toHaveCount(0);
+
+    await editor.detail.field.general.properties.fillValues(true);
+    await expect(row.badges).toHaveCount(1);
+    await row.badge('P').expectToHaveTooltip('Properties', 'Persistent');
+
+    await editor.detail.field.general.annotations.fillValues('annotationOne', 'annotationTwo');
+    await expect(row.badges).toHaveCount(2);
+    await row.badge('A').expectToHaveTooltip('Annotations', 'annotationOne', 'annotationTwo');
+  });
+
+  describe('entity', () => {
+    test('properties', async () => {
+      await editor.detail.dataClass.general.classType.fillValues('Entity');
+      await editor.addField('field', 'Integer');
+      const row = editor.table.row(7);
+      await row.locator.click();
+
+      await expect(row.badges).toHaveCount(1);
+
+      await editor.detail.field.entity.accordion.open();
+      await editor.detail.field.entity.databaseField.collapsible.open();
+      const properties = editor.detail.field.entity.databaseField.properties;
+      await properties.fill({ id: true, generated: true, notNullable: false, unique: false, notUpdateable: false, notInsertable: false, version: false });
+      await expect(row.badges).toHaveCount(2);
+      await row.badge('E').expectToHaveTooltip('Entity Properties', 'ID', 'Generated');
+
+      await properties.fill({ id: false, generated: false, notNullable: true, unique: true, notUpdateable: true, notInsertable: true, version: false });
+      await row.badge('E').expectToHaveTooltip('Entity Properties', 'Not nullable', 'Unique', 'Not updateable', 'Not insertable');
+
+      await properties.fill({ id: false, generated: false, notNullable: false, unique: false, notUpdateable: false, notInsertable: false, version: true });
+      await row.badge('E').expectToHaveTooltip('Entity Properties', 'Version');
+    });
+
+    test('cardinality', async () => {
+      await editor.detail.dataClass.general.classType.fillValues('Entity');
+      const row = editor.table.row(5);
+      await row.locator.click();
+
+      await expect(row.badges).toHaveCount(1);
+
+      await editor.detail.field.entity.accordion.open();
+      const association = editor.detail.field.entity.association;
+      await association.fillValues('One-to-One', { all: false, persist: false, merge: false, remove: false, refresh: false }, undefined, true);
+      await expect(row.badges).toHaveCount(2);
+      await row.badge('C').expectToHaveTooltip('Cardinality', 'One-to-One');
+
+      await association.fillCascadeTypes({ all: true, persist: true, merge: true, remove: true, refresh: true });
+      await row.badge('C').expectToHaveTooltip('Cardinality', 'One-to-One', 'Cascade', 'All');
+
+      await association.fillCascadeTypes({ all: false, persist: true, merge: false, remove: false, refresh: true });
+      await row.badge('C').expectToHaveTooltip('Cardinality', 'One-to-One', 'Cascade', 'Persist', 'Refresh');
+
+      await association.fillCascadeTypes({ all: false, persist: false, merge: true, remove: true, refresh: false });
+      await association.mappedBy.choose('MappedByFieldName');
+      await row.badge('C').expectToHaveTooltip('Cardinality', 'One-to-One', 'Cascade', 'Merge', 'Remove', 'Mapped by', 'MappedByFieldName', 'Remove orphans');
+
+      await association.removeOrphans.click();
+      await row.badge('C').expectToHaveTooltip('Cardinality', 'One-to-One', 'Cascade', 'Merge', 'Remove', 'Mapped by', 'MappedByFieldName');
+    });
   });
 });

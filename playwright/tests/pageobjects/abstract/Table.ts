@@ -2,6 +2,7 @@ import type { Locator } from '@playwright/test';
 import { expect } from '@playwright/test';
 import { Button } from './Button';
 import { Message } from './Message';
+import { Badge } from './Badge';
 
 export class Table {
   readonly locator: Locator;
@@ -76,9 +77,11 @@ export class TableHeader {
 
 export class Row {
   readonly locator: Locator;
+  readonly badges: Locator;
 
   constructor(rowsLocator: Locator, index: number) {
     this.locator = rowsLocator.nth(index);
+    this.badges = this.locator.locator('.badge');
   }
 
   column(column: number) {
@@ -87,13 +90,13 @@ export class Row {
 
   async expectToHaveValues(...values: Array<string>) {
     for (let i = 0; i < values.length; i++) {
-      const column = this.column(i).locator;
-      switch (await column.evaluate(element => element.firstElementChild?.tagName)) {
+      const column = this.column(i);
+      switch (await column.locator.evaluate(element => element.firstElementChild?.tagName)) {
         case 'INPUT':
-          await expect(column.locator('input')).toHaveValue(values[i]);
+          await expect(column.locator.locator('input')).toHaveValue(values[i]);
           break;
         default:
-          await expect(column).toHaveText(values[i]);
+          await expect(column.text).toHaveText(values[i]);
           break;
       }
     }
@@ -119,12 +122,18 @@ export class Row {
   async expectToHaveWarning() {
     await expect(this.locator).toHaveClass(/row-warning/);
   }
+
+  badge(text: string) {
+    return new Badge(this.locator, { text });
+  }
 }
 
 export class Cell {
   readonly locator: Locator;
+  readonly text: Locator;
 
   constructor(rowLocator: Locator, index: number) {
     this.locator = rowLocator.getByRole('cell').nth(index);
+    this.text = this.locator.locator('span');
   }
 }
