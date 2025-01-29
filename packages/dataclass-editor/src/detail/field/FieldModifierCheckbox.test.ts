@@ -7,7 +7,7 @@ describe('useModifier', () => {
     const field = { modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] } as Field;
     let newField = {} as Field;
     const view = customRenderHook(() => useModifier('UNIQUE'), {
-      wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field) } }
     });
     expect(view.result.current.checked).toBeFalsy();
 
@@ -22,7 +22,7 @@ describe('useModifier', () => {
     const field = { modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] } as Field;
     let newField = {} as Field;
     const view = customRenderHook(() => useModifier('NOT_INSERTABLE'), {
-      wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field) } }
     });
     expect(view.result.current.checked).toBeTruthy();
 
@@ -38,7 +38,7 @@ describe('useModifier', () => {
       const field = { modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] } as Field;
       let newField = {} as Field;
       const view = customRenderHook(() => useModifier('ID'), {
-        wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
+        wrapperProps: { detailContext: { field, setField: field => (newField = field) } }
       });
       expect(view.result.current.checked).toBeFalsy();
 
@@ -53,7 +53,7 @@ describe('useModifier', () => {
       const field = { modifiers: ['PERSISTENT', 'ID', 'GENERATED'] } as Field;
       let newField = {} as Field;
       const view = customRenderHook(() => useModifier('ID'), {
-        wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
+        wrapperProps: { detailContext: { field, setField: field => (newField = field) } }
       });
       expect(view.result.current.checked).toBeTruthy();
 
@@ -69,7 +69,7 @@ describe('useModifier', () => {
     const field = { modifiers: ['PERSISTENT', 'NOT_INSERTABLE', 'NOT_NULLABLE'] } as Field;
     let newField = {} as Field;
     const view = customRenderHook(() => useModifier('VERSION'), {
-      wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field) } }
     });
     expect(view.result.current.checked).toBeFalsy();
 
@@ -90,7 +90,7 @@ describe('useModifier', () => {
             entity: { mappedByFieldName: 'mappedByFieldName' }
           } as EntityClassField;
           const view = customRenderHook(() => useModifier('ID'), {
-            wrapperProps: { fieldContext: { field } }
+            wrapperProps: { detailContext: { field } }
           });
           expect(view.result.current.isDisabled).toBeTruthy();
         });
@@ -102,7 +102,7 @@ describe('useModifier', () => {
             entity: { mappedByFieldName: '' }
           } as EntityClassField;
           const view = customRenderHook(() => useModifier('ID'), {
-            wrapperProps: { fieldContext: { field } }
+            wrapperProps: { detailContext: { field } }
           });
           expect(view.result.current.isDisabled).toBeTruthy();
         });
@@ -114,7 +114,7 @@ describe('useModifier', () => {
             entity: { mappedByFieldName: '' }
           } as EntityClassField;
           const view = customRenderHook(() => useModifier('ID'), {
-            wrapperProps: { fieldContext: { field } }
+            wrapperProps: { detailContext: { field } }
           });
           expect(view.result.current.isDisabled).toBeTruthy();
         });
@@ -127,7 +127,7 @@ describe('useModifier', () => {
           entity: { mappedByFieldName: '' }
         } as EntityClassField;
         const view = customRenderHook(() => useModifier('ID'), {
-          wrapperProps: { fieldContext: { field } }
+          wrapperProps: { detailContext: { field } }
         });
         expect(view.result.current.isDisabled).toBeFalsy();
       });
@@ -141,7 +141,7 @@ describe('useModifier', () => {
             entity: { mappedByFieldName: 'mappedByFieldName' }
           } as EntityClassField;
           const view = customRenderHook(() => useModifier('GENERATED'), {
-            wrapperProps: { fieldContext: { field } }
+            wrapperProps: { detailContext: { field } }
           });
           expect(view.result.current.isDisabled).toBeTruthy();
         });
@@ -152,7 +152,7 @@ describe('useModifier', () => {
             entity: { mappedByFieldName: '' }
           } as EntityClassField;
           const view = customRenderHook(() => useModifier('GENERATED'), {
-            wrapperProps: { fieldContext: { field } }
+            wrapperProps: { detailContext: { field } }
           });
           expect(view.result.current.isDisabled).toBeTruthy();
         });
@@ -164,7 +164,7 @@ describe('useModifier', () => {
           entity: { mappedByFieldName: '' }
         } as EntityClassField;
         const view = customRenderHook(() => useModifier('GENERATED'), {
-          wrapperProps: { fieldContext: { field } }
+          wrapperProps: { detailContext: { field } }
         });
         expect(view.result.current.isDisabled).toBeFalsy();
       });
@@ -179,7 +179,7 @@ describe('useModifier', () => {
             entity: { mappedByFieldName: 'mappedByFieldName' }
           } as EntityClassField;
           const view = customRenderHook(() => useModifier('VERSION'), {
-            wrapperProps: { fieldContext: { field } }
+            wrapperProps: { detailContext: { field } }
           });
           expect(view.result.current.isDisabled).toBeTruthy();
         });
@@ -191,7 +191,7 @@ describe('useModifier', () => {
             entity: { mappedByFieldName: '' }
           } as EntityClassField;
           const view = customRenderHook(() => useModifier('VERSION'), {
-            wrapperProps: { fieldContext: { field } }
+            wrapperProps: { detailContext: { field } }
           });
           expect(view.result.current.isDisabled).toBeTruthy();
         });
@@ -203,7 +203,7 @@ describe('useModifier', () => {
             entity: { mappedByFieldName: '' }
           } as EntityClassField;
           const view = customRenderHook(() => useModifier('VERSION'), {
-            wrapperProps: { fieldContext: { field } }
+            wrapperProps: { detailContext: { field } }
           });
           expect(view.result.current.isDisabled).toBeTruthy();
         });
@@ -216,7 +216,7 @@ describe('useModifier', () => {
           entity: { mappedByFieldName: '' }
         } as EntityClassField;
         const view = customRenderHook(() => useModifier('VERSION'), {
-          wrapperProps: { fieldContext: { field } }
+          wrapperProps: { detailContext: { field } }
         });
         expect(view.result.current.isDisabled).toBeFalsy();
       });

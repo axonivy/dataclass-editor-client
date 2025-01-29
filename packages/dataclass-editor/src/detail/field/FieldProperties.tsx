@@ -1,5 +1,5 @@
 import { BasicField, Collapsible, CollapsibleContent, CollapsibleState, CollapsibleTrigger } from '@axonivy/ui-components';
-import { useField } from '../../context/FieldContext';
+import { useField } from '../../context/DetailContext';
 import { combineMessagesOfProperties } from '../../data/validation-utils';
 import { FieldModifierCheckbox } from './FieldModifierCheckbox';
 

@@ -50,7 +50,7 @@ export const DataClassMasterContent = () => {
   const { context, dataClass, setDataClass, setSelectedField, setDetail, detail } = useAppContext();
   const queryClient = useQueryClient();
 
-  const validations = useValidation();
+  const validations = useValidation('#class');
 
   const selection = useTableSelect<Field>({
     onSelect: selectedRows => {
@@ -225,11 +225,15 @@ export const DataClassMasterContent = () => {
 
   return (
     <Flex direction='column' ref={ref} gap={4} className='master-content-container' onClick={() => selectRow(table)}>
-      {validations.map((val, index) => (
-        <Message key={index} variant={variant(val)}>
-          {val.message}
-        </Message>
-      ))}
+      {validations.length !== 0 && (
+        <Flex direction='column' className='class-messages'>
+          {validations.map((val, index) => (
+            <Message key={index} variant={variant(val)}>
+              {val.message}
+            </Message>
+          ))}
+        </Flex>
+      )}
       <BasicField
         tabIndex={-1}
         ref={firstElement}

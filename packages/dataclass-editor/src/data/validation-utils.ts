@@ -1,7 +1,7 @@
 import type { Severity, ValidationResult } from '@axonivy/dataclass-editor-protocol';
 import { groupBy, type MessageData } from '@axonivy/ui-components';
 
-export const messagesByProperty = (validations: Array<ValidationResult>) => {
+export const messagesByProperty = (validations: Array<ValidationResult>): Record<string, MessageData> => {
   const validationsByProperty = groupBy(validations, validation => validationProperty(validation));
   const messageDataByProperty: Record<string, MessageData> = {};
   Object.entries(validationsByProperty).forEach(([property, validations]) => {
@@ -14,7 +14,7 @@ const validationProperty = (validation: ValidationResult) => {
   return validation.path.substring(validation.path.lastIndexOf('.') + 1);
 };
 
-const messageData = (validations: Array<ValidationResult>) => {
+const messageData = (validations: Array<ValidationResult>): MessageData => {
   const validationError = validations.find(val => val.severity === 'ERROR');
   if (validationError) {
     return toMessageData(validationError);
@@ -27,7 +27,7 @@ const messageData = (validations: Array<ValidationResult>) => {
   return toMessageData(validationOther);
 };
 
-export const toMessageData = (validation: ValidationResult) => {
+export const toMessageData = (validation: ValidationResult): MessageData => {
   return { message: validation.message, variant: variant(validation) };
 };
 
@@ -35,8 +35,11 @@ export const variant = (validation: ValidationResult): Lowercase<Severity> => {
   return validation.severity.toLocaleLowerCase() as Lowercase<Severity>;
 };
 
-export const combineMessagesOfProperties = (messagesByProperty: Record<string, MessageData>, ...properties: Array<string>) => {
-  return properties.reduce<Array<MessageData>>((messages, property) => {
+export const combineMessagesOfProperties = (
+  messagesByProperty: Record<string, MessageData>,
+  ...properties: Array<string>
+): Array<MessageData> => {
+  return properties.reduce<Array<MessageData>>((messages, property): Array<MessageData> => {
     if (messagesByProperty[property]) {
       return messages.concat([messagesByProperty[property]]);
     }

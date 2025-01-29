@@ -3,11 +3,11 @@ import { expect, type Locator } from '@playwright/test';
 export class Message {
   readonly locator: Locator;
 
-  constructor(parent: Locator, id?: string) {
-    if (id) {
-      this.locator = parent.locator(`[id="${id}"]`);
+  constructor(parent: Locator, options?: { id?: string; nth?: number }) {
+    if (options?.id) {
+      this.locator = parent.locator(`[id="${options.id}"]`);
     } else {
-      this.locator = parent.locator('.ui-message');
+      this.locator = parent.locator('.ui-message').nth(options?.nth ?? 0);
     }
   }
 

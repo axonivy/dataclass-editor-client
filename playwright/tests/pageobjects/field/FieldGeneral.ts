@@ -28,6 +28,6 @@ export class FieldGeneral {
     await this.accordion.open();
     await this.nameTypeComment.fillValues(name, type, comment);
     await this.properties.fillValues(persistent);
-    await this.annotations.fillValues(annotations);
+    await this.annotations.fillValues(...annotations);
   }
 }

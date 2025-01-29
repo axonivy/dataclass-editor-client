@@ -6,6 +6,7 @@ import { Settings } from './Settings';
 import { Button } from './abstract/Button';
 import { Table } from './abstract/Table';
 import { Toolbar } from './Toolbar';
+import { Message } from './abstract/Message';
 
 export const server = process.env.BASE_URL ?? 'http://localhost:8081';
 export const user = 'Developer';
@@ -23,6 +24,7 @@ export class DataClassEditor {
   readonly table: Table;
   readonly add: AddFieldDialog;
   readonly delete: Button;
+  readonly messagesContainer: Locator;
   readonly messages: Locator;
 
   constructor(page: Page) {
@@ -35,7 +37,8 @@ export class DataClassEditor {
     this.table = new Table(this.main);
     this.add = new AddFieldDialog(this.page);
     this.delete = new Button(this.main, { name: 'Delete Attribute' });
-    this.messages = this.page.locator('.ui-message');
+    this.messagesContainer = this.page.locator('.class-messages');
+    this.messages = this.messagesContainer.locator('.ui-message');
   }
 
   static async openDataClass(page: Page, file: string, options?: { readonly?: boolean }) {
@@ -101,9 +104,11 @@ export class DataClassEditor {
     await this.page.addStyleTag({ content: `.tsqd-parent-container { display: none; }` });
   }
 
-  async addField(name: string, type?: string) {
+  async addField(name?: string, type?: string) {
     await this.add.open.locator.click();
-    await this.add.name.locator.fill(name);
+    if (name) {
+      await this.add.name.locator.fill(name);
+    }
     if (type) {
       await this.add.type.locator.fill(type);
     }
@@ -111,7 +116,11 @@ export class DataClassEditor {
   }
 
   async deleteField(index: number) {
-    this.table.row(index).locator.click();
-    this.delete.locator.click();
+    await this.table.row(index).locator.click();
+    await this.delete.locator.click();
+  }
+
+  message(nth: number) {
+    return new Message(this.messagesContainer, { nth });
   }
 }

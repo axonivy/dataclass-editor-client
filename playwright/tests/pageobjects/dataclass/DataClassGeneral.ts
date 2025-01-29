@@ -27,7 +27,7 @@ export class DataClassGeneral {
   async fillValues(description: string, annotations: Array<string>, classType: string) {
     await this.accordion.open();
     await this.nameDescription.fillValues(description);
-    await this.annotations.fillValues(annotations);
+    await this.annotations.fillValues(...annotations);
     await this.classType.fillValues(classType);
   }
 }

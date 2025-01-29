@@ -1,4 +1,4 @@
-import { useEntityField } from '../../../context/FieldContext';
+import { useEntityField } from '../../../context/DetailContext';
 import type { EntityField } from '@axonivy/dataclass-editor-protocol';
 
 export const useFieldEntityProperty = () => {

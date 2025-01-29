@@ -2,7 +2,7 @@ import type { Field } from '@axonivy/dataclass-editor-protocol';
 import { Button, Flex, SidebarHeader, Tooltip, TooltipContent, TooltipTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useAppContext } from '../context/AppContext';
-import { FieldProvider } from '../context/FieldContext';
+import { DetailContextProvider } from '../context/DetailContext';
 import { useAction } from '../context/useAction';
 import { useValidation } from '../context/useValidation';
 import { messagesByProperty } from '../data/validation-utils';
@@ -31,7 +31,7 @@ export const Detail = ({ title, helpUrl }: DetailProps) => {
       });
     };
   }
-  const validations = useValidation(field);
+  const validations = useValidation(field ? field.name : '#class');
 
   const openUrl = useAction('openUrl');
   const { openHelp: helpText } = useKnownHotkeys();
@@ -47,13 +47,9 @@ export const Detail = ({ title, helpUrl }: DetailProps) => {
         </Tooltip>
       </SidebarHeader>
       <Flex direction='column' className='detail-content'>
-        {!field ? (
-          <DataClassDetailContent />
-        ) : (
-          <FieldProvider value={{ field, setField, messages: messagesByProperty(validations) }}>
-            <FieldDetailContent key={selectedField} />
-          </FieldProvider>
-        )}
+        <DetailContextProvider value={{ field, setField, messages: messagesByProperty(validations) }}>
+          {!field ? <DataClassDetailContent /> : <FieldDetailContent key={selectedField} />}
+        </DetailContextProvider>
       </Flex>
     </Flex>
   );

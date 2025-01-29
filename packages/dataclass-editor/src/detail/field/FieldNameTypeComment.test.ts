@@ -7,7 +7,7 @@ describe('useType', () => {
     const field = { type: 'String', modifiers: ['PERSISTENT', 'ID', 'GENERATED'] } as Field;
     let newField = {} as Field;
     const view = customRenderHook(() => useType(), {
-      wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field) } }
     });
     expect(view.result.current.type).toEqual('String');
 
@@ -23,7 +23,7 @@ describe('useType', () => {
     const field = { type: 'Short', modifiers: ['PERSISTENT', 'VERSION'] } as Field;
     let newField = {} as Field;
     const view = customRenderHook(() => useType(), {
-      wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field) } }
     });
     expect(view.result.current.type).toEqual('Short');
 
@@ -43,7 +43,7 @@ describe('useType', () => {
     } as Field;
     let newField = {} as Field;
     const view = customRenderHook(() => useType(), {
-      wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field) } }
     });
     expect(view.result.current.type).toEqual('String');
 
