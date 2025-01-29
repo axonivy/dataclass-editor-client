@@ -1,3 +1,4 @@
+import type { DataClass, Field } from '@axonivy/dataclass-editor-protocol';
 import {
   addRow,
   BasicField,
@@ -14,7 +15,6 @@ import {
   Input,
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
   useHotkeys,
   type MessageData
@@ -23,7 +23,6 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { type Table } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
-import type { DataClass, Field } from '@axonivy/dataclass-editor-protocol';
 import { isEntity } from '../data/dataclass-utils';
 import { BROWSER_LABEL, InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
 import { useKnownHotkeys } from '../utils/hotkeys';
@@ -124,23 +123,19 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <DialogTrigger asChild>
-              <Button className='add-field-dialog-trigger-button' icon={IvyIcons.Plus} aria-label={shortcut.label} />
-            </DialogTrigger>
-          </TooltipTrigger>
-          <TooltipContent>
-            <span>{shortcut.label}</span>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <Button className='add-field-dialog-trigger-button' icon={IvyIcons.Plus} aria-label={shortcut.label} />
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>{shortcut.label}</TooltipContent>
+      </Tooltip>
       <DialogContent onCloseAutoFocus={e => e.preventDefault()}>
         <DialogHeader>
-          <DialogTitle>New Attribute</DialogTitle>
+          <DialogTitle>Add Attribute</DialogTitle>
         </DialogHeader>
-        <DialogDescription>Choose the name and type of the attribute you want to add.</DialogDescription>
+        <DialogDescription>Choose the name and type of the Attribute you want to add.</DialogDescription>
         <Flex ref={enter} tabIndex={-1} direction='column' gap={2}>
           <Flex direction='column' gap={2}>
             <BasicField label='Name' message={nameValidationMessage} aria-label='Name'>
@@ -149,18 +144,14 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
             <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
           </Flex>
           <DialogFooter>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant='primary' size='large' aria-label='Create Attribute' disabled={!allInputsValid()} onClick={addField}>
-                    Create Attribute
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <span>Hold {hotkeyText('mod')} to add an additional attribute</span>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant='primary' size='large' aria-label='Create Attribute' disabled={!allInputsValid()} onClick={addField}>
+                  Create Attribute
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Hold {hotkeyText('mod')} to add an additional Attribute</TooltipContent>
+            </Tooltip>
           </DialogFooter>
         </Flex>
       </DialogContent>
