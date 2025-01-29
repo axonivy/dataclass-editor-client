@@ -12,6 +12,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
   Spinner,
+  TooltipProvider,
   useHistoryData,
   useHotkeys
 } from '@axonivy/ui-components';
@@ -152,22 +153,24 @@ function DataClassEditor(props: EditorProps) {
         history
       }}
     >
-      <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
-        <ResizablePanel defaultSize={75} minSize={50} className='master-panel'>
-          <Flex className='panel-content-container master-container' direction='column'>
-            <DataClassMasterToolbar title={masterTitle} />
-            <DataClassMasterContent />
-          </Flex>
-        </ResizablePanel>
-        {detail && (
-          <>
-            <ResizableHandle />
-            <ResizablePanel defaultSize={25} minSize={10} className='detail-panel'>
-              <Detail title={detailTitle} helpUrl={data.helpUrl} />
-            </ResizablePanel>
-          </>
-        )}
-      </ResizablePanelGroup>
+      <TooltipProvider>
+        <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
+          <ResizablePanel defaultSize={75} minSize={50} className='master-panel'>
+            <Flex className='panel-content-container master-container' direction='column'>
+              <DataClassMasterToolbar title={masterTitle} />
+              <DataClassMasterContent />
+            </Flex>
+          </ResizablePanel>
+          {detail && (
+            <>
+              <ResizableHandle />
+              <ResizablePanel defaultSize={25} minSize={10} className='detail-panel'>
+                <Detail title={detailTitle} helpUrl={data.helpUrl} />
+              </ResizablePanel>
+            </>
+          )}
+        </ResizablePanelGroup>
+      </TooltipProvider>
     </AppProvider>
   );
 }

@@ -10,7 +10,7 @@ export class AddFieldDialog {
   readonly create: Button;
 
   constructor(page: Page) {
-    this.locator = page.getByRole('dialog', { name: 'New Attribute' });
+    this.locator = page.getByRole('dialog', { name: 'Add Attribute' });
     this.open = new Button(page.locator('.master-content'), { name: 'Add Attribute' });
     this.name = new TextArea(this.locator, { label: 'Name' });
     this.type = new TextArea(this.locator, { label: 'Type' });
