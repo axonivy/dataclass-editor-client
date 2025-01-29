@@ -11,7 +11,7 @@ import {
   type MessageData
 } from '@axonivy/ui-components';
 import { useAppContext } from '../../../context/AppContext';
-import { useEntityField } from '../../../context/FieldContext';
+import { useEntityField } from '../../../context/DetailContext';
 import { useMeta } from '../../../context/useMeta';
 import { updateCardinality } from '../../../data/dataclass-utils';
 import { combineMessagesOfProperties } from '../../../data/validation-utils';

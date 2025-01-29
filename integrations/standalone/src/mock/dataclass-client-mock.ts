@@ -18,11 +18,11 @@ export class DataClassClientMock implements Client {
 
   saveData(saveData: DataClassData): Promise<Array<ValidationResult>> {
     this.dataClassData.data = saveData.data;
-    return Promise.resolve(validations);
+    return Promise.resolve(validations(this.dataClassData));
   }
 
   validate(): Promise<Array<ValidationResult>> {
-    return Promise.resolve(validations);
+    return Promise.resolve(validations(this.dataClassData));
   }
 
   function<TFunct extends keyof FunctionRequestTypes>(

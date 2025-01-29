@@ -1,14 +1,18 @@
-import type { Field, ValidationResult } from '@axonivy/dataclass-editor-protocol';
+import type { ValidationResult } from '@axonivy/dataclass-editor-protocol';
 import { useAppContext } from './AppContext';
 
-export const useValidation = (field?: Field): Array<ValidationResult> => {
+export const useValidation = (name?: string): Array<ValidationResult> => {
   const { validations } = useAppContext();
-  return validations.filter(val => name(val) === field?.name);
+  return validations.filter(val => pathName(val) === name);
 };
 
-const name = (validation: ValidationResult) => {
+const pathName = (validation: ValidationResult) => {
   if (validation.path === undefined) {
     return undefined;
   }
-  return validation.path.substring(0, validation.path.lastIndexOf('.'));
+  const lastDotIndex = validation.path.lastIndexOf('.');
+  if (lastDotIndex !== -1) {
+    return validation.path.substring(0, lastDotIndex);
+  }
+  return validation.path;
 };

@@ -7,37 +7,50 @@ test.beforeEach(async ({ page }) => {
   editor = await DataClassEditor.openMock(page);
 });
 
-test('table', async () => {
+test('main', async () => {
+  await expect(editor.messages).toHaveCount(0);
+
+  await editor.detail.dataClass.general.annotations.fillValues('invalidAnnotation');
+  await expect(editor.messages).toHaveCount(1);
+  await editor.message(0).expectToBeError('class annotation');
+
   await expect(editor.table.messages).toHaveCount(0);
 
   await editor.addField('invalidField0');
-  await expect(editor.table.messages).toHaveCount(7);
+  await expect(editor.table.messages).toHaveCount(8);
   await editor.table.row(6).expectToHaveError();
   await editor.table.message(0).expectToBeWarning('invalidField0 name warning');
   await editor.table.message(1).expectToBeError('invalidField0 name error');
   await editor.table.message(2).expectToBeWarning('invalidField0 type warning');
   await editor.table.message(3).expectToBeWarning('invalidField0 properties general');
-  await editor.table.message(4).expectToBeWarning('invalidField0 db field name');
-  await editor.table.message(5).expectToBeWarning('invalidField0 cardinality');
-  await editor.table.message(6).expectToBeError('invalidField0 mapped by');
+  await editor.table.message(4).expectToBeWarning('invalidField0 annotation');
+  await editor.table.message(5).expectToBeWarning('invalidField0 db field name');
+  await editor.table.message(6).expectToBeWarning('invalidField0 cardinality');
+  await editor.table.message(7).expectToBeError('invalidField0 mapped by');
 
   await editor.addField('invalidField1');
-  await expect(editor.table.messages).toHaveCount(8);
+  await expect(editor.table.messages).toHaveCount(9);
   await editor.table.row(7).expectToHaveWarning();
-  await editor.table.message(7).expectToBeWarning('invalidField1 warning');
+  await editor.table.message(8).expectToBeWarning('invalidField1 warning');
 
   await editor.addField('invalidField2');
-  await expect(editor.table.messages).toHaveCount(8);
+  await expect(editor.table.messages).toHaveCount(9);
   await editor.table.row(8).expectToHaveNoValidation();
 });
 
 test('accordions and collapsibles', async () => {
+  await editor.detail.dataClass.general.annotations.fillValues('invalidAnnotation');
+
+  await editor.detail.dataClass.general.accordion.expectToHaveError();
+  await editor.detail.dataClass.general.annotations.collapsible.expectToHaveError();
+
   await editor.detail.dataClass.general.classType.fillValues('Entity');
   await editor.addField('invalidField0');
 
   await editor.detail.field.general.accordion.expectToHaveError();
   await editor.detail.field.general.nameTypeComment.collapsible.expectToHaveError();
   await editor.detail.field.general.properties.collapsible.expectToHaveWarning();
+  await editor.detail.field.general.annotations.collapsible.expectToHaveWarning();
 
   await editor.detail.field.entity.accordion.open();
   await editor.detail.field.entity.accordion.expectToHaveError();
@@ -45,13 +58,19 @@ test('accordions and collapsibles', async () => {
   await editor.detail.field.entity.association.collapsible.expectToHaveError();
 });
 
-test('fields', async () => {
+test('detail', async () => {
+  await editor.detail.dataClass.general.annotations.fillValues('invalidAnnotation');
+
+  await editor.detail.dataClass.general.annotations.message.expectToBeError('class annotation');
+
   await editor.detail.dataClass.general.classType.fillValues('Entity');
   await editor.addField('invalidField0');
 
+  await editor.detail.field.general.annotations.collapsible.open();
   await (await editor.detail.field.general.nameTypeComment.name.message()).expectToBeError('invalidField0 name error');
   await (await editor.detail.field.general.nameTypeComment.type.message()).expectToBeWarning('invalidField0 type warning');
   await editor.detail.field.general.properties.message.expectToBeWarning('invalidField0 properties general');
+  await editor.detail.field.general.annotations.message.expectToBeWarning('invalidField0 annotation');
 
   await editor.detail.field.entity.accordion.open();
   await editor.detail.field.entity.databaseField.collapsible.open();

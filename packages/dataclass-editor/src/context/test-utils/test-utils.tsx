@@ -12,7 +12,7 @@ import type { RenderHookOptions } from '@testing-library/react';
 import { renderHook } from '@testing-library/react';
 import { type ReactNode } from 'react';
 import { AppProvider, EntityClassProvider } from '../AppContext';
-import { EntityFieldProvider, FieldProvider } from '../FieldContext';
+import { DetailContextProvider } from '../DetailContext';
 
 type ContextHelperProps = {
   appContext?: {
@@ -29,28 +29,17 @@ type ContextHelperProps = {
     entityClass?: EntityDataClass;
     setEntityClass?: (entityClass: EntityDataClass) => void;
   };
-  fieldContext?: {
-    field?: Field;
-    setField?: (field: Field) => void;
-    messages?: Record<string, MessageData>;
-  };
-  entityFieldContext?: {
-    field?: EntityClassField;
-    setField?: (field: EntityClassField) => void;
+  detailContext?: {
+    field?: Field | EntityClassField;
+    setField?: (field: Field | EntityClassField) => void;
     messages?: Record<string, MessageData>;
   };
 };
 
-const ContextHelper = ({
-  appContext,
-  entityClassContext,
-  fieldContext,
-  entityFieldContext,
-  children
-}: ContextHelperProps & { children: ReactNode }) => {
+const ContextHelper = ({ appContext, entityClassContext, detailContext, children }: ContextHelperProps & { children: ReactNode }) => {
   const dataClass = appContext?.dataClass ?? ({} as DataClass);
 
-  const dContext = {
+  const aContext = {
     context: appContext?.context ?? ({ file: '' } as DataClassEditorDataContext),
     dataClass,
     // @ts-ignore
@@ -71,24 +60,16 @@ const ContextHelper = ({
     setEntityClass: entityClassContext?.setEntityClass ? getData => entityClassContext.setEntityClass(getData(entityClass)) : () => {}
   };
 
-  const fContext = {
-    field: fieldContext?.field ?? ({} as Field),
-    setField: fieldContext?.setField ?? (() => {}),
-    messages: fieldContext?.messages ?? {}
-  };
-
-  const efContext = {
-    field: entityFieldContext?.field ?? ({} as EntityClassField),
-    setField: entityFieldContext?.setField ?? (() => {}),
-    messages: entityFieldContext?.messages ?? {}
+  const dContext = {
+    field: detailContext?.field,
+    setField: detailContext?.setField,
+    messages: detailContext?.messages ?? {}
   };
 
   return (
-    <AppProvider value={dContext}>
+    <AppProvider value={aContext}>
       <EntityClassProvider value={edContext}>
-        <FieldProvider value={fContext}>
-          <EntityFieldProvider value={efContext}>{children}</EntityFieldProvider>
-        </FieldProvider>
+        <DetailContextProvider value={dContext}>{children} </DetailContextProvider>
       </EntityClassProvider>
     </AppProvider>
   );

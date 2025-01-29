@@ -2,18 +2,21 @@ import type { Locator, Page } from '@playwright/test';
 import { Button } from './abstract/Button';
 import { Collapsible } from './abstract/Collapsible';
 import { Table } from './abstract/Table';
+import { Message } from './abstract/Message';
 
 export class Annotations {
   readonly collapsible: Collapsible;
   readonly table: Table;
   readonly add: Button;
   readonly delete: Button;
+  readonly message: Message;
 
-  constructor(page: Page, parentLocator: Locator) {
-    this.collapsible = new Collapsible(page, parentLocator, { label: 'Annotations' });
+  constructor(page: Page, parent: Locator) {
+    this.collapsible = new Collapsible(page, parent, { label: 'Annotations' });
     this.table = new Table(this.collapsible.locator);
     this.add = new Button(this.collapsible.locator, { name: 'Add row' });
     this.delete = new Button(this.collapsible.locator, { name: 'Delete annotation' });
+    this.message = new Message(this.collapsible.locator);
   }
 
   async expectToHaveValues(annotations: Array<string>) {
@@ -21,7 +24,7 @@ export class Annotations {
     await this.table.expectToHaveValues(...annotations.map(anno => [anno]));
   }
 
-  async fillValues(annotations: Array<string>) {
+  async fillValues(...annotations: Array<string>) {
     await this.collapsible.open();
 
     const rowCount = await this.table.rows.count();

@@ -1,4 +1,4 @@
-import { useField } from '../../context/FieldContext';
+import { useField } from '../../context/DetailContext';
 import type { Field } from '@axonivy/dataclass-editor-protocol';
 
 export const useFieldProperty = () => {

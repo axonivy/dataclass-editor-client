@@ -7,7 +7,7 @@ describe('useCascadeType', () => {
     const field = { entity: { cascadeTypes: ['MERGE', 'PERSIST'] } } as EntityClassField;
     let newField = {} as EntityClassField;
     const view = customRenderHook(() => useCascadeType('REFRESH'), {
-      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field as EntityClassField) } }
     });
     expect(view.result.current.checked).toBeFalsy();
 
@@ -22,7 +22,7 @@ describe('useCascadeType', () => {
     const field = { entity: { cascadeTypes: ['MERGE', 'PERSIST'] } } as EntityClassField;
     let newField = {} as EntityClassField;
     const view = customRenderHook(() => useCascadeType('MERGE'), {
-      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field as EntityClassField) } }
     });
     expect(view.result.current.checked).toBeTruthy();
 
@@ -37,7 +37,7 @@ describe('useCascadeType', () => {
     const field = { entity: { cascadeTypes: ['MERGE', 'PERSIST'] } } as EntityClassField;
     let newField = {} as EntityClassField;
     const view = customRenderHook(() => useCascadeType('ALL'), {
-      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field as EntityClassField) } }
     });
     expect(view.result.current.checked).toBeFalsy();
 
@@ -52,7 +52,7 @@ describe('useCascadeType', () => {
     const field = { entity: { cascadeTypes: ['ALL'] } } as EntityClassField;
     let newField = {} as EntityClassField;
     const view = customRenderHook(() => useCascadeType('ALL'), {
-      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field as EntityClassField) } }
     });
     expect(view.result.current.checked).toBeTruthy();
 
@@ -67,7 +67,7 @@ describe('useCascadeType', () => {
     const field = { entity: { cascadeTypes: ['MERGE', 'PERSIST', 'REMOVE'] } } as EntityClassField;
     let newField = {} as EntityClassField;
     const view = customRenderHook(() => useCascadeType('REFRESH'), {
-      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field as EntityClassField) } }
     });
     expect(view.result.current.checked).toBeFalsy();
 
@@ -82,7 +82,7 @@ describe('useCascadeType', () => {
     const field = { entity: { cascadeTypes: ['ALL'] } } as EntityClassField;
     let newField = {} as EntityClassField;
     const view = customRenderHook(() => useCascadeType('MERGE'), {
-      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field as EntityClassField) } }
     });
     expect(view.result.current.checked).toBeTruthy();
 
@@ -97,7 +97,7 @@ describe('useCascadeType', () => {
     test('true', () => {
       const field = { entity: { cascadeTypes: [] as Array<DataClassFieldEntityCascadeType> } } as EntityClassField;
       const view = customRenderHook(() => useCascadeType('ALL'), {
-        wrapperProps: { entityFieldContext: { field } }
+        wrapperProps: { detailContext: { field } }
       });
       expect(view.result.current.isDisabled).toBeTruthy();
     });
@@ -107,7 +107,7 @@ describe('useCascadeType', () => {
         entity: { association: 'ONE_TO_ONE', cascadeTypes: [] as Array<DataClassFieldEntityCascadeType> }
       } as EntityClassField;
       const view = customRenderHook(() => useCascadeType('ALL'), {
-        wrapperProps: { entityFieldContext: { field } }
+        wrapperProps: { detailContext: { field } }
       });
       expect(view.result.current.isDisabled).toBeFalsy();
     });
