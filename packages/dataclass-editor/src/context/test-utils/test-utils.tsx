@@ -69,7 +69,7 @@ const ContextHelper = ({ appContext, entityClassContext, detailContext, children
   return (
     <AppProvider value={aContext}>
       <EntityClassProvider value={edContext}>
-        <DetailContextProvider value={dContext}>{children} </DetailContextProvider>
+        <DetailContextProvider value={dContext}>{children}</DetailContextProvider>
       </EntityClassProvider>
     </AppProvider>
   );
