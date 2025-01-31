@@ -7,7 +7,7 @@ import {
   CollapsibleTrigger,
   Flex
 } from '@axonivy/ui-components';
-import { useEntityField } from '../../../context/FieldContext';
+import { useEntityField } from '../../../context/DetailContext';
 import { combineMessagesOfProperties } from '../../../data/validation-utils';
 import { FieldModifierCheckbox } from '../FieldModifierCheckbox';
 import { useFieldEntityProperty } from './useFieldEntityProperty';

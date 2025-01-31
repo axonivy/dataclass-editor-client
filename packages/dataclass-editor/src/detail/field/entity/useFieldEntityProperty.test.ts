@@ -6,7 +6,7 @@ test('useFieldEntityProperty', () => {
   const field = { entity: { databaseName: 'databaseName' } } as EntityClassField;
   let newField = {} as EntityClassField;
   const view = customRenderHook(() => useFieldEntityProperty(), {
-    wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
+    wrapperProps: { detailContext: { field, setField: field => (newField = field as EntityClassField) } }
   });
   expect(view.result.current.field).toEqual(field);
 

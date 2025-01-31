@@ -6,7 +6,7 @@ test('useFieldProperty', () => {
   const field = { name: 'name' } as Field;
   let newField = {} as Field;
   const view = customRenderHook(() => useFieldProperty(), {
-    wrapperProps: { fieldContext: { field, setField: field => (newField = field) } }
+    wrapperProps: { detailContext: { field, setField: field => (newField = field) } }
   });
   expect(view.result.current.field).toEqual(field);
 

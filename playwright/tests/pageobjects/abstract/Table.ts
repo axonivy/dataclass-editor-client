@@ -60,7 +60,7 @@ export class Table {
   }
 
   message(nth: number) {
-    return new Message(this.messages.nth(nth));
+    return new Message(this.messages, { nth });
   }
 }
 
