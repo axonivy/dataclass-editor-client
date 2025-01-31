@@ -60,75 +60,90 @@ export const dataClass: DataClassData = {
   helpUrl: 'https://dev.axonivy.com'
 };
 
-export const validations: Array<ValidationResult> = [
-  {
-    message: 'invalidField0 name info',
-    path: 'invalidField0.NAME',
-    severity: 'INFO'
-  },
-  {
-    message: 'invalidField0 name warning',
-    path: 'invalidField0.NAME',
-    severity: 'WARNING'
-  },
-  {
-    message: 'invalidField0 name error',
-    path: 'invalidField0.NAME',
-    severity: 'ERROR'
-  },
-  {
-    message: 'invalidField0 type warning',
-    path: 'invalidField0.TYPE',
-    severity: 'WARNING'
-  },
-  {
-    message: 'invalidField0 type info',
-    path: 'invalidField0.TYPE',
-    severity: 'INFO'
-  },
-  {
-    message: 'invalidField0 properties general',
-    path: 'invalidField0.PROPERTIES_GENERAL',
-    severity: 'WARNING'
-  },
-  {
-    message: 'invalidField0 db field name',
-    path: 'invalidField0.DB_FIELD_NAME',
-    severity: 'WARNING'
-  },
-  {
-    message: 'invalidField0 db field length',
-    path: 'invalidField0.DB_FIELD_LENGTH',
-    severity: 'INFO'
-  },
-  {
-    message: 'invalidField0 properties entity',
-    path: 'invalidField0.PROPERTIES_ENTITY',
-    severity: 'INFO'
-  },
-  {
-    message: 'invalidField0 cardinality',
-    path: 'invalidField0.CARDINALITY',
-    severity: 'WARNING'
-  },
-  {
-    message: 'invalidField0 mapped by',
-    path: 'invalidField0.MAPPED_BY',
-    severity: 'ERROR'
-  },
-  {
-    message: 'invalidField1 info',
-    path: 'invalidField1.NAME',
-    severity: 'INFO'
-  },
-  {
-    message: 'invalidField1 warning',
-    path: 'invalidField1.NAME',
-    severity: 'WARNING'
-  },
-  {
-    message: 'invalidField2 info',
-    path: 'invalidField2.NAME',
-    severity: 'INFO'
+export const validations = (dataClassData: DataClassData): Array<ValidationResult> => {
+  const validations = [
+    {
+      message: 'invalidField0 name info',
+      path: 'invalidField0.NAME',
+      severity: 'INFO'
+    },
+    {
+      message: 'invalidField0 name warning',
+      path: 'invalidField0.NAME',
+      severity: 'WARNING'
+    },
+    {
+      message: 'invalidField0 name error',
+      path: 'invalidField0.NAME',
+      severity: 'ERROR'
+    },
+    {
+      message: 'invalidField0 type warning',
+      path: 'invalidField0.TYPE',
+      severity: 'WARNING'
+    },
+    {
+      message: 'invalidField0 type info',
+      path: 'invalidField0.TYPE',
+      severity: 'INFO'
+    },
+    {
+      message: 'invalidField0 properties general',
+      path: 'invalidField0.PROPERTIES_GENERAL',
+      severity: 'WARNING'
+    },
+    {
+      message: 'invalidField0 annotation',
+      path: 'invalidField0.ANNOTATION',
+      severity: 'WARNING'
+    },
+    {
+      message: 'invalidField0 db field name',
+      path: 'invalidField0.DB_FIELD_NAME',
+      severity: 'WARNING'
+    },
+    {
+      message: 'invalidField0 db field length',
+      path: 'invalidField0.DB_FIELD_LENGTH',
+      severity: 'INFO'
+    },
+    {
+      message: 'invalidField0 properties entity',
+      path: 'invalidField0.PROPERTIES_ENTITY',
+      severity: 'INFO'
+    },
+    {
+      message: 'invalidField0 cardinality',
+      path: 'invalidField0.CARDINALITY',
+      severity: 'WARNING'
+    },
+    {
+      message: 'invalidField0 mapped by',
+      path: 'invalidField0.MAPPED_BY',
+      severity: 'ERROR'
+    },
+    {
+      message: 'invalidField1 info',
+      path: 'invalidField1.NAME',
+      severity: 'INFO'
+    },
+    {
+      message: 'invalidField1 warning',
+      path: 'invalidField1.NAME',
+      severity: 'WARNING'
+    },
+    {
+      message: 'invalidField2 info',
+      path: 'invalidField2.NAME',
+      severity: 'INFO'
+    }
+  ];
+  if (dataClassData.data.annotations.includes('invalidAnnotation')) {
+    validations.push({
+      message: 'class annotation',
+      path: '#class.ANNOTATION',
+      severity: 'ERROR'
+    });
   }
-];
+  return validations as Array<ValidationResult>;
+};

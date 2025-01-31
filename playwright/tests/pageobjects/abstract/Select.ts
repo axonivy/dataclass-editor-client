@@ -32,6 +32,6 @@ export class Select {
     if (!describedBy) {
       throw new Error('aria-describedby attribute is missing');
     }
-    return new Message(this.parent, describedBy);
+    return new Message(this.parent, { id: describedBy });
   }
 }

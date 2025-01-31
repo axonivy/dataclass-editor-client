@@ -14,7 +14,7 @@ type ValidationRowProps = {
 };
 
 export const ValidationRow = ({ row, isReorderable, updateOrder, onClick, onDrag }: ValidationRowProps) => {
-  const validations = useValidation(row.original);
+  const validations = useValidation(row.original.name);
 
   const tableCell = row
     .getVisibleCells()

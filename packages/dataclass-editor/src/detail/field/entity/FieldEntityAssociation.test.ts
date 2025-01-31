@@ -10,7 +10,7 @@ describe('useMappedByFieldName', () => {
     } as EntityClassField;
     let newField = {} as EntityClassField;
     const view = customRenderHook(() => useMappedByFieldName(), {
-      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field as EntityClassField) } }
     });
     expect(view.result.current.mappedByFieldName).toEqual('mappedByFieldName');
 
@@ -26,7 +26,7 @@ describe('useMappedByFieldName', () => {
       test('association is undefined', () => {
         const field = { entity: {} } as EntityClassField;
         const view = customRenderHook(() => useMappedByFieldName(), {
-          wrapperProps: { entityFieldContext: { field } }
+          wrapperProps: { detailContext: { field } }
         });
         expect(view.result.current.isDisabled).toBeTruthy();
       });
@@ -34,7 +34,7 @@ describe('useMappedByFieldName', () => {
       test('association is many-to-one', () => {
         const field = { entity: { association: 'MANY_TO_ONE' } } as EntityClassField;
         const view = customRenderHook(() => useMappedByFieldName(), {
-          wrapperProps: { entityFieldContext: { field } }
+          wrapperProps: { detailContext: { field } }
         });
         expect(view.result.current.isDisabled).toBeTruthy();
       });
@@ -44,7 +44,7 @@ describe('useMappedByFieldName', () => {
       test('association is one-to-one', () => {
         const field = { entity: { association: 'ONE_TO_ONE' } } as EntityClassField;
         const view = customRenderHook(() => useMappedByFieldName(), {
-          wrapperProps: { entityFieldContext: { field } }
+          wrapperProps: { detailContext: { field } }
         });
         expect(view.result.current.isDisabled).toBeFalsy();
       });
@@ -52,7 +52,7 @@ describe('useMappedByFieldName', () => {
       test('association is one-to-many', () => {
         const field = { entity: { association: 'ONE_TO_MANY' } } as EntityClassField;
         const view = customRenderHook(() => useMappedByFieldName(), {
-          wrapperProps: { entityFieldContext: { field } }
+          wrapperProps: { detailContext: { field } }
         });
         expect(view.result.current.isDisabled).toBeFalsy();
       });
@@ -67,7 +67,7 @@ describe('useCardinality', () => {
     } as EntityClassField;
     let newField = {} as EntityClassField;
     const view = customRenderHook(() => useCardinality(), {
-      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field as EntityClassField) } }
     });
     expect(view.result.current.cardinality).toEqual('ONE_TO_ONE');
 
@@ -86,7 +86,7 @@ describe('useCardinality', () => {
     } as EntityClassField;
     let newField = {} as EntityClassField;
     const view = customRenderHook(() => useCardinality(), {
-      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field as EntityClassField) } }
     });
     expect(view.result.current.cardinality).toEqual('ONE_TO_ONE');
 
@@ -105,7 +105,7 @@ describe('useCardinality', () => {
     } as EntityClassField;
     let newField = {} as EntityClassField;
     const view = customRenderHook(() => useCardinality(), {
-      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field as EntityClassField) } }
     });
     expect(view.result.current.cardinality).toEqual('ONE_TO_MANY');
 
@@ -124,7 +124,7 @@ describe('useCardinality', () => {
     } as EntityClassField;
     let newField = {} as EntityClassField;
     const view = customRenderHook(() => useCardinality(), {
-      wrapperProps: { entityFieldContext: { field, setField: field => (newField = field) } }
+      wrapperProps: { detailContext: { field, setField: field => (newField = field as EntityClassField) } }
     });
     expect(view.result.current.cardinality).toEqual('ONE_TO_ONE');
 

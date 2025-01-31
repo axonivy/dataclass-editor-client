@@ -1,6 +1,6 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionState, AccordionTrigger, Flex } from '@axonivy/ui-components';
 import { useAppContext } from '../../context/AppContext';
-import { EntityFieldProvider, useField } from '../../context/FieldContext';
+import { useField } from '../../context/DetailContext';
 import { isEntityField } from '../../data/dataclass-utils';
 import { combineMessagesOfProperties } from '../../data/validation-utils';
 import { AnnotationsTable } from '../AnnotationsTable';
@@ -12,13 +12,15 @@ import { useFieldProperty } from './useFieldProperty';
 
 export const FieldDetailContent = () => {
   const { isHdData } = useAppContext();
-  const { field, setField, messages } = useField();
+  const { field, messages } = useField();
   const { setProperty } = useFieldProperty();
 
   return (
     <Accordion type='single' collapsible defaultValue='general' className='field-detail-content'>
       <AccordionItem value='general'>
-        <AccordionTrigger state={<AccordionState messages={combineMessagesOfProperties(messages, 'NAME', 'TYPE', 'PROPERTIES_GENERAL')} />}>
+        <AccordionTrigger
+          state={<AccordionState messages={combineMessagesOfProperties(messages, 'NAME', 'TYPE', 'PROPERTIES_GENERAL', 'ANNOTATION')} />}
+        >
           General
         </AccordionTrigger>
         <AccordionContent>
@@ -28,37 +30,36 @@ export const FieldDetailContent = () => {
             <AnnotationsTable
               annotations={field.annotations}
               setAnnotations={(annotations: Array<string>) => setProperty('annotations', annotations)}
+              message={messages.ANNOTATION}
             />
           </Flex>
         </AccordionContent>
       </AccordionItem>
       {isEntityField(field) && (
-        <EntityFieldProvider value={{ field, setField, messages }}>
-          <AccordionItem value='entity'>
-            <AccordionTrigger
-              state={
-                <AccordionState
-                  messages={combineMessagesOfProperties(
-                    messages,
-                    'DB_FIELD_NAME',
-                    'DB_FIELD_LENGTH',
-                    'PROPERTIES_ENTITY',
-                    'CARDINALITY',
-                    'MAPPED_BY'
-                  )}
-                />
-              }
-            >
-              Entity
-            </AccordionTrigger>
-            <AccordionContent>
-              <Flex direction='column' gap={4}>
-                <FieldEntityDatabaseField />
-                <FieldEntityAssociation />
-              </Flex>
-            </AccordionContent>
-          </AccordionItem>
-        </EntityFieldProvider>
+        <AccordionItem value='entity'>
+          <AccordionTrigger
+            state={
+              <AccordionState
+                messages={combineMessagesOfProperties(
+                  messages,
+                  'DB_FIELD_NAME',
+                  'DB_FIELD_LENGTH',
+                  'PROPERTIES_ENTITY',
+                  'CARDINALITY',
+                  'MAPPED_BY'
+                )}
+              />
+            }
+          >
+            Entity
+          </AccordionTrigger>
+          <AccordionContent>
+            <Flex direction='column' gap={4}>
+              <FieldEntityDatabaseField />
+              <FieldEntityAssociation />
+            </Flex>
+          </AccordionContent>
+        </AccordionItem>
       )}
     </Accordion>
   );

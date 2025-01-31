@@ -9,7 +9,7 @@ import {
   Flex,
   Textarea
 } from '@axonivy/ui-components';
-import { useField } from '../../context/FieldContext';
+import { useField } from '../../context/DetailContext';
 import { isEntityField, updateCardinality, updateModifiers } from '../../data/dataclass-utils';
 import { combineMessagesOfProperties } from '../../data/validation-utils';
 import { InputFieldWithTypeBrowser } from './InputFieldWithTypeBrowser';
