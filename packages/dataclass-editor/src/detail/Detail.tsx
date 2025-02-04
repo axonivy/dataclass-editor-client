@@ -1,5 +1,5 @@
 import type { Field } from '@axonivy/dataclass-editor-protocol';
-import { Button, Flex, SidebarHeader, Tooltip, TooltipContent, TooltipTrigger } from '@axonivy/ui-components';
+import { Button, Flex, SidebarHeader, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useAppContext } from '../context/AppContext';
 import { DetailContextProvider } from '../context/DetailContext';
@@ -39,12 +39,14 @@ export const Detail = ({ title, helpUrl }: DetailProps) => {
   return (
     <Flex direction='column' className='panel-content-container detail-container'>
       <SidebarHeader icon={IvyIcons.PenEdit} title={title} className='detail-header'>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button icon={IvyIcons.Help} onClick={() => openUrl(helpUrl)} aria-label={helpText.label} />
-          </TooltipTrigger>
-          <TooltipContent>{helpText.label}</TooltipContent>
-        </Tooltip>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button icon={IvyIcons.Help} onClick={() => openUrl(helpUrl)} aria-label={helpText.label} />
+            </TooltipTrigger>
+            <TooltipContent>{helpText.label}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </SidebarHeader>
       <Flex direction='column' className='detail-content'>
         <DetailContextProvider value={{ field, setField, messages: messagesByProperty(validations) }}>

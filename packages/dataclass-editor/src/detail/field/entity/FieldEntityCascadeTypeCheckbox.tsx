@@ -1,13 +1,13 @@
+import { DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES, type CascadeType } from '@axonivy/dataclass-editor-protocol';
 import { BasicCheckbox, deepEqual } from '@axonivy/ui-components';
 import { useEntityField } from '../../../context/DetailContext';
-import { DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES, type DataClassFieldEntityCascadeType } from '@axonivy/dataclass-editor-protocol';
 
 type FieldEntityCascadeTypeCheckboxProps = {
   label: string;
-  cascadeType: DataClassFieldEntityCascadeType;
+  cascadeType: CascadeType;
 };
 
-export const useCascadeType = (cascadeType: DataClassFieldEntityCascadeType) => {
+export const useCascadeType = (cascadeType: CascadeType) => {
   const { field, setField } = useEntityField();
   const setCascadeType = (add: boolean) => {
     const newField = structuredClone(field);
@@ -20,7 +20,7 @@ export const useCascadeType = (cascadeType: DataClassFieldEntityCascadeType) => 
       return;
     }
 
-    const allCascadeTypes = [...DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES];
+    const allCascadeTypes = [...DATA_CLASS_FIELD_ENTITY_CASCADE_TYPES.filter(cascadeType => cascadeType !== 'ALL')];
     let newCascadeTypes = newField.entity.cascadeTypes;
     if (add) {
       newCascadeTypes.push(cascadeType);

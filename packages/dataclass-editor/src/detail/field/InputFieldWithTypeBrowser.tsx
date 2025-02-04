@@ -8,6 +8,7 @@ import {
   InputGroup,
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
   type MessageData
 } from '@axonivy/ui-components';
@@ -30,14 +31,16 @@ export const InputFieldWithTypeBrowser = ({ value, onChange, message }: InputFie
       <BasicField label='Type' style={{ flex: '1' }} message={message} aria-label='Type'>
         <InputGroup>
           <BasicInput value={value} onChange={event => onChange(event.target.value)} />
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <DialogTrigger asChild>
-                <Button icon={IvyIcons.ListSearch} aria-label={BROWSER_LABEL} />
-              </DialogTrigger>
-            </TooltipTrigger>
-            <TooltipContent>{BROWSER_LABEL}</TooltipContent>
-          </Tooltip>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <DialogTrigger asChild>
+                  <Button icon={IvyIcons.ListSearch} aria-label={BROWSER_LABEL} />
+                </DialogTrigger>
+              </TooltipTrigger>
+              <TooltipContent>{BROWSER_LABEL}</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </InputGroup>
       </BasicField>
       <DialogContent style={{ height: '80vh' }}>

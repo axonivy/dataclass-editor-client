@@ -18,6 +18,7 @@ import {
   toast,
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
   useHotkeys,
   useMultiSelectRow,
@@ -38,7 +39,8 @@ import { genQueryKey } from '../query/query-client';
 import { useKnownHotkeys } from '../utils/hotkeys';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
-import { ValidationRow } from './ValidationRow';
+import { FieldBadges } from './table/FieldBadges';
+import { ValidationRow } from './table/ValidationRow';
 
 const fullQualifiedClassNameRegex = /(?:[\w]+\.)+([\w]+)(?=[<,> ]|$)/g;
 
@@ -65,19 +67,21 @@ export const DataClassMasterContent = () => {
     {
       accessorKey: 'name',
       header: ({ column }) => <SortableHeader column={column} name='Name' />,
-      cell: cell => <div>{cell.getValue()}</div>,
+      cell: cell => <span>{cell.getValue()}</span>,
       minSize: 50
     },
     {
       accessorKey: 'type',
       header: ({ column }) => <SortableHeader column={column} name='Type' />,
       cell: cell => (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <span className='cell-with-tooltip'>{simpleTypeName(cell.getValue())}</span>
-          </TooltipTrigger>
-          <TooltipContent>{cell.getValue()}</TooltipContent>
-        </Tooltip>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className='cell-with-tooltip'>{simpleTypeName(cell.getValue())}</span>
+            </TooltipTrigger>
+            <TooltipContent>{cell.getValue()}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       )
     },
     {
@@ -85,7 +89,8 @@ export const DataClassMasterContent = () => {
       header: ({ column }) => <SortableHeader column={column} name='Comment' />,
       cell: cell => (
         <ReorderHandleWrapper>
-          <div>{cell.getValue()}</div>
+          <span>{cell.getValue()}</span>
+          <FieldBadges field={cell.row.original} />
         </ReorderHandleWrapper>
       )
     }
@@ -177,32 +182,35 @@ export const DataClassMasterContent = () => {
     <Flex gap={2}>
       <AddFieldDialog table={table} />
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            icon={IvyIcons.Trash}
-            onClick={deleteField}
-            disabled={table.getSelectedRowModel().rows.length === 0}
-            aria-label={hotkeys.deleteAttr.label}
-          />
-        </TooltipTrigger>
-        <TooltipContent>{hotkeys.deleteAttr.label}</TooltipContent>
-      </Tooltip>
-
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              icon={IvyIcons.Trash}
+              onClick={deleteField}
+              disabled={table.getSelectedRowModel().rows.length === 0}
+              aria-label={hotkeys.deleteAttr.label}
+            />
+          </TooltipTrigger>
+          <TooltipContent>{hotkeys.deleteAttr.label}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       {isCombineSupported && (
         <>
           <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                icon={IvyIcons.WrapToSubprocess}
-                onClick={() => combineFields.mutate()}
-                aria-label={hotkeys.combineAttr.label}
-                disabled={table.getSelectedRowModel().rows.length === 0}
-              />
-            </TooltipTrigger>
-            <TooltipContent>{hotkeys.combineAttr.label}</TooltipContent>
-          </Tooltip>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  icon={IvyIcons.WrapToSubprocess}
+                  onClick={() => combineFields.mutate()}
+                  aria-label={hotkeys.combineAttr.label}
+                  disabled={table.getSelectedRowModel().rows.length === 0}
+                />
+              </TooltipTrigger>
+              <TooltipContent>{hotkeys.combineAttr.label}</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </>
       )}
     </Flex>

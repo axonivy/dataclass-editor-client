@@ -1,0 +1,10 @@
+.badge {
+  width: 13px;
+  height: 13px;
+  border: var(--basic-border);
+  border-radius: var(--border-r2);
+  text-align: center;
+  background-color: var(--N25);
+  color: var(--body);
+  cursor: default;
+}

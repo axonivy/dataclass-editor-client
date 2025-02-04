@@ -1,3 +1,4 @@
+import { modifierLabels } from '@axonivy/dataclass-editor-protocol';
 import {
   BasicField,
   BasicInput,
@@ -61,13 +62,13 @@ export const FieldEntityDatabaseField = () => {
             />
           </BasicField>
           <BasicField label='Properties' message={messages.PROPERTIES_ENTITY} data-testid='database-field-properties'>
-            <FieldModifierCheckbox label='ID' modifier='ID' />
-            <FieldModifierCheckbox label='Generated' modifier='GENERATED' />
-            <FieldModifierCheckbox label='Not nullable' modifier='NOT_NULLABLE' />
-            <FieldModifierCheckbox label='Unique' modifier='UNIQUE' />
-            <FieldModifierCheckbox label='Not updateable' modifier='NOT_UPDATEABLE' />
-            <FieldModifierCheckbox label='Not insertable' modifier='NOT_INSERTABLE' />
-            <FieldModifierCheckbox label='Version' modifier='VERSION' />
+            <FieldModifierCheckbox label={modifierLabels.ID} modifier='ID' />
+            <FieldModifierCheckbox label={modifierLabels.GENERATED} modifier='GENERATED' />
+            <FieldModifierCheckbox label={modifierLabels.NOT_NULLABLE} modifier='NOT_NULLABLE' />
+            <FieldModifierCheckbox label={modifierLabels.UNIQUE} modifier='UNIQUE' />
+            <FieldModifierCheckbox label={modifierLabels.NOT_UPDATEABLE} modifier='NOT_UPDATEABLE' />
+            <FieldModifierCheckbox label={modifierLabels.NOT_INSERTABLE} modifier='NOT_INSERTABLE' />
+            <FieldModifierCheckbox label={modifierLabels.VERSION} modifier='VERSION' />
           </BasicField>
         </Flex>
       </CollapsibleContent>
