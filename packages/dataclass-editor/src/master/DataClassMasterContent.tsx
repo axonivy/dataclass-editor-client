@@ -39,8 +39,8 @@ import { genQueryKey } from '../query/query-client';
 import { useKnownHotkeys } from '../utils/hotkeys';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
-import { FieldBadges } from './FieldBadges';
-import { ValidationRow } from './ValidationRow';
+import { FieldBadges } from './table/FieldBadges';
+import { ValidationRow } from './table/ValidationRow';
 
 const fullQualifiedClassNameRegex = /(?:[\w]+\.)+([\w]+)(?=[<,> ]|$)/g;
 

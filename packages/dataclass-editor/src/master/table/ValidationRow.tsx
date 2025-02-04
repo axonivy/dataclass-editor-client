@@ -1,8 +1,8 @@
 import type { Field, ValidationResult } from '@axonivy/dataclass-editor-protocol';
 import { MessageRow, ReorderRow, SelectRow, TableCell } from '@axonivy/ui-components';
 import { flexRender, type Row } from '@tanstack/react-table';
-import { useValidation } from '../context/useValidation';
-import { toMessageData } from '../data/validation-utils';
+import { useValidation } from '../../context/useValidation';
+import { toMessageData } from '../../data/validation-utils';
 import './ValidationRow.css';
 
 type ValidationRowProps = {
