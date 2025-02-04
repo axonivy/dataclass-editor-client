@@ -1,6 +1,6 @@
 import { cardinalityLabels, cascadeTypeLabels, modifierLabels, type Field } from '@axonivy/dataclass-editor-protocol';
-import { Flex, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
-import './FieldBadges.css';
+import { Flex } from '@axonivy/ui-components';
+import { Badge } from './Badge';
 
 type FieldBadgesProps = {
   field: Field;
@@ -11,12 +11,10 @@ export const FieldBadges = ({ field }: FieldBadgesProps) => {
   return (
     <Flex gap={1}>
       {field.entity?.association && (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className='badge'>C</div>
-            </TooltipTrigger>
-            <TooltipContent>
+        <Badge
+          value='C'
+          tooltip={
+            <>
               <div>
                 <b>Cardinality</b>
               </div>
@@ -40,58 +38,52 @@ export const FieldBadges = ({ field }: FieldBadgesProps) => {
                   {field.entity.orphanRemoval && <div>Remove orphans</div>}
                 </>
               )}
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+            </>
+          }
+        />
       )}
       {entityProperties.length !== 0 && (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className='badge'>E</div>
-            </TooltipTrigger>
-            <TooltipContent>
+        <Badge
+          value='E'
+          tooltip={
+            <>
               <div>
                 <b>Entity Properties</b>
               </div>
               {entityProperties.map(modifier => (
                 <div key={modifier}>{modifierLabels[modifier]}</div>
               ))}
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+            </>
+          }
+        />
       )}
       {field.annotations.length !== 0 && (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className='badge'>A</div>
-            </TooltipTrigger>
-            <TooltipContent>
+        <Badge
+          value='A'
+          tooltip={
+            <>
               <div>
                 <b>Annotations</b>
               </div>
               {field.annotations.map((annotation, index) => (
                 <div key={index}>{simpleAnnotationName(annotation)}</div>
               ))}
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+            </>
+          }
+        />
       )}
       {field.modifiers.includes('PERSISTENT') && (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className='badge'>P</div>
-            </TooltipTrigger>
-            <TooltipContent>
+        <Badge
+          value='P'
+          tooltip={
+            <>
               <div>
                 <b>Properties</b>
               </div>
               <div>{modifierLabels.PERSISTENT}</div>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+            </>
+          }
+        />
       )}
     </Flex>
   );

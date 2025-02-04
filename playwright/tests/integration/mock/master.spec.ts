@@ -1,7 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { DataClassEditor } from '../../pageobjects/DataClassEditor';
 import { consoleLog } from '../../pageobjects/console-log';
-import { describe } from 'node:test';
 
 let editor: DataClassEditor;
 
@@ -221,7 +220,7 @@ test.describe('table keyboard support', () => {
   });
 });
 
-describe('badges', () => {
+test.describe('badges', () => {
   test('general', async () => {
     const row = editor.table.row(3);
     await row.locator.click();
@@ -237,7 +236,7 @@ describe('badges', () => {
     await row.badge('A').expectToHaveTooltip('Annotations', 'annotationOne', 'annotationTwo');
   });
 
-  describe('entity', () => {
+  test.describe('entity', () => {
     test('properties', async () => {
       await editor.detail.dataClass.general.classType.fillValues('Entity');
       await editor.addField('field', 'Integer');
