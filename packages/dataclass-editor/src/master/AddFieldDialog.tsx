@@ -15,6 +15,7 @@ import {
   Input,
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
   useHotkeys,
   type MessageData
@@ -123,14 +124,16 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <DialogTrigger asChild>
-            <Button className='add-field-dialog-trigger-button' icon={IvyIcons.Plus} aria-label={shortcut.label} />
-          </DialogTrigger>
-        </TooltipTrigger>
-        <TooltipContent>{shortcut.label}</TooltipContent>
-      </Tooltip>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger asChild>
+              <Button className='add-field-dialog-trigger-button' icon={IvyIcons.Plus} aria-label={shortcut.label} />
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent>{shortcut.label}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <DialogContent onCloseAutoFocus={e => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>Add Attribute</DialogTitle>
@@ -144,14 +147,16 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
             <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
           </Flex>
           <DialogFooter>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant='primary' size='large' aria-label='Create Attribute' disabled={!allInputsValid()} onClick={addField}>
-                  Create Attribute
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Hold {hotkeyText('mod')} to add an additional Attribute</TooltipContent>
-            </Tooltip>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant='primary' size='large' aria-label='Create Attribute' disabled={!allInputsValid()} onClick={addField}>
+                    Create Attribute
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Hold {hotkeyText('mod')} to add an additional Attribute</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </DialogFooter>
         </Flex>
       </DialogContent>

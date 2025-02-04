@@ -1,4 +1,4 @@
-import type { Association } from '@axonivy/dataclass-editor-protocol';
+import { cardinalityLabels, cascadeTypeLabels, type Association } from '@axonivy/dataclass-editor-protocol';
 import {
   BasicCheckbox,
   BasicField,
@@ -42,9 +42,9 @@ export const useCardinality = () => {
 };
 
 const cardinalityItems: Array<{ value: Association; label: string }> = [
-  { value: 'ONE_TO_ONE', label: 'One-to-One' },
-  { value: 'ONE_TO_MANY', label: 'One-to-Many' },
-  { value: 'MANY_TO_ONE', label: 'Many-to-One' }
+  { value: 'ONE_TO_ONE', label: cardinalityLabels.ONE_TO_ONE },
+  { value: 'ONE_TO_MANY', label: cardinalityLabels.ONE_TO_MANY },
+  { value: 'MANY_TO_ONE', label: cardinalityLabels.MANY_TO_ONE }
 ] as const;
 
 export const cardinalityMessage = (cardinality?: Association): MessageData | undefined => {
@@ -88,10 +88,10 @@ export const FieldEntityAssociation = () => {
             <BasicField label='Cascade'>
               <FieldEntityCascadeTypeCheckbox label='All' cascadeType='ALL' />
               <Flex direction='column' gap={1} className='cascade-types-container'>
-                <FieldEntityCascadeTypeCheckbox label='Persist' cascadeType='PERSIST' />
-                <FieldEntityCascadeTypeCheckbox label='Merge' cascadeType='MERGE' />
-                <FieldEntityCascadeTypeCheckbox label='Remove' cascadeType='REMOVE' />
-                <FieldEntityCascadeTypeCheckbox label='Refresh' cascadeType='REFRESH' />
+                <FieldEntityCascadeTypeCheckbox label={cascadeTypeLabels.PERSIST} cascadeType='PERSIST' />
+                <FieldEntityCascadeTypeCheckbox label={cascadeTypeLabels.MERGE} cascadeType='MERGE' />
+                <FieldEntityCascadeTypeCheckbox label={cascadeTypeLabels.REMOVE} cascadeType='REMOVE' />
+                <FieldEntityCascadeTypeCheckbox label={cascadeTypeLabels.REFRESH} cascadeType='REFRESH' />
               </Flex>
             </BasicField>
             <BasicField label='Mapped by' message={messages.MAPPED_BY}>
