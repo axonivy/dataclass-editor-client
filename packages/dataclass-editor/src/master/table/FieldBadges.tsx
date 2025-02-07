@@ -1,6 +1,7 @@
 import { cardinalityLabels, cascadeTypeLabels, modifierLabels, type Field } from '@axonivy/dataclass-editor-protocol';
 import { Flex } from '@axonivy/ui-components';
 import { Badge } from './Badge';
+import './FieldBadges.css';
 
 type FieldBadgesProps = {
   field: Field;
@@ -9,10 +10,11 @@ type FieldBadgesProps = {
 export const FieldBadges = ({ field }: FieldBadgesProps) => {
   const entityProperties = field.modifiers.filter(modifier => modifier !== 'PERSISTENT');
   return (
-    <Flex gap={1}>
+    <Flex gap={1} className='badges-container'>
       {field.entity?.association && (
         <Badge
           value='C'
+          className='cardinality-badge'
           tooltip={
             <>
               <div>
@@ -45,6 +47,7 @@ export const FieldBadges = ({ field }: FieldBadgesProps) => {
       {entityProperties.length !== 0 && (
         <Badge
           value='E'
+          className='entity-properties-badge'
           tooltip={
             <>
               <div>
@@ -60,6 +63,7 @@ export const FieldBadges = ({ field }: FieldBadgesProps) => {
       {field.annotations.length !== 0 && (
         <Badge
           value='A'
+          className='annotations-badge'
           tooltip={
             <>
               <div>
@@ -75,6 +79,7 @@ export const FieldBadges = ({ field }: FieldBadgesProps) => {
       {field.modifiers.includes('PERSISTENT') && (
         <Badge
           value='P'
+          className='properties-badge'
           tooltip={
             <>
               <div>
