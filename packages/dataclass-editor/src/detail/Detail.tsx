@@ -37,8 +37,8 @@ export const Detail = ({ title, helpUrl }: DetailProps) => {
   const { openHelp: helpText } = useKnownHotkeys();
 
   return (
-    <Flex direction='column' className='panel-content-container detail-container'>
-      <SidebarHeader icon={IvyIcons.PenEdit} title={title} className='detail-header'>
+    <Flex direction='column' className='dataclass-editor-panel-content dataclass-editor-detail-panel'>
+      <SidebarHeader icon={IvyIcons.PenEdit} title={title} className='dataclass-editor-detail-header'>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -48,7 +48,7 @@ export const Detail = ({ title, helpUrl }: DetailProps) => {
           </Tooltip>
         </TooltipProvider>
       </SidebarHeader>
-      <Flex direction='column' className='detail-content'>
+      <Flex direction='column' className='dataclass-editor-detail-content'>
         <DetailContextProvider value={{ field, setField, messages: messagesByProperty(validations) }}>
           {!field ? <DataClassDetailContent /> : <FieldDetailContent key={selectedField} />}
         </DetailContextProvider>

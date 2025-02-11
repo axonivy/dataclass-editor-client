@@ -10,11 +10,11 @@ type FieldBadgesProps = {
 export const FieldBadges = ({ field }: FieldBadgesProps) => {
   const entityProperties = field.modifiers.filter(modifier => modifier !== 'PERSISTENT');
   return (
-    <Flex gap={1} className='badges-container'>
+    <Flex gap={1} className='dataclass-editor-badges'>
       {field.entity?.association && (
         <Badge
           value='C'
-          className='cardinality-badge'
+          className='dataclass-editor-cardinality-badge'
           tooltip={
             <>
               <div>
@@ -47,7 +47,7 @@ export const FieldBadges = ({ field }: FieldBadgesProps) => {
       {entityProperties.length !== 0 && (
         <Badge
           value='E'
-          className='entity-properties-badge'
+          className='dataclass-editor-entity-properties-badge'
           tooltip={
             <>
               <div>
@@ -63,7 +63,7 @@ export const FieldBadges = ({ field }: FieldBadgesProps) => {
       {field.annotations.length !== 0 && (
         <Badge
           value='A'
-          className='annotations-badge'
+          className='dataclass-editor-annotations-badge'
           tooltip={
             <>
               <div>
@@ -79,7 +79,7 @@ export const FieldBadges = ({ field }: FieldBadgesProps) => {
       {field.modifiers.includes('PERSISTENT') && (
         <Badge
           value='P'
-          className='properties-badge'
+          className='dataclass-editor-properties-badge'
           tooltip={
             <>
               <div>

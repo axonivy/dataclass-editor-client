@@ -8,7 +8,7 @@ export class FieldDetail {
   readonly entity: FieldEntity;
 
   constructor(page: Page, parentLocator: Locator) {
-    this.locator = parentLocator.locator('.field-detail-content');
+    this.locator = parentLocator.locator('.dataclass-editor-field-detail');
     this.general = new FieldGeneral(page, this.locator);
     this.entity = new FieldEntity(page, this.locator);
   }

@@ -13,8 +13,8 @@ export const Badge = ({ value, tooltip, className }: BadgeProps) => {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className='badge-container'>
-            <div className={`badge ${className}`}>{value}</div>
+          <div className='dataclass-editor-badge-background'>
+            <div className={`dataclass-editor-badge ${className}`}>{value}</div>
           </div>
         </TooltipTrigger>
         <TooltipContent>{tooltip}</TooltipContent>

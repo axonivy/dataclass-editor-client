@@ -16,7 +16,7 @@ export const FieldDetailContent = () => {
   const { setProperty } = useFieldProperty();
 
   return (
-    <Accordion type='single' collapsible defaultValue='general' className='field-detail-content'>
+    <Accordion type='single' collapsible defaultValue='general' className='dataclass-editor-field-detail'>
       <AccordionItem value='general'>
         <AccordionTrigger
           state={<AccordionState messages={combineMessagesOfProperties(messages, 'NAME', 'TYPE', 'PROPERTIES_GENERAL', 'ANNOTATION')} />}
