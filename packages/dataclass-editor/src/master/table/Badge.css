@@ -1,9 +1,9 @@
-.badge-container {
+.dataclass-editor-badge-background {
   background-color: var(--N25);
   clip-path: inset(0 0 0 0 round var(--border-r2));
 }
 
-.badge {
+.dataclass-editor-badge {
   width: 17px;
   height: 17px;
   border: 0.5px solid var(--N200);

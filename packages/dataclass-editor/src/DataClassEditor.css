@@ -3,10 +3,10 @@
 @import '@axonivy/ui-icons/src-gen/ivy-icons.css' layer(icons);
 @import '@axonivy/ui-components/lib/style.css';
 
-.master-panel {
+.dataclass-editor-main-panel {
   background-color: var(--N75);
 }
 
-.panel-content-container {
+.dataclass-editor-panel-content {
   height: 100%;
 }

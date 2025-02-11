@@ -87,7 +87,7 @@ export const FieldEntityAssociation = () => {
             </BasicField>
             <BasicField label='Cascade'>
               <FieldEntityCascadeTypeCheckbox label='All' cascadeType='ALL' />
-              <Flex direction='column' gap={1} className='cascade-types-container'>
+              <Flex direction='column' gap={1} className='dataclass-editor-cascade-types'>
                 <FieldEntityCascadeTypeCheckbox label={cascadeTypeLabels.PERSIST} cascadeType='PERSIST' />
                 <FieldEntityCascadeTypeCheckbox label={cascadeTypeLabels.MERGE} cascadeType='MERGE' />
                 <FieldEntityCascadeTypeCheckbox label={cascadeTypeLabels.REMOVE} cascadeType='REMOVE' />

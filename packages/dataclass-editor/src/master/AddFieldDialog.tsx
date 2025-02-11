@@ -128,7 +128,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
         <Tooltip>
           <TooltipTrigger asChild>
             <DialogTrigger asChild>
-              <Button className='add-field-dialog-trigger-button' icon={IvyIcons.Plus} aria-label={shortcut.label} />
+              <Button icon={IvyIcons.Plus} aria-label={shortcut.label} />
             </DialogTrigger>
           </TooltipTrigger>
           <TooltipContent>{shortcut.label}</TooltipContent>

@@ -15,6 +15,7 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
 import { Browser } from './browser/Browser';
+import './InputFieldWithTypeBrowser.css';
 
 export const BROWSER_LABEL = 'Browser';
 
@@ -28,7 +29,7 @@ export const InputFieldWithTypeBrowser = ({ value, onChange, message }: InputFie
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <BasicField label='Type' style={{ flex: '1' }} message={message} aria-label='Type'>
+      <BasicField label='Type' message={message} aria-label='Type'>
         <InputGroup>
           <BasicInput value={value} onChange={event => onChange(event.target.value)} />
           <TooltipProvider>
@@ -43,7 +44,7 @@ export const InputFieldWithTypeBrowser = ({ value, onChange, message }: InputFie
           </TooltipProvider>
         </InputGroup>
       </BasicField>
-      <DialogContent style={{ height: '80vh' }}>
+      <DialogContent className='dataclass-editor-type-browser-content'>
         <Browser onChange={onChange} close={() => setOpen(false)} value={value} />
       </DialogContent>
     </Dialog>

@@ -29,15 +29,15 @@ export class DataClassEditor {
 
   constructor(page: Page) {
     this.page = page;
-    this.title = this.page.locator('.master-header');
-    this.toolbar = new Toolbar(this.page, page.locator('.master-panel'));
+    this.title = this.page.locator('.dataclass-editor-main-toolbar-title');
+    this.toolbar = new Toolbar(this.page, page.locator('.dataclass-editor-main-panel'));
     this.detail = new Detail(this.page);
     this.settings = new Settings(this.page);
-    this.main = this.page.locator('.master-content');
+    this.main = this.page.locator('.dataclass-editor-table-field');
     this.table = new Table(this.main);
     this.add = new AddFieldDialog(this.page);
     this.delete = new Button(this.main, { name: 'Delete Attribute' });
-    this.messagesContainer = this.page.locator('.class-messages');
+    this.messagesContainer = this.page.locator('.dataclass-editor-main-messages');
     this.messages = this.messagesContainer.locator('.ui-message');
   }
 

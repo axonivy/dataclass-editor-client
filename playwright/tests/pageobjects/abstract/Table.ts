@@ -81,7 +81,7 @@ export class Row {
 
   constructor(rowsLocator: Locator, index: number) {
     this.locator = rowsLocator.nth(index);
-    this.badges = this.locator.locator('.badge');
+    this.badges = this.locator.locator('.dataclass-editor-badge');
   }
 
   column(column: number) {
@@ -111,16 +111,16 @@ export class Row {
   }
 
   async expectToHaveNoValidation() {
-    await expect(this.locator).not.toHaveClass(/row-error/);
-    await expect(this.locator).not.toHaveClass(/row-warning/);
+    await expect(this.locator).not.toHaveClass(/dataclass-editor-row-error/);
+    await expect(this.locator).not.toHaveClass(/dataclass-editor-row-warning/);
   }
 
   async expectToHaveError() {
-    await expect(this.locator).toHaveClass(/row-error/);
+    await expect(this.locator).toHaveClass(/dataclass-editor-row-error/);
   }
 
   async expectToHaveWarning() {
-    await expect(this.locator).toHaveClass(/row-warning/);
+    await expect(this.locator).toHaveClass(/dataclass-editor-row-warning/);
   }
 
   badge(text: string) {

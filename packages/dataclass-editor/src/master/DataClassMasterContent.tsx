@@ -77,7 +77,7 @@ export const DataClassMasterContent = () => {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <span className='cell-with-tooltip'>{simpleTypeName(cell.getValue())}</span>
+              <span>{simpleTypeName(cell.getValue())}</span>
             </TooltipTrigger>
             <TooltipContent>{cell.getValue()}</TooltipContent>
           </Tooltip>
@@ -232,9 +232,9 @@ export const DataClassMasterContent = () => {
   useHotkeys(hotkeys.focusMain.hotkey, () => firstElement.current?.focus(), { scopes: ['global'] });
 
   return (
-    <Flex direction='column' ref={ref} gap={4} className='master-content-container' onClick={() => selectRow(table)}>
+    <Flex direction='column' ref={ref} gap={4} className='dataclass-editor-main-content' onClick={() => selectRow(table)}>
       {validations.length !== 0 && (
-        <Flex direction='column' className='class-messages'>
+        <Flex direction='column' className='dataclass-editor-main-messages'>
           {validations.map((val, index) => (
             <Message key={index} variant={variant(val)}>
               {val.message}
@@ -245,14 +245,14 @@ export const DataClassMasterContent = () => {
       <BasicField
         tabIndex={-1}
         ref={firstElement}
-        className='master-content'
+        className='dataclass-editor-table-field'
         label='Attributes'
         control={control}
         onClick={event => event.stopPropagation()}
       >
-        <Table onKeyDown={e => handleKeyDown(e, () => setDetail(!detail))} style={{ overflowX: 'unset' }}>
+        <Table onKeyDown={e => handleKeyDown(e, () => setDetail(!detail))} className='dataclass-editor-table'>
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={() => selectRow(table)} />
-          <TableBody>
+          <TableBody className='dataclass-editor-table-body'>
             {table.getRowModel().rows.map(row => (
               <ValidationRow
                 key={row.id}
