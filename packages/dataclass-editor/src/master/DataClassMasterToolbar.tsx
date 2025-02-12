@@ -61,8 +61,8 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
   useHotkeys(hotkeys.redo.hotkey, e => hotkeyRedoFix(e, redo), { scopes: ['global'] });
 
   return (
-    <Toolbar tabIndex={-1} ref={firstElement} className='master-toolbar'>
-      <ToolbarTitle className='master-header'>{title}</ToolbarTitle>
+    <Toolbar tabIndex={-1} ref={firstElement} className='dataclass-editor-main-toolbar'>
+      <ToolbarTitle className='dataclass-editor-main-toolbar-title'>{title}</ToolbarTitle>
       <Flex gap={1}>
         <ToolbarContainer maxWidth={450}>
           <Flex>

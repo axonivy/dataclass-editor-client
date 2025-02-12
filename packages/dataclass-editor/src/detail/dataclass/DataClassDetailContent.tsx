@@ -24,7 +24,7 @@ export const DataClassDetailContent = () => {
   const { setProperty } = useDataClassProperty();
 
   return (
-    <Accordion type='single' collapsible defaultValue='general' className='dataclass-detail-content'>
+    <Accordion type='single' collapsible defaultValue='general' className='dataclass-editor-dataclass-detail'>
       <AccordionItem value='general'>
         <AccordionTrigger state={<AccordionState messages={combineMessagesOfProperties(messages, 'NAMESPACE', 'ANNOTATION')} />}>
           General

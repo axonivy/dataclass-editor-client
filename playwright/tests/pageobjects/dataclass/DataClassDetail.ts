@@ -8,7 +8,7 @@ export class DataClassDetail {
   readonly entity: DataClassEntity;
 
   constructor(page: Page, parentLocator: Locator) {
-    this.locator = parentLocator.locator('.dataclass-detail-content');
+    this.locator = parentLocator.locator('.dataclass-editor-dataclass-detail');
     this.general = new DataClassGeneral(page, this.locator);
     this.entity = new DataClassEntity(page, this.locator);
   }
