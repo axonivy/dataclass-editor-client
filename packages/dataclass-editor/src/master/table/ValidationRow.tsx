@@ -42,9 +42,9 @@ export const ValidationRow = ({ row, isReorderable, updateOrder, onClick, onDrag
 
 export const rowClass = (messages: Array<ValidationResult>) => {
   if (messages.some(message => message.severity === 'ERROR')) {
-    return 'row-error';
+    return 'dataclass-editor-row-error';
   } else if (messages.some(message => message.severity === 'WARNING')) {
-    return 'row-warning';
+    return 'dataclass-editor-row-warning';
   }
   return '';
 };

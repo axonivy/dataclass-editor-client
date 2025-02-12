@@ -9,8 +9,8 @@ export class Detail {
   readonly field: FieldDetail;
 
   constructor(page: Page) {
-    this.locator = page.locator('.detail-container');
-    this.title = this.locator.locator('.detail-header');
+    this.locator = page.locator('.dataclass-editor-detail-panel');
+    this.title = this.locator.locator('.dataclass-editor-detail-header');
     this.dataClass = new DataClassDetail(page, this.locator);
     this.field = new FieldDetail(page, this.locator);
   }

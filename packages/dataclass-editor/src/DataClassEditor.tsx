@@ -146,9 +146,9 @@ function DataClassEditor(props: EditorProps) {
         history
       }}
     >
-      <ResizablePanelGroup direction='horizontal' style={{ height: `100vh` }}>
-        <ResizablePanel defaultSize={75} minSize={50} className='master-panel'>
-          <Flex className='panel-content-container master-container' direction='column'>
+      <ResizablePanelGroup direction='horizontal'>
+        <ResizablePanel defaultSize={75} minSize={50} className='dataclass-editor-main-panel'>
+          <Flex className='dataclass-editor-panel-content' direction='column'>
             <DataClassMasterToolbar title={masterTitle} />
             <DataClassMasterContent />
           </Flex>
@@ -156,7 +156,7 @@ function DataClassEditor(props: EditorProps) {
         {detail && (
           <>
             <ResizableHandle />
-            <ResizablePanel defaultSize={25} minSize={10} className='detail-panel'>
+            <ResizablePanel defaultSize={25} minSize={10}>
               <Detail title={detailTitle} helpUrl={data.helpUrl} />
             </ResizablePanel>
           </>
