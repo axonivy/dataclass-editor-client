@@ -7,6 +7,7 @@ import type {
   DataClassData,
   DataClassSaveDataArgs,
   DataclassType,
+  EditorFileContent,
   EntityClassFieldAssociation,
   FieldContext,
   JavaType,
@@ -19,7 +20,7 @@ export type SaveArgs = DataClassSaveDataArgs & { directSave?: boolean };
 
 export interface RequestTypes extends MetaRequestTypes, FunctionRequestTypes {
   data: [DataClassEditorDataContext, DataClassData];
-  saveData: [DataClassData, Array<ValidationResult>];
+  saveData: [DataClassData, EditorFileContent];
   validate: [DataClassEditorDataContext, Array<ValidationResult>];
 }
 
@@ -42,7 +43,7 @@ export interface Disposable {
 
 export interface Client {
   data(context: DataClassEditorDataContext): Promise<DataClassData>;
-  saveData(saveArgs: SaveArgs): Promise<Array<ValidationResult>>;
+  saveData(saveArgs: SaveArgs): Promise<EditorFileContent>;
   validate(context: DataClassEditorDataContext): Promise<Array<ValidationResult>>;
 
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]>;

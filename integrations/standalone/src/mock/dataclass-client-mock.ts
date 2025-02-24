@@ -1,4 +1,10 @@
-import type { DataActionArgs, DataClassData, FieldContext, ValidationResult } from '@axonivy/dataclass-editor-protocol/src/editor';
+import type {
+  DataActionArgs,
+  DataClassData,
+  EditorFileContent,
+  FieldContext,
+  ValidationResult
+} from '@axonivy/dataclass-editor-protocol/src/editor';
 import type {
   Client,
   Event,
@@ -16,9 +22,9 @@ export class DataClassClientMock implements Client {
     return Promise.resolve(this.dataClassData);
   }
 
-  saveData(saveData: DataClassData): Promise<Array<ValidationResult>> {
+  saveData(saveData: DataClassData): Promise<EditorFileContent> {
     this.dataClassData.data = saveData.data;
-    return Promise.resolve(validations(this.dataClassData));
+    return Promise.resolve({ content: '' });
   }
 
   validate(): Promise<Array<ValidationResult>> {

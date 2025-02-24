@@ -28,6 +28,7 @@ export interface DataClasses {
   dataClassModel: DataClassModel;
   dataClassSaveDataArgs: DataClassSaveDataArgs;
   dataclassType: DataclassType[];
+  editorFileContent: EditorFileContent;
   entityClassFieldAssociation: EntityClassFieldAssociation[];
   fieldContext: FieldContext;
   javaType: JavaType[];
@@ -94,6 +95,9 @@ export interface DataclassType {
   name: string;
   packageName: string;
   path: string;
+}
+export interface EditorFileContent {
+  content: string;
 }
 export interface FieldContext {
   app: string;

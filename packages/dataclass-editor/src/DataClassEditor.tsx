@@ -109,11 +109,11 @@ function DataClassEditor(props: EditorProps) {
         return undefined;
       });
       if (saveData) {
-        const validations = await client.saveData({ context, data: saveData.data, directSave });
-        return setValidations(validations);
+        return client.saveData({ context, data: saveData.data, directSave });
       }
       return Promise.resolve();
-    }
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.validate(context) })
   });
 
   const hotkeys = useKnownHotkeys();
