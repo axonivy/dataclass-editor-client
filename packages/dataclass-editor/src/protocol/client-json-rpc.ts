@@ -17,7 +17,8 @@ import type {
   NotificationTypes,
   OnNotificationTypes,
   RequestTypes,
-  ValidationResult
+  ValidationResult,
+  EditorFileContent
 } from '@axonivy/dataclass-editor-protocol';
 
 export class ClientJsonRpc extends BaseRpcClient implements Client {
@@ -33,7 +34,7 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
     return this.sendRequest('data', context);
   }
 
-  saveData(saveData: DataClassData): Promise<Array<ValidationResult>> {
+  saveData(saveData: DataClassData): Promise<EditorFileContent> {
     return this.sendRequest('saveData', saveData);
   }
 
