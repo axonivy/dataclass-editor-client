@@ -25,7 +25,7 @@ test('accordion state', async () => {
   await expect(editor.detail.field.entity.accordion.locator).toBeHidden();
 });
 
-describe('collapsible state', async () => {
+describe('collapsible state', () => {
   test('dataclass', async () => {
     const entity = editor.detail.dataClass.entity;
 
@@ -40,8 +40,8 @@ describe('collapsible state', async () => {
     await entity.databaseTable.collapsible.expectToBeOpen();
   });
 
-  describe('field', async () => {
-    describe('database field', async () => {
+  describe('field', () => {
+    describe('database field', () => {
       test('name', async () => {
         const entity = editor.detail.field.entity;
 

@@ -15,7 +15,7 @@ test('accordion state', async () => {
   await editor.detail.field.general.accordion.expectToBeOpen();
 });
 
-describe('collapsible state', async () => {
+describe('collapsible state', () => {
   test('dataclass', async () => {
     const general = editor.detail.dataClass.general;
 
@@ -49,7 +49,7 @@ describe('collapsible state', async () => {
   });
 });
 
-describe('annotations', async () => {
+describe('annotations', () => {
   test('add', async () => {
     const annotations = editor.detail.dataClass.general.annotations;
 

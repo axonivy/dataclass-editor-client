@@ -1,4 +1,10 @@
-import type { DataClass, DataClassData, EditorProps, ValidationResult } from '@axonivy/dataclass-editor-protocol';
+import type {
+  DataClass,
+  DataClassData,
+  DataClassEditorDataContext,
+  EditorProps,
+  ValidationResult
+} from '@axonivy/dataclass-editor-protocol';
 import {
   Flex,
   PanelMessage,
@@ -68,14 +74,14 @@ function DataClassEditor(props: EditorProps) {
 
   const queryKeys = useMemo(() => {
     return {
-      data: () => genQueryKey('data', context),
-      saveData: () => genQueryKey('saveData', context),
-      validate: () => genQueryKey('validate', context)
+      data: (context: DataClassEditorDataContext) => genQueryKey('data', context),
+      saveData: (context: DataClassEditorDataContext) => genQueryKey('saveData', context),
+      validate: (context: DataClassEditorDataContext) => genQueryKey('validate', context)
     };
-  }, [context]);
+  }, []);
 
   const { data, isPending, isError, error } = useQuery({
-    queryKey: queryKeys.data(),
+    queryKey: queryKeys.data(context),
     queryFn: async () => {
       const data = await client.data(context);
       history.push(data.data);
@@ -85,7 +91,7 @@ function DataClassEditor(props: EditorProps) {
   });
 
   useQuery({
-    queryKey: queryKeys.validate(),
+    queryKey: queryKeys.validate(context),
     queryFn: async () => {
       const validations = await client.validate(context);
       setValidations(validations);
@@ -94,9 +100,9 @@ function DataClassEditor(props: EditorProps) {
   });
 
   const mutation = useMutation({
-    mutationKey: queryKeys.saveData(),
+    mutationKey: queryKeys.saveData(context),
     mutationFn: async (updateData: Unary<DataClass>) => {
-      const saveData = queryClient.setQueryData<DataClassData>(queryKeys.data(), prevData => {
+      const saveData = queryClient.setQueryData<DataClassData>(queryKeys.data(context), prevData => {
         if (prevData) {
           return { ...prevData, data: updateData(prevData.data) };
         }
