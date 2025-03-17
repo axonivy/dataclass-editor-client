@@ -12,6 +12,7 @@ import {
   getInitialTypeAsListState,
   getInitialValue
 } from '../../../utils/browser/typeBrowserUtils';
+import { useTranslation } from 'react-i18next';
 
 export const useTypeBrowser = (value: string): Browser => {
   const { context } = useAppContext();
@@ -55,14 +56,15 @@ export const useTypeBrowser = (value: string): Browser => {
       setInitialState(false);
     }
   }, [allTypesSearchActive, typesList.globalFilter.filter, typesList.table]);
+  const { t } = useTranslation();
 
   return {
-    name: 'Type',
+    name: t('label.type'),
     icon: IvyIcons.DataClass,
     browser: typesList,
     header: !context.file.includes('/neo') ? (
       <BasicCheckbox
-        label='Search over all types'
+        label={t('browser.searchAllTypes')}
         checked={allTypesSearchActive}
         onCheckedChange={() => {
           setAllTypesSearchActive(!allTypesSearchActive);
@@ -70,7 +72,7 @@ export const useTypeBrowser = (value: string): Browser => {
         }}
       />
     ) : undefined,
-    footer: <BasicCheckbox label='Type as List' checked={typeAsList} onCheckedChange={() => setTypeAsList(!typeAsList)} />,
+    footer: <BasicCheckbox label={t('browser.typeAsList')} checked={typeAsList} onCheckedChange={() => setTypeAsList(!typeAsList)} />,
     infoProvider: row => typeBrowserApply(row?.original as BrowserNode<DataclassType>, ivyTypes, typeAsList),
     applyModifier: row => ({ value: typeBrowserApply(row?.original as BrowserNode<DataclassType>, ivyTypes, typeAsList) })
   };

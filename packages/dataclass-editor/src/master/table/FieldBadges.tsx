@@ -1,7 +1,9 @@
-import { cardinalityLabels, cascadeTypeLabels, modifierLabels, type Field } from '@axonivy/dataclass-editor-protocol';
+import { type Field } from '@axonivy/dataclass-editor-protocol';
 import { Flex } from '@axonivy/ui-components';
 import { Badge } from './Badge';
 import './FieldBadges.css';
+import { useTranslation } from 'react-i18next';
+import { useCardinalities, useCascadeTypes, useModifiers } from '../../utils/useLabels';
 
 type FieldBadgesProps = {
   field: Field;
@@ -9,6 +11,10 @@ type FieldBadgesProps = {
 
 export const FieldBadges = ({ field }: FieldBadgesProps) => {
   const entityProperties = field.modifiers.filter(modifier => modifier !== 'PERSISTENT');
+  const { t } = useTranslation();
+  const cardinalityLabels = useCardinalities();
+  const cascadeTypeLabels = useCascadeTypes();
+  const modifierLabels = useModifiers();
   return (
     <Flex gap={1} className='dataclass-editor-badges'>
       {field.entity?.association && (
@@ -18,13 +24,13 @@ export const FieldBadges = ({ field }: FieldBadgesProps) => {
           tooltip={
             <>
               <div>
-                <b>Cardinality</b>
+                <b>{t('label.cardinality')}</b>
               </div>
               <div>{cardinalityLabels[field.entity.association]}</div>
               {field.entity.cascadeTypes.length !== 0 && (
                 <>
                   <div>
-                    <b>Cascade</b>
+                    <b>{t('label.cascade')}</b>
                   </div>
                   {field.entity.cascadeTypes.map(cascadeType => (
                     <div key={cascadeType}>{cascadeTypeLabels[cascadeType]}</div>
@@ -34,10 +40,10 @@ export const FieldBadges = ({ field }: FieldBadgesProps) => {
               {field.entity.mappedByFieldName && (
                 <>
                   <div>
-                    <b>Mapped by</b>
+                    <b>{t('label.mappedBy')}</b>
                   </div>
                   <div>{field.entity.mappedByFieldName}</div>
-                  {field.entity.orphanRemoval && <div>Remove orphans</div>}
+                  {field.entity.orphanRemoval && <div>{t('label.removeOrphans')}</div>}
                 </>
               )}
             </>
@@ -51,7 +57,7 @@ export const FieldBadges = ({ field }: FieldBadgesProps) => {
           tooltip={
             <>
               <div>
-                <b>Entity Properties</b>
+                <b>{t('label.entityProperties')}</b>
               </div>
               {entityProperties.map(modifier => (
                 <div key={modifier}>{modifierLabels[modifier]}</div>
@@ -67,7 +73,7 @@ export const FieldBadges = ({ field }: FieldBadgesProps) => {
           tooltip={
             <>
               <div>
-                <b>Annotations</b>
+                <b>{t('label.annotations')}</b>
               </div>
               {field.annotations.map((annotation, index) => (
                 <div key={index}>{simpleAnnotationName(annotation)}</div>
@@ -83,9 +89,9 @@ export const FieldBadges = ({ field }: FieldBadgesProps) => {
           tooltip={
             <>
               <div>
-                <b>Properties</b>
+                <b>{t('common:label.properties')}</b>
               </div>
-              <div>{modifierLabels.PERSISTENT}</div>
+              <div>{t('modifier.persistent')}</div>
             </>
           }
         />

@@ -20,41 +20,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { AppProvider } from './context/AppContext';
 import { useAction } from './context/useAction';
-import { classTypeOf } from './data/dataclass-utils';
 import './DataClassEditor.css';
 import { Detail } from './detail/Detail';
 import { DataClassMasterContent } from './master/DataClassMasterContent';
 import { DataClassMasterToolbar } from './master/DataClassMasterToolbar';
 import { useClient } from './protocol/ClientContextProvider';
 import { genQueryKey } from './query/query-client';
-import { useKnownHotkeys } from './utils/hotkeys';
+import { useKnownHotkeys } from './utils/useKnownHotkeys';
 import type { Unary } from './utils/lambda/lambda';
-
-export const headerTitles = (dataClass: DataClass, selectedField?: number) => {
-  let baseTitle = '';
-  switch (classTypeOf(dataClass)) {
-    case 'DATA':
-      baseTitle = 'Data';
-      break;
-    case 'BUSINESS_DATA':
-      baseTitle = 'Business Data';
-      break;
-    case 'ENTITY':
-      baseTitle = 'Entity';
-  }
-  const masterTitle = `${baseTitle} Class - ${dataClass.simpleName}`;
-
-  const fields = dataClass.fields;
-
-  let detailTitle = '';
-  if (selectedField === undefined) {
-    detailTitle = masterTitle;
-  } else if (selectedField < fields.length) {
-    const selectedDataClassField = fields[selectedField];
-    detailTitle = 'Attribute - ' + selectedDataClassField.name;
-  }
-  return { masterTitle, detailTitle };
-};
 
 function DataClassEditor(props: EditorProps) {
   const [detail, setDetail] = useState(true);
@@ -136,7 +109,6 @@ function DataClassEditor(props: EditorProps) {
   }
 
   const dataClass = data.data;
-  const { masterTitle, detailTitle } = headerTitles(dataClass, selectedField);
 
   return (
     <AppProvider
@@ -155,7 +127,7 @@ function DataClassEditor(props: EditorProps) {
       <ResizablePanelGroup direction='horizontal'>
         <ResizablePanel defaultSize={75} minSize={50} className='dataclass-editor-main-panel'>
           <Flex className='dataclass-editor-panel-content' direction='column'>
-            <DataClassMasterToolbar title={masterTitle} />
+            <DataClassMasterToolbar />
             <DataClassMasterContent />
           </Flex>
         </ResizablePanel>
@@ -163,7 +135,7 @@ function DataClassEditor(props: EditorProps) {
           <>
             <ResizableHandle />
             <ResizablePanel defaultSize={25} minSize={10}>
-              <Detail title={detailTitle} helpUrl={data.helpUrl} />
+              <Detail helpUrl={data.helpUrl} />
             </ResizablePanel>
           </>
         )}

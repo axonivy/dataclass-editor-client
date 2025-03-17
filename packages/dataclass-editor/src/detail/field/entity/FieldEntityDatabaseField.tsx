@@ -1,4 +1,3 @@
-import { modifierLabels } from '@axonivy/dataclass-editor-protocol';
 import {
   BasicField,
   BasicInput,
@@ -12,18 +11,23 @@ import { useEntityField } from '../../../context/DetailContext';
 import { combineMessagesOfProperties } from '../../../data/validation-utils';
 import { FieldModifierCheckbox } from '../FieldModifierCheckbox';
 import { useFieldEntityProperty } from './useFieldEntityProperty';
+import { useTranslation } from 'react-i18next';
+import { useModifiers } from '../../../utils/useLabels';
 
-const DATABASE_TYPE_LENGHTS = {
+const DATABASE_TYPE_LENGTHS = {
   String: '255',
   BigInteger: '19,2',
   BigDecimal: '19,2'
 } as const;
-export const typeCanHaveDatabaseLength = (type: string) => Object.hasOwn(DATABASE_TYPE_LENGHTS, type);
-export const defaultLengthOfType = (type: string) => DATABASE_TYPE_LENGHTS[type as keyof typeof DATABASE_TYPE_LENGHTS] || '';
+
+export const typeCanHaveDatabaseLength = (type: string) => Object.hasOwn(DATABASE_TYPE_LENGTHS, type);
+export const defaultLengthOfType = (type: string) => DATABASE_TYPE_LENGTHS[type as keyof typeof DATABASE_TYPE_LENGTHS] || '';
 
 export const FieldEntityDatabaseField = () => {
   const { messages } = useEntityField();
   const { field, setProperty } = useFieldEntityProperty();
+  const { t } = useTranslation();
+  const modifierLabels = useModifiers();
 
   const mappedByFieldNameIsSet = field.entity.mappedByFieldName !== '';
   const canHaveDatabaseLength = typeCanHaveDatabaseLength(field.type);
@@ -41,11 +45,11 @@ export const FieldEntityDatabaseField = () => {
           <CollapsibleState messages={combineMessagesOfProperties(messages, 'DB_FIELD_NAME', 'DB_FIELD_LENGTH', 'PROPERTIES_ENTITY')} />
         }
       >
-        Database Field
+        {t('label.dbField')}
       </CollapsibleTrigger>
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
-          <BasicField label='Name' message={messages.DB_FIELD_NAME}>
+          <BasicField label={t('common:label.name')} message={messages.DB_FIELD_NAME}>
             <BasicInput
               value={mappedByFieldNameIsSet ? '' : field.entity.databaseName}
               onChange={event => setProperty('databaseName', event.target.value)}
@@ -53,7 +57,7 @@ export const FieldEntityDatabaseField = () => {
               disabled={mappedByFieldNameIsSet}
             />
           </BasicField>
-          <BasicField label='Length' message={messages.DB_FIELD_LENGTH}>
+          <BasicField label={t('common:label.length')} message={messages.DB_FIELD_LENGTH}>
             <BasicInput
               value={canHaveDatabaseLength ? field.entity.databaseFieldLength : ''}
               onChange={event => setProperty('databaseFieldLength', event.target.value)}
@@ -61,7 +65,7 @@ export const FieldEntityDatabaseField = () => {
               disabled={!canHaveDatabaseLength}
             />
           </BasicField>
-          <BasicField label='Properties' message={messages.PROPERTIES_ENTITY} data-testid='database-field-properties'>
+          <BasicField label={t('common:label.properties')} message={messages.PROPERTIES_ENTITY} data-testid='database-field-properties'>
             <FieldModifierCheckbox label={modifierLabels.ID} modifier='ID' />
             <FieldModifierCheckbox label={modifierLabels.GENERATED} modifier='GENERATED' />
             <FieldModifierCheckbox label={modifierLabels.NOT_NULLABLE} modifier='NOT_NULLABLE' />

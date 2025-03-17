@@ -2,6 +2,8 @@ import { BasicSelect, Collapsible, CollapsibleContent, CollapsibleTrigger } from
 import { useAppContext } from '../../context/AppContext';
 import type { DataClassType as ClassType, DataClass } from '@axonivy/dataclass-editor-protocol';
 import { classTypeOf } from '../../data/dataclass-utils';
+import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
 
 export const useClassType = () => {
   const { dataClass, setDataClass } = useAppContext();
@@ -57,20 +59,23 @@ const changeToEntityClass = (newDataClass: DataClass) => {
   }
 };
 
-const dataClassTypeItems: Array<{ value: ClassType; label: string }> = [
-  { value: 'DATA', label: 'Data' },
-  { value: 'BUSINESS_DATA', label: 'Business Data' },
-  { value: 'ENTITY', label: 'Entity' }
-] as const;
-
 export const DataClassType = () => {
   const { classType, setClassType } = useClassType();
+  const { t } = useTranslation();
+  const items = useMemo<Array<{ value: ClassType; label: string }>>(
+    () => [
+      { value: 'DATA', label: t('label.data') },
+      { value: 'BUSINESS_DATA', label: t('label.businessData') },
+      { value: 'ENTITY', label: t('label.entity') }
+    ],
+    [t]
+  );
 
   return (
     <Collapsible>
-      <CollapsibleTrigger>Class type</CollapsibleTrigger>
+      <CollapsibleTrigger>{t('label.classType')}</CollapsibleTrigger>
       <CollapsibleContent>
-        <BasicSelect value={classType} items={dataClassTypeItems} onValueChange={setClassType} />
+        <BasicSelect value={classType} items={items} onValueChange={setClassType} />
       </CollapsibleContent>
     </Collapsible>
   );

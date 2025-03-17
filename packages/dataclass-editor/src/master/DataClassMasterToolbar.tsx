@@ -27,13 +27,11 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { useAction } from '../context/useAction';
-import { useKnownHotkeys } from '../utils/hotkeys';
+import { useKnownHotkeys } from '../utils/useKnownHotkeys';
+import { useHeaderTitles } from '../utils/useHeaderTitles';
+import { useTranslation } from 'react-i18next';
 
-type DataClassMasterToolbarProps = {
-  title: string;
-};
-
-export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) => {
+export const DataClassMasterToolbar = () => {
   const { detail, setDetail, isHdData, history, setUnhistorisedDataClass } = useAppContext();
   const { theme, setTheme, disabled } = useTheme();
   const openForm = useAction('openForm');
@@ -59,6 +57,9 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
   const redo = () => history.redo(setUnhistorisedDataClass);
   useHotkeys(hotkeys.undo.hotkey, e => hotkeyUndoFix(e, undo), { scopes: ['global'] });
   useHotkeys(hotkeys.redo.hotkey, e => hotkeyRedoFix(e, redo), { scopes: ['global'] });
+
+  const { masterTitle: title } = useHeaderTitles();
+  const { t } = useTranslation();
 
   return (
     <Toolbar tabIndex={-1} ref={firstElement} className='dataclass-editor-main-toolbar'>
@@ -113,10 +114,10 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
               <Tooltip>
                 <TooltipTrigger asChild>
                   <PopoverTrigger asChild>
-                    <Button icon={IvyIcons.Settings} size='large' aria-label='Settings' />
+                    <Button icon={IvyIcons.Settings} size='large' aria-label={t('common:label.settings')} />
                   </PopoverTrigger>
                 </TooltipTrigger>
-                <TooltipContent>Settings</TooltipContent>
+                <TooltipContent>{t('common:label.settings')}</TooltipContent>
               </Tooltip>
             </TooltipProvider>
             <PopoverContent sideOffset={12}>
@@ -126,14 +127,14 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
                     <Label>
                       <Flex alignItems='center' gap={1}>
                         <IvyIcon icon={IvyIcons.DarkMode} />
-                        Theme
+                        {t('common:label.theme')}
                       </Flex>
                     </Label>
                     <Switch
                       defaultChecked={theme === 'dark'}
                       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                       size='small'
-                      aria-label='Theme'
+                      aria-label={t('common:label.theme')}
                     />
                   </Field>
                 </Flex>
@@ -149,10 +150,10 @@ export const DataClassMasterToolbar = ({ title }: DataClassMasterToolbarProps) =
                 icon={IvyIcons.LayoutSidebarRightCollapse}
                 size='large'
                 onClick={() => setDetail(!detail)}
-                aria-label='Details toggle'
+                aria-label={t('common:label.details')}
               />
             </TooltipTrigger>
-            <TooltipContent>Details toggle</TooltipContent>
+            <TooltipContent>{t('common:label.details')}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </Flex>

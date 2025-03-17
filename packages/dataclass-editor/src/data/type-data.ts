@@ -1,6 +1,7 @@
 import type { BrowserNode } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { DataclassType, JavaType } from '@axonivy/dataclass-editor-protocol';
+import { t } from 'i18next';
 
 export const typeData = (
   dataClasses: DataclassType[],
@@ -33,15 +34,15 @@ export const typeData = (
     const icon = dataClasses.find(dc => dc.fullQualifiedName === type.fullQualifiedName)
       ? IvyIcons.LetterD
       : type.fullQualifiedName.includes('ivy')
-      ? IvyIcons.Ivy
-      : IvyIcons.DataClass;
+        ? IvyIcons.Ivy
+        : IvyIcons.DataClass;
     return createNode(type, icon);
   });
   const combinedTypes = allTypesSearchActive
     ? [...dataClassNodes, ...nonIvyTypeNodes, ...ivyTypeNodes, ...allTypeNodes]
     : [
         {
-          value: 'Data Classes',
+          value: t('browser.dataClasses'),
           info: '',
           icon: IvyIcons.LetterD,
           data: undefined,
@@ -50,7 +51,7 @@ export const typeData = (
           isLoaded: true
         },
         {
-          value: 'Ivy Script Data Types',
+          value: t('browser.ivyScriptTypes'),
           info: '',
           icon: IvyIcons.Ivy,
           data: undefined,
@@ -61,7 +62,7 @@ export const typeData = (
         ...(ownTypeNodes.length > 0
           ? [
               {
-                value: 'Own Types',
+                value: t('browser.ownTypes'),
                 info: '',
                 icon: IvyIcons.DataClass,
                 data: undefined,

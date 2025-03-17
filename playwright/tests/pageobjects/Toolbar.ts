@@ -16,7 +16,7 @@ export class Toolbar {
     this.redo = this.locator.getByRole('button', { name: 'Redo' });
     this.processBtn = this.locator.getByRole('button', { name: 'Open Process' });
     this.formBtn = this.locator.getByRole('button', { name: 'Open Form' });
-    this.detailsToggle = this.locator.getByRole('button', { name: 'Details toggle' });
+    this.detailsToggle = this.locator.getByRole('button', { name: 'Details' });
   }
 
   async expectTitle(title: string) {
