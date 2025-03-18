@@ -2,7 +2,7 @@ import type {
   DataActionArgs,
   DataClassData,
   EditorFileContent,
-  FieldContext,
+  DataClassEditorFieldContext,
   ValidationResult
 } from '@axonivy/dataclass-editor-protocol/src/editor';
 import type {
@@ -51,7 +51,7 @@ export class DataClassClientMock implements Client {
       case 'meta/scripting/dataClasses':
         return Promise.resolve([]);
       case 'meta/scripting/cardinalities':
-        return Promise.resolve(cardinalities(args as FieldContext));
+        return Promise.resolve(cardinalities(args as DataClassEditorFieldContext));
       case 'meta/scripting/mappedByFields':
         return Promise.resolve(mappedByFields(args as MappedByFieldsContext));
       default:
