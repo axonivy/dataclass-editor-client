@@ -25,15 +25,15 @@ export interface DataClasses {
   dataClassCombineArgs: DataClassCombineArgs;
   dataClassData: DataClassData;
   dataClassEditorDataContext: DataClassEditorDataContext;
+  dataClassEditorFieldContext: DataClassEditorFieldContext;
   dataClassModel: DataClassModel;
   dataClassSaveDataArgs: DataClassSaveDataArgs;
   dataclassType: DataclassType[];
+  dataClassTypeSearchRequest: DataClassTypeSearchRequest;
   editorFileContent: EditorFileContent;
   entityClassFieldAssociation: EntityClassFieldAssociation[];
-  fieldContext: FieldContext;
   javaType: JavaType[];
   string: string[];
-  typeSearchRequest: TypeSearchRequest;
   validationResult: ValidationResult[];
   void: Void;
   [k: string]: unknown;
@@ -86,6 +86,12 @@ export interface EntityField {
   mappedByFieldName: string;
   orphanRemoval: boolean;
 }
+export interface DataClassEditorFieldContext {
+  app: string;
+  field: string;
+  file: string;
+  pmv: string;
+}
 export interface DataClassSaveDataArgs {
   context: DataClassEditorDataContext;
   data: DataClassModel;
@@ -96,24 +102,18 @@ export interface DataclassType {
   packageName: string;
   path: string;
 }
+export interface DataClassTypeSearchRequest {
+  context: DataClassEditorDataContext;
+  limit: number;
+  type: string;
+}
 export interface EditorFileContent {
   content: string;
-}
-export interface FieldContext {
-  app: string;
-  field: string;
-  file: string;
-  pmv: string;
 }
 export interface JavaType {
   fullQualifiedName: string;
   packageName: string;
   simpleName: string;
-}
-export interface TypeSearchRequest {
-  context: DataClassEditorDataContext;
-  limit: number;
-  type: string;
 }
 export interface ValidationResult {
   message: string;

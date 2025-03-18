@@ -1,6 +1,6 @@
-import type { FieldContext, MappedByFieldsContext } from '@axonivy/dataclass-editor-protocol';
+import type { DataClassEditorFieldContext, MappedByFieldsContext } from '@axonivy/dataclass-editor-protocol';
 
-export const cardinalities = (context: FieldContext) => {
+export const cardinalities = (context: DataClassEditorFieldContext) => {
   if (context.field.startsWith('entity') || context.field.startsWith('invalidField')) {
     return ['ONE_TO_ONE', 'MANY_TO_ONE'];
   }

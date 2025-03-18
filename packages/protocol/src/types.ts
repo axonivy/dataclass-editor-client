@@ -9,9 +9,9 @@ import type {
   DataclassType,
   EditorFileContent,
   EntityClassFieldAssociation,
-  FieldContext,
+  DataClassEditorFieldContext,
   JavaType,
-  TypeSearchRequest,
+  DataClassTypeSearchRequest,
   ValidationResult
 } from './editor';
 
@@ -61,14 +61,14 @@ export interface ClientContext {
   client: Client;
 }
 
-export type MappedByFieldsContext = FieldContext & { cardinality?: string };
+export type MappedByFieldsContext = DataClassEditorFieldContext & { cardinality?: string };
 
 export interface MetaRequestTypes {
   'meta/scripting/dataClasses': [DataClassEditorDataContext, Array<DataclassType>];
   'meta/scripting/ivyTypes': [void, Array<JavaType>];
-  'meta/scripting/allTypes': [TypeSearchRequest, Array<JavaType>];
-  'meta/scripting/ownTypes': [TypeSearchRequest, Array<JavaType>];
-  'meta/scripting/cardinalities': [FieldContext, Array<EntityClassFieldAssociation>];
+  'meta/scripting/allTypes': [DataClassTypeSearchRequest, Array<JavaType>];
+  'meta/scripting/ownTypes': [DataClassTypeSearchRequest, Array<JavaType>];
+  'meta/scripting/cardinalities': [DataClassEditorFieldContext, Array<EntityClassFieldAssociation>];
   'meta/scripting/mappedByFields': [MappedByFieldsContext, Array<string>];
 }
 
