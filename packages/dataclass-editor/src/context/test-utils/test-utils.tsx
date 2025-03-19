@@ -13,6 +13,10 @@ import { renderHook } from '@testing-library/react';
 import { type ReactNode } from 'react';
 import { AppProvider, EntityClassProvider } from '../AppContext';
 import { DetailContextProvider } from '../DetailContext';
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import enTrans from '../../translation/dataclass-editor/en.json';
+import { enCommonTranslation } from '../..';
 
 type ContextHelperProps = {
   appContext?: {
@@ -34,6 +38,18 @@ type ContextHelperProps = {
     setField?: (field: Field | EntityClassField) => void;
     messages?: Record<string, MessageData>;
   };
+};
+
+const initTranslation = () => {
+  if (i18n.isInitializing || i18n.isInitialized) return;
+  i18n.use(initReactI18next).init({
+    debug: true,
+    lng: 'en',
+    fallbackLng: 'en',
+    ns: ['dataclass-editor'],
+    defaultNS: 'dataclass-editor',
+    resources: { en: { 'dataclass-editor': enTrans, common: enCommonTranslation } }
+  });
 };
 
 const ContextHelper = ({ appContext, entityClassContext, detailContext, children }: ContextHelperProps & { children: ReactNode }) => {
@@ -65,6 +81,8 @@ const ContextHelper = ({ appContext, entityClassContext, detailContext, children
     setField: detailContext?.setField,
     messages: detailContext?.messages ?? {}
   };
+
+  initTranslation();
 
   return (
     <AppProvider value={aContext}>

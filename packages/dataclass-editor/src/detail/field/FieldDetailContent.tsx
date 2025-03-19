@@ -9,11 +9,13 @@ import { FieldEntityDatabaseField } from './entity/FieldEntityDatabaseField';
 import { FieldNameTypeComment } from './FieldNameTypeComment';
 import { FieldProperties } from './FieldProperties';
 import { useFieldProperty } from './useFieldProperty';
+import { useTranslation } from 'react-i18next';
 
 export const FieldDetailContent = () => {
   const { isHdData } = useAppContext();
   const { field, messages } = useField();
   const { setProperty } = useFieldProperty();
+  const { t } = useTranslation();
 
   return (
     <Accordion type='single' collapsible defaultValue='general' className='dataclass-editor-field-detail'>
@@ -21,7 +23,7 @@ export const FieldDetailContent = () => {
         <AccordionTrigger
           state={<AccordionState messages={combineMessagesOfProperties(messages, 'NAME', 'TYPE', 'PROPERTIES_GENERAL', 'ANNOTATION')} />}
         >
-          General
+          {t('common:label.general')}
         </AccordionTrigger>
         <AccordionContent>
           <Flex direction='column' gap={4}>
@@ -51,7 +53,7 @@ export const FieldDetailContent = () => {
               />
             }
           >
-            Entity
+            {t('label.entity')}
           </AccordionTrigger>
           <AccordionContent>
             <Flex direction='column' gap={4}>

@@ -14,6 +14,7 @@ import { isEntityField, updateCardinality, updateModifiers } from '../../data/da
 import { combineMessagesOfProperties } from '../../data/validation-utils';
 import { InputFieldWithTypeBrowser } from './InputFieldWithTypeBrowser';
 import { useFieldProperty } from './useFieldProperty';
+import { useTranslation } from 'react-i18next';
 
 export const useType = () => {
   const { field, setField } = useField();
@@ -38,19 +39,20 @@ export const FieldNameTypeComment = () => {
   const { messages } = useField();
   const { field, setProperty } = useFieldProperty();
   const { type, setType } = useType();
+  const { t } = useTranslation();
 
   return (
     <Collapsible defaultOpen={true}>
       <CollapsibleTrigger state={<CollapsibleState messages={combineMessagesOfProperties(messages, 'NAME', 'TYPE')} />}>
-        Name / Type / Comment
+        {t('label.nameTypeComment')}
       </CollapsibleTrigger>
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
-          <BasicField label='Name' message={messages.NAME}>
+          <BasicField label={t('common:label.name')} message={messages.NAME}>
             <BasicInput value={field.name} onChange={event => setProperty('name', event.target.value)} />
           </BasicField>
           <InputFieldWithTypeBrowser value={type} onChange={setType} message={messages.TYPE} />
-          <BasicField label='Comment'>
+          <BasicField label={t('common:label.comment')}>
             <Textarea value={field.comment} onChange={event => setProperty('comment', event.target.value)} />
           </BasicField>
         </Flex>

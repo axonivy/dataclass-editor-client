@@ -17,17 +17,19 @@ import { useDataClassProperty } from './useDataClassProperty';
 import type { EntityDataClass } from '@axonivy/dataclass-editor-protocol';
 import { combineMessagesOfProperties } from '../../data/validation-utils';
 import { useDetail } from '../../context/DetailContext';
+import { useTranslation } from 'react-i18next';
 
 export const DataClassDetailContent = () => {
   const { dataClass, setDataClass, isHdData } = useAppContext();
   const { messages } = useDetail();
   const { setProperty } = useDataClassProperty();
+  const { t } = useTranslation();
 
   return (
     <Accordion type='single' collapsible defaultValue='general' className='dataclass-editor-dataclass-detail'>
       <AccordionItem value='general'>
         <AccordionTrigger state={<AccordionState messages={combineMessagesOfProperties(messages, 'NAMESPACE', 'ANNOTATION')} />}>
-          General
+          {t('common:label.general')}
         </AccordionTrigger>
         <AccordionContent>
           <Flex direction='column' gap={4}>
@@ -44,7 +46,7 @@ export const DataClassDetailContent = () => {
       {isEntity(dataClass) && (
         <EntityClassProvider value={{ entityClass: dataClass, setEntityClass: setDataClass as UpdateConsumer<EntityDataClass> }}>
           <AccordionItem value='entity'>
-            <AccordionTrigger>Entity</AccordionTrigger>
+            <AccordionTrigger>{t('label.entity')}</AccordionTrigger>
             <AccordionContent>
               <Flex direction='column' gap={4}>
                 <EntityClassDatabaseTable />

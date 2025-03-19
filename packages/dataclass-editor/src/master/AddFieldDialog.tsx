@@ -25,8 +25,9 @@ import { type Table } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { isEntity } from '../data/dataclass-utils';
-import { BROWSER_LABEL, InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
-import { useKnownHotkeys } from '../utils/hotkeys';
+import { BROWSER_BTN_ID, InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
+import { useKnownHotkeys } from '../utils/useKnownHotkeys';
+import { useTranslation } from 'react-i18next';
 
 export const validateFieldName = (name: string, dataClass: DataClass) => {
   if (name.trim() === '') {
@@ -110,7 +111,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
   const enter = useHotkeys(
     ['Enter', 'mod+Enter'],
     e => {
-      if (!allInputsValid() || document.activeElement?.ariaLabel === BROWSER_LABEL) {
+      if (!allInputsValid() || document.activeElement?.id === BROWSER_BTN_ID) {
         return;
       }
       addField(e);
@@ -121,6 +122,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
       enableOnFormTags: true
     }
   );
+  const { t } = useTranslation();
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -136,12 +138,12 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
       </TooltipProvider>
       <DialogContent onCloseAutoFocus={e => e.preventDefault()}>
         <DialogHeader>
-          <DialogTitle>Add Attribute</DialogTitle>
+          <DialogTitle>{t('dialog.addAttr.title')}</DialogTitle>
         </DialogHeader>
-        <DialogDescription>Choose the name and type of the Attribute you want to add.</DialogDescription>
+        <DialogDescription>{t('dialog.addAttr.desc')}</DialogDescription>
         <Flex ref={enter} tabIndex={-1} direction='column' gap={2}>
           <Flex direction='column' gap={2}>
-            <BasicField label='Name' message={nameValidationMessage} aria-label='Name'>
+            <BasicField label={t('common:label.name')} message={nameValidationMessage} aria-label={t('common:label.name')}>
               <Input value={name} onChange={event => setName(event.target.value)} />
             </BasicField>
             <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
@@ -150,11 +152,17 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant='primary' size='large' aria-label='Create Attribute' disabled={!allInputsValid()} onClick={addField}>
-                    Create Attribute
+                  <Button
+                    variant='primary'
+                    size='large'
+                    aria-label={t('dialog.addAttr.create')}
+                    disabled={!allInputsValid()}
+                    onClick={addField}
+                  >
+                    {t('dialog.addAttr.create')}
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>Hold {hotkeyText('mod')} to add an additional Attribute</TooltipContent>
+                <TooltipContent>{t('dialog.addAttr.createTooltip', { modifier: hotkeyText('mod') })}</TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </DialogFooter>

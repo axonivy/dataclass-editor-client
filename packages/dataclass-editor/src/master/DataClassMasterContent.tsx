@@ -36,11 +36,12 @@ import { useFunction } from '../context/useFunction';
 import { useValidation } from '../context/useValidation';
 import { variant } from '../data/validation-utils';
 import { genQueryKey } from '../query/query-client';
-import { useKnownHotkeys } from '../utils/hotkeys';
+import { useKnownHotkeys } from '../utils/useKnownHotkeys';
 import { AddFieldDialog } from './AddFieldDialog';
 import './DataClassMasterContent.css';
 import { FieldBadges } from './table/FieldBadges';
 import { ValidationRow } from './table/ValidationRow';
+import { useTranslation } from 'react-i18next';
 
 const fullQualifiedClassNameRegex = /(?:[\w]+\.)+([\w]+)(?=[<,> ]|$)/g;
 
@@ -51,6 +52,7 @@ export const simpleTypeName = (fullQualifiedType: string) => {
 export const DataClassMasterContent = () => {
   const { context, dataClass, setDataClass, setSelectedField, setDetail, detail } = useAppContext();
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const validations = useValidation('#class');
 
@@ -66,13 +68,13 @@ export const DataClassMasterContent = () => {
   const columns: Array<ColumnDef<Field, string>> = [
     {
       accessorKey: 'name',
-      header: ({ column }) => <SortableHeader column={column} name='Name' />,
+      header: ({ column }) => <SortableHeader column={column} name={t('common:label.name')} />,
       cell: cell => <span>{cell.getValue()}</span>,
       minSize: 50
     },
     {
       accessorKey: 'type',
-      header: ({ column }) => <SortableHeader column={column} name='Type' />,
+      header: ({ column }) => <SortableHeader column={column} name={t('label.type')} />,
       cell: cell => (
         <TooltipProvider>
           <Tooltip>
@@ -86,7 +88,7 @@ export const DataClassMasterContent = () => {
     },
     {
       accessorKey: 'comment',
-      header: ({ column }) => <SortableHeader column={column} name='Comment' />,
+      header: ({ column }) => <SortableHeader column={column} name={t('common:label.comment')} />,
       cell: cell => (
         <ReorderHandleWrapper>
           <span>{cell.getValue()}</span>
@@ -246,7 +248,7 @@ export const DataClassMasterContent = () => {
         tabIndex={-1}
         ref={firstElement}
         className='dataclass-editor-table-field'
-        label='Attributes'
+        label={t('label.attributes')}
         control={control}
         onClick={event => event.stopPropagation()}
       >

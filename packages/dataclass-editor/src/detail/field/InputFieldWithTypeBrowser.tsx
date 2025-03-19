@@ -16,8 +16,9 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
 import { Browser } from './browser/Browser';
 import './InputFieldWithTypeBrowser.css';
+import { useTranslation } from 'react-i18next';
 
-export const BROWSER_LABEL = 'Browser';
+export const BROWSER_BTN_ID = 'browser-btn';
 
 export type InputFieldProps = {
   value: string;
@@ -27,19 +28,20 @@ export type InputFieldProps = {
 
 export const InputFieldWithTypeBrowser = ({ value, onChange, message }: InputFieldProps) => {
   const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <BasicField label='Type' message={message} aria-label='Type'>
+      <BasicField label={t('label.type')} message={message} aria-label={t('label.type')}>
         <InputGroup>
           <BasicInput value={value} onChange={event => onChange(event.target.value)} />
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <DialogTrigger asChild>
-                  <Button icon={IvyIcons.ListSearch} aria-label={BROWSER_LABEL} />
+                  <Button icon={IvyIcons.ListSearch} id={BROWSER_BTN_ID} aria-label={t('common:label.browser')} />
                 </DialogTrigger>
               </TooltipTrigger>
-              <TooltipContent>{BROWSER_LABEL}</TooltipContent>
+              <TooltipContent>{t('common:label.browser')}</TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </InputGroup>

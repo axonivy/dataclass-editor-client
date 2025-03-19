@@ -1,4 +1,4 @@
-import { cardinalityLabels, cascadeTypeLabels, type Association } from '@axonivy/dataclass-editor-protocol';
+import { type Association } from '@axonivy/dataclass-editor-protocol';
 import {
   BasicCheckbox,
   BasicField,
@@ -18,6 +18,9 @@ import { combineMessagesOfProperties } from '../../../data/validation-utils';
 import './FieldEntityAssociation.css';
 import { FieldEntityCascadeTypeCheckbox } from './FieldEntityCascadeTypeCheckbox';
 import { useFieldEntityProperty } from './useFieldEntityProperty';
+import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
+import { useCardinalities, useCascadeTypes } from '../../../utils/useLabels';
 
 export const useMappedByFieldName = () => {
   const { field, setField } = useEntityField();
@@ -41,12 +44,6 @@ export const useCardinality = () => {
   return { cardinality: field.entity.association, setCardinality };
 };
 
-const cardinalityItems: Array<{ value: Association; label: string }> = [
-  { value: 'ONE_TO_ONE', label: cardinalityLabels.ONE_TO_ONE },
-  { value: 'ONE_TO_MANY', label: cardinalityLabels.ONE_TO_MANY },
-  { value: 'MANY_TO_ONE', label: cardinalityLabels.MANY_TO_ONE }
-] as const;
-
 export const cardinalityMessage = (cardinality?: Association): MessageData | undefined => {
   if (cardinality === 'ONE_TO_MANY') {
     return {
@@ -63,8 +60,19 @@ export const FieldEntityAssociation = () => {
   const { field, setProperty } = useFieldEntityProperty();
   const { mappedByFieldName, setMappedByFieldName, isDisabled: mappedByFieldNameIsDisabled } = useMappedByFieldName();
   const { cardinality, setCardinality } = useCardinality();
+  const { t } = useTranslation();
 
   const fieldContext = { ...context, field: field.name };
+
+  const cardinalityLabels = useCardinalities();
+  const cardinalityItems = useMemo(
+    () =>
+      Object.entries(cardinalityLabels).map(([key, value]) => ({
+        value: key as Association,
+        label: value
+      })),
+    [cardinalityLabels]
+  );
 
   const possibleCardinalities = useMeta('meta/scripting/cardinalities', fieldContext, []).data;
   const cardinalities = cardinalityItems.filter(cardinality => possibleCardinalities.includes(cardinality.value));
@@ -74,19 +82,25 @@ export const FieldEntityAssociation = () => {
     label: mappedByField
   }));
 
+  const cascadeTypeLabels = useCascadeTypes();
+
   return (
     possibleCardinalities.length !== 0 && (
       <Collapsible defaultOpen={true}>
         <CollapsibleTrigger state={<CollapsibleState messages={combineMessagesOfProperties(messages, 'CARDINALITY', 'MAPPED_BY')} />}>
-          Association
+          {t('label.association')}
         </CollapsibleTrigger>
         <CollapsibleContent>
           <Flex direction='column' gap={4}>
-            <BasicField label='Cardinality' message={messages.CARDINALITY ?? cardinalityMessage(cardinality)} aria-label='Cardinality'>
+            <BasicField
+              label={t('label.cardinality')}
+              message={messages.CARDINALITY ?? cardinalityMessage(cardinality)}
+              aria-label={t('label.cardinality')}
+            >
               <BasicSelect value={cardinality} emptyItem items={cardinalities} onValueChange={setCardinality} />
             </BasicField>
-            <BasicField label='Cascade'>
-              <FieldEntityCascadeTypeCheckbox label='All' cascadeType='ALL' />
+            <BasicField label={t('label.cascade')}>
+              <FieldEntityCascadeTypeCheckbox label={cascadeTypeLabels.ALL} cascadeType='ALL' />
               <Flex direction='column' gap={1} className='dataclass-editor-cascade-types'>
                 <FieldEntityCascadeTypeCheckbox label={cascadeTypeLabels.PERSIST} cascadeType='PERSIST' />
                 <FieldEntityCascadeTypeCheckbox label={cascadeTypeLabels.MERGE} cascadeType='MERGE' />
@@ -94,7 +108,7 @@ export const FieldEntityAssociation = () => {
                 <FieldEntityCascadeTypeCheckbox label={cascadeTypeLabels.REFRESH} cascadeType='REFRESH' />
               </Flex>
             </BasicField>
-            <BasicField label='Mapped by' message={messages.MAPPED_BY}>
+            <BasicField label={t('label.mappedBy')} message={messages.MAPPED_BY}>
               <BasicSelect
                 value={mappedByFieldName}
                 emptyItem
@@ -104,7 +118,7 @@ export const FieldEntityAssociation = () => {
               />
             </BasicField>
             <BasicCheckbox
-              label='Remove orphans'
+              label={t('label.removeOrphans')}
               checked={field.entity.orphanRemoval}
               onCheckedChange={event => setProperty('orphanRemoval', event.valueOf() as boolean)}
               disabled={mappedByFieldNameIsDisabled}

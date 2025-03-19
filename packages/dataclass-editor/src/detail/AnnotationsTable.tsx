@@ -1,7 +1,7 @@
 import {
   addRow,
   BasicField,
-  ButtonGroup,
+  Button,
   Collapsible,
   CollapsibleContent,
   CollapsibleState,
@@ -21,6 +21,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
+import { useTranslation } from 'react-i18next';
 
 type AnnotationsTableProps = {
   annotations: Array<string>;
@@ -65,28 +66,26 @@ export const AnnotationsTable = ({ annotations, setAnnotations, message }: Annot
     setAnnotations(newAnnotations);
   };
 
+  const { t } = useTranslation();
+
   return (
     <Collapsible defaultOpen={annotations.length !== 0}>
       <CollapsibleTrigger
         state={message && <CollapsibleState messages={[message]} />}
         control={(props: CollapsibleControlProps) =>
           !readonly && (
-            <ButtonGroup
+            <Button
               {...props}
-              controls={[
-                {
-                  title: 'Delete Annotation',
-                  icon: IvyIcons.Trash,
-                  disabled: table.getSelectedRowModel().rows.length === 0,
-                  onClick: deleteAnnotation,
-                  'aria-label': 'Delete annotation'
-                }
-              ]}
+              title={t('label.deleteAnnotation')}
+              icon={IvyIcons.Trash}
+              disabled={table.getSelectedRowModel().rows.length === 0}
+              onClick={deleteAnnotation}
+              aria-label={t('label.deleteAnnotation')}
             />
           )
         }
       >
-        Annotations
+        {t('label.annotations')}
       </CollapsibleTrigger>
       <CollapsibleContent>
         <BasicField message={message}>

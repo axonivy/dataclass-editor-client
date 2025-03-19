@@ -5,6 +5,7 @@ import * as ReactDOM from 'react-dom/client';
 import './index.css';
 import { DataClassClientMock } from './mock/dataclass-client-mock';
 import { appParam, fileParam, readonlyParam } from './url-helper';
+import { initTranslation } from './i18n';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -18,6 +19,8 @@ const queryClient = initQueryClient();
 const readonly = readonlyParam();
 const app = appParam();
 const file = fileParam();
+
+initTranslation();
 
 root.render(
   <React.StrictMode>
