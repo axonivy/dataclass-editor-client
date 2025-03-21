@@ -53,6 +53,9 @@
     "removeOrphans": "Entferne verwaiste Objekte",
     "type": "Typ"
   },
+  "message": {
+    "noDataClass": "Keine Datenklasse gefunden"
+  },
   "modifier": {
     "generated": "Generiert",
     "iD": "ID",

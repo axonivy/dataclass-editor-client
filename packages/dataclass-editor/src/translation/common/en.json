@@ -23,5 +23,8 @@
     "search": "Search",
     "settings": "Settings",
     "theme": "Theme"
+  },
+  "message": {
+    "errorOccured": "An error has occurred: {{message}}"
   }
 }

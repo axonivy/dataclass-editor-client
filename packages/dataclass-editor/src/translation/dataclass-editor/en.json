@@ -53,6 +53,9 @@
     "removeOrphans": "Remove orphans",
     "type": "Type"
   },
+  "message": {
+    "noDataClass": "Dataclass not found"
+  },
   "modifier": {
     "generated": "Generated",
     "iD": "ID",
