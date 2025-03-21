@@ -69,7 +69,7 @@ export class DataClassEditor {
     return editor;
   }
 
-  static async openMock(page: Page, options?: { readonly?: boolean; app?: string; file?: string }) {
+  static async openMock(page: Page, options?: { readonly?: boolean; app?: string; file?: string; lng?: string }) {
     let params = '';
     if (options) {
       params = '?';
