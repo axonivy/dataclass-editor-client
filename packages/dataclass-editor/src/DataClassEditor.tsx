@@ -28,8 +28,10 @@ import { useClient } from './protocol/ClientContextProvider';
 import { genQueryKey } from './query/query-client';
 import { useKnownHotkeys } from './utils/useKnownHotkeys';
 import type { Unary } from './utils/lambda/lambda';
+import { useTranslation } from 'react-i18next';
 
 function DataClassEditor(props: EditorProps) {
+  const { t } = useTranslation();
   const [detail, setDetail] = useState(true);
 
   const [context, setContext] = useState(props.context);
@@ -102,10 +104,10 @@ function DataClassEditor(props: EditorProps) {
   }
 
   if (isError) {
-    return <PanelMessage icon={IvyIcons.ErrorXMark} message={`An error has occurred: ${error.message}`} />;
+    return <PanelMessage icon={IvyIcons.ErrorXMark} message={t('common:message.errorOccured', { message: error.message })} />;
   }
   if (data.data.simpleName === undefined) {
-    return <PanelMessage icon={IvyIcons.ErrorXMark} message={'Dataclass not found'} />;
+    return <PanelMessage icon={IvyIcons.ErrorXMark} message={t('message.noDataClass')} />;
   }
 
   const dataClass = data.data;
