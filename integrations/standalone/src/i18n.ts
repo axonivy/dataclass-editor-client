@@ -17,6 +17,9 @@ export const initTranslation = () => {
       resources: {
         en: { 'dataclass-editor': enTranslation, common: enCommonTranslation },
         de: { 'dataclass-editor': deTranslation, common: deCommonTranslation }
+      },
+      detection: {
+        order: ['querystring']
       }
     });
 };
