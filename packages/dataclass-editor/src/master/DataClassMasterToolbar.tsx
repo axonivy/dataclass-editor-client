@@ -114,10 +114,10 @@ export const DataClassMasterToolbar = () => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <PopoverTrigger asChild>
-                    <Button icon={IvyIcons.Settings} size='large' aria-label={t('common:label.settings')} />
+                    <Button icon={IvyIcons.Settings} size='large' aria-label={t('common.label.settings')} />
                   </PopoverTrigger>
                 </TooltipTrigger>
-                <TooltipContent>{t('common:label.settings')}</TooltipContent>
+                <TooltipContent>{t('common.label.settings')}</TooltipContent>
               </Tooltip>
             </TooltipProvider>
             <PopoverContent sideOffset={12}>
@@ -127,14 +127,14 @@ export const DataClassMasterToolbar = () => {
                     <Label>
                       <Flex alignItems='center' gap={1}>
                         <IvyIcon icon={IvyIcons.DarkMode} />
-                        {t('common:label.theme')}
+                        {t('common.label.theme')}
                       </Flex>
                     </Label>
                     <Switch
                       defaultChecked={theme === 'dark'}
                       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                       size='small'
-                      aria-label={t('common:label.theme')}
+                      aria-label={t('common.label.theme')}
                     />
                   </Field>
                 </Flex>
@@ -150,10 +150,10 @@ export const DataClassMasterToolbar = () => {
                 icon={IvyIcons.LayoutSidebarRightCollapse}
                 size='large'
                 onClick={() => setDetail(!detail)}
-                aria-label={t('common:label.details')}
+                aria-label={t('common.label.details')}
               />
             </TooltipTrigger>
-            <TooltipContent>{t('common:label.details')}</TooltipContent>
+            <TooltipContent>{t('common.label.details')}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </Flex>

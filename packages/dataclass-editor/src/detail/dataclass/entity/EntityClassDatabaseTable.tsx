@@ -25,7 +25,7 @@ export const EntityClassDatabaseTable = () => {
       <CollapsibleTrigger>{t('label.dbTable')}</CollapsibleTrigger>
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
-          <BasicField label={t('common:label.name')}>
+          <BasicField label={t('common.label.name')}>
             <BasicInput value={entityClass.entity.tableName} onChange={event => setProperty('tableName', event.target.value)} />
           </BasicField>
         </Flex>

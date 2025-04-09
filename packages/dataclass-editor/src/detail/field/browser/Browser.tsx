@@ -14,10 +14,10 @@ export const Browser = ({ onChange, close, value }: BrowserProps) => {
   const { t } = useTranslation();
   const options = useMemo<BrowsersViewProps['options']>(
     () => ({
-      applyBtn: { label: t('common:label.apply') },
-      cancelBtn: { label: t('common:label.cancel') },
-      info: { label: t('common:label.info') },
-      search: { placeholder: t('common:label.search') }
+      applyBtn: { label: t('common.label.apply') },
+      cancelBtn: { label: t('common.label.cancel') },
+      info: { label: t('common.label.info') },
+      search: { placeholder: t('common.label.search') }
     }),
     [t]
   );

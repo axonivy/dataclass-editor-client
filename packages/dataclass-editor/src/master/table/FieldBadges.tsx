@@ -89,7 +89,7 @@ export const FieldBadges = ({ field }: FieldBadgesProps) => {
           tooltip={
             <>
               <div>
-                <b>{t('common:label.properties')}</b>
+                <b>{t('common.label.properties')}</b>
               </div>
               <div>{t('modifier.persistent')}</div>
             </>

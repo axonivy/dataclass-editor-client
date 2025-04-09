@@ -38,10 +38,10 @@ export const InputFieldWithTypeBrowser = ({ value, onChange, message }: InputFie
             <Tooltip>
               <TooltipTrigger asChild>
                 <DialogTrigger asChild>
-                  <Button icon={IvyIcons.ListSearch} id={BROWSER_BTN_ID} aria-label={t('common:label.browser')} />
+                  <Button icon={IvyIcons.ListSearch} id={BROWSER_BTN_ID} aria-label={t('common.label.browser')} />
                 </DialogTrigger>
               </TooltipTrigger>
-              <TooltipContent>{t('common:label.browser')}</TooltipContent>
+              <TooltipContent>{t('common.label.browser')}</TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </InputGroup>

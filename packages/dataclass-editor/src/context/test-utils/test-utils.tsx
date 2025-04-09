@@ -16,7 +16,6 @@ import { DetailContextProvider } from '../DetailContext';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import enTrans from '../../translation/dataclass-editor/en.json';
-import { enCommonTranslation } from '../..';
 
 type ContextHelperProps = {
   appContext?: {
@@ -47,7 +46,7 @@ const initTranslation = () => {
     fallbackLng: 'en',
     ns: ['dataclass-editor'],
     defaultNS: 'dataclass-editor',
-    resources: { en: { 'dataclass-editor': enTrans, common: enCommonTranslation } }
+    resources: { en: { 'dataclass-editor': enTrans } }
   });
 };
 

@@ -143,7 +143,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
         <DialogDescription>{t('dialog.addAttr.desc')}</DialogDescription>
         <Flex ref={enter} tabIndex={-1} direction='column' gap={2}>
           <Flex direction='column' gap={2}>
-            <BasicField label={t('common:label.name')} message={nameValidationMessage} aria-label={t('common:label.name')}>
+            <BasicField label={t('common.label.name')} message={nameValidationMessage} aria-label={t('common.label.name')}>
               <Input value={name} onChange={event => setName(event.target.value)} />
             </BasicField>
             <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />

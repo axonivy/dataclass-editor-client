@@ -21,14 +21,14 @@ export const DataClassNameDescription = () => {
   return (
     <Collapsible defaultOpen={true}>
       <CollapsibleTrigger state={<CollapsibleState messages={combineMessagesOfProperties(messages, 'NAMESPACE')} />}>
-        {t('common:label.nameDescription')}
+        {t('common.label.nameDescription')}
       </CollapsibleTrigger>
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
-          <BasicField label={t('common:label.name')} message={messages.NAMESPACE}>
+          <BasicField label={t('common.label.name')} message={messages.NAMESPACE}>
             <Input value={`${dataClass.namespace}.${dataClass.simpleName}`} disabled={true} />
           </BasicField>
-          <BasicField label={t('common:label.description')}>
+          <BasicField label={t('common.label.description')}>
             <Textarea value={dataClass.comment} onChange={event => setProperty('comment', event.target.value)} />
           </BasicField>
         </Flex>

@@ -11,7 +11,7 @@ export const FieldProperties = () => {
   return (
     <Collapsible defaultOpen={field.modifiers.includes('PERSISTENT')}>
       <CollapsibleTrigger state={<CollapsibleState messages={combineMessagesOfProperties(messages, 'PROPERTIES_GENERAL')} />}>
-        {t('common:label.properties')}
+        {t('common.label.properties')}
       </CollapsibleTrigger>
       <CollapsibleContent>
         <BasicField message={messages.PROPERTIES_GENERAL}>
