@@ -18,6 +18,36 @@
     "refresh": "Refresh",
     "remove": "Remove"
   },
+  "common": {
+    "hotkey": {
+      "focusInscription": "Focus Inscription ({{hotkey}})",
+      "focusMain": "Focus Main ({{hotkey}})",
+      "focusToolbar": "Focus Toolbar ({{hotkey}})",
+      "help": "Open Help ({{hotkey}})",
+      "redo": "Redo ({{hotkey}})",
+      "undo": "Undo ({{hotkey}})"
+    },
+    "label": {
+      "apply": "Apply",
+      "browser": "Browser",
+      "cancel": "Cancel",
+      "comment": "Comment",
+      "description": "Description",
+      "details": "Details",
+      "general": "General",
+      "info": "Info",
+      "length": "Length",
+      "name": "Name",
+      "nameDescription": "Name / Description",
+      "properties": "Properties",
+      "search": "Search",
+      "settings": "Settings",
+      "theme": "Theme"
+    },
+    "message": {
+      "errorOccured": "An error has occurred: {{message}}"
+    }
+  },
   "dialog": {
     "addAttr": {
       "create": "Create Attribute",

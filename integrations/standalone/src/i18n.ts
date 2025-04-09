@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import { enTranslation, deTranslation, enCommonTranslation, deCommonTranslation } from '@axonivy/dataclass-editor';
+import { enTranslation, deTranslation } from '@axonivy/dataclass-editor';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 export const initTranslation = () => {
@@ -15,8 +15,8 @@ export const initTranslation = () => {
       ns: ['dataclass-editor'],
       defaultNS: 'dataclass-editor',
       resources: {
-        en: { 'dataclass-editor': enTranslation, common: enCommonTranslation },
-        de: { 'dataclass-editor': deTranslation, common: deCommonTranslation }
+        en: { 'dataclass-editor': enTranslation },
+        de: { 'dataclass-editor': deTranslation }
       },
       detection: {
         order: ['querystring']

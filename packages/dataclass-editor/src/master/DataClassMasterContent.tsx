@@ -68,7 +68,7 @@ export const DataClassMasterContent = () => {
   const columns: Array<ColumnDef<Field, string>> = [
     {
       accessorKey: 'name',
-      header: ({ column }) => <SortableHeader column={column} name={t('common:label.name')} />,
+      header: ({ column }) => <SortableHeader column={column} name={t('common.label.name')} />,
       cell: cell => <span>{cell.getValue()}</span>,
       minSize: 50
     },
@@ -88,7 +88,7 @@ export const DataClassMasterContent = () => {
     },
     {
       accessorKey: 'comment',
-      header: ({ column }) => <SortableHeader column={column} name={t('common:label.comment')} />,
+      header: ({ column }) => <SortableHeader column={column} name={t('common.label.comment')} />,
       cell: cell => (
         <ReorderHandleWrapper>
           <span>{cell.getValue()}</span>

@@ -29,7 +29,7 @@ export const DataClassDetailContent = () => {
     <Accordion type='single' collapsible defaultValue='general' className='dataclass-editor-dataclass-detail'>
       <AccordionItem value='general'>
         <AccordionTrigger state={<AccordionState messages={combineMessagesOfProperties(messages, 'NAMESPACE', 'ANNOTATION')} />}>
-          {t('common:label.general')}
+          {t('common.label.general')}
         </AccordionTrigger>
         <AccordionContent>
           <Flex direction='column' gap={4}>

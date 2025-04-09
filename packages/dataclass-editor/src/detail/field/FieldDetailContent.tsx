@@ -23,7 +23,7 @@ export const FieldDetailContent = () => {
         <AccordionTrigger
           state={<AccordionState messages={combineMessagesOfProperties(messages, 'NAME', 'TYPE', 'PROPERTIES_GENERAL', 'ANNOTATION')} />}
         >
-          {t('common:label.general')}
+          {t('common.label.general')}
         </AccordionTrigger>
         <AccordionContent>
           <Flex direction='column' gap={4}>

@@ -18,6 +18,36 @@
     "refresh": "Aktualsieren",
     "remove": "Löschen"
   },
+  "common": {
+    "hotkey": {
+      "focusInscription": "Fokus Inscription ({{hotkey}})",
+      "focusMain": "Fokus Main ({{hotkey}})",
+      "focusToolbar": "Fokus Toolbar ({{hotkey}})",
+      "help": "Hilfe öffnen ({{hotkey}})",
+      "redo": "Wiederholen ({{hotkey}})",
+      "undo": "Rückgängig ({{hotkey}})"
+    },
+    "label": {
+      "apply": "Übernehmen",
+      "browser": "Browser",
+      "cancel": "Abbrechen",
+      "comment": "Kommentar",
+      "description": "Beschreibung",
+      "details": "Details",
+      "general": "Generell",
+      "info": "Info",
+      "length": "Länge",
+      "name": "Name",
+      "nameDescription": "Name / Beschreibung",
+      "properties": "Eigenschaften",
+      "search": "Suchen",
+      "settings": "Einstellungen",
+      "theme": "Thema"
+    },
+    "message": {
+      "errorOccured": "Ein Fehler ist aufgetreten: {{message}}"
+    }
+  },
   "dialog": {
     "addAttr": {
       "create": "Attribut erstellen",

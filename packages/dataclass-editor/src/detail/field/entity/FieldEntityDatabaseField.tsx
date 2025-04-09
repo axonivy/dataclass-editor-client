@@ -49,7 +49,7 @@ export const FieldEntityDatabaseField = () => {
       </CollapsibleTrigger>
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
-          <BasicField label={t('common:label.name')} message={messages.DB_FIELD_NAME}>
+          <BasicField label={t('common.label.name')} message={messages.DB_FIELD_NAME}>
             <BasicInput
               value={mappedByFieldNameIsSet ? '' : field.entity.databaseName}
               onChange={event => setProperty('databaseName', event.target.value)}
@@ -57,7 +57,7 @@ export const FieldEntityDatabaseField = () => {
               disabled={mappedByFieldNameIsSet}
             />
           </BasicField>
-          <BasicField label={t('common:label.length')} message={messages.DB_FIELD_LENGTH}>
+          <BasicField label={t('common.label.length')} message={messages.DB_FIELD_LENGTH}>
             <BasicInput
               value={canHaveDatabaseLength ? field.entity.databaseFieldLength : ''}
               onChange={event => setProperty('databaseFieldLength', event.target.value)}
@@ -65,7 +65,7 @@ export const FieldEntityDatabaseField = () => {
               disabled={!canHaveDatabaseLength}
             />
           </BasicField>
-          <BasicField label={t('common:label.properties')} message={messages.PROPERTIES_ENTITY} data-testid='database-field-properties'>
+          <BasicField label={t('common.label.properties')} message={messages.PROPERTIES_ENTITY} data-testid='database-field-properties'>
             <FieldModifierCheckbox label={modifierLabels.ID} modifier='ID' />
             <FieldModifierCheckbox label={modifierLabels.GENERATED} modifier='GENERATED' />
             <FieldModifierCheckbox label={modifierLabels.NOT_NULLABLE} modifier='NOT_NULLABLE' />
