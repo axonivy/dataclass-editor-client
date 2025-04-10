@@ -1,5 +1,7 @@
 # Data Class Editor
 
+[![translation-status](https://hosted.weblate.org/widget/axonivy/dataclass-editor/svg-badge.svg)](https://hosted.weblate.org/engage/axonivy/)
+
 This repo contains the web-based Data Class Editor client.
 
 ### Available Scripts
