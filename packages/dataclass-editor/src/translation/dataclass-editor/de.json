@@ -14,8 +14,8 @@
   "cascade": {
     "all": "Alle",
     "merge": "Verschmelzen",
-    "persist": "Persistent",
-    "refresh": "Aktualsieren",
+    "persist": "Persistieren",
+    "refresh": "Aktualisieren",
     "remove": "Löschen"
   },
   "common": {
