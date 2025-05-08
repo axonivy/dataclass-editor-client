@@ -7,9 +7,9 @@
     "typeAsList": "Typ als Liste"
   },
   "cardinality": {
-    "manyToOne": "Viele-zu-Einem",
-    "oneToMany": "Eines-zu-Vielen",
-    "oneToOne": "Eines-zu-Einem"
+    "manyToOne": "Many-to-One",
+    "oneToMany": "One-to-Many",
+    "oneToOne": "One-to-One"
   },
   "cascade": {
     "all": "Alle",
@@ -65,7 +65,7 @@
   },
   "label": {
     "annotations": "Annotationen",
-    "association": "Vereinigung",
+    "association": "Beziehung",
     "attributes": "Attribute",
     "businessData": "Business Daten",
     "cardinality": "Kardinalität",
@@ -90,10 +90,10 @@
     "generated": "Generiert",
     "iD": "ID",
     "notInsertable": "Nicht einfügbar",
-    "notNullable": "Nicht null",
+    "notNullable": "Wert erforderlich",
     "notUpdateable": "Nicht aktualisierbar",
     "persistent": "Persistent",
-    "unique": "Einzigartig",
+    "unique": "Eindeutig",
     "version": "Version"
   },
   "title": {
