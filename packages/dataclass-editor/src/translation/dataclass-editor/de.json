@@ -20,7 +20,7 @@
   },
   "common": {
     "hotkey": {
-      "focusInscription": "Fokus Inscription ({{hotkey}})",
+      "focusInscription": "Fokus Inskription ({{hotkey}})",
       "focusMain": "Fokus Main ({{hotkey}})",
       "focusToolbar": "Fokus Toolbar ({{hotkey}})",
       "help": "Hilfe öffnen ({{hotkey}})",
@@ -90,7 +90,7 @@
     "generated": "Generiert",
     "iD": "ID",
     "notInsertable": "Nicht einfügbar",
-    "notNullable": "Wert erforderlich",
+    "notNullable": "Nicht Nullable",
     "notUpdateable": "Nicht aktualisierbar",
     "persistent": "Persistent",
     "unique": "Eindeutig",
