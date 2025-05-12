@@ -24,7 +24,8 @@ const messageData = (validations: Array<ValidationResult>): MessageData => {
     return toMessageData(validationWarning);
   }
   const validationOther = validations[0];
-  return toMessageData(validationOther);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return toMessageData(validationOther!);
 };
 
 export const toMessageData = (validation: ValidationResult): MessageData => {
