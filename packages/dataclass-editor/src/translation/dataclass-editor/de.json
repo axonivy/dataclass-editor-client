@@ -90,7 +90,7 @@
     "generated": "Generiert",
     "iD": "ID",
     "notInsertable": "Nicht einfügbar",
-    "notNullable": "Nicht Nullable",
+    "notNullable": "Not nullable",
     "notUpdateable": "Nicht aktualisierbar",
     "persistent": "Persistent",
     "unique": "Eindeutig",
