@@ -36,4 +36,7 @@ test('readonly', async ({ page }) => {
 
   await editor.table.expectToNotBeReorderable();
   await expect(editor.detail.field.general.nameTypeComment.name.locator).toBeDisabled();
+
+  await expect(editor.toolbar.undo).toBeHidden();
+  await expect(editor.toolbar.redo).toBeHidden();
 });
