@@ -50,13 +50,13 @@ export class Table {
 
   async expectToBeReorderable() {
     for (let i = 0; i < (await this.rows.count()); i++) {
-      await expect(this.row(i).locator).toHaveClass(/ui-dnd-row/);
+      await expect(this.row(i).locator).toHaveAttribute('draggable', 'true');
     }
   }
 
   async expectToNotBeReorderable() {
     for (let i = 0; i < (await this.rows.count()); i++) {
-      await expect(this.row(i).locator).not.toHaveClass(/ui-dnd-row/);
+      await expect(this.row(i).locator).not.toHaveAttribute('draggable', 'true');
     }
   }
 
