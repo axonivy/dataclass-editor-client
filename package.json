@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "parent",
+  "name": "@axonivy/dataclass-editor-root",
   "engines": {
     "node": ">=20.10.0"
   },
@@ -19,11 +19,11 @@
     "lint:fix": "eslint --fix",
     "lint:inspect": "eslint --inspect-config",
     "protocol": "npm run -w @axonivy/dataclass-editor-protocol",
-    "dev": "npm --prefix integrations/standalone run dev",
-    "test": "npm --prefix packages/dataclass-editor run test",
+    "dev": "npm run -w @axonivy/dataclass-editor-standalone dev",
+    "test": "npm run -w @axonivy/dataclass-editor test",
     "test:ci": "lerna run test:ci",
-    "webtest": "npm -w @axonivy/dataclass-editor-playwright run webtest",
-    "webtest:screenshot": "npm -w @axonivy/dataclass-editor-playwright run webtest:screenshots",
+    "webtest": "npm run -w @axonivy/dataclass-editor-playwright webtest",
+    "webtest:screenshot": "npm run -w @axonivy/dataclass-editor-playwright webtest:screenshots",
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws -t patch -u",
     "publish:next": "lerna publish --exact --canary --preid next --tag-version-prefix beta --pre-dist-tag next --no-git-tag-version --no-push --ignore-scripts --yes"
   },
