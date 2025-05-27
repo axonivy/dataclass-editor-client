@@ -7,9 +7,9 @@
     "typeAsList": "Typ als Liste"
   },
   "cardinality": {
-    "manyToOne": "Many-to-One",
-    "oneToMany": "One-to-Many",
-    "oneToOne": "One-to-One"
+    "manyToOne": "n:1-Beziehung",
+    "oneToMany": "1:n-Beziehung",
+    "oneToOne": "1:1-Beziehung"
   },
   "cascade": {
     "all": "Alle",
@@ -28,7 +28,7 @@
       "undo": "Rückgängig ({{hotkey}})"
     },
     "label": {
-      "apply": "Übernehmen",
+      "apply": "Anwenden",
       "browser": "Browser",
       "cancel": "Abbrechen",
       "comment": "Kommentar",
@@ -79,7 +79,7 @@
     "entityProperties": "Entitätseigenschaften",
     "mappedBy": "Zugeordnet durch",
     "nameTypeComment": "Name / Typ / Kommentar",
-    "persistent": "Persistent",
+    "persistent": "Persistiert",
     "removeOrphans": "Entferne verwaiste Objekte",
     "type": "Typ"
   },
@@ -90,7 +90,7 @@
     "generated": "Generiert",
     "iD": "ID",
     "notInsertable": "Nicht einfügbar",
-    "notNullable": "Not nullable",
+    "notNullable": "Pflichtfeld",
     "notUpdateable": "Nicht aktualisierbar",
     "persistent": "Persistent",
     "unique": "Eindeutig",
