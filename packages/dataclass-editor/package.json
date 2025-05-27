@@ -6,7 +6,7 @@
   "homepage": "https://developer.axonivy.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/axonivy/dataclass-editor-client"
+    "url": "https://github.com/axonivy/dataclass-editor"
   },
   "files": [
     "lib",
