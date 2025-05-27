@@ -1,6 +1,6 @@
 {
   "name": "@axonivy/dataclass-editor-protocol",
-  "version": "13.1.0-next",
+  "version": "13.2.0-next",
   "private": false,
   "license": "Apache-2.0",
   "author": "Axon Ivy AG",
@@ -26,7 +26,7 @@
     "type": "tsc --noEmit"
   },
   "devDependencies": {
-    "json-schema-to-typescript": "^15.0.4",
-    "@vitejs/plugin-react": "^4.3.4"
+    "@vitejs/plugin-react": "^4.3.4",
+    "json-schema-to-typescript": "^15.0.4"
   }
 }
