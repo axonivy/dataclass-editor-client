@@ -22,7 +22,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { type Table } from '@tanstack/react-table';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { isEntity } from '../data/dataclass-utils';
 import { BROWSER_BTN_ID, InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
@@ -50,11 +50,10 @@ const toErrorMessage = (message: string): MessageData => {
   return { message: message, variant: 'error' };
 };
 
-type AddFieldDialogProps = {
-  table: Table<Field>;
-};
+type AddFieldDialogProps = { table: Table<Field> };
 
 export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
+  const nameInputRef = useRef<HTMLInputElement>(null);
   const { dataClass, setDataClass, setSelectedField } = useAppContext();
 
   const [name, setName] = useState('');
@@ -76,13 +75,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
       modifiers: ['PERSISTENT'],
       annotations: [],
       entity: isEntity(dataClass)
-        ? {
-            databaseName: '',
-            databaseFieldLength: '',
-            cascadeTypes: ['PERSIST', 'MERGE'],
-            mappedByFieldName: '',
-            orphanRemoval: false
-          }
+        ? { databaseName: '', databaseFieldLength: '', cascadeTypes: ['PERSIST', 'MERGE'], mappedByFieldName: '', orphanRemoval: false }
         : undefined
     };
     const newFields = addRow(table, dataClass.fields, newField);
@@ -93,8 +86,12 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
       setSelectedField(newDataClass.fields.findIndex(field => field.name === newField.name));
       return newDataClass;
     });
+
     if (!e.ctrlKey && !e.metaKey) {
       setOpen(false);
+    } else {
+      setName('');
+      nameInputRef.current?.focus();
     }
   };
 
@@ -116,11 +113,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
       }
       addField(e);
     },
-    {
-      scopes: ['global'],
-      enabled: open,
-      enableOnFormTags: true
-    }
+    { scopes: ['global'], enabled: open, enableOnFormTags: true }
   );
   const { t } = useTranslation();
 
@@ -144,7 +137,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
         <Flex ref={enter} tabIndex={-1} direction='column' gap={2}>
           <Flex direction='column' gap={2}>
             <BasicField label={t('common.label.name')} message={nameValidationMessage} aria-label={t('common.label.name')}>
-              <Input value={name} onChange={event => setName(event.target.value)} />
+              <Input ref={nameInputRef} value={name} onChange={event => setName(event.target.value)} />
             </BasicField>
             <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
           </Flex>
