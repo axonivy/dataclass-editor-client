@@ -36,12 +36,15 @@ test.describe('add field', () => {
     test('keyboard', async () => {
       await editor.page.keyboard.press('a');
       await expect(editor.add.locator).toBeVisible();
+      await editor.add.name.locator.fill('testAttribute');
+      await editor.add.expectToHaveValues('testAttribute', 'String');
       await editor.page.keyboard.press('ControlOrMeta+Enter');
       await expect(editor.add.locator).toBeVisible();
+      await editor.add.expectToHaveValues('', 'String');
       await editor.page.keyboard.press('Escape');
       await expect(editor.add.locator).toBeHidden();
       await editor.table.row(6).expectToBeSelected();
-      await editor.table.row(6).expectToHaveValues('newAttribute', 'String', '');
+      await editor.table.row(6).expectToHaveValues('testAttribute', 'String', '');
     });
   });
 
