@@ -2,9 +2,9 @@ import { BasicCheckbox, useBrowser, type Browser, type BrowserNode } from '@axon
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { DataclassType } from '@axonivy/dataclass-editor-protocol';
 import { typeBrowserApply } from './typeBrowserApply';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMeta } from '../../../context/useMeta';
-import { typeData } from '../../../data/type-data';
+import { useTypeData } from '../../../data/type-data';
 import { useAppContext } from '../../../context/AppContext';
 import {
   getInitialExpandState,
@@ -30,10 +30,7 @@ export const useTypeBrowser = (value: string): Browser => {
     disable: !allTypesSearchActive
   }).data;
 
-  const types = useMemo(
-    () => typeData(dataClasses, ivyTypes, ownTypes, allDatatypes, allTypesSearchActive),
-    [allDatatypes, allTypesSearchActive, dataClasses, ivyTypes, ownTypes]
-  );
+  const types = useTypeData(dataClasses, ivyTypes, ownTypes, allDatatypes, allTypesSearchActive);
 
   const [typeAsList, setTypeAsList] = useState<boolean>(getInitialTypeAsListState(types, getInitialValue(value)));
 
