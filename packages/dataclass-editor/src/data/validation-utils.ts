@@ -1,5 +1,5 @@
 import type { Severity, ValidationResult } from '@axonivy/dataclass-editor-protocol';
-import { groupBy, type MessageData } from '@axonivy/ui-components';
+import { groupBy, type MessageData, type StateDotProps } from '@axonivy/ui-components';
 
 export const messagesByProperty = (validations: Array<ValidationResult>): Record<string, MessageData> => {
   const validationsByProperty = groupBy(validations, validation => validationProperty(validation));
@@ -45,4 +45,14 @@ export const combineMessagesOfProperties = (
     }
     return messages;
   }, []);
+};
+
+export const getTabState = (validations: Array<MessageData>): StateDotProps => {
+  if (validations.find(message => message?.variant === 'error')) {
+    return { state: 'error', messages: validations };
+  }
+  if (validations.find(message => message?.variant === 'warning')) {
+    return { state: 'warning', messages: validations };
+  }
+  return { state: undefined, messages: validations };
 };

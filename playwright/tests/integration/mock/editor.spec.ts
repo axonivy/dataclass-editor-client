@@ -108,10 +108,10 @@ test('focus jumps', async ({ page }) => {
   await page.keyboard.press('2');
   await expect(editor.main).toBeFocused();
   await page.keyboard.press('3');
-  await expect(editor.detail.dataClass.general.accordion.trigger.locator).toBeFocused();
+  await expect(editor.detail.dataClass.general.inscriptionTab.trigger).toBeFocused();
   await editor.table.row(0).locator.click();
   await page.keyboard.press('3');
-  await expect(editor.detail.field.general.accordion.trigger.locator).toBeFocused();
+  await expect(editor.detail.field.general.inscriptionTab.trigger).toBeFocused();
 });
 
 test('undo / redo', async ({ page, browserName }) => {

@@ -38,22 +38,22 @@ test('main', async () => {
   await editor.table.row(8).expectToHaveNoValidation();
 });
 
-test('accordions and collapsibles', async () => {
+test('tabs and collapsibles', async () => {
   await editor.detail.dataClass.general.annotations.fillValues('invalidAnnotation');
 
-  await editor.detail.dataClass.general.accordion.expectToHaveError();
+  await editor.detail.dataClass.general.inscriptionTab.expectToHaveError();
   await editor.detail.dataClass.general.annotations.collapsible.expectToHaveError();
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
   await editor.addField('invalidField0');
 
-  await editor.detail.field.general.accordion.expectToHaveError();
+  await editor.detail.field.general.inscriptionTab.expectToHaveError();
   await editor.detail.field.general.nameTypeComment.collapsible.expectToHaveError();
   await editor.detail.field.general.properties.collapsible.expectToHaveWarning();
   await editor.detail.field.general.annotations.collapsible.expectToHaveWarning();
 
-  await editor.detail.field.entity.accordion.open();
-  await editor.detail.field.entity.accordion.expectToHaveError();
+  await editor.detail.field.entity.inscriptionTab.toggle();
+  await editor.detail.field.entity.inscriptionTab.expectToHaveError();
   await editor.detail.field.entity.databaseField.collapsible.expectToHaveWarning();
   await editor.detail.field.entity.association.collapsible.expectToHaveError();
 });
@@ -72,7 +72,7 @@ test('detail', async () => {
   await editor.detail.field.general.properties.message.expectToBeWarning('invalidField0 properties general');
   await editor.detail.field.general.annotations.message.expectToBeWarning('invalidField0 annotation');
 
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.databaseField.collapsible.open();
   await (await editor.detail.field.entity.databaseField.name.message()).expectToBeWarning('invalidField0 db field name');
   await (await editor.detail.field.entity.databaseField.length.message()).expectToBeInfo('invalidField0 db field length');

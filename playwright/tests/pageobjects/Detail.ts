@@ -18,9 +18,9 @@ export class Detail {
   async expectToBeDataClass(isEntity = false) {
     await expect(this.dataClass.locator).toBeVisible();
     if (isEntity) {
-      await expect(this.dataClass.entity.accordion.locator).toBeVisible();
+      await expect(this.dataClass.entity.inscriptionTab.trigger).toBeVisible();
     } else {
-      await expect(this.dataClass.entity.accordion.locator).toBeHidden();
+      await expect(this.dataClass.entity.inscriptionTab.trigger).toBeHidden();
     }
     await expect(this.field.locator).toBeHidden();
   }
@@ -28,9 +28,9 @@ export class Detail {
   async expectToBeField(isEntity = false) {
     await expect(this.field.locator).toBeVisible();
     if (isEntity) {
-      await expect(this.field.entity.accordion.locator).toBeVisible();
+      await expect(this.field.entity.inscriptionTab.trigger).toBeVisible();
     } else {
-      await expect(this.field.entity.accordion.locator).toBeHidden();
+      await expect(this.field.entity.inscriptionTab.trigger).toBeHidden();
     }
     await expect(this.dataClass.locator).toBeHidden();
   }

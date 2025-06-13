@@ -8,21 +8,21 @@ test.beforeEach(async ({ page }) => {
   editor = await DataClassEditor.openMock(page);
 });
 
-test('accordion state', async () => {
-  await expect(editor.detail.dataClass.entity.accordion.locator).toBeHidden();
+test('tab state', async () => {
+  await expect(editor.detail.dataClass.entity.inscriptionTab.trigger).toBeHidden();
 
   await editor.table.row(0).locator.click();
-  await expect(editor.detail.field.entity.accordion.locator).toBeHidden();
+  await expect(editor.detail.field.entity.inscriptionTab.trigger).toBeHidden();
 
   await editor.table.unselect();
   await editor.detail.dataClass.general.classType.fillValues('Entity');
-  await editor.detail.dataClass.entity.accordion.expectToBeClosed();
+  await editor.detail.dataClass.entity.inscriptionTab.expectToBeClosed();
 
   await editor.table.row(0).locator.click();
-  await editor.detail.field.entity.accordion.expectToBeClosed();
+  await editor.detail.field.entity.inscriptionTab.expectToBeClosed();
 
   await editor.detail.field.general.properties.fillValues(false);
-  await expect(editor.detail.field.entity.accordion.locator).toBeHidden();
+  await expect(editor.detail.field.entity.inscriptionTab.trigger).toBeHidden();
 });
 
 describe('collapsible state', () => {
@@ -30,12 +30,13 @@ describe('collapsible state', () => {
     const entity = editor.detail.dataClass.entity;
 
     await editor.detail.dataClass.general.classType.fillValues('Entity');
-    await entity.accordion.open();
+    await entity.inscriptionTab.toggle();
 
     await entity.databaseTable.collapsible.expectToBeClosed();
 
     await entity.fillValues('DatabaseTableName');
-    await entity.accordion.reopen();
+    await editor.detail.dataClass.general.inscriptionTab.toggle();
+    await entity.inscriptionTab.toggle();
 
     await entity.databaseTable.collapsible.expectToBeOpen();
   });
@@ -47,20 +48,22 @@ describe('collapsible state', () => {
 
         await editor.detail.dataClass.general.classType.fillValues('Entity');
         await editor.table.row(5).locator.click();
-        await entity.accordion.open();
+        await entity.inscriptionTab.toggle();
 
         await entity.databaseField.collapsible.expectToBeClosed();
 
         await entity.databaseField.collapsible.open();
         await entity.databaseField.name.locator.fill('DatabaseFieldName');
-        await entity.accordion.reopen();
+        await editor.detail.dataClass.general.inscriptionTab.toggle();
+        await entity.inscriptionTab.toggle();
 
         await entity.databaseField.collapsible.expectToBeOpen();
 
         await entity.association.collapsible.open();
         await entity.association.cardinality.choose('One-to-One');
         await entity.association.mappedBy.choose('MappedByFieldName');
-        await entity.accordion.reopen();
+        await editor.detail.dataClass.general.inscriptionTab.toggle();
+        await entity.inscriptionTab.toggle();
 
         await entity.databaseField.collapsible.expectToBeClosed();
       });
@@ -70,19 +73,20 @@ describe('collapsible state', () => {
 
         await editor.detail.dataClass.general.classType.fillValues('Entity');
         await editor.table.row(1).locator.click();
-        await entity.accordion.open();
+        await entity.inscriptionTab.toggle();
 
         await entity.databaseField.collapsible.expectToBeClosed();
 
         await entity.databaseField.collapsible.open();
         await entity.databaseField.length.locator.fill('DatabaseFieldLength');
-        await entity.accordion.reopen();
+        await editor.detail.dataClass.general.inscriptionTab.toggle();
+        await entity.inscriptionTab.toggle();
 
         await entity.databaseField.collapsible.expectToBeOpen();
 
-        await editor.detail.field.general.accordion.open();
+        await editor.detail.field.general.inscriptionTab.toggle();
         await editor.detail.field.general.nameTypeComment.type.locator.fill('Date');
-        await entity.accordion.open();
+        await entity.inscriptionTab.toggle();
 
         await entity.databaseField.collapsible.expectToBeClosed();
       });
@@ -92,13 +96,14 @@ describe('collapsible state', () => {
 
         await editor.detail.dataClass.general.classType.fillValues('Entity');
         await editor.table.row(1).locator.click();
-        await entity.accordion.open();
+        await entity.inscriptionTab.toggle();
 
         await entity.databaseField.collapsible.expectToBeClosed();
 
         await entity.databaseField.collapsible.open();
         await entity.databaseField.properties.checkboxes.id.click();
-        await entity.accordion.reopen();
+        await editor.detail.dataClass.general.inscriptionTab.toggle();
+        await entity.inscriptionTab.toggle();
 
         await entity.databaseField.collapsible.expectToBeOpen();
       });
@@ -109,12 +114,12 @@ describe('collapsible state', () => {
 
       await editor.detail.dataClass.general.classType.fillValues('Entity');
       await editor.table.row(0).locator.click();
-      await entity.accordion.open();
+      await entity.inscriptionTab.toggle();
 
       await expect(entity.association.collapsible.locator).toBeHidden();
 
       await editor.table.row(5).locator.click();
-      await entity.accordion.open();
+      await entity.inscriptionTab.toggle();
 
       await expect(entity.association.collapsible.locator).toBeVisible();
       await entity.association.collapsible.expectToBeOpen();

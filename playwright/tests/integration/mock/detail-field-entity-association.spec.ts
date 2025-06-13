@@ -12,12 +12,12 @@ test('cardinality', async () => {
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
   await editor.table.row(5).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
 
   await cardinality.expectToHaveOptions('One-to-One', 'Many-to-One');
 
   await editor.table.row(6).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
 
   const cardinalityMessage = await editor.detail.field.entity.association.cardinality.message();
   await expect(cardinalityMessage.locator).toBeHidden();
@@ -30,7 +30,7 @@ test('cascade', async () => {
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
   await editor.table.row(5).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await association.collapsible.open();
 
   await association.expectCascadeTypesToBeDisabled();
@@ -63,7 +63,7 @@ test('mapped by', async () => {
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
   await editor.table.row(5).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.association.collapsible.open();
 
   await expect(mappedBy.locator).toBeDisabled();
@@ -78,7 +78,7 @@ test('mapped by', async () => {
   await expect(mappedBy.locator).toBeDisabled();
 
   await editor.table.row(6).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.association.collapsible.open();
 
   await editor.detail.field.entity.association.cardinality.choose('One-to-Many');
@@ -92,7 +92,7 @@ test('remove orphans', async () => {
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
   await editor.table.row(5).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.association.collapsible.open();
 
   await expect(removeOrphans).toBeDisabled();
@@ -106,7 +106,7 @@ test('remove orphans', async () => {
   await expect(removeOrphans).toBeDisabled();
 
   await editor.table.row(6).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.association.collapsible.open();
 
   await editor.detail.field.entity.association.cardinality.choose('One-to-Many');
