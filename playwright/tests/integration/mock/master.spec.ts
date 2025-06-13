@@ -22,7 +22,7 @@ test.describe('add field', () => {
       await editor.detail.dataClass.general.classType.fillValues('Entity');
       await editor.addField('entityNew', 'String');
       await editor.detail.field.general.properties.fillValues(true);
-      await editor.detail.field.entity.accordion.open();
+      await editor.detail.field.entity.inscriptionTab.toggle();
       await editor.detail.field.entity.association.collapsible.open();
       await editor.detail.field.entity.association.expectCascadeTypesToHaveCheckedState({
         all: false,
@@ -248,7 +248,7 @@ test.describe('badges', () => {
 
       await expect(row.badges).toHaveCount(1);
 
-      await editor.detail.field.entity.accordion.open();
+      await editor.detail.field.entity.inscriptionTab.toggle();
       await editor.detail.field.entity.databaseField.collapsible.open();
       const properties = editor.detail.field.entity.databaseField.properties;
       await properties.fill({ id: true, generated: true, notNullable: false, unique: false, notUpdateable: false, notInsertable: false, version: false });
@@ -269,7 +269,7 @@ test.describe('badges', () => {
 
       await expect(row.badges).toHaveCount(1);
 
-      await editor.detail.field.entity.accordion.open();
+      await editor.detail.field.entity.inscriptionTab.toggle();
       const association = editor.detail.field.entity.association;
       await association.fillValues('One-to-One', { all: false, persist: false, merge: false, remove: false, refresh: false }, undefined, true);
       await expect(row.badges).toHaveCount(2);

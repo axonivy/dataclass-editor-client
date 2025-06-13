@@ -12,7 +12,7 @@ test('name', async () => {
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
   await editor.table.row(5).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.databaseField.collapsible.open();
 
   await expect(databaseFieldName.locator).toHaveValue('');
@@ -35,10 +35,10 @@ test('name', async () => {
 
 test('length', async () => {
   const changeTypeTo = async (type: string) => {
-    await editor.detail.field.general.accordion.open();
+    await editor.detail.field.general.inscriptionTab.toggle();
     await editor.detail.field.general.nameTypeComment.collapsible.open();
     await editor.detail.field.general.nameTypeComment.type.locator.fill(type);
-    await editor.detail.field.entity.accordion.open();
+    await editor.detail.field.entity.inscriptionTab.toggle();
     await editor.detail.field.entity.databaseField.collapsible.open();
   };
 
@@ -46,7 +46,7 @@ test('length', async () => {
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
   await editor.table.row(1).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.databaseField.collapsible.open();
 
   await expect(databaseFieldLength.locator).toHaveValue('');
@@ -70,7 +70,7 @@ test('properties', async () => {
 
   await editor.detail.dataClass.general.classType.fillValues('Entity');
   await editor.table.row(5).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await databaseField.collapsible.open();
 
   // not a type that can be an ID or Version
@@ -84,10 +84,10 @@ test('properties', async () => {
     version: false
   });
 
-  await editor.detail.field.general.accordion.open();
+  await editor.detail.field.general.inscriptionTab.toggle();
   await editor.detail.field.general.nameTypeComment.collapsible.open();
   await editor.detail.field.general.nameTypeComment.type.locator.fill('Integer');
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.databaseField.collapsible.open();
 
   // a type that can be an ID or Version
