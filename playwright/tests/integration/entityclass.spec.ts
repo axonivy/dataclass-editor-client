@@ -11,7 +11,7 @@ test('load data', async () => {
   await editor.detail.dataClass.entity.expectToHaveValues('DBTableName');
 
   await editor.table.row(1).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.databaseField.expectToHaveValues('dbFieldName0', '128', {
     id: false,
     generated: false,
@@ -23,7 +23,7 @@ test('load data', async () => {
   });
 
   await editor.table.row(2).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.association.expectToHaveValues(
     'One-to-One',
     {
@@ -46,7 +46,7 @@ test('save data', async ({ page }) => {
 
   await editor.addField('entityField0', 'String');
   await editor.detail.field.general.properties.fillValues(true);
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.databaseField.fillValues('NewDatabaseFieldName', '128', {
     id: false,
     generated: false,
@@ -59,7 +59,7 @@ test('save data', async ({ page }) => {
 
   await editor.addField('entityField1', 'dataclass.AnotherEntityClass');
   await editor.detail.field.general.properties.fillValues(true);
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.association.fillValues(
     'One-to-One',
     {
@@ -78,7 +78,7 @@ test('save data', async ({ page }) => {
   await editor.detail.dataClass.entity.expectToHaveValues('NewDatabaseTableName');
 
   await editor.table.row(1).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.databaseField.expectToHaveValues('NewDatabaseFieldName', '128', {
     id: false,
     generated: false,
@@ -90,7 +90,7 @@ test('save data', async ({ page }) => {
   });
 
   await editor.table.row(2).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.association.expectToHaveValues(
     'One-to-One',
     {
@@ -107,7 +107,7 @@ test('save data', async ({ page }) => {
 
 test('association', async () => {
   await editor.table.row(2).locator.click();
-  await editor.detail.field.entity.accordion.open();
+  await editor.detail.field.entity.inscriptionTab.toggle();
   await editor.detail.field.entity.association.collapsible.open();
   await editor.detail.field.entity.association.cardinality.expectToHaveOptions('', 'One-to-One', 'Many-to-One');
   await editor.detail.field.entity.association.mappedBy.expectToHaveOptions('', 'inverse', 'anotherInverse');

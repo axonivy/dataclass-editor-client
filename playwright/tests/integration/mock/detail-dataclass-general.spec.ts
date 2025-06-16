@@ -8,11 +8,11 @@ test.beforeEach(async ({ page }) => {
   editor = await DataClassEditor.openMock(page);
 });
 
-test('accordion state', async () => {
-  await editor.detail.dataClass.general.accordion.expectToBeOpen();
+test('tab state', async () => {
+  await editor.detail.dataClass.general.inscriptionTab.expectToBeOpen();
 
   await editor.table.row(0).locator.click();
-  await editor.detail.field.general.accordion.expectToBeOpen();
+  await editor.detail.field.general.inscriptionTab.expectToBeOpen();
 });
 
 describe('collapsible state', () => {
@@ -24,7 +24,8 @@ describe('collapsible state', () => {
     await general.classType.collapsible.expectToBeClosed();
 
     await general.fillValues('', [], 'Entity');
-    await general.accordion.reopen();
+    await editor.detail.dataClass.entity.inscriptionTab.toggle();
+    await general.inscriptionTab.toggle();
 
     await general.nameDescription.collapsible.expectToBeOpen();
     await general.annotations.collapsible.expectToBeClosed();
@@ -41,7 +42,8 @@ describe('collapsible state', () => {
     await general.annotations.collapsible.expectToBeClosed();
 
     await general.fillValues('NewName', 'Integer', '', false, ['annotation']);
-    await general.accordion.reopen();
+    await editor.table.row(1).locator.click();
+    await editor.table.row(0).locator.click();
 
     await general.nameTypeComment.collapsible.expectToBeOpen();
     await general.properties.collapsible.expectToBeClosed();

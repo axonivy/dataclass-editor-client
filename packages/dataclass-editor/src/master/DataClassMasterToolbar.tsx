@@ -43,7 +43,7 @@ export const DataClassMasterToolbar = () => {
     hotkeys.focusInscription.hotkey,
     () => {
       setDetail(true);
-      document.querySelector<HTMLElement>('.ui-accordion-trigger')?.focus();
+      document.querySelector<HTMLElement>('.ui-inscription-tabs-trigger')?.focus();
     },
     {
       scopes: ['global']
