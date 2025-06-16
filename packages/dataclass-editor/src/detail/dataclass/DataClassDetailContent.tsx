@@ -47,10 +47,7 @@ export const DataClassDetailContent = () => {
             ),
             icon: IvyIcons.Database,
             id: 'Entity',
-            name: t('label.entity'),
-            state: {
-              messages: []
-            }
+            name: t('label.entity')
           }
         ]
       : [])
