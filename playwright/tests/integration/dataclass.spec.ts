@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('load data', async () => {
-  await editor.detail.dataClass.general.expectToHaveValues('dataclass.DataClass', 'DataClass comment', ['@javax.persistence.Table(name="tableName")'], 'Data');
+  await editor.detail.dataClass.general.expectToHaveValues('dataclass.DataClass', 'DataClass comment', ['@jakarta.persistence.Table(name="tableName")'], 'Data');
 
   await expect(editor.table.rows).toHaveCount(3);
 
@@ -19,8 +19,8 @@ test('load data', async () => {
   await editor.table.row(1).expectToHaveValues('dataClassField1', 'Integer', '');
   await editor.table.row(1).locator.click();
   await editor.detail.field.general.expectToHaveValues('dataClassField1', 'Integer', '', true, [
-    '@javax.persistence.ManyToMany',
-    '@javax.persistence.JoinTable(name = "tableName", joinColumns = { @javax.persistence.JoinColumn(name = "name1Id", referencedColumnName = "id") }, inverseJoinColumns = { @javax.persistence.JoinColumn(name = "tableNameId", referencedColumnName = "id") })'
+    '@jakarta.persistence.ManyToMany',
+    '@jakarta.persistence.JoinTable(name = "tableName", joinColumns = { @jakarta.persistence.JoinColumn(name = "name1Id", referencedColumnName = "id") }, inverseJoinColumns = { @jakarta.persistence.JoinColumn(name = "tableNameId", referencedColumnName = "id") })'
   ]);
 
   await editor.table.row(2).expectToHaveValues('dataClassField2', 'Date', 'DataClassField2 comment');
