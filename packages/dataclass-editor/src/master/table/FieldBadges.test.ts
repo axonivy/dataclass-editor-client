@@ -15,7 +15,7 @@ test('simpleAnnotationName', () => {
   expect(simpleAnnotationName('@java.lang.SuppressWarnings({"unused", "unchecked"})')).toEqual('SuppressWarnings');
   expect(
     simpleAnnotationName(
-      '@javax.persistence.JoinTable(name = "name", joinColumns = @javax.persistence.JoinColumn(name = "name"), inverseJoinColumns = @javax.persistence.JoinColumn(name = "name"))'
+      '@jakarta.persistence.JoinTable(name = "name", joinColumns = @jakarta.persistence.JoinColumn(name = "name"), inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "name"))'
     )
   ).toEqual('JoinTable');
 });

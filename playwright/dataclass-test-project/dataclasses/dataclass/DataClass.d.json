@@ -3,7 +3,7 @@
   "simpleName" : "DataClass",
   "namespace" : "dataclass",
   "comment" : "DataClass comment",
-  "annotations" : [ "@javax.persistence.Table(name=\"tableName\")" ],
+  "annotations" : [ "@jakarta.persistence.Table(name=\"tableName\")" ],
   "isBusinessCaseData" : false,
   "fields" : [ {
     "name" : "dataClassField0",
@@ -14,7 +14,7 @@
     "name" : "dataClassField1",
     "type" : "Integer",
     "modifiers" : [ "PERSISTENT" ],
-    "annotations" : [ "@javax.persistence.ManyToMany", "@javax.persistence.JoinTable(name = \"tableName\", joinColumns = { @javax.persistence.JoinColumn(name = \"name1Id\", referencedColumnName = \"id\") }, inverseJoinColumns = { @javax.persistence.JoinColumn(name = \"tableNameId\", referencedColumnName = \"id\") })" ]
+    "annotations" : [ "@jakarta.persistence.ManyToMany", "@jakarta.persistence.JoinTable(name = \"tableName\", joinColumns = { @jakarta.persistence.JoinColumn(name = \"name1Id\", referencedColumnName = \"id\") }, inverseJoinColumns = { @jakarta.persistence.JoinColumn(name = \"tableNameId\", referencedColumnName = \"id\") })" ]
   }, {
     "name" : "dataClassField2",
     "type" : "Date",
