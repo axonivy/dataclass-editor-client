@@ -46,6 +46,6 @@
     "build:clean": "npm run clean && npm run build",
     "type": "tsc --noEmit",
     "test": "vitest",
-    "test:ci": "vitest --watch=false"
+    "test:ci": "vitest run"
   }
 }
