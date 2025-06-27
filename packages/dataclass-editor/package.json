@@ -17,12 +17,12 @@
   "types": "lib/index.d.ts",
   "main": "lib/editor.js",
   "dependencies": {
-    "@axonivy/dataclass-editor-protocol": "13.1.2-next"
+    "@axonivy/dataclass-editor-protocol": "~13.1.2-next"
   },
   "peerDependencies": {
-    "@axonivy/jsonrpc": "~13.1.1-next",
-    "@axonivy/ui-components": "~13.1.1-next",
-    "@axonivy/ui-icons": "~13.1.1-next",
+    "@axonivy/jsonrpc": "~13.1.2-next",
+    "@axonivy/ui-components": "~13.1.2-next",
+    "@axonivy/ui-icons": "~13.1.2-next",
     "@tanstack/react-query": "^5.64",
     "@tanstack/react-query-devtools": "^5.64",
     "i18next": "^24.2.3 || ^25.0.0",
