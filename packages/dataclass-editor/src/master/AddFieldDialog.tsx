@@ -17,6 +17,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
+  useHotkeyLocalScopes,
   useHotkeys,
   type MessageData
 } from '@axonivy/ui-components';
@@ -55,6 +56,7 @@ type AddFieldDialogProps = {
 
 export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
   const { dataClass, setDataClass, setSelectedField } = useAppContext();
+  const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['addFieldDialog']);
 
   const [name, setName] = useState('');
   const [type, setType] = useState('');
@@ -93,7 +95,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
       return newDataClass;
     });
     if (!e.ctrlKey && !e.metaKey) {
-      setOpen(false);
+      onOpenChange(false);
     }
   };
 
@@ -103,6 +105,9 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
     setOpen(open);
     if (open) {
       initializeAddFieldDialog();
+      activateLocalScopes();
+    } else {
+      restoreLocalScopes();
     }
   };
   const { addAttr: shortcut } = useKnownHotkeys();
@@ -116,7 +121,7 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
       addField(e);
     },
     {
-      scopes: ['global'],
+      scopes: ['addFieldDialog'],
       enabled: open,
       enableOnFormTags: true
     }
