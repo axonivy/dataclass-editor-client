@@ -1,14 +1,9 @@
 import type { DataClass, Field } from '@axonivy/dataclass-editor-protocol';
 import {
   addRow,
+  BasicDialog,
   BasicField,
   Button,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
   Flex,
   hotkeyText,
@@ -24,11 +19,11 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { type Table } from '@tanstack/react-table';
 import { useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../context/AppContext';
 import { isEntity } from '../data/dataclass-utils';
 import { BROWSER_BTN_ID, InputFieldWithTypeBrowser } from '../detail/field/InputFieldWithTypeBrowser';
 import { useKnownHotkeys } from '../utils/useKnownHotkeys';
-import { useTranslation } from 'react-i18next';
 
 export const validateFieldName = (name: string, dataClass: DataClass) => {
   if (name.trim() === '') {
@@ -123,49 +118,56 @@ export const AddFieldDialog = ({ table }: AddFieldDialogProps) => {
   const { t } = useTranslation();
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <DialogTrigger asChild>
-              <Button icon={IvyIcons.Plus} aria-label={shortcut.label} />
-            </DialogTrigger>
-          </TooltipTrigger>
-          <TooltipContent>{shortcut.label}</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-      <DialogContent onCloseAutoFocus={e => e.preventDefault()}>
-        <DialogHeader>
-          <DialogTitle>{t('dialog.addAttr.title')}</DialogTitle>
-        </DialogHeader>
-        <DialogDescription>{t('dialog.addAttr.desc')}</DialogDescription>
-        <Flex ref={enter} tabIndex={-1} direction='column' gap={2}>
-          <Flex direction='column' gap={2}>
-            <BasicField label={t('common.label.name')} message={nameValidationMessage} aria-label={t('common.label.name')}>
-              <Input ref={nameInputRef} value={name} onChange={event => setName(event.target.value)} />
-            </BasicField>
-            <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
-          </Flex>
-          <DialogFooter>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant='primary'
-                    size='large'
-                    aria-label={t('dialog.addAttr.create')}
-                    disabled={!allInputsValid()}
-                    onClick={addField}
-                  >
-                    {t('dialog.addAttr.create')}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>{t('dialog.addAttr.createTooltip', { modifier: hotkeyText('mod') })}</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </DialogFooter>
-        </Flex>
-      </DialogContent>
-    </Dialog>
+    <BasicDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      contentProps={{
+        title: t('dialog.addAttr.title'),
+        description: t('dialog.addAttr.desc'),
+        onCloseAutoFocus: e => e.preventDefault(),
+        buttonClose: (
+          <Button variant='outline' size='large'>
+            {t('common.label.cancel')}
+          </Button>
+        ),
+        buttonCustom: (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant='primary'
+                  size='large'
+                  aria-label={t('dialog.addAttr.create')}
+                  disabled={!allInputsValid()}
+                  onClick={addField}
+                >
+                  {t('dialog.addAttr.create')}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{t('dialog.addAttr.createTooltip', { modifier: hotkeyText('mod') })}</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )
+      }}
+      dialogTrigger={
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <DialogTrigger asChild>
+                <Button icon={IvyIcons.Plus} aria-label={shortcut.label} />
+              </DialogTrigger>
+            </TooltipTrigger>
+            <TooltipContent>{shortcut.label}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      }
+    >
+      <Flex ref={enter} tabIndex={-1} direction='column' gap={2}>
+        <BasicField label={t('common.label.name')} message={nameValidationMessage} aria-label={t('common.label.name')}>
+          <Input ref={nameInputRef} value={name} onChange={event => setName(event.target.value)} />
+        </BasicField>
+        <InputFieldWithTypeBrowser value={type} message={typeValidationMessage} onChange={setType} />
+      </Flex>
+    </BasicDialog>
   );
 };
